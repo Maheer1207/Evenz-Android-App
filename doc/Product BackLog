@@ -1,8 +1,10 @@
 format: [risk] num. issue
 
-[HIGH] 1. create the app
+[HIGH] 1. Organizer can create new events
 
+[HIGH] 2. Events have a unique QR code that attendees can check-in with
 
+[medium] 3. Organizer has a list of attendees that have checked in
 
 Stories to be inputed
 
@@ -52,6 +54,7 @@ US 02.04.01 As an attendee, I want to view event details and announcements withi
 US 02.05.01 As an attendee, I want my profile picture to be deterministically generated from my profile name if I haven't uploaded an profile image yet.
 
 US 02.06.01 As an attendee, I do not want to login to the app. No username, no password.
+
 Both:
 
 US 03.02.01 As a user, I want the option to enable or disable geolocation tracking for event verification.
