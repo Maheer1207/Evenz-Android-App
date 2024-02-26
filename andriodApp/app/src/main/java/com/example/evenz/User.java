@@ -2,15 +2,18 @@ package com.example.evenz;
 
 public class User
 {
-    private int userID;
+    private String userID;
     private String name;
-    private int profilePicID;
+    private String profilePicID;
     private String phone;
     private String email;
 
-    public User(int userID, String name)
+    public User(String userID, String name, String profilePicID, String phone, String email)
     {
         this.userID = userID;
         this.name = name;
+        this.profilePicID = profilePicID;
+        this.phone = phone;
+        this.email = email;
     }
 }

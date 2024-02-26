@@ -1,20 +1,21 @@
 package com.example.evenz;
 
 import java.util.ArrayList;
-import javafx.util.Pair;
+import java.util.Dictionary;
+import java.util.HashMap;
 
 public class Event
 {
-    private int eventID;
+    private String eventID;
     private String eventName;
     private int eventPosterID;
     private String description;
     private Geolocation geolocation;
     private int qrCodeBrowse;
     private int qrCodeCheckIn;
-    private ArrayList<Pair<int, Geolocation>> userList;
+    private Dictionary<String, Geolocation> userList;
 
-    public Event(int eventID, String eventName)
+    public Event(String eventID, String eventName)
     {
         this.eventID = eventID;
         this.eventName = eventName;

@@ -1,8 +1,17 @@
 package com.example.evenz;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
+
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -27,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         eventsRef = db.collection("events");
         usersRef = db.collection("users");
 
-        evetnsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        eventsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
         @Override
         public void onEvent(@Nullable QuerySnapshot querySnapshots,
                             @Nullable FirebaseFirestoreException error) {
@@ -36,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             if (querySnapshots != null) {
-                cityDataList.clear();
+                eventDataList.clear();
                 for (QueryDocumentSnapshot doc: querySnapshots) {
-                    int eventID = doc.getId();
+                    String eventID = doc.getId();
                     String eventName = doc.getString("eventName");
                     Log.d("Firestore", String.format("Event(%d, %s) fetched", eventID, eventName));
                     eventDataList.add(new Event(eventID, eventName));
@@ -56,12 +65,15 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             if (querySnapshots != null) {
-                cityDataList.clear();
+                userDataList.clear();
                 for (QueryDocumentSnapshot doc: querySnapshots) {
-                    int userID = doc.getId();
+                    String userID = doc.getId();
                     String name = doc.getString("name");
-                    Log.d("Firestore", String.format("User(%d, %s) fetched", userID, name));
-                    userDataList.add(new User(userID, name));
+                    String profilePicID = doc.getString("profilePicID");
+                    String email = doc.getString("profilePicID");
+                    String phone = doc.getString("profilePicID");
+                    Log.d("Firestore", String.format("User(%s, %s, %s, %s, %s) fetched", userID, name, profilePicID, email, phone));
+                    userDataList.add(new User(userID, name, profilePicID, email, phone));
                 }
             }
         }
