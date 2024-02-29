@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     eventDataList.clear();
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String eventID = doc.getId();
-                        Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"), doc.getString("description"), (Geolocation)doc.get("geolocation"), (int)doc.get("qrCodeBrowse"), (int)doc.get("qrCodeCheckIn"), (Dictionary<String, Geolocation>)doc.get("userList"));
+                        Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"), doc.getString("description"), (Geolocation)doc.get("geolocation"), doc.getLong("qrCodeBrowse").intValue(), doc.getLong("qrCodeCheckIn").intValue(), (Dictionary<String, Integer>)doc.get("userList"));
                         Log.d("Firestore", String.format("Event(%d, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
                     }
@@ -78,25 +78,41 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private void addUser(String id, User user)
-    {
+    /**
+     * This function adds a user to the database
+     * @param id The id of the user
+     * @param user The contents of the user (all variables from user class)
+     */
+    private void addUser(String id, User user) {
         HashMap<String, User> data = new HashMap<>();
         data.put(id, user);
         usersRef.document(id).set(data);
     }
 
+    /**
+     * This function deletes a user from the database
+     * @param id The id of the user to be deleted
+     */
     private void deleteUser(String id)
     {
         usersRef.document(id).delete();
     }
 
-    private void addEvent(String id, Event event)
-    {
+    /**
+     * This function adds an event to the database
+     * @param id The id of the event to be added
+     * @param event The contents of the event (all variables from event class)
+     */
+    private void addEvent(String id, Event event) {
         HashMap<String, Event> data = new HashMap<>();
         data.put(id, event);
         eventsRef.document(id).set(data);
     }
 
+    /**
+     * This function deletes an event from the database
+     * @param id The id of the event to be deleted
+     */
     private void deleteEvent(String id)
     {
         usersRef.document(id).delete();
