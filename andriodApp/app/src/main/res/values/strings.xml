@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">Evenz</string>
+    <string name="hint_event_organizer">Organizer Name</string>
+    <string name="poster_upload_button">Upload Event Poster</string>
+    <string name="generate_qr_code">Generate QR Code</string>
+    <string name="hint_event_name">Event Name</string>
+    <string name="hint_event_info">Event Information</string>
+    <string name="hint_event_date">Date of the Event</string>
+    <string name="upload_qr_code">Upload QR code</string>
+    <string name="label_create_event">Create New Event</string>
+    <string name="action_create_event_menu">Create Event Menu</string>
+    <string name="demo_button_create_new_event">Create New Event</string>
 </resources>

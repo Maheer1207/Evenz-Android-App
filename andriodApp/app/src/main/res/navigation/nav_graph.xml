@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_to_create_event">
+
+    <fragment
+        android:id="@+id/nav_to_create_event"
+        android:name="com.example.evenz.NavigateToEventCreation"
+        android:label="Demo Screen"
+        tools:layout="@layout/nav_to_event_creation">
+
+        <action
+            android:id="@+id/action_main_to_event_creation"
+            app:destination="@id/eventCreation" />
+    </fragment>
+    <fragment
+        android:id="@+id/eventCreation"
+        android:name="com.example.evenz.EventCreation"
+        android:label="@string/label_create_event"
+        tools:layout="@layout/event_creation">
+
+        <action
+            android:id="@+id/action_back_button_event_creation"
+            app:destination="@id/nav_to_create_event" />
+    </fragment>
+</navigation>
