@@ -10,4 +10,20 @@
     <string name="label_create_event">Create New Event</string>
     <string name="action_create_event_menu">Create Event Menu</string>
     <string name="demo_button_create_new_event">Create New Event</string>
+
+    <string name="ek_img_content">ExportKit Image</string>
+    <string name="create_new_event_string">Create New Event</string>
+    <string name="date_string">Date</string>
+    <string name="dd_mm_yy_string">dd/mm/yy</string>
+    <string name="attendee_limit_string">Attendee Limit</string>
+    <string name="no_limit_string">No Limit</string>
+    <string name="event_info_string">Event Info</string>
+    <string name="aliwo1123_gmail_com_string">aliwo1123@gmail.com</string>
+    <string name="event_name_string">Event Name</string>
+    <string name="career_fair_2023_string">Career Fair 2023</string>
+    <string name="name_of_organizer_string">Name Of Organizer</string>
+    <string name="roger_jones_string">Alicia Wood</string>
+    <string name="generate_qr_code_string">      Generate QR Code</string>
+    <string name="upload_your_qr_code_string">Upload YourQR Code</string>
+    <string name="upload_event_poster_string">Upload EventPoster</string>
 </resources>
