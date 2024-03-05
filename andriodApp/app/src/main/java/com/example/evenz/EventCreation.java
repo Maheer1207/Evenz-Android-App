@@ -12,6 +12,6 @@ public class EventCreation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_event);
 
-        findViewById(R.id.vector).setOnClickListener(v -> finish());
+        findViewById(R.id.back_less).setOnClickListener(v -> finish());
     }
 }
