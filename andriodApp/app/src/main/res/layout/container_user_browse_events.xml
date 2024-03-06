@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/container_user_browse_events"
+  android:layout_width="match_parent"
+  android:layout_height="807dp"
+  android:background="@drawable/container_user_browse_events">
+
+  <LinearLayout
+    android:id="@+id/container_cards"
+    android:layout_width="376dp"
+    android:layout_height="110dp"
+    android:layout_marginLeft="7dp"
+    android:layout_marginTop="57dp"
+    android:layout_gravity="top|left"
+    android:background="@drawable/container_cards"
+    android:gravity="left|top"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp">
+
+    
+    <LinearLayout
+      android:id="@+id/container_frame1"
+      android:layout_width="264dp"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="100dp"
+      android:layout_marginTop="-5dp"
+      android:clipToPadding="false"
+      android:gravity="left|top"
+      android:orientation="vertical"
+      android:paddingTop="5dp">
+      
+      <TextView
+        android:id="@+id/text_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginTop="-5dp"
+        android:layout_marginBottom="-5dp"
+        android:gravity="left|center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Career Fair 2023"
+        android:textColor="#FF000000"
+        android:textSize="20dp" />
+      
+      <TextView
+        android:id="@+id/text_lorem_ipsum"
+        android:layout_width="264dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="4dp"
+        android:gravity="left|top"
+        android:includeFontPadding="false"
+        android:lineHeight="20dp"
+        android:text="    CCIS, UofA\nCareer fairs are a great way to connect with U of A students...\n"
+        android:textColor="#FF4E4B66"
+        android:textSize="16dp" />
+    </LinearLayout>
+  </LinearLayout>
+  
+  <LinearLayout
+    android:id="@+id/container_frame"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="323dp"
+    android:layout_marginTop="64dp"
+    android:layout_marginBottom="-1dp"
+    android:layout_gravity="top|left"
+    android:clipToPadding="false"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="1dp"
+    android:paddingTop="1dp">
+    
+    <ImageView
+      android:id="@+id/image_icon"
+      android:layout_width="14dp"
+      android:layout_height="14dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/image_icon" />
+
+    <TextView
+        android:id="@+id/text_date"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginTop="-1dp"
+        android:layout_marginBottom="-1dp"
+        android:gravity="left|center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Feb 8"
+        android:textColor="#FF4E4B66"
+        android:textSize="17dp" />
+  </LinearLayout>
+  
+  <ImageView
+    android:id="@+id/image_map"
+    android:layout_width="14dp"
+    android:layout_height="20dp"
+    android:layout_marginLeft="115dp"
+    android:layout_marginTop="84dp"
+    android:layout_gravity="top|left"
+    android:scaleType="centerInside"
+    android:src="@drawable/image_map" />
+  
+  <ImageView
+    android:id="@+id/container_group"
+    android:layout_width="26.19dp"
+    android:layout_height="24.85dp"
+    android:layout_marginLeft="52.38dp"
+    android:layout_marginRight="314.43dp"
+    android:layout_marginTop="751.34dp"
+    android:layout_marginBottom="30.81dp"
+    android:scaleType="centerInside"
+    android:src="@drawable/container_group" />
+
+  <FrameLayout
+    android:id="@+id/container_group1"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_marginLeft="18dp"
+    android:layout_marginTop="74dp"
+    android:layout_gravity="top|left"
+    android:background="@drawable/container_group1">
+
+    <ImageView
+      android:id="@+id/image_banner"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="centerCrop"
+      android:src="@drawable/image_banner" />
+
+    <ImageView
+      android:id="@+id/image_rectangle2"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@drawable/image_rectangle2"
+      android:scaleType="centerCrop"  />
+  </FrameLayout>
+
+  <LinearLayout
+    android:layout_width="376dp"
+    android:layout_height="110dp"
+    android:layout_marginLeft="7dp"
+    android:layout_marginTop="177dp"
+    android:layout_gravity="top|left"
+    android:background="@drawable/drawable_shape"
+    android:gravity="left|top"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp">
+
+    <LinearLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="100dp"
+      android:layout_marginTop="-5dp"
+      android:clipToPadding="false"
+      android:gravity="left|top"
+      android:orientation="vertical"
+      android:paddingTop="5dp">
+      
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginTop="-5dp"
+        android:layout_marginBottom="-5dp"
+        android:gravity="left|center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="AI Seminar "
+        android:textColor="#FF000000"
+        android:textSize="20dp" />
+      
+      <TextView
+        android:layout_width="264dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="4dp"
+        android:gravity="left|top"
+        android:includeFontPadding="false"
+        android:lineHeight="20dp"
+        android:text="    CCIS 3-33, UofA\nWeekly Seminar on AI topics and guest speakers.\n"
+        android:textColor="#FF4E4B66"
+        android:textSize="16dp" />
+    </LinearLayout>
+  </LinearLayout>
+  
+  <LinearLayout
+    android:id="@+id/container_frame7"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="323dp"
+    android:layout_marginTop="184dp"
+    android:layout_marginBottom="-1dp"
+    android:layout_gravity="top|left"
+    android:clipToPadding="false"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingBottom="1dp"
+    android:paddingTop="1dp">
+    
+    <ImageView
+      android:id="@+id/image_icon3"
+      android:layout_width="14dp"
+      android:layout_height="14dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/image_icon3" />
+    
+    <TextView
+      android:id="@+id/text_date3"
+      android:layout_width="wrap_content"
+      android:layout_height="17dp"
+      android:layout_marginLeft="2dp"
+      android:layout_marginTop="-1dp"
+      android:layout_marginBottom="-1dp"
+      android:gravity="left|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text="Feb 9"
+      android:textColor="#FF4E4B66"
+      android:textSize="17dp" />
+  </LinearLayout>
+  
+  <ImageView
+    android:id="@+id/iv_map1"
+    android:layout_width="14dp"
+    android:layout_height="20dp"
+    android:layout_marginLeft="116dp"
+    android:layout_marginTop="204dp"
+    android:layout_gravity="top|left"
+    android:scaleType="centerInside"
+    android:src="@drawable/iv_map1" />
+  
+  <FrameLayout
+    android:id="@+id/container_group4"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_marginLeft="18dp"
+    android:layout_marginTop="193dp"
+    android:layout_gravity="top|left"
+    android:background="@drawable/container_group4">
+    
+    <ImageView
+      android:id="@+id/image_e1"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="centerCrop"
+      android:src="@drawable/image_e1" />
+    
+    <ImageView
+      android:id="@+id/image_rectangle6"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@drawable/image_rectangle6"
+      android:scaleType="centerCrop" />
+  </FrameLayout>
+
+  <ImageView
+    android:id="@+id/image_vector"
+    android:layout_width="14.21dp"
+    android:layout_height="22.86dp"
+    android:layout_marginLeft="21.04dp"
+    android:layout_marginRight="357.76dp"
+    android:layout_marginTop="17.66dp"
+    android:layout_marginBottom="766.48dp"
+    android:scaleType="centerInside"
+    android:src="@drawable/image_vector" />
+
+
+  <TextView
+      android:id="@+id/container_frame13"
+      android:layout_width="wrap_content"
+      android:layout_height="24dp"
+      android:layout_gravity="top|left"
+      android:layout_marginLeft="163dp"
+      android:layout_marginTop="16dp"
+      android:gravity="center_horizontal|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text="Events"
+      android:textColor="#FF1A1A1A"
+      android:textSize="20dp"
+      android:textStyle="bold" />
+
+  <ImageView
+    android:id="@+id/image_rectangle3"
+    android:layout_width="395dp"
+    android:layout_height="75dp"
+    android:layout_marginLeft="-2dp"
+    android:layout_marginTop="732dp"
+    android:layout_gravity="top|left"
+    android:background="@drawable/image_rectangle3"
+    android:scaleType="centerInside" />
+
+  <FrameLayout
+    android:id="@+id/container_document1"
+    android:layout_width="25dp"
+    android:layout_height="25dp"
+    android:layout_marginLeft="305dp"
+    android:layout_marginTop="756dp"
+    android:layout_gravity="top|left"
+    android:background="@drawable/container_document1">
+    
+    <ImageView
+      android:id="@+id/image_document"
+      android:layout_width="25dp"
+      android:layout_height="25dp"
+      android:layout_marginLeft="0.09dp"
+      android:layout_marginRight="-0.09dp"
+      android:layout_marginTop="-0.05dp"
+      android:layout_marginBottom="0.05dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/image_document" />
+  </FrameLayout>
+  
+  <ImageView
+    android:id="@+id/iv_group"
+    android:layout_width="26.19dp"
+    android:layout_height="24.85dp"
+    android:layout_marginLeft="52.38dp"
+    android:layout_marginRight="314.43dp"
+    android:layout_marginTop="751.34dp"
+    android:layout_marginBottom="30.81dp"
+    android:scaleType="centerInside"
+    android:src="@drawable/iv_group" />
+  
+  <ImageView
+    android:layout_width="38dp"
+    android:layout_height="38dp"
+    android:layout_marginLeft="172dp"
+    android:layout_marginTop="749dp"
+    android:layout_gravity="top|left"
+    android:scaleType="centerInside"
+    android:src="@drawable/drawable_image" />
+</FrameLayout>

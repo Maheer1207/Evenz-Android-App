@@ -3,8 +3,11 @@ package com.example.evenz;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         eventsRef = db.collection("events");
         usersRef = db.collection("users");
 
+
         eventsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots,
@@ -46,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.e("Firestore", error.toString());
                     return;
                 }
+
                 if (querySnapshots != null) {
                     eventDataList.clear();
                     for (QueryDocumentSnapshot doc: querySnapshots) {
@@ -55,6 +60,13 @@ public class MainActivity extends AppCompatActivity {
                         eventDataList.add(tempEvent);
                     }
                 }
+            }
+        });
+        final Button createEvent = findViewById(R.id.button_create_new_event);
+        createEvent.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EventCreationActivity.class);
+                startActivity(intent);
             }
         });
 

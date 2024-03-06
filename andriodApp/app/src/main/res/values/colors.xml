@@ -19,6 +19,6 @@
     <color name="dd_mm_yy_color">#757575</color>
     <color name="rectangle_24_color">#D9D9D9</color>
     <color name="rectangle_25_color">#A8E0A2</color>
-    <color name="generate_qr_code_color">#FFFCFC</color>
+    <color name="create_event_color">#FFFCFC</color>
     <color name="_bg__user_alt_ek1_color">#2384DF</color>
 </resources>
