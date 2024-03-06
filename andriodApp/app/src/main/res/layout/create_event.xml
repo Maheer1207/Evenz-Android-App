@@ -230,7 +230,7 @@
 						android:shadowRadius="4"
 						android:text="@string/generate_qr_code_string"
 						android:textAlignment="center"
-						android:textColor="@color/generate_qr_code_color"
+						android:textColor="@color/white"
 						android:textSize="16.02sp"
 						android:textStyle="bold" />
 				</RelativeLayout>
