@@ -3,6 +3,7 @@ package com.example.evenz;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                     eventDataList.clear();
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String eventID = doc.getId();
-                        Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"), doc.getString("description"), (Geolocation)doc.get("geolocation"), doc.getLong("qrCodeBrowse").intValue(), doc.getLong("qrCodeCheckIn").intValue(), (Dictionary<String, Integer>)doc.get("userList"));
+                        Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"), doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"), (Bitmap)doc.get("qrCodeCheckIn"), (Map<String, Integer>)doc.get("userList"));
                         Log.d("Firestore", String.format("Event(%d, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
                     }

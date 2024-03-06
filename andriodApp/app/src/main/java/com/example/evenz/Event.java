@@ -2,6 +2,7 @@ package com.example.evenz;
 
 import static android.content.ContentValues.TAG;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.Pair;
 
@@ -20,9 +21,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Event
 {
@@ -30,9 +33,9 @@ public class Event
     private String eventPosterID;
     private String description;
     private Geolocation geolocation;
-    private int qrCodeBrowse;
-    private int qrCodeCheckIn;
-    private Dictionary<String, Integer> userList;
+    private Bitmap qrCodeBrowse;
+    private Bitmap qrCodeCheckIn;
+    private Map<String, Integer> userList;
 
     /**
      * This is the public constructor to create an event
@@ -44,7 +47,7 @@ public class Event
      * @param qrCodeCheckIn The qrcode to check in to the event
      * @param userList The list of users signed up to attend the event which is the number of times checked in (0 is rsvp) and the id of the user
      */
-    public Event(String eventName, String eventPosterID, String description, Geolocation geolocation, int qrCodeBrowse, int qrCodeCheckIn, Dictionary<String, Integer> userList)
+    public Event(String eventName, String eventPosterID, String description, Geolocation geolocation, Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, Map<String, Integer> userList)
     {
         this.eventName = eventName;
         this.eventPosterID = eventPosterID;
@@ -87,23 +90,23 @@ public class Event
         this.geolocation = geolocation;
     }
 
-    public int getQrCodeBrowse() {
+    public Bitmap getQrCodeBrowse() {
         return qrCodeBrowse;
     }
 
-    public void setQrCodeBrowse(int qrCodeBrowse) {
+    public void setQrCodeBrowse(Bitmap qrCodeBrowse) {
         this.qrCodeBrowse = qrCodeBrowse;
     }
 
-    public int getQrCodeCheckIn() {
+    public Bitmap getQrCodeCheckIn() {
         return qrCodeCheckIn;
     }
 
-    public void setQrCodeCheckIn(int qrCodeCheckIn) {
+    public void setQrCodeCheckIn(Bitmap qrCodeCheckIn) {
         this.qrCodeCheckIn = qrCodeCheckIn;
     }
 
-    public Dictionary<String, Integer> getAttendeeIDList() {
+    public Map<String, Integer> getAttendeeIDList() {
         return userList;
     }
 
@@ -113,12 +116,14 @@ public class Event
      */
     public ArrayList<Pair<Attendee, Integer>> getAttendeeList() {
         ArrayList<Pair<Attendee, Integer>> attendees = new ArrayList<Pair<Attendee, Integer>>();
-        Enumeration<String> enu = userList.keys();
+        Enumeration<String> enu = Collections.enumeration(userList.keySet());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        // go through every attendee pulled from the event attendee list
         String tempID;
         while (enu.hasMoreElements())
         {
+            // get the next atendee and find refrence on firebase
             tempID = enu.nextElement();
             DocumentReference docRef = db.collection("users").document(tempID);
             String finalTempID = tempID;
@@ -128,7 +133,7 @@ public class Event
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-
+                            // gets the attendee and the number of times they have checked into the event
                             attendees.add(new Pair<Attendee, Integer>((Attendee)(document.get(finalTempID)), userList.get(finalTempID)));
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         } else {
@@ -145,7 +150,7 @@ public class Event
         return attendees;
     }
 
-    public void setUserList(Dictionary<String, Integer> userList) {
+    public void setUserList(Map<String, Integer> userList) {
         this.userList = userList;
     }
 }
