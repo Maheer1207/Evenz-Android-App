@@ -2,49 +2,57 @@ package com.example.evenz;
 
 import static android.content.ContentValues.TAG;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 import android.util.Pair;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.HashMap;
+import java.util.Map;
 
 public class Event
 {
+
+
+    private String organizationName;
     private String eventName;
     private String eventPosterID;
     private String description;
     private Geolocation geolocation;
-    private int qrCodeBrowse;
-    private int qrCodeCheckIn;
-    private Dictionary<String, Integer> userList;
+    private Bitmap qrCodeBrowse;
+    private Bitmap qrCodeCheckIn;
+
+    private int eventAttendLimit;
+
+    private Date eventDate;
+
+    private Map<String, Long> userList;
 
     /**
      * This is the public constructor to create an event
-     * @param eventName The name of the event
-     * @param eventPosterID The id for the event poster image
-     * @param description The description of the event
-     * @param geolocation The location of the event
-     * @param qrCodeBrowse The qrcode to browse the event
-     * @param qrCodeCheckIn The qrcode to check in to the event
-     * @param userList The list of users signed up to attend the event which is the number of times checked in (0 is rsvp) and the id of the user
+     *
+     * @param organizationName The name of the Organizer of the event
+     * @param eventName          The name of the event
+     * @param eventPosterID      The id for the event poster image
+     * @param description        The description of the event
+     * @param geolocation        The location of the event
+     * @param qrCodeBrowse       The qrcode to browse the event
+     * @param qrCodeCheckIn      The qrcode to check in to the event
+     * @param eventAttendLimit   The limit of attendees in the event
+     * @param userList           The list of users signed up to attend the event which is the number of times checked in (0 is rsvp) and the id of the user
      */
-    public Event(String eventName, String eventPosterID, String description, Geolocation geolocation, int qrCodeBrowse, int qrCodeCheckIn, Dictionary<String, Integer> userList)
+    public Event(String organizationName, String eventName, String eventPosterID, String description, Geolocation geolocation, Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, int eventAttendLimit, Map<String, Long> userList, Date eventDate)
     {
         this.eventName = eventName;
         this.eventPosterID = eventPosterID;
@@ -53,6 +61,25 @@ public class Event
         this.qrCodeBrowse = qrCodeBrowse;
         this.qrCodeCheckIn = qrCodeCheckIn;
         this.userList = userList;
+        this.eventAttendLimit = eventAttendLimit;
+        this.organizationName = organizationName;
+        this.eventDate = eventDate;
+    }
+
+    public String getOrganizationName() {
+        return eventName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
+    public Date getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(Date eventDate) {
+        this.eventDate = eventDate;
     }
 
     public String getEventName() {
@@ -87,23 +114,33 @@ public class Event
         this.geolocation = geolocation;
     }
 
-    public int getQrCodeBrowse() {
+    public Bitmap getQrCodeBrowse() {
         return qrCodeBrowse;
     }
 
-    public void setQrCodeBrowse(int qrCodeBrowse) {
+    public void setQrCodeBrowse(Bitmap qrCodeBrowse) {
         this.qrCodeBrowse = qrCodeBrowse;
     }
 
-    public int getQrCodeCheckIn() {
+    public Bitmap getQrCodeCheckIn() {
         return qrCodeCheckIn;
     }
 
-    public void setQrCodeCheckIn(int qrCodeCheckIn) {
+    public void setQrCodeCheckIn(Bitmap qrCodeCheckIn) {
         this.qrCodeCheckIn = qrCodeCheckIn;
     }
 
-    public Dictionary<String, Integer> getAttendeeIDList() {
+    public int getEventAttendLimit() {
+        return eventAttendLimit;
+    }
+
+    public int setEventAttendLimit(int eventAttendLimit) {
+        return eventAttendLimit;
+    }
+
+
+
+    public Map<String, Long> getAttendeeIDList() {
         return userList;
     }
 
@@ -111,9 +148,9 @@ public class Event
      * This function returns the attendee list for the event
      * @return Returns the list in the format of an ArrayList of Pairs being <Attendee, check-in count>
      */
-    public ArrayList<Pair<Attendee, Integer>> getAttendeeList() {
-        ArrayList<Pair<Attendee, Integer>> attendees = new ArrayList<Pair<Attendee, Integer>>();
-        Enumeration<String> enu = userList.keys();
+    public ArrayList<Pair<Attendee, Long>> getAttendeeList() {
+        ArrayList<Pair<Attendee, Long>> attendees = new ArrayList<Pair<Attendee, Long>>();
+        Enumeration<String> enu = Collections.enumeration(userList.keySet());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         String tempID;
@@ -129,7 +166,7 @@ public class Event
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
 
-                            attendees.add(new Pair<Attendee, Integer>((Attendee)(document.get(finalTempID)), userList.get(finalTempID)));
+                            attendees.add(new Pair<Attendee, Long>((Attendee)(document.get(finalTempID)), userList.get(finalTempID)));
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         } else {
                             Log.d(TAG, "No such document");
@@ -145,7 +182,7 @@ public class Event
         return attendees;
     }
 
-    public void setUserList(Dictionary<String, Integer> userList) {
+    public void setUserList(Map<String, Long> userList) {
         this.userList = userList;
     }
 }

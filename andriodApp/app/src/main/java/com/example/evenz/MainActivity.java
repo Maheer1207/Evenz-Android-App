@@ -4,6 +4,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +18,12 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -54,9 +59,16 @@ public class MainActivity extends AppCompatActivity {
                 if (querySnapshots != null) {
                     eventDataList.clear();
                     for (QueryDocumentSnapshot doc: querySnapshots) {
-                        String eventID = doc.getId();
-                        Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"), doc.getString("description"), (Geolocation)doc.get("geolocation"), doc.getLong("qrCodeBrowse").intValue(), doc.getLong("qrCodeCheckIn").intValue(), (Dictionary<String, Integer>)doc.get("userList"));
-                        Log.d("Firestore", String.format("Event(%d, %s) fetched", eventID, tempEvent.getEventName()));
+                        String eventID = doc.getId(); //TODO: convert qrcode browse getLong to getInt
+
+
+                        Event tempEvent = new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
+                                doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"),
+                                (Bitmap)doc.get("qrCodeIn"), 0,
+                                new Hashtable<>(), (Date)doc.get("eventDate"));
+
+
+                        Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
                     }
                 }
