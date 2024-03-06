@@ -15,6 +15,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     eventDataList.clear();
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String eventID = doc.getId();
-                        Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"), doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"), (Bitmap)doc.get("qrCodeCheckIn"), (Map<String, Integer>)doc.get("userList"));
+                        Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"), doc.getString("description"), (Date)doc.get("date"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"), (Bitmap)doc.get("qrCodeCheckIn"), (Map<String, Integer>)doc.get("userList"));
                         Log.d("Firestore", String.format("Event(%d, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
                     }

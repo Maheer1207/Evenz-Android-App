@@ -22,6 +22,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -32,6 +33,7 @@ public class Event
     private String eventName;
     private String eventPosterID;
     private String description;
+    private Date date;
     private Geolocation geolocation;
     private Bitmap qrCodeBrowse;
     private Bitmap qrCodeCheckIn;
@@ -42,16 +44,18 @@ public class Event
      * @param eventName The name of the event
      * @param eventPosterID The id for the event poster image
      * @param description The description of the event
+     * @param date The date of the event
      * @param geolocation The location of the event
      * @param qrCodeBrowse The qrcode to browse the event
      * @param qrCodeCheckIn The qrcode to check in to the event
      * @param userList The list of users signed up to attend the event which is the number of times checked in (0 is rsvp) and the id of the user
      */
-    public Event(String eventName, String eventPosterID, String description, Geolocation geolocation, Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, Map<String, Integer> userList)
+    public Event(String eventName, String eventPosterID, String description, Date date, Geolocation geolocation, Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, Map<String, Integer> userList)
     {
         this.eventName = eventName;
         this.eventPosterID = eventPosterID;
         this.description = description;
+        this.date = date;
         this.geolocation = geolocation;
         this.qrCodeBrowse = qrCodeBrowse;
         this.qrCodeCheckIn = qrCodeCheckIn;
