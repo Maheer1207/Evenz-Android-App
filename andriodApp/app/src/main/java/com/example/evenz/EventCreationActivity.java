@@ -2,6 +2,7 @@ package com.example.evenz;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.util.Log;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -32,10 +33,6 @@ public class EventCreationActivity extends AppCompatActivity {
     private EditText editTextOrganizerName, editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo;
     private Button submitEventButton;
 
-    // Assuming Geolocation is a custom class you've defined,
-    // for simplicity, I'm skipping its initialization.
-    // You'll need to implement how you gather this data, e.g., from a map or user input.
-
     // Firestore instance
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -61,10 +58,11 @@ public class EventCreationActivity extends AppCompatActivity {
         editDate = findViewById(R.id.editDate); // Ensure you have input formatting or parsing for date
         editTextAttendeeLimit = findViewById(R.id.no_limit);
         editTextEventInfo = findViewById(R.id.editTextEventInfo);
-        submitEventButton = findViewById(R.id.create_event_button); // Ensure this ID matches your button in XML
+        submitEventButton = findViewById(R.id.create_event_button); //Create event button
     }
 
     private void submitEvent() {
+
         String eventName = editTextEventName.getText().toString().trim();
         String eventPosterID = "defaultPosterID"; // Assuming a default or gathered elsewhere
         String description = editTextEventInfo.getText().toString().trim();
@@ -109,9 +107,7 @@ public class EventCreationActivity extends AppCompatActivity {
             eventMap.put("Event Date", newEvent.getEventDate());
 
 
-            // Add other fields as per your Firestore document structure
-
-            db.collection("events").add(eventMap)
+            db.collection("events").add(eventMap) //exception handling
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
