@@ -2,8 +2,6 @@ package com.example.evenz;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -18,6 +16,14 @@ public class MainActivity extends AppCompatActivity {
         createEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, EventCreation.class);
+                startActivity(intent);
+            }
+        });
+
+        final Button admin_event_browse = findViewById(R.id.button_admin_event_browse);
+        admin_event_browse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AdminBrowseEventActivity.class);
                 startActivity(intent);
             }
         });

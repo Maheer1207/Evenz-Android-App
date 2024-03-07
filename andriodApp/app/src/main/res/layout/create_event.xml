@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="393dp"
 	android:layout_height="807dp">
@@ -207,49 +206,33 @@
 				</RelativeLayout>
 
 				<RelativeLayout
-					android:id="@+id/light_green_generate_qr_button"
+					android:id="@+id/light_green_event_create_button"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="106dp"
 					android:layout_marginTop="710dp"
 					android:gravity="center">
-					<View
-						android:id="@+id/light_green_button_rect"
-						android:layout_width="205dp"
-						android:layout_height="27dp"
-						android:layout_marginStart="-1dp"
-						android:layout_marginTop="-1dp"
-						android:background="@drawable/light_green_button_setup" />
-					<TextView
-						android:id="@+id/generate_qr_code"
+
+					<Button
+						android:id="@+id/create_event_button"
 						android:layout_width="205dp"
 						android:layout_height="wrap_content"
-						android:shadowColor="#000000"
-						android:shadowDx="0"
-						android:shadowDy="4"
-						android:shadowRadius="4"
-						android:text="@string/generate_qr_code_string"
+						android:background="@drawable/light_green_button_setup"
+						android:text="Create Event"
 						android:textAlignment="center"
 						android:textColor="@color/white"
 						android:textSize="16.02sp"
 						android:textStyle="bold" />
 				</RelativeLayout>
+				<ImageView
+					android:id="@+id/upload_qr"
+					android:layout_width="33.31dp"
+					android:layout_height="28.19dp"
+					android:layout_marginStart="275dp"
+					android:layout_marginTop="594dp"
+					android:contentDescription="@string/upload_event_qr_code"
+					android:src="@drawable/folder_plus_upload" />
 
-				<RelativeLayout
-					android:id="@+id/list_item"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="271dp"
-					android:layout_marginTop="588dp">
-					<ImageView
-						android:id="@+id/upload_qr"
-						android:layout_width="33.31dp"
-						android:layout_height="28.19dp"
-						android:layout_marginStart="3.84dp"
-						android:layout_marginTop="6.41dp"
-						android:contentDescription="@string/upload_event_qr_code"
-						android:src="@drawable/folder_plus_upload" />
-				</RelativeLayout>
 				<TextView
 					android:id="@+id/upload_your_qr_code"
 					android:layout_width="108dp"
@@ -263,22 +246,15 @@
 					android:textSize="15sp"
 					android:textStyle="bold" />
 
+				<ImageView
+					android:id="@+id/vector_ek2"
+					android:layout_width="33.31dp"
+					android:layout_height="28.19dp"
+					android:layout_marginStart="82dp"
+					android:layout_marginTop="595dp"
+					android:contentDescription="vector_ek2"
+					android:src="@drawable/folder_plus_upload" />
 
-				<RelativeLayout
-					android:id="@+id/list_item_ek2"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_marginStart="79dp"
-					android:layout_marginTop="588dp">
-					<ImageView
-						android:id="@+id/vector_ek2"
-						android:layout_width="33.31dp"
-						android:layout_height="28.19dp"
-						android:layout_marginStart="3.84dp"
-						android:layout_marginTop="6.41dp"
-						android:contentDescription="vector_ek2"
-						android:src="@drawable/folder_plus_upload" />
-				</RelativeLayout>
 				<TextView
 					android:id="@+id/upload_event_poster"
 					android:layout_width="115dp"

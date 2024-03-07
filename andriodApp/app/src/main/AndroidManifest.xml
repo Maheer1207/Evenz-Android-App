@@ -15,6 +15,9 @@
         <activity
             android:name=".EventCreation"
             android:exported="false" />
+        <activity
+            android:name=".AdminBrowseEventActivity"
+            android:exported="false" />
 
         <activity
             android:name=".MainActivity"
