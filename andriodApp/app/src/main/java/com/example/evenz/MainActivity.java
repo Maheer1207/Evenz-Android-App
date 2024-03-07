@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -18,11 +19,8 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,12 +59,18 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String eventID = doc.getId(); //TODO: convert qrcode browse getLong to getInt
 
+                        long eventAttendLimit = ((Long) Objects.requireNonNull(doc.get("attendLimit")));
 
+                        // TODO: Attempt to convert firebase timestamp to Date failed, need to figure out a way to convert timeStamp to Date
+                        Timestamp eventDateTimeStamp = (Timestamp) doc.get("eventDate");
+                        assert eventDateTimeStamp != null;
+                        String eventDateString = String.valueOf(eventDateTimeStamp.toDate());
+
+                        // TODO: Once timeStamp to Date works, change eventDate from null to original event date
                         Event tempEvent = new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                                 doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"),
-                                (Bitmap)doc.get("qrCodeIn"), 0,
-                                new Hashtable<>(), (Date)doc.get("eventDate"));
-
+                                (Bitmap)doc.get("qrCodeIn"), (int)eventAttendLimit,
+                                new Hashtable<>(), null);
 
                         Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
@@ -107,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         final Button attendee_event_info = findViewById(R.id.button_attendee_event_info);
         attendee_event_info.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AttendeeEventInfo.class);
+                Intent intent = new Intent(MainActivity.this, AttendeeEventInfoActivity.class);
                 startActivity(intent);
             }
         });
@@ -116,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
         final Button attendee_event_info_signup = findViewById(R.id.button_attendee_event_info_signup);
         attendee_event_info_signup.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AttendeeEventInfoSignUp.class);
+                Intent intent = new Intent(MainActivity.this, AttendeeEventInfoSignUpActivity.class);
                 startActivity(intent);
             }
         });

@@ -23,8 +23,6 @@ import java.util.Map;
 
 public class Event
 {
-
-
     private String organizationName;
     private String eventName;
     private String eventPosterID;
@@ -32,11 +30,8 @@ public class Event
     private Geolocation geolocation;
     private Bitmap qrCodeBrowse;
     private Bitmap qrCodeCheckIn;
-
     private int eventAttendLimit;
-
     private Date eventDate;
-
     private Map<String, Long> userList;
 
     /**
@@ -67,7 +62,7 @@ public class Event
     }
 
     public String getOrganizationName() {
-        return eventName;
+        return this.organizationName;
     }
 
     public void setOrganizationName(String organizationName) {
@@ -75,7 +70,7 @@ public class Event
     }
 
     public Date getEventDate() {
-        return eventDate;
+        return this.eventDate;
     }
 
     public void setEventDate(Date eventDate) {
@@ -83,7 +78,7 @@ public class Event
     }
 
     public String getEventName() {
-        return eventName;
+        return this.eventName;
     }
 
     public void setEventName(String eventName) {
@@ -99,7 +94,7 @@ public class Event
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
@@ -107,7 +102,7 @@ public class Event
     }
 
     public Geolocation getGeolocation() {
-        return geolocation;
+        return this.geolocation;
     }
 
     public void setGeolocation(Geolocation geolocation) {
@@ -115,7 +110,7 @@ public class Event
     }
 
     public Bitmap getQrCodeBrowse() {
-        return qrCodeBrowse;
+        return this.qrCodeBrowse;
     }
 
     public void setQrCodeBrowse(Bitmap qrCodeBrowse) {
@@ -123,15 +118,15 @@ public class Event
     }
 
     public Bitmap getQrCodeCheckIn() {
-        return qrCodeCheckIn;
+        return this.qrCodeCheckIn;
     }
 
     public void setQrCodeCheckIn(Bitmap qrCodeCheckIn) {
         this.qrCodeCheckIn = qrCodeCheckIn;
     }
 
-    public int getEventAttendLimit() {
-        return eventAttendLimit;
+    public long getEventAttendLimit() {
+        return this.eventAttendLimit;
     }
 
     public int setEventAttendLimit(int eventAttendLimit) {

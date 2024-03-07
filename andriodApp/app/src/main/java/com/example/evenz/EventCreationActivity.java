@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.util.Log;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -51,6 +53,7 @@ public class EventCreationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     submitEvent();
+                    startActivity(new Intent(EventCreationActivity.this, MainActivity.class));
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
@@ -78,17 +81,14 @@ public class EventCreationActivity extends AppCompatActivity {
         String orgName = editTextOrganizerName.getText().toString().trim();
         String eventDatestring = editDate.getText().toString().trim();
 
-
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
         Date eventDate = null;
 
         eventDate = dateFormat.parse(eventDatestring);
 
-
         // handle attendee limit error:
-        int eventAttendeeLimit = 0; // Default to 0 or some other appropriate default value
+        int eventAttendeeLimit = attendeeLimit.equals("") ? 0:Integer.parseInt(attendeeLimit); // Default to 0 or some other appropriate default value
 
-        eventAttendeeLimit = Integer.parseInt(attendeeLimit);
         Geolocation geolocation = new Geolocation("asd", 0.0f, 0.0f); //TODO: replace with actual values
         Bitmap qrCodeBrowse = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code
         Bitmap qrCodeCheckIn = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code for events
@@ -99,11 +99,11 @@ public class EventCreationActivity extends AppCompatActivity {
 
         // Now, convert  Event object to a Map or directly use the attributes to add to Firestore
         Map<String, Object> eventMap = new HashMap<>();
-        eventMap.put("organization Name", newEvent.getOrganizationName());
+        eventMap.put("organizationName", newEvent.getOrganizationName());
         eventMap.put("eventName", newEvent.getEventName());
         eventMap.put("description", newEvent.getDescription());
-        eventMap.put("Attend Limit", newEvent.getEventAttendLimit());
-        eventMap.put("Event Date", newEvent.getEventDate());
+        eventMap.put("attendLimit", newEvent.getEventAttendLimit());
+        eventMap.put("eventDate", newEvent.getEventDate());
         ref.document("sdfsdfsdfsdf").set(eventMap);
     }
 }
