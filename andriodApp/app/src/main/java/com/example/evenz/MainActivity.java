@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -41,6 +42,9 @@ public class MainActivity extends AppCompatActivity {
         eventsRef = db.collection("events");
         usersRef = db.collection("users");
 
+        User userA = new User("a", "asdf", "asdf", "asdf");
+        addUser("asdf", userA);
+
         eventsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots,
@@ -53,8 +57,10 @@ public class MainActivity extends AppCompatActivity {
                     eventDataList.clear();
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String eventID = doc.getId();
-                        Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"), doc.getString("description"), (Date)doc.get("date"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"), (Bitmap)doc.get("qrCodeCheckIn"), (Map<String, Integer>)doc.get("userList"));
-                        Log.d("Firestore", String.format("Event(%d, %s) fetched", eventID, tempEvent.getEventName()));
+                        Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"),
+                                doc.getString("description"), (Date)doc.get("date"), (Geolocation)doc.get("geolocation"),
+                                (Bitmap)doc.get("qrCodeBrowse"), (Bitmap)doc.get("qrCodeCheckIn"), (ArrayList<Pair<String, Integer>>)doc.get("userList"));
+                        Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
                     }
                 }

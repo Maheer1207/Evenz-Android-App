@@ -1,6 +1,13 @@
 package com.example.evenz;
 
+import android.net.Uri;
+
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class User
 {
@@ -47,5 +54,13 @@ public class User
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void uploadProfilePicture(String filePath) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String photoID = "";
+        Uri file = Uri.fromFile(new File(filePath));
+        //UploadTask uploadTask = storageRef.child("images/"+file.getLastPathSegment()).putFile(file);
+
     }
 }

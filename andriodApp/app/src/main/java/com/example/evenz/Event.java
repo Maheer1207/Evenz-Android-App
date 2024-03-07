@@ -37,7 +37,7 @@ public class Event
     private Geolocation geolocation;
     private Bitmap qrCodeBrowse;
     private Bitmap qrCodeCheckIn;
-    private Map<String, Integer> userList;
+    private ArrayList<Pair<String, Integer>> userList;
 
     /**
      * This is the public constructor to create an event
@@ -50,7 +50,7 @@ public class Event
      * @param qrCodeCheckIn The qrcode to check in to the event
      * @param userList The list of users signed up to attend the event which is the number of times checked in (0 is rsvp) and the id of the user
      */
-    public Event(String eventName, String eventPosterID, String description, Date date, Geolocation geolocation, Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, Map<String, Integer> userList)
+    public Event(String eventName, String eventPosterID, String description, Date date, Geolocation geolocation, Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, ArrayList<Pair<String, Integer>> userList)
     {
         this.eventName = eventName;
         this.eventPosterID = eventPosterID;
@@ -110,7 +110,7 @@ public class Event
         this.qrCodeCheckIn = qrCodeCheckIn;
     }
 
-    public Map<String, Integer> getAttendeeIDList() {
+    public ArrayList<Pair<String, Integer>> getAttendeeIDList() {
         return userList;
     }
 
@@ -120,17 +120,17 @@ public class Event
      */
     public ArrayList<Pair<Attendee, Integer>> getAttendeeList() {
         ArrayList<Pair<Attendee, Integer>> attendees = new ArrayList<Pair<Attendee, Integer>>();
-        Enumeration<String> enu = Collections.enumeration(userList.keySet());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // go through every attendee pulled from the event attendee list
         String tempID;
-        while (enu.hasMoreElements())
+        for (int i = 0; i<userList.size(); i++)
         {
             // get the next atendee and find refrence on firebase
-            tempID = enu.nextElement();
+            tempID = userList.get(i).first;
             DocumentReference docRef = db.collection("users").document(tempID);
             String finalTempID = tempID;
+            int iter = i;
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -138,7 +138,7 @@ public class Event
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             // gets the attendee and the number of times they have checked into the event
-                            attendees.add(new Pair<Attendee, Integer>((Attendee)(document.get(finalTempID)), userList.get(finalTempID)));
+                            attendees.add(new Pair<Attendee, Integer>((Attendee)(document.get(finalTempID)), userList.get(iter).second));
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         } else {
                             Log.d(TAG, "No such document");
@@ -154,7 +154,7 @@ public class Event
         return attendees;
     }
 
-    public void setUserList(Map<String, Integer> userList) {
+    public void setUserList(ArrayList<Pair<String, Integer>> userList) {
         this.userList = userList;
     }
 }
