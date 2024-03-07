@@ -58,6 +58,11 @@ public class User
 
     public void uploadProfilePicture(String filePath) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        //FirebaseStorage storage = FirebaseStorage.getInstance();
+        //StorageReference storageRef = storage.getReference();
+
+
         String photoID = "";
         Uri file = Uri.fromFile(new File(filePath));
         //UploadTask uploadTask = storageRef.child("images/"+file.getLastPathSegment()).putFile(file);
