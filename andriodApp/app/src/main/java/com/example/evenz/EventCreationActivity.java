@@ -102,7 +102,8 @@ public class EventCreationActivity extends AppCompatActivity {
         eventMap.put("description", newEvent.getDescription());
         eventMap.put("Attend Limit", newEvent.getEventAttendLimit());
         eventMap.put("Event Date", newEvent.getEventDate());
-        ref.document("sdfsdfsdfsdf").set(eventMap);
+
+        ref.document("sdfsdfsdfsdf").set(eventMap); // TODO: change to Random ID.
     }
 }
 
