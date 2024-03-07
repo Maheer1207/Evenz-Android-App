@@ -1,8 +1,10 @@
 package com.example.evenz;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.util.Log;
+import androidx.media3.common.util.UnstableApi;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -97,13 +99,29 @@ public class EventCreationActivity extends AppCompatActivity {
 
         // Now, convert  Event object to a Map or directly use the attributes to add to Firestore
         Map<String, Object> eventMap = new HashMap<>();
-        eventMap.put("organization Name", newEvent.getOrganizationName());
+        eventMap.put("organizationName", newEvent.getOrganizationName());
         eventMap.put("eventName", newEvent.getEventName());
         eventMap.put("description", newEvent.getDescription());
-        eventMap.put("Attend Limit", newEvent.getEventAttendLimit());
-        eventMap.put("Event Date", newEvent.getEventDate());
+        eventMap.put("AttendLimit", newEvent.getEventAttendLimit());
+        eventMap.put("eventDate", newEvent.getEventDate());
 
-        ref.document("sdfsdfsdfsdf").set(eventMap); // TODO: change to Random ID.
+        // added add() so, event ID will be automatically generated.
+        // TODO: review with TEAM
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("events").add(eventMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @OptIn(markerClass = UnstableApi.class) @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        // Successfully added event with auto-generated ID
+                        Log.d("Firestore", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @OptIn(markerClass = UnstableApi.class) @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle the error
+                        Log.w("Firestore", "Error adding document", e);
+                    }
+                });
     }
 }
 

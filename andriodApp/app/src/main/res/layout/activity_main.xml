@@ -33,6 +33,11 @@
 <!--        app:layout_constraintBottom_toBottomOf="parent"-->
 <!--        app:layout_constraintTop_toBottomOf="@id/appBarLayout"-->
 <!--        tools:layout_editor_absoluteX="3dp" />-->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
 
     <Button
         android:id="@+id/button_create_new_event"
@@ -40,5 +45,19 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:text="@string/demo_button_create_new_event"
-        tools:ignore="MissingConstraints"/>
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="17dp"
+        tools:layout_editor_absoluteY="123dp" />
+
+    <Button
+        android:id="@+id/button_event_browse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="Scrollable Event List"
+        tools:ignore="MissingConstraints"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="13dp"
+        />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

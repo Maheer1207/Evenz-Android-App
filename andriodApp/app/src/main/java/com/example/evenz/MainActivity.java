@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -60,12 +61,20 @@ public class MainActivity extends AppCompatActivity {
                     eventDataList.clear();
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String eventID = doc.getId(); //TODO: convert qrcode browse getLong to getInt
+                        // Get the Timestamp object from the document
+                        Timestamp timestamp = doc.getTimestamp("eventDate");
+
+                        //Convert the Timestamp to a java.util.Date object
+                        Date eventDate = null;
+                        if (timestamp != null) {
+                            eventDate = timestamp.toDate(); // converts Timestamp to Date
+                        }
 
 
                         Event tempEvent = new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                                 doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"),
                                 (Bitmap)doc.get("qrCodeIn"), 0,
-                                new Hashtable<>(), (Date)doc.get("eventDate"));
+                                new Hashtable<>(), eventDate); //TODO: review if this is correct implementation
 
 
                         Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
@@ -81,8 +90,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        //  TODO: Demo Button, Need to be deleted
+        final Button admin_event_browse = findViewById(R.id.button_event_browse);
+        admin_event_browse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EventBrowseActivity.class);
+                startActivity(intent);
+            }
+        });
 
-        usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() { //TODO: this is for the User
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots,
                                 @Nullable FirebaseFirestoreException error) {
@@ -94,7 +111,8 @@ public class MainActivity extends AppCompatActivity {
                     userDataList.clear();
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String userID = doc.getId();
-                        User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"), doc.getString("phone"), doc.getString("email"));
+                        User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"),
+                                doc.getString("phone"), doc.getString("email"));
                         userDataList.add(tempUser);
                     }
                 }
