@@ -8,11 +8,28 @@
   android:layout_width="match_parent"
   android:layout_height="807dp"
   android:background="@drawable/container_user_browse_events">
+  <TextView
+      android:id="@+id/container_frame13"
+      android:layout_width="wrap_content"
+      android:layout_height="24dp"
+      android:layout_gravity="top|left"
+      android:layout_marginLeft="163dp"
+      android:layout_marginTop="16dp"
+      android:gravity="center_horizontal|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text="Events"
+      android:textColor="#FF1A1A1A"
+      android:textSize="20dp"
+      android:textStyle="bold" />
+
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/eventsRecyclerView"
       android:layout_width="match_parent"
-      android:layout_height="match_parent" />
-  
+      android:layout_height="match_parent"
+      android:layout_marginTop="60dp"/>
+
   <ImageView
     android:id="@+id/container_group"
     android:layout_width="26.19dp"
@@ -37,21 +54,7 @@
     android:src="@drawable/image_vector" />
 
 
-  <TextView
-      android:id="@+id/container_frame13"
-      android:layout_width="wrap_content"
-      android:layout_height="24dp"
-      android:layout_gravity="top|left"
-      android:layout_marginLeft="163dp"
-      android:layout_marginTop="16dp"
-      android:gravity="center_horizontal|center_vertical"
-      android:includeFontPadding="false"
-      android:maxLines="1"
-      android:singleLine="true"
-      android:text="Events"
-      android:textColor="#FF1A1A1A"
-      android:textSize="20dp"
-      android:textStyle="bold" />
+
 
   <ImageView
     android:id="@+id/image_rectangle3"
