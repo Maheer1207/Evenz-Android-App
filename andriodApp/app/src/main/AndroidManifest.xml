@@ -15,9 +15,6 @@
             android:name=".EventCreationActivity"
             android:exported="true" />
         <activity
-            android:name=".AttendeeBrowseEventActivity"
-            android:exported="true" />
-        <activity
             android:name=".AttendeeEventInfoActivity"
             android:exported="true" />
         <activity
@@ -26,7 +23,9 @@
         <activity
             android:name=".AdminBrowseEventActivity"
             android:exported="true" />
-
+        <activity
+            android:name=".EventBrowseActivity"
+            android:exported="true"/>
         <activity
             android:name=".MainActivity"
             android:exported="true">

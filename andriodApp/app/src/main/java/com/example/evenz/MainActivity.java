@@ -19,8 +19,11 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -59,18 +62,23 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String eventID = doc.getId(); //TODO: convert qrcode browse getLong to getInt
 
-                        long eventAttendLimit = ((Long) Objects.requireNonNull(doc.get("attendLimit")));
+                        long eventAttendLimit = ((Long) Objects.requireNonNull(doc.get("AttendLimit")));
+                        
+                        // Get the Timestamp object from the document
+                        Timestamp timestamp = doc.getTimestamp("eventDate");
 
-                        // TODO: Attempt to convert firebase timestamp to Date failed, need to figure out a way to convert timeStamp to Date
-                        Timestamp eventDateTimeStamp = (Timestamp) doc.get("eventDate");
-                        assert eventDateTimeStamp != null;
-                        String eventDateString = String.valueOf(eventDateTimeStamp.toDate());
+                        //Convert the Timestamp to a java.util.Date object
+                        Date eventDate = null;
+                        if (timestamp != null) {
+                            eventDate = timestamp.toDate(); // converts Timestamp to Date
+                        }
 
-                        // TODO: Once timeStamp to Date works, change eventDate from null to original event date
+
                         Event tempEvent = new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                                 doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"),
                                 (Bitmap)doc.get("qrCodeIn"), (int)eventAttendLimit,
-                                new Hashtable<>(), null);
+                                new Hashtable<>(), eventDate); //TODO: review if this is correct implementation
+
 
                         Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
@@ -84,16 +92,6 @@ public class MainActivity extends AppCompatActivity {
         createEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, EventCreationActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //  TODO: Demo Button, Need to be deleted
-
-        final Button attendee_event_browse = findViewById(R.id.button_attendee_event_browse);
-        attendee_event_browse.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AttendeeBrowseEventActivity.class);
                 startActivity(intent);
             }
         });
@@ -124,6 +122,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button event_browse = findViewById(R.id.button_event_browse);
+        event_browse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EventBrowseActivity.class);
+                startActivity(intent);
+            }
+        });
+
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots,
@@ -136,7 +144,8 @@ public class MainActivity extends AppCompatActivity {
                     userDataList.clear();
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String userID = doc.getId();
-                        User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"), doc.getString("phone"), doc.getString("email"));
+                        User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"),
+                                doc.getString("phone"), doc.getString("email"));
                         userDataList.add(tempUser);
                     }
                 }
