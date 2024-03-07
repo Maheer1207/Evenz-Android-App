@@ -1,11 +1,11 @@
 package com.example.evenz;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.util.Log;
+import androidx.media3.common.util.UnstableApi;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -53,14 +53,11 @@ public class EventCreationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     submitEvent();
-                    startActivity(new Intent(EventCreationActivity.this, MainActivity.class));
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
             }
         });
-
-        findViewById(R.id.back_less).setOnClickListener(v -> finish());
     }
 
     private void initUI() {
@@ -81,14 +78,17 @@ public class EventCreationActivity extends AppCompatActivity {
         String orgName = editTextOrganizerName.getText().toString().trim();
         String eventDatestring = editDate.getText().toString().trim();
 
+
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
         Date eventDate = null;
 
         eventDate = dateFormat.parse(eventDatestring);
 
-        // handle attendee limit error:
-        int eventAttendeeLimit = attendeeLimit.equals("") ? 0:Integer.parseInt(attendeeLimit); // Default to 0 or some other appropriate default value
 
+        // handle attendee limit error:
+        int eventAttendeeLimit = 0; // Default to 0 or some other appropriate default value
+
+        eventAttendeeLimit = Integer.parseInt(attendeeLimit);
         Geolocation geolocation = new Geolocation("asd", 0.0f, 0.0f); //TODO: replace with actual values
         Bitmap qrCodeBrowse = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code
         Bitmap qrCodeCheckIn = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code for events
@@ -102,9 +102,26 @@ public class EventCreationActivity extends AppCompatActivity {
         eventMap.put("organizationName", newEvent.getOrganizationName());
         eventMap.put("eventName", newEvent.getEventName());
         eventMap.put("description", newEvent.getDescription());
-        eventMap.put("attendLimit", newEvent.getEventAttendLimit());
+        eventMap.put("AttendLimit", newEvent.getEventAttendLimit());
         eventMap.put("eventDate", newEvent.getEventDate());
-        ref.document("sdfsdfsdfsdf").set(eventMap);
+
+        // added add() so, event ID will be automatically generated.
+        // TODO: review with TEAM
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("events").add(eventMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @OptIn(markerClass = UnstableApi.class) @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        // Successfully added event with auto-generated ID
+                        Log.d("Firestore", "DocumentSnapshot added with ID: " + documentReference.getId());
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @OptIn(markerClass = UnstableApi.class) @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle the error
+                        Log.w("Firestore", "Error adding document", e);
+                    }
+                });
     }
 }
 

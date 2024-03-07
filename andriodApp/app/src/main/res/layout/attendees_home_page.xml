@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/container_home_page_attendees"
+  android:layout_width="match_parent"
+  android:layout_height="807dp"
+  android:background="@drawable/container_home_page_attendees">
+  <ImageView
+      android:id="@+id/bottom_actionbar"
+      android:layout_width="395dp"
+      android:layout_height="74dp"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="-2dp"
+      android:layout_marginTop="682dp"
+      android:background="@drawable/bottom_actionbar"
+      android:scaleType="centerInside" />
+
+  <ImageView
+      android:id="@+id/profile_attendee"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="52.38dp"
+      android:layout_marginTop="700dp"
+      android:layout_marginEnd="314.43dp"
+      android:layout_marginBottom="30.81dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/profile"
+      android:contentDescription="Button to view attendee's projile" />
+
+  <ImageView
+      android:id="@+id/camera_scan_attendee"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="172dp"
+      android:layout_marginTop="700dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/home_white"
+      android:contentDescription="Button to view attendee's home page" />
+
+  <!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
+  <ImageView
+      android:id="@+id/event_list"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="300dp"
+      android:layout_marginTop="700dp"
+      android:layout_marginBottom="0.05dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/event_list"
+      android:contentDescription="Button to show a list " />
+
+  <LinearLayout
+    android:id="@+id/container_cards"
+    android:layout_width="363dp"
+    android:layout_height="109dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="336dp"
+    android:layout_gravity="top|left"
+    android:background="@drawable/container_cards"
+    android:gravity="left|top"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp">
+
+    <LinearLayout
+      android:id="@+id/container_frame"
+      android:layout_width="264dp"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="100dp"
+      android:gravity="left|top"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/txt_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:gravity="left|center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Keynote"
+        android:textColor="#FF4E4B66"
+        android:textSize="18sp" />
+
+      <TextView
+        android:id="@+id/txt_insights"
+        android:layout_width="264dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:gravity="left|top"
+        android:includeFontPadding="false"
+        android:lineHeight="24dp"
+        android:text="Join us at 11 AM in Hall B for insights from industry leaders!"
+        android:textColor="#FF000000"
+        android:textSize="16dp" />
+
+      <LinearLayout
+        android:id="@+id/container_frame2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="left|center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+          android:id="@+id/container_frame4"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:clipToPadding="false"
+          android:gravity="center"
+          android:orientation="horizontal">
+
+          <ImageView
+            android:id="@+id/img_icon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/clock_image" />
+
+          <TextView
+            android:id="@+id/txt_time_ago"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="4dp"
+            android:gravity="left|center_vertical"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="14m ago"
+            android:textColor="#FF4E4B66"
+            android:textSize="18sp" />
+        </LinearLayout>
+      </LinearLayout>
+    </LinearLayout>
+  </LinearLayout>
+
+  <ImageView
+    android:id="@+id/img_img"
+    android:layout_width="96dp"
+    android:layout_height="98dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginTop="340dp"
+    android:layout_gravity="top|left"
+    android:scaleType="centerInside"
+    android:src="@drawable/img_img" />
+
+  <LinearLayout
+    android:id="@+id/container_cards1"
+    android:layout_width="363dp"
+    android:layout_height="109dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginTop="447dp"
+    android:layout_gravity="top|left"
+    android:background="@drawable/container_cards1"
+    android:gravity="left|top"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="8dp">
+
+    <LinearLayout
+      android:id="@+id/container_frame1"
+      android:layout_width="264dp"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="100dp"
+      android:gravity="left|top"
+      android:orientation="vertical">
+
+      <TextView
+        android:id="@+id/text_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:gravity="left|center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Exclusive"
+        android:textColor="#FF4E4B66"
+        android:textSize="18sp" />
+
+      <TextView
+        android:id="@+id/text_tech_innovations_talk"
+        android:layout_width="264dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:gravity="left|top"
+        android:includeFontPadding="false"
+        android:lineHeight="24dp"
+        android:text="&#39;Tech Innovations Talk&#39;, 3 PM in the Auditorium!&quot;"
+        android:textColor="#FF000000"
+        android:textSize="16dp" />
+
+      <LinearLayout
+        android:id="@+id/container_frame11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="left|center_vertical"
+        android:orientation="horizontal">
+
+        <LinearLayout
+          android:id="@+id/container_frame31"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:clipToPadding="false"
+          android:gravity="center"
+          android:orientation="horizontal">
+
+          <ImageView
+            android:id="@+id/image_icon"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/clock_image" />
+
+          <TextView
+            android:id="@+id/text_time_ago"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:layout_marginLeft="4dp"
+            android:gravity="left|center_vertical"
+            android:includeFontPadding="false"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="56m ago"
+            android:textColor="#FF4E4B66"
+            android:textSize="18sp" />
+        </LinearLayout>
+      </LinearLayout>
+    </LinearLayout>
+  </LinearLayout>
+
+  <ImageView
+    android:id="@+id/location_pin_attendee_home"
+    android:layout_width="17.5dp"
+    android:layout_height="25dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginTop="235dp"
+    android:layout_gravity="top|left"
+    android:scaleType="centerInside"
+    android:src="@drawable/location_pin" />
+
+  <TextView
+    android:id="@+id/text_notifications"
+    android:layout_width="wrap_content"
+    android:layout_height="20dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="312dp"
+    android:layout_gravity="top|left"
+    android:gravity="left|center_vertical"
+    android:includeFontPadding="false"
+    android:maxLines="1"
+    android:singleLine="true"
+    android:text="Notifications:"
+    android:textColor="#FF000000"
+    android:textSize="18sp" />
+
+  <TextView
+    android:id="@+id/text_ccis_uofa"
+    android:layout_width="wrap_content"
+    android:layout_height="17dp"
+    android:layout_marginLeft="41dp"
+    android:layout_marginTop="240dp"
+    android:layout_gravity="top|left"
+    android:gravity="left|center_vertical"
+    android:includeFontPadding="false"
+    android:maxLines="1"
+    android:singleLine="true"
+    android:text="CCIS, UofA"
+    android:textColor="#FF000000"
+    android:textSize="18sp" />
+
+  <ImageView
+    android:id="@+id/img_img1"
+    android:layout_width="96dp"
+    android:layout_height="98dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="458dp"
+    android:layout_gravity="top|left"
+    android:scaleType="centerInside"
+    android:src="@drawable/img_img1" />
+
+  <ImageView
+      android:id="@+id/img_career_fairs_web_banner"
+      android:layout_width="330dp"
+      android:layout_height="204dp"
+      android:layout_gravity="top|left"
+      android:layout_marginLeft="25dp"
+      android:layout_marginTop="17dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/img_career_fairs_web_banner" />
+
+  <LinearLayout
+    android:layout_width="343dp"
+    android:layout_height="72dp"
+    android:layout_marginLeft="40dp"
+    android:layout_marginTop="248dp"
+    android:layout_marginBottom="-15dp"
+    android:layout_gravity="top|left"
+    android:gravity="left|top"
+    android:orientation="vertical"
+    android:paddingBottom="15dp">
+
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="20dp"
+      android:gravity="left|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text=""
+      android:textColor="#FF4E4B66"
+      android:textSize="13dp" />
+
+    <TextView
+        android:layout_width="364dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="4dp"
+        android:gravity="left|top"
+        android:includeFontPadding="false"
+        android:lineHeight="24dp"
+        android:text="👋 Welcome to Career Launchpad 2024! 🚀\n"
+        android:textColor="#FF000000"
+        android:textSize="16dp" />
+  </LinearLayout>
+</FrameLayout>
