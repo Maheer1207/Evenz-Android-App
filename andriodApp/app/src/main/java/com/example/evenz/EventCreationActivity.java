@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -35,6 +36,7 @@ public class EventCreationActivity extends AppCompatActivity {
 
     // Firestore instance
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference ref = db.collection("events");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,11 @@ public class EventCreationActivity extends AppCompatActivity {
         submitEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                submitEvent();
+                try {
+                    submitEvent();
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
             }
         });
     }
@@ -61,7 +67,7 @@ public class EventCreationActivity extends AppCompatActivity {
         submitEventButton = findViewById(R.id.create_event_button); //Create event button
     }
 
-    private void submitEvent() {
+    private void submitEvent() throws ParseException {
 
         String eventName = editTextEventName.getText().toString().trim();
         String eventPosterID = "defaultPosterID"; // Assuming a default or gathered elsewhere
@@ -74,52 +80,29 @@ public class EventCreationActivity extends AppCompatActivity {
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
         Date eventDate = null;
 
-        try {
-            eventDate = dateFormat.parse(eventDatestring);
-        } catch (ParseException e) {
-            // Handle the case where the string is not in the expected format
-            Toast.makeText(getApplicationContext(), "Invalid date format", Toast.LENGTH_SHORT).show();
+        eventDate = dateFormat.parse(eventDatestring);
 
 
-            // handle attendee limit error:
-            int eventAttendeeLimit = 0; // Default to 0 or some other appropriate default value
+        // handle attendee limit error:
+        int eventAttendeeLimit = 0; // Default to 0 or some other appropriate default value
 
-            try {
-                eventAttendeeLimit = Integer.parseInt(attendeeLimit);
-            } catch (NumberFormatException x) {
-                // Handle the case where the string is not a valid integer
-                Toast.makeText(getApplicationContext(), "Invalid number format for attendee limit", Toast.LENGTH_SHORT).show();
-            }
-            Geolocation geolocation = new Geolocation("asd", 0.0f, 0.0f); //TODO: replace with actual values
-            Bitmap qrCodeBrowse = Bitmap.createBitmap(4,4,Bitmap.Config.ARGB_8888); // TODO: get random generated QR code
-            Bitmap qrCodeCheckIn = Bitmap.createBitmap(4,4,Bitmap.Config.ARGB_8888); // TODO: get random generated QR code for events
-            Map<String, Long> userList = new Hashtable<>(); // TODO: append attendee who check in the event
+        eventAttendeeLimit = Integer.parseInt(attendeeLimit);
+        Geolocation geolocation = new Geolocation("asd", 0.0f, 0.0f); //TODO: replace with actual values
+        Bitmap qrCodeBrowse = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code
+        Bitmap qrCodeCheckIn = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code for events
+        Map<String, Long> userList = new Hashtable<>(); // TODO: append attendee who check in the event
 
-            // Constructing the Event object
-            Event newEvent = new Event(orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate);
+        // Constructing the Event object
+        Event newEvent = new Event(orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate);
 
-            // Now, convert  Event object to a Map or directly use the attributes to add to Firestore
-            Map<String, Object> eventMap = new HashMap<>();
-            eventMap.put("organization Name", newEvent.getOrganizationName());
-            eventMap.put("eventName", newEvent.getEventName());
-            eventMap.put("description", newEvent.getDescription());
-            eventMap.put("Attend Limit", newEvent.getEventAttendLimit());
-            eventMap.put("Event Date", newEvent.getEventDate());
-
-
-            db.collection("events").add(eventMap) //exception handling
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(EventCreationActivity.this, "Event successfully added!", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EventCreationActivity.this, "Error adding event: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
+        // Now, convert  Event object to a Map or directly use the attributes to add to Firestore
+        Map<String, Object> eventMap = new HashMap<>();
+        eventMap.put("organization Name", newEvent.getOrganizationName());
+        eventMap.put("eventName", newEvent.getEventName());
+        eventMap.put("description", newEvent.getDescription());
+        eventMap.put("Attend Limit", newEvent.getEventAttendLimit());
+        eventMap.put("Event Date", newEvent.getEventDate());
+        ref.document("sdfsdfsdfsdf").set(eventMap);
     }
 }
+
