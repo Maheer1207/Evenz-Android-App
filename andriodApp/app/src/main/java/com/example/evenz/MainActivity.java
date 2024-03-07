@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         usersRef = db.collection("users");
 
         User userA = new User("a", "asdf", "asdf", "asdf");
-        addUser("asdf", userA);
+        userA.uploadProfilePicture("C:/School/Winter 2024/Cmput 301/p3.jpg");
 
         eventsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
