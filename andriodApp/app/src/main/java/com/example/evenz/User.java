@@ -1,7 +1,11 @@
 package com.example.evenz;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.Uri;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -67,11 +71,12 @@ public class User
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
-        StorageReference profilePicRef = storageRef.child("profilePic.jpg");
+        StorageReference profilePicRef = storageRef.child("images/asdf");
         //StorageReference profilePicImageRef = storageRef.child("images/profilePic.jpg");
 
         Uri file = Uri.fromFile(new File(filePath));
-        UploadTask uploadTask = profilePicRef.putFile(file);
+        profilePicRef.putFile(file);
+        //UploadTask uploadTask = profilePicRef.putFile(file);
 
     }
 }
