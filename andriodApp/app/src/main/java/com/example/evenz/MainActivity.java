@@ -2,6 +2,7 @@
 
 package com.example.evenz;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +42,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
@@ -58,18 +74,25 @@ public class MainActivity extends AppCompatActivity {
 
     private final int PICK_IMAGE_REQUEST = 22;
 
+
+
+
+public class MainActivity extends AppCompatActivity {
+    private FirebaseFirestore db;
+    TextView txv;
+    Button y;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         eventDataList = new ArrayList<>();
         userDataList = new ArrayList<>();
 
         select = findViewById(R.id.select);
         upload = findViewById(R.id.upload);
         imageView = findViewById(R.id.image);
-        
+
         db = FirebaseFirestore.getInstance();
         eventsRef = db.collection("events");
         usersRef = db.collection("users");
@@ -94,6 +117,24 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        txv = findViewById(R.id.textView);
+        y = findViewById(R.id.scner);
+        y.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                IntentIntegrator intent = new IntentIntegrator(MainActivity.this);
+                intent.setOrientationLocked(true);
+                intent.setPrompt("Scan a QRcode");
+                intent.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+                intent.initiateScan();
+            }
+        });
+
+        QRCodeGenerator1N test = new QRCodeGenerator1N();
+        Bitmap finalx = test.generate("testing", 400, 400);
+        ImageView qrimg = findViewById(R.id.QRcode);
+        qrimg.setImageBitmap(finalx);
+
         // adds all events currently in database to a event list
         eventsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -105,11 +146,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (querySnapshots != null) {
                     eventDataList.clear();
-                    for (QueryDocumentSnapshot doc: querySnapshots) {
+                    for (QueryDocumentSnapshot doc : querySnapshots) {
                         String eventID = doc.getId();
                         Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"),
-                                doc.getString("description"), (Date)doc.get("date"), (Geolocation)doc.get("geolocation"),
-                                (Bitmap)doc.get("qrCodeBrowse"), (Bitmap)doc.get("qrCodeCheckIn"), (ArrayList<Pair<String, Integer>>)doc.get("userList"));
+                                doc.getString("description"), (Date) doc.get("date"), (Geolocation) doc.get("geolocation"),
+                                (Bitmap) doc.get("qrCodeBrowse"), (Bitmap) doc.get("qrCodeCheckIn"), (ArrayList<Pair<String, Integer>>) doc.get("userList"));
                         Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
                     }
@@ -128,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (querySnapshots != null) {
                     userDataList.clear();
-                    for (QueryDocumentSnapshot doc: querySnapshots) {
+                    for (QueryDocumentSnapshot doc : querySnapshots) {
                         String userID = doc.getId();
                         User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"), doc.getString("phone"), doc.getString("email"));
                         userDataList.add(tempUser);
@@ -167,11 +208,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-        /**
-         * This function adds a user to the database
-         * @param id The id of the user
-         * @param user The contents of the user (all variables from user class)
-         */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
+        if (intentResult != null) {
+
+            String contents = intentResult.getContents();
+            if (contents != null) {
+                txv.setText(intentResult.getContents());
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    /**
+     * This function adds a user to the database
+     *
+     * @param id   The id of the user
+     * @param user The contents of the user (all variables from user class)
+     */
     private void addUser(String id, User user) {
         HashMap<String, User> data = new HashMap<>();
         data.put(id, user);
@@ -180,16 +237,17 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * This function deletes a user from the database
+     *
      * @param id The id of the user to be deleted
      */
-    private void deleteUser(String id)
-    {
+    private void deleteUser(String id) {
         usersRef.document(id).delete();
     }
 
     /**
      * This function adds an event to the database
-     * @param id The id of the event to be added
+     *
+     * @param id    The id of the event to be added
      * @param event The contents of the event (all variables from event class)
      */
     private void addEvent(String id, Event event) {
@@ -200,18 +258,17 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * This function deletes an event from the database
+     *
      * @param id The id of the event to be deleted
      */
-    private void deleteEvent(String id)
-    {
+    private void deleteEvent(String id) {
         usersRef.document(id).delete();
     }
 
     /**
      * Gets the user to enter their camera/gallery to select a photo, sets the activity filepath to the selected image
      */
-    private void select()
-    {
+    private void select() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -234,33 +291,33 @@ public class MainActivity extends AppCompatActivity {
             // adding listeners on upload
             // or failure of image
             ref.putFile(filePath)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                        // Image uploaded successfully
-                        // Dismiss dialog
-                        progressDialog.dismiss();
-                        Toast.makeText(MainActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
+                            // Image uploaded successfully
+                            // Dismiss dialog
+                            progressDialog.dismiss();
+                            Toast.makeText(MainActivity.this, "Image Uploaded!!", Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
 
-                        // Error, Image not uploaded
-                        progressDialog.dismiss();
-                        Toast.makeText(MainActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            // Error, Image not uploaded
+                            progressDialog.dismiss();
+                            Toast.makeText(MainActivity.this, "Failed " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
 
-                    // Progress Listener for loading
-                    // percentage on the dialog box
-                    @Override
-                    public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                        progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                    }
-                });
+                        // Progress Listener for loading
+                        // percentage on the dialog box
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                        }
+                    });
         }
     }
 }
