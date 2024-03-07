@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        //  TODO: Demo Button, Need to be deleted
         final Button createEvent = findViewById(R.id.button_create_new_event);
         createEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -82,6 +84,42 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //  TODO: Demo Button, Need to be deleted
+
+        final Button attendee_event_browse = findViewById(R.id.button_attendee_event_browse);
+        attendee_event_browse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AttendeeBrowseEventActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button admin_event_browse = findViewById(R.id.button_admin_event_browse);
+        admin_event_browse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AdminBrowseEventActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button attendee_event_info = findViewById(R.id.button_attendee_event_info);
+        attendee_event_info.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AttendeeEventInfo.class);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button attendee_event_info_signup = findViewById(R.id.button_attendee_event_info_signup);
+        attendee_event_info_signup.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AttendeeEventInfoSignUp.class);
+                startActivity(intent);
+            }
+        });
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots,

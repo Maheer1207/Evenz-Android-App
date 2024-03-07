@@ -71,10 +71,10 @@
 		</LinearLayout>
 
 		<LinearLayout
-			android:id="@+id/container_frame"
+			android:id="@+id/continer_event_summary_date_icon1"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="323dp"
+			android:layout_marginStart="315dp"
 			android:layout_marginTop="64dp"
 			android:layout_marginBottom="-1dp"
 			android:layout_gravity="top|start"
@@ -85,14 +85,14 @@
 			android:paddingTop="1dp">
 
 			<ImageView
-				android:id="@+id/image_icon"
+				android:id="@+id/clock_image1"
 				android:layout_width="14dp"
 				android:layout_height="14dp"
 				android:scaleType="centerInside"
 				android:src="@drawable/clock_image" />
 
 			<TextView
-				android:id="@+id/text_date"
+				android:id="@+id/text_date1"
 				android:layout_width="wrap_content"
 				android:layout_height="17dp"
 				android:layout_marginStart="2dp"
@@ -108,7 +108,7 @@
 		</LinearLayout>
 
 		<ImageView
-			android:id="@+id/image_map"
+			android:id="@+id/location_pin1"
 			android:layout_width="14dp"
 			android:layout_height="20dp"
 			android:layout_marginStart="115dp"
@@ -156,6 +156,7 @@
 			android:paddingTop="8dp">
 
 			<LinearLayout
+				android:id="@+id/event_summary"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="100dp"
@@ -192,10 +193,10 @@
 		</LinearLayout>
 
 		<LinearLayout
-			android:id="@+id/container_frame7"
+			android:id="@+id/container_event_summary_date_icon2"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginStart="323dp"
+			android:layout_marginStart="315dp"
 			android:layout_marginTop="184dp"
 			android:layout_marginBottom="-1dp"
 			android:layout_gravity="top|start"
@@ -206,7 +207,7 @@
 			android:paddingTop="1dp">
 
 			<ImageView
-				android:id="@+id/image_icon3"
+				android:id="@+id/clock_image"
 				android:layout_width="14dp"
 				android:layout_height="14dp"
 				android:scaleType="centerInside"
@@ -229,7 +230,7 @@
 		</LinearLayout>
 
 		<ImageView
-			android:id="@+id/iv_map1"
+			android:id="@+id/location_pin2"
 			android:layout_width="14dp"
 			android:layout_height="20dp"
 			android:layout_marginStart="116dp"
@@ -321,7 +322,7 @@
 			android:src="@drawable/home"/>
 
 		<ImageView
-			android:id="@+id/image_document"
+			android:id="@+id/event_list"
 			android:layout_width="38dp"
 			android:layout_height="38dp"
 			android:layout_marginStart="300dp"

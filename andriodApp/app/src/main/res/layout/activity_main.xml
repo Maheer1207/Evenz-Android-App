@@ -21,19 +21,36 @@
             tools:ignore="MissingConstraints"/>
 
         <Button
-            android:id="@+id/button_event_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Event List"
-            tools:ignore="MissingConstraints"/>
-
-        <Button
             android:id="@+id/button_admin_event_browse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Admin Event List"
+            tools:ignore="MissingConstraints"/>
+
+
+        <Button
+            android:id="@+id/button_attendee_event_browse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Attendee Event List"
+            tools:ignore="MissingConstraints"/>
+
+        <Button
+            android:id="@+id/button_attendee_event_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Attendee Event Info"
+            tools:ignore="MissingConstraints"/>
+
+        <Button
+            android:id="@+id/button_attendee_event_info_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Attendee Event Info Sign Up"
             tools:ignore="MissingConstraints"/>
     </LinearLayout>
 

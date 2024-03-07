@@ -56,6 +56,8 @@ public class EventCreationActivity extends AppCompatActivity {
                 }
             }
         });
+
+        findViewById(R.id.back_less).setOnClickListener(v -> finish());
     }
 
     private void initUI() {
