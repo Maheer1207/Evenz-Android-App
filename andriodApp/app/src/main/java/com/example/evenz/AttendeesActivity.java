@@ -28,14 +28,9 @@ public class AttendeesActivity extends AppCompatActivity {
 
         // Initialize mock data
         attendeesList = new ArrayList<>();
-        attendeesList.add(new Attendee("Sara Dean", "(780) 143-8312", "saradean12@gmail.com", R.drawable.container_parent_image_p1));
-        attendeesList.add(new Attendee("John Doe", "(780) 555-8312", "johndoe@example.com", R.drawable.container_parent_image_p2));
-        attendeesList.add(new Attendee("Jane Smith", "(780) 123-4567", "jane@example.com", R.drawable.container_parent_image_p3));
-        attendeesList.add(new Attendee("Mario Ninja", "(780) 123-4567", "mario@ualberta.ca", R.drawable.container_parent_image_p1));
-        attendeesList.add(new Attendee("Luigi Ninja", "(780) 123-4567", "luigiNinja@ualberta.ca", R.drawable.container_parent_image_p2));
-        attendeesList.add(new Attendee("Princess Peach", "(780) 123-4567", "Princess@ualberta.ca", R.drawable.container_parent_image_p3));
-        attendeesList.add(new Attendee("Bowser", "(780) 123-4567", "BowsarTyrone@Ninnga.ca", R.drawable.container_parent_image_p1));
-        // Add more mock attendees as needed
+        attendeesList.add(new Attendee("John Doe", "1234567890", "780-123-4567", "jhondoe@gmail.com"));
+        attendeesList.add(new Attendee("Jane Doe", "1234567890", "780-123-4567", "jane@gmail.com"));
+        attendeesList.add(new Attendee("John Smith", "1234567890", "780-123-4567", "smith@gmail.com"));
 
         adapter = new AttendeeAdapter(attendeesList);
         recyclerView.setAdapter(adapter);

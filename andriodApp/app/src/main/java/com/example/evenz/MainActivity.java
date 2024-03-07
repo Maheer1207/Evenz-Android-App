@@ -59,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String eventID = doc.getId(); //TODO: convert qrcode browse getLong to getInt
 
-                        long eventAttendLimit = ((Long) Objects.requireNonNull(doc.get("attendLimit")));
+                        Long eventAttendLimitLong = (Long) doc.get("attendLimit");
+                        long eventAttendLimit = eventAttendLimitLong != null ? eventAttendLimitLong : 0;
 
                         // TODO: Attempt to convert firebase timestamp to Date failed, need to figure out a way to convert timeStamp to Date
                         Timestamp eventDateTimeStamp = (Timestamp) doc.get("eventDate");

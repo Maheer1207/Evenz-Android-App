@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -23,12 +24,11 @@ class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.ViewHolder> {
     public void printAttendees() {
         for (Attendee attendee : attendeesList) {
             System.out.println(attendee.getName());
-            System.out.println(attendee.getPhoneNumber());
             System.out.println(attendee.getEmail());
-            System.out.println(attendee.getProfileImageResource());
         }
     }
 
+    @NonNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_attendee, parent, false);
@@ -39,8 +39,7 @@ class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         Attendee attendee = attendeesList.get(position);
         holder.nameTextView.setText(attendee.getName());
-        holder.contactInfoTextView.setText(String.format("%s\\n%s", attendee.getPhoneNumber(), attendee.getEmail()));
-        holder.profileImageView.setImageResource(attendee.getProfileImageResource());
+        holder.contactInfoTextView.setText(String.format("%s\\n%s", attendee.getPhone(), attendee.getEmail()));
     }
 
     @Override
