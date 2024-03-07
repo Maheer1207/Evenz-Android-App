@@ -65,18 +65,4 @@ public class User
         this.email = email;
     }
 
-    public void uploadProfilePicture(String filePath) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference();
-
-        StorageReference profilePicRef = storageRef.child("images/asdf");
-        //StorageReference profilePicImageRef = storageRef.child("images/profilePic.jpg");
-
-        Uri file = Uri.fromFile(new File(filePath));
-        profilePicRef.putFile(file);
-        //UploadTask uploadTask = profilePicRef.putFile(file);
-
-    }
 }
