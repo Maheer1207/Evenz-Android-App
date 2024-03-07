@@ -116,6 +116,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Create the attendee button
+        final Button attendee_button = findViewById(R.id.button_attendee);
+        attendee_button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // Open up the attendee activity
+                Intent intent = new Intent(MainActivity.this, AttendeesActivity.class);
+                startActivity(intent);
+            }
+        });
+
         //  TODO: Demo Button, Need to be deleted
         final Button attendee_event_info_signup = findViewById(R.id.button_attendee_event_info_signup);
         attendee_event_info_signup.setOnClickListener(new View.OnClickListener() {

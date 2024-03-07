@@ -35,7 +35,6 @@ public class AttendeesActivity extends AppCompatActivity {
         attendeesList.add(new Attendee("Luigi Ninja", "(780) 123-4567", "luigiNinja@ualberta.ca", R.drawable.container_parent_image_p2));
         attendeesList.add(new Attendee("Princess Peach", "(780) 123-4567", "Princess@ualberta.ca", R.drawable.container_parent_image_p3));
         attendeesList.add(new Attendee("Bowser", "(780) 123-4567", "BowsarTyrone@Ninnga.ca", R.drawable.container_parent_image_p1));
-        attendeesList.add(new Attendee("Toad", "(780) 123-4567", "toat@hotmail.ca", R.drawable.container_parent_image_p2));
         // Add more mock attendees as needed
 
         adapter = new AttendeeAdapter(attendeesList);
