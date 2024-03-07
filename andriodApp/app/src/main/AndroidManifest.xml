@@ -16,16 +16,16 @@
             android:exported="true" />
         <activity
             android:name=".AttendeeBrowseEventActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
-            android:name=".AttendeeEventInfo"
-            android:exported="false" />
+            android:name=".AttendeeEventInfoActivity"
+            android:exported="true" />
         <activity
-            android:name=".AttendeeEventInfoSignUp"
-            android:exported="false" />
+            android:name=".AttendeeEventInfoSignUpActivity"
+            android:exported="true" />
         <activity
             android:name=".AdminBrowseEventActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <activity
             android:name=".MainActivity"

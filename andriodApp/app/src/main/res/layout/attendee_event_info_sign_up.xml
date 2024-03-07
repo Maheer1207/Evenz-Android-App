@@ -173,6 +173,6 @@
       android:layout_marginTop="700dp"
       android:layout_marginBottom="0.05dp"
       android:scaleType="centerInside"
-      android:src="@drawable/photos" />
+      android:src="@drawable/event_list" />
 
 </FrameLayout>

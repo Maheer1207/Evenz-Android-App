@@ -71,7 +71,7 @@
 							android:layout_width="335dp"
 							android:layout_height="50dp"
 							android:background="@drawable/boundary_style"
-							android:hint="@string/dd_mm_yy_string"
+							android:hint="@string/mm_dd_yy_string"
 							android:importantForAutofill="no"
 							android:inputType="date" />
 					</LinearLayout>
@@ -135,7 +135,7 @@
 							android:layout_width="335dp"
 							android:layout_height="100dp"
 							android:background="@drawable/boundary_style"
-							android:hint="@string/aliwo1123_gmail_com_string"
+							android:hint="@string/event_info"
 							android:importantForAutofill="no"
 							android:inputType="text" />
 					</LinearLayout>
