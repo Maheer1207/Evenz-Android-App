@@ -60,9 +60,7 @@ public class EventCreationActivity extends AppCompatActivity {
 
     private String eventPosterID_temp;
 
-
-
-
+    private String eventID;
 
     // Firestore instance
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -70,6 +68,10 @@ public class EventCreationActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Bundle b = getIntent().getExtras();
+        assert b != null;
+        String role = b.getString("role");
 
         eventPosterID_temp = UUID.randomUUID().toString();
         storageReference = FirebaseStorage.getInstance().getReference();
@@ -96,7 +98,13 @@ public class EventCreationActivity extends AppCompatActivity {
                 try {
                     upload(phtoRef);
                     submitEvent();
-                    startActivity(new Intent(EventCreationActivity.this, MainActivity.class));
+
+                    Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("role", "organizer");
+                    b.putString("eventID", eventID);
+                    intent.putExtras(b);
+                    startActivity(intent);
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
@@ -219,6 +227,7 @@ public class EventCreationActivity extends AppCompatActivity {
                         // Successfully added event with auto-generated ID
                         Log.d("Firestore", "DocumentSnapshot added with ID: " + documentReference.getId());
                         userDocRef.update("eventList", documentReference.getId());
+                        eventID = documentReference.getId();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

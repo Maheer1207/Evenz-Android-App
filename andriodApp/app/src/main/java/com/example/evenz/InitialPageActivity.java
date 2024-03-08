@@ -57,13 +57,23 @@ public class InitialPageActivity extends AppCompatActivity {
                             if (doc.getString("userType").equals("attendee")) {
                                 if (doc.getString("eventList") != null) {
                                     Intent intent = new Intent(InitialPageActivity.this, HomeScreenActivity.class);
+                                    Bundle b = new Bundle();
+                                    b.putString("role", "attendee");
+                                    intent.putExtras(b);
                                     startActivity(intent);
                                 } else {
                                     Intent intent = new Intent(InitialPageActivity.this, ScanQRActivity.class);
+                                    Bundle b = new Bundle();
+                                    b.putString("role", "attendee");
+                                    intent.putExtras(b);
                                     startActivity(intent);
                                 }
                             } else if (doc.getString("userType").equals("organizer")) {
                                 Intent intent = new Intent(InitialPageActivity.this, HomeScreenActivity.class); //TODO: replace with ORG homepage
+                                Bundle b = new Bundle();
+                                b.putString("role", "organizer");
+                                b.putString("eventID", doc.getString("eventList"));
+                                intent.putExtras(b);
                                 startActivity(intent);
                             }
                         }
@@ -77,6 +87,9 @@ public class InitialPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InitialPageActivity.this, ScanQRActivity.class);
+                Bundle b = new Bundle();
+                b.putString("role", "attendee");
+                intent.putExtras(b);
                 startActivity(intent);
             }
         });
@@ -85,6 +98,9 @@ public class InitialPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InitialPageActivity.this, EventCreationActivity.class);
+                Bundle b = new Bundle();
+                b.putString("role", "organizer");
+                intent.putExtras(b);
                 startActivity(intent);
             }
         });
