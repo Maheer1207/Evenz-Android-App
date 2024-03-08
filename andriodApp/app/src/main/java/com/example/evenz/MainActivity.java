@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -54,8 +55,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.zxing.integration.android.IntentIntegrator;
-import com.google.zxing.integration.android.IntentResult;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -150,6 +149,9 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        // displays an image from firebase storage
+        displayImage("b647c5a6-aad8-47c9-a871-5be6ea32444c", findViewById(R.id.profPic));
     }
 
     // gets data for profile picture when user has selected from camera
@@ -283,5 +285,30 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    /**
+     * Displays an image from the firebase storage given
+     * @param imageID id of the image being displayed
+     * @param imgView The image view to place the image on
+     */
+    private void displayImage(String imageID, ImageView imgView)
+    {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference photoReference= storageReference.child("images/" + imageID);
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imgView.setImageBitmap(bmp);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(getApplicationContext(), "No Such file or Path found!!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

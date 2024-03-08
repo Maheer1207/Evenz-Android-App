@@ -4,7 +4,7 @@ public class Organizer extends User
 {
     private int[] eventList;
 
-    public Organizer(String name, String profilePicID, String phone, String email) {
-        super(name, profilePicID, phone, email);
+    public Organizer(String userID, String userType, String name, String profilePicID, String phone, String email) {
+        super(userID, userType, name, profilePicID, phone, email);
     }
 }
