@@ -60,6 +60,15 @@
             android:gravity="center"
             android:text="Attendees"
             tools:ignore="MissingConstraints"/>
+
+<!--        Creat a new button called Create new user-->
+        <Button
+            android:id="@+id/button_create_new_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Create New User"
+            tools:ignore="MissingConstraints"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

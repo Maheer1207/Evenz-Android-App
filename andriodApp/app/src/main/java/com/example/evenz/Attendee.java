@@ -36,6 +36,17 @@ public class Attendee extends User
             }
 
             /**
+             * Constructs a new Attendee object with the specified name, phone number, and email.
+             *
+             * @param name  the name of the attendee
+             * @param phone the phone number of the attendee
+             * @param email the email of the attendee
+             */
+            public Attendee(String name, String phone, String email) {
+                this(name, null, phone, email, null, false, new ArrayList<>());
+            }
+
+            /**
              * Constructs a new Attendee object with the specified name, profile picture ID, phone number, email, geolocation, notifications flag, and event list.
              *
              * @param name         the name of the attendee

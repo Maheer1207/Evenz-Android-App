@@ -122,6 +122,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Open the user's profile
+        final Button user_profile = findViewById(R.id.button_create_new_user);
+        user_profile.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UserEditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
 
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
