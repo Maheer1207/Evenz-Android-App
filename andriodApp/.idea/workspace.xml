@@ -91,9 +91,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="feat: Added unit test for Geolocation class">
-      <change afterPath="$PROJECT_DIR$/app/src/test/java/com/example/evenz/AttendeeAdapterTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="feat: Added unit test for AttendeeAdapter class">
+      <change afterPath="$PROJECT_DIR$/app/src/test/java/com/example/evenz/UserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -351,7 +350,15 @@
       <option name="project" value="LOCAL" />
       <updated>1709932984851</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: Added unit test for AttendeeAdapter class">
+      <option name="closed" value="true" />
+      <created>1709933449377</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1709933449377</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -370,6 +377,7 @@
     <MESSAGE value="feat: Updated UserEditProfileActivity to allow user to select and upload profile picture to Firebase" />
     <MESSAGE value="feat: Added unit test for Event class and updated Geolocation class with getters and setters" />
     <MESSAGE value="feat: Added unit test for Geolocation class" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Added unit test for Geolocation class" />
+    <MESSAGE value="feat: Added unit test for AttendeeAdapter class" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Added unit test for AttendeeAdapter class" />
   </component>
 </project>
