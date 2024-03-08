@@ -73,9 +73,6 @@ public class MainActivity extends AppCompatActivity {
     private Button upload;
 
     private final int PICK_IMAGE_REQUEST = 22;
-    TextView txv;
-    Button y;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,24 +107,6 @@ public class MainActivity extends AppCompatActivity {
                 upload();
             }
         });
-
-        txv = findViewById(R.id.textView);
-        y = findViewById(R.id.scner);
-        y.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentIntegrator intent = new IntentIntegrator(MainActivity.this);
-                intent.setOrientationLocked(true);
-                intent.setPrompt("Scan a QRcode");
-                intent.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-                intent.initiateScan();
-            }
-        });
-
-        QRCodeGenerator1N test = new QRCodeGenerator1N();
-        Bitmap finalx = test.generate("testing", 400, 400);
-        ImageView qrimg = findViewById(R.id.QRcode);
-        qrimg.setImageBitmap(finalx);
 
         // adds all events currently in database to a event list
         eventsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
@@ -203,22 +182,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // FOR QR CODE SECTION
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-
-        if (intentResult != null) {
-
-            String contents = intentResult.getContents();
-            if (contents != null) {
-                txv.setText(intentResult.getContents());
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
     /**
      * This function adds a user to the database
      *
@@ -251,7 +214,10 @@ public class MainActivity extends AppCompatActivity {
         data.put(id, event);
         eventsRef.document(id).set(data);
 
-        eventsRef.document(id).update("AttendeeList", )
+        for (Map.Entry<String, Integer> entry : event.getAttendeeIDList().entrySet())
+        {
+            eventsRef.document(id).update("AttendeeList." + entry.getKey(), entry.getValue());
+        }
     }
 
     /**

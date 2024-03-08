@@ -153,21 +153,19 @@ public class Event
         for (Map.Entry<String, Integer> entry : attendeeID.entrySet())
         {
             // get the next atendee and find refrence on firebase
-            tempID = entry.getKey();
-            DocumentReference userDocRef = db.collection("users").document(tempID);
-            String finalTempID = tempID;
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            DocumentReference userDocRef = db.collection("users").document(entry.getKey());
+            userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             // gets the attendee and the number of times they have checked into the event
-                            User tempUser = new Attendee(document.getString("userID"), document.getString("userType"),
-                                    document.getString("profilePicID"), document.getString("phone"),
-                                    document.getString("email"), document.getGeoPoint("geolocation"),
-                                    document.getBoolean("notifications"), document.get);
-                            attendees.put((Attendee)document.get(finalTempID), entry.getValue());
+                            Attendee tempUser = new Attendee(document.getString("userID"), document.getString("userType"),
+                                    document.getString("name"), document.getString("profilePicID"),
+                                    document.getString("phone"), document.getString("email"),
+                                    (Geolocation)document.get("geolocation"), document.getBoolean("notifications"));
+                            attendees.put(tempUser, entry.getValue());
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         } else {
                             Log.d(TAG, "No such document");
