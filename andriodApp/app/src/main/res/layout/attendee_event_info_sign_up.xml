@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_event_information_page"
+    android:layout_width="match_parent"
+    android:layout_height="807dp"
+    android:background="@drawable/container_event_information_page"
+    tools:context=".MainActivity">
+
+  <ImageView
+      android:id="@+id/back_attendee_event_info_signup"
+      android:layout_width="14.21dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="20dp"
+      android:layout_marginTop="17.66dp"
+      android:layout_marginEnd="357.76dp"
+      android:layout_marginBottom="766.48dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/back_less" />
+
+  <TextView
+      android:id="@+id/container_frame13"
+      android:layout_width="wrap_content"
+      android:layout_height="24dp"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="113dp"
+      android:layout_marginTop="16dp"
+      android:gravity="center_horizontal|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text="Event Information"
+      android:textColor="#FF1A1A1A"
+      android:textSize="20sp"
+      android:textStyle="bold" />
+
+  <ImageView
+      android:id="@+id/image_career_fairs_web_banner"
+      android:layout_width="361dp"
+      android:layout_height="214dp"
+      android:layout_marginStart="15dp"
+      android:layout_marginTop="57dp"
+      android:layout_gravity="top|start"
+      android:scaleType="centerInside"
+      android:src="@drawable/image_career_fairs_web_banner"
+      android:contentDescription="event_poster" />
+
+  <ImageView
+      android:id="@+id/location_pin_event_info_signup"
+      android:layout_width="17.5dp"
+      android:layout_height="25dp"
+      android:layout_marginStart="15dp"
+      android:layout_marginTop="275dp"
+      android:layout_gravity="top|start"
+      android:scaleType="centerInside"
+      android:src="@drawable/location_pin"
+      android:contentDescription="map_icon" />
+
+  <TextView
+      android:id="@+id/text_ccis_uofa"
+      android:layout_width="wrap_content"
+      android:layout_height="17dp"
+      android:layout_marginStart="40dp"
+      android:layout_marginTop="275dp"
+      android:layout_gravity="top|start"
+      android:gravity="start|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text="CCIS, UofA"
+      android:textColor="#FF000000"
+      android:textSize="13sp" />
+
+  <TextView
+      android:id="@+id/text_event_info"
+      android:layout_width="wrap_content"
+      android:layout_height="20dp"
+      android:layout_marginStart="15dp"
+      android:layout_marginTop="320dp"
+      android:layout_gravity="top|start"
+      android:gravity="start|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text="Event Info:"
+      android:textColor="#FF000000"
+      android:textSize="13sp" />
+
+  <FrameLayout
+      android:layout_width="360dp"
+      android:layout_height="258dp"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="15dp"
+      android:layout_marginTop="343dp"
+      android:background="@drawable/drawable_shape">
+
+    <TextView
+        android:id="@+id/continer_event_summary_date_icon1"
+        android:layout_width="360dp"
+        android:layout_height="258dp"
+        android:layout_gravity="bottom|start"
+        android:gravity="start|top"
+        android:includeFontPadding="false"
+        android:lineHeight="19sp"
+        android:text="CCIS is holding a new event, exiciting"
+        android:textColor="#FF000000"
+        android:textSize="15sp" />
+  </FrameLayout>
+
+  <RelativeLayout
+      android:id="@+id/light_green_signup_button"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_marginTop="620dp"
+      android:gravity="center">
+    <View
+        android:id="@+id/light_green_button_rect"
+        android:layout_width="205dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="-1dp"
+        android:background="@drawable/light_green_button_setup" />
+    <TextView
+        android:id="@+id/sign_up_button"
+        android:layout_width="205dp"
+        android:layout_height="wrap_content"
+        android:shadowColor="#000000"
+        android:shadowDx="0"
+        android:shadowDy="4"
+        android:shadowRadius="4"
+        android:text="@string/sign_up"
+        android:textAlignment="center"
+        android:textColor="@color/create_event_color"
+        android:textSize="16.02sp"
+        android:textStyle="bold" />
+  </RelativeLayout>
+  <ImageView
+      android:id="@+id/bottom_actionbar"
+      android:layout_width="395dp"
+      android:layout_height="74dp"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="-2dp"
+      android:layout_marginTop="682dp"
+      android:background="@drawable/bottom_actionbar"
+      android:scaleType="centerInside" />
+
+  <ImageView
+      android:id="@+id/attendees_admin_browse_event"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="52.38dp"
+      android:layout_marginTop="700dp"
+      android:layout_marginEnd="314.43dp"
+      android:layout_marginBottom="30.81dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/profile" />
+
+  <ImageView
+      android:id="@+id/home_admin_browse_attendee"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="172dp"
+      android:layout_marginTop="700dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/home"/>
+
+  <ImageView
+      android:id="@+id/event_list"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="300dp"
+      android:layout_marginTop="700dp"
+      android:layout_marginBottom="0.05dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/event_list" />
+
+</FrameLayout>
