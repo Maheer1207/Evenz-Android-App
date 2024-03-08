@@ -34,7 +34,9 @@ public class Event
     private Map<String, Long> userList;
     private ArrayList<String> notificationList;
     private String location;
+    public Event(){
 
+    }
     /**
      * This is the public constructor to create an event
      *
@@ -73,12 +75,6 @@ public class Event
 
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
-    }
-    public String getEventLoc() {
-        return this.location;
-    }
-    public void setEventLoc(String loc) {
-        this.location = loc;
     }
     public Date getEventDate() {
         return this.eventDate;

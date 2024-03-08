@@ -179,7 +179,7 @@ public class EventCreationActivity extends AppCompatActivity {
         eventMap.put("description", newEvent.getDescription());
         eventMap.put("AttendLimit", newEvent.getEventAttendLimit());
         eventMap.put("eventDate", newEvent.getEventDate());
-        eventMap.put("location", newEvent.getEventLoc());
+        eventMap.put("location", newEvent.getLocation());
         eventMap.put("eventPosterID", newEvent.getEventPosterID());
         eventMap.put("notifications", newEvent.getNotificationList());
 
