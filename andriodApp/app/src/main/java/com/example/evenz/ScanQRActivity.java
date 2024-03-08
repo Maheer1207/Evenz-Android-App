@@ -33,7 +33,7 @@ public class ScanQRActivity extends AppCompatActivity {
             public void onClick(View v) {
                 IntentIntegrator intent =  new IntentIntegrator(ScanQRActivity.this);
                 intent.setOrientationLocked(true);
-                intent.setPrompt("Scan a QRcode");
+                intent.setPrompt("Scan a QR code");
                 intent.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
                 intent.initiateScan();
             }

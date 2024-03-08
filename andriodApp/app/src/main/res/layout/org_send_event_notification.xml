@@ -47,6 +47,7 @@
         android:orientation="vertical">
 
       <TextView
+          android:id="@+id/notificationType"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginStart="0dp"
@@ -57,6 +58,7 @@
           android:textStyle="bold" />
 
       <EditText
+          android:id="@+id/editTextNotificationType"
           android:layout_width="335dp"
           android:layout_height="50dp"
           android:background="@drawable/boundary_style"
@@ -76,7 +78,7 @@
         android:orientation="vertical">
 
       <TextView
-          android:id="@+id/date"
+          android:id="@+id/notificationInfo"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:layout_marginStart="0dp"
@@ -87,7 +89,7 @@
           android:textStyle="bold" />
 
       <EditText
-          android:id="@+id/editDate"
+          android:id="@+id/editTextNotificationInfo"
           android:layout_width="335dp"
           android:layout_height="250dp"
           android:background="@drawable/boundary_style"
@@ -110,7 +112,7 @@
         android:layout_marginTop="-1dp"
         android:background="@drawable/light_green_button_setup" />
     <TextView
-        android:id="@+id/sign_up_button"
+        android:id="@+id/post_notification_button"
         android:layout_width="205dp"
         android:layout_height="wrap_content"
         android:shadowColor="#000000"

@@ -52,7 +52,7 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     private void fetchEventDetailsAndNotifications(String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("events").document("dwGYMnsyYKmfpMep1zAb").get().addOnSuccessListener(documentSnapshot -> {
+        db.collection("events").document("sTxGMBeN1Fnw1Slau2j5").get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 Event event = documentSnapshot.toObject(Event.class);
                 // Directly update the TextView with the event's location
@@ -61,7 +61,6 @@ public class HomeScreenActivity extends AppCompatActivity {
                     eventDetail.setText("\uD83D\uDC4B Welcome to " + event.getEventName() + "! \uD83D\uDE80");
                     eventLocation.setText(event.getLocation());
                     displayImage(event.getEventPosterID(), eventPoster);
-                }
 
                     ArrayList<String> notifications = event.getNotifications(); // Assuming this correctly fetches the notifications
                     if (notifications != null) {
