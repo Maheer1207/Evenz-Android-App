@@ -16,7 +16,7 @@
             android:name=".edit_profile_activity"
             android:exported="false" />
         <activity
-            android:name=".AdminBrowseEventActivity"
+            android:name=".admin_browse_profile_activity"
             android:exported="false" />
 
         <activity

@@ -13,20 +13,20 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button createEvent = findViewById(R.id.button_create_new_event);
-        createEvent.setOnClickListener(new View.OnClickListener() {
+        final Button edit_user_profile = findViewById(R.id.button_create_new_event);
+        edit_user_profile.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, edit_profile_activity.class);
                 startActivity(intent);
             }
         });
 
-       /* final Button admin_event_browse = findViewById(R.id.button_admin_event_browse);
+        final Button admin_event_browse = findViewById(R.id.button_admin_event_browse);
         admin_event_browse.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AdminBrowseEventActivity.class);
+                Intent intent = new Intent(MainActivity.this, admin_browse_profile_activity.class);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 }

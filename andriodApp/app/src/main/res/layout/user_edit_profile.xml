@@ -18,7 +18,7 @@
      *
      */
     -->
-    <ScrollView
+    <FrameLayout
         android:id="@+id/edit_profile"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
@@ -217,7 +217,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="86dp"
-                    android:layout_marginTop="650dp">
+                    android:layout_marginTop="650dp"
+                    android:background="@drawable/save_shape">
 
                     <Button
                         android:id="@+id/save_button"
@@ -225,9 +226,8 @@
                         android:layout_height="48dp"
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="0dp"
-                        android:background="@drawable/save_shape"
-                        tools:text="@string/save_changes_button" />
-
+                        android:textStyle="bold"
+                        android:text="@string/save_changes_button" />
 
                 </RelativeLayout>
 
@@ -262,6 +262,6 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
-    </ScrollView>
+    </FrameLayout>
 
 </HorizontalScrollView>
