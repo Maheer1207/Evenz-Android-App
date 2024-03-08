@@ -9,12 +9,35 @@ public class User
     private String phone;
     private String email;
 
-    public User(String name, String profilePicID, String phone, String email)
+    private String userId;
+
+    private String userType;
+
+    // Default constructor required for calls to DataSnapshot.getValue(User.class)
+    public User() {
+    }
+
+
+    public User(String name, String profilePicID, String phone, String email, String userId, String userType)
     {
         this.name = name;
         this.profilePicID = profilePicID;
         this.phone = phone;
         this.email = email;
+        this.userId = userId;
+        this.userType = userType;
+    }
+
+    public User(String deviceID, String name, String phone, String email) {
+        this.userId = deviceID;
+        this.name = name;
+        this.phone = phone;
+        this.email = email;
+        // Set the rest to Null
+        this.profilePicID = null;
+        this.userType = null;
+
+
     }
 
     public String getName() {
@@ -47,5 +70,21 @@ public class User
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }
