@@ -52,6 +52,7 @@ public class OrgSendNotificationActivity extends AppCompatActivity {
                 b.putString("role", "org");
                 intent.putExtras(b);
                 startActivity(intent);
+                startActivity(new Intent(OrgSendNotificationActivity.this, HomeScreenActivity.class));
             }
         });
 

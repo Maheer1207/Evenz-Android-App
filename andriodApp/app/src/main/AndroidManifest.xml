@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-feature android:name="android.hardware.camera"/>
     <application
         android:allowBackup="true"
@@ -36,6 +37,9 @@
             android:exported="true"/>
         <activity
             android:name=".ScanQRActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".InitialPageActivity"
             android:exported="true"/>
         <activity
             android:name=".ShareQRActivity"
