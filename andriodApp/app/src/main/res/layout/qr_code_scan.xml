@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/container_attendy_login"
+  android:layout_width="match_parent"
+  android:layout_height="807dp">
+  
+  <FrameLayout
+    android:id="@+id/container_q_r_code_scanner"
+    android:layout_width="393dp"
+    android:layout_height="807dp"
+    android:layout_gravity="top|left">
+    
+    <ImageView
+      android:id="@+id/img_dark_mask"
+      android:layout_width="393dp"
+      android:layout_height="807dp"
+      android:layout_gravity="top|left"
+      android:scaleType="centerInside"
+      android:src="@drawable/img_dark_mask" />
+    
+    <ImageView
+      android:id="@+id/img_group"
+      android:layout_width="304dp"
+      android:layout_height="279dp"
+      android:layout_marginLeft="43dp"
+      android:layout_marginTop="262dp"
+      android:layout_gravity="top|left"
+      android:scaleType="centerInside"
+      android:src="@drawable/img_group" />
+    
+    <ImageView
+      android:id="@+id/img_rectangle"
+      android:layout_width="82dp"
+      android:layout_height="72dp"
+      android:layout_marginLeft="147dp"
+      android:layout_marginTop="647dp"
+      android:layout_gravity="top|left"
+      android:background="@drawable/img_rectangle"
+      android:scaleType="centerInside" />
+    
+    <ImageView
+      android:id="@+id/container_icon_brightness"
+      android:layout_width="49dp"
+      android:layout_height="40dp"
+      android:layout_marginLeft="163dp"
+      android:layout_marginTop="658dp"
+      android:layout_gravity="top|left"
+      android:scaleType="centerInside"
+      android:src="@drawable/container_icon_brightness" />
+  </FrameLayout>
+  
+  <FrameLayout
+    android:id="@+id/container_option"
+    android:layout_width="45dp"
+    android:layout_height="45dp"
+    android:layout_marginLeft="308dp"
+    android:layout_marginTop="26dp"
+    android:layout_gravity="top|left">
+    
+    <ImageView
+      android:id="@+id/img_ellipse"
+      android:layout_width="45dp"
+      android:layout_height="45dp"
+      android:background="@drawable/img_ellipse"
+      android:scaleType="centerInside" />
+    
+    <FrameLayout
+      android:id="@+id/container_menu"
+      android:layout_width="24dp"
+      android:layout_height="24dp"
+      android:layout_marginLeft="11dp"
+      android:layout_marginRight="10dp"
+      android:layout_marginTop="11dp"
+      android:layout_marginBottom="10dp">
+      
+      <TextView
+        android:id="@+id/txt_exclamation"
+        android:layout_width="13dp"
+        android:layout_height="37dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="-5.5dp"
+        android:layout_marginBottom="-5.5dp"
+        android:layout_gravity="top|left"
+        android:gravity="left|center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="!"
+        android:textColor="#FF4C4C4C"
+        android:textSize="30dp" />
+    </FrameLayout>
+  </FrameLayout>
+</FrameLayout>
