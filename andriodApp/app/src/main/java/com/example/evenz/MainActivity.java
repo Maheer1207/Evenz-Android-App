@@ -139,6 +139,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //  TODO: Demo Button, Need to be deleted
+        final Button attendee_home = findViewById(R.id.attendee_home);
+        attendee_home.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                startActivity(intent);
+            }
+        });
+
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots,
@@ -152,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String userID = doc.getId();
                         User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"),
-                                doc.getString("phone"), doc.getString("email"));
+                                doc.getString("phone"), doc.getString("email"), doc.getString("userId"), doc.getString("userType"));
                         userDataList.add(tempUser);
                     }
                 }
@@ -199,4 +208,5 @@ public class MainActivity extends AppCompatActivity {
     {
         usersRef.document(id).delete();
     }
+
 }

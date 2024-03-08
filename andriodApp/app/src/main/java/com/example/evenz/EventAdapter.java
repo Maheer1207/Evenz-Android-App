@@ -1,5 +1,7 @@
 package com.example.evenz;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
+import android.widget.Toast;
 
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -54,22 +62,42 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventDataList.get(position);
+
         holder.textCategories.setText(event.getEventName());
         holder.textDescription.setText(event.getDescription());
 
-        // Format the date
+        this.displayImage(event.getEventPosterID(), holder.imageBanner);
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
         holder.textDate.setText(dateFormat.format(event.getEventDate()));
 
         // Assuming you have a method to get a displayable location string from Geolocation
         holder.textLocation.setText(event.getEventLoc()); // You need to adjust this based on your Geolocation data.
 
-        // For image loading from an ID or URL, you'll use a library like Glide or Picasso. Example:
-        // Glide.with(context).load(event.getEventPosterID()).into(holder.imageBanner);
     }
 
     @Override
     public int getItemCount() {
         return eventDataList.size();
+    }
+
+    private void displayImage(String imageID, ImageView imgView)
+    {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference photoReference= storageReference.child("images/" + imageID);
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imgView.setImageBitmap(bmp);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(context.getApplicationContext(), "No Such file or Path found!!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

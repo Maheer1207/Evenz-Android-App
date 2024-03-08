@@ -9,14 +9,19 @@ public class User
     private String phone;
     private String email;
 
-    public User(String name, String profilePicID, String phone, String email)
+    private String userId;
+
+    private String userType;
+
+    public User(String name, String profilePicID, String phone, String email, String userId, String userType)
     {
         this.name = name;
         this.profilePicID = profilePicID;
         this.phone = phone;
         this.email = email;
+        this.userId = userId;
+        this.userType = userType;
     }
-
     public String getName() {
         return name;
     }
@@ -47,5 +52,21 @@ public class User
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

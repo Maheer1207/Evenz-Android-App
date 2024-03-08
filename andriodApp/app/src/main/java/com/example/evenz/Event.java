@@ -104,6 +104,13 @@ public class Event
         this.eventPosterID = eventPosterID;
     }
 
+    public String getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
     public String getDescription() {
         return this.description;
     }
@@ -155,43 +162,14 @@ public class Event
         return userList;
     }
 
+
+
     /**
      * This function returns the attendee list for the event
      * @return Returns the list in the format of an ArrayList of Pairs being <Attendee, check-in count>
+     *     RIP
      */
-    public ArrayList<Pair<Attendee, Long>> getAttendeeList() {
-        ArrayList<Pair<Attendee, Long>> attendees = new ArrayList<Pair<Attendee, Long>>();
-        Enumeration<String> enu = Collections.enumeration(userList.keySet());
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        String tempID;
-        while (enu.hasMoreElements())
-        {
-            tempID = enu.nextElement();
-            DocumentReference docRef = db.collection("users").document(tempID);
-            String finalTempID = tempID;
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-
-                            attendees.add(new Pair<Attendee, Long>((Attendee)(document.get(finalTempID)), userList.get(finalTempID)));
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        } else {
-                            Log.d(TAG, "No such document");
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
-                }
-            });
-
-        }
-
-        return attendees;
-    }
 
     public void setUserList(Map<String, Long> userList) {
         this.userList = userList;
