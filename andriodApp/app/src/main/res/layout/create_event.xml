@@ -48,7 +48,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="28dp"
-					android:layout_marginTop="254dp">
+					android:layout_marginTop="219dp">
 
 					<LinearLayout
 						android:layout_width="wrap_content"
@@ -78,11 +78,43 @@
 				</RelativeLayout>
 
 				<RelativeLayout
+					android:id="@+id/place_holders_location"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="28dp"
+					android:layout_marginTop="300dp">
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:orientation="vertical">
+
+						<TextView
+							android:id="@+id/location_placeholder"
+							android:layout_width="135.60175189972dp"
+							android:layout_height="18.601751899719dp"
+							android:text="Event Location"
+							android:textColor="@color/black"
+							android:textSize="16.02sp"
+							android:textStyle="bold" />
+
+						<EditText
+							android:id="@+id/location"
+							android:layout_width="335dp"
+							android:layout_height="50dp"
+							android:background="@drawable/boundary_style"
+							android:hint="@string/no_limit_string"
+							android:importantForAutofill="no"
+							android:inputType="date" />
+					</LinearLayout>
+				</RelativeLayout>
+
+				<RelativeLayout
 					android:id="@+id/place_holders_ek2"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="28dp"
-					android:layout_marginTop="346dp">
+					android:layout_marginTop="375dp">
 
 					<LinearLayout
 						android:layout_width="wrap_content"
@@ -113,8 +145,8 @@
 					android:id="@+id/place_holders_ek4"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginStart="30dp"
-					android:layout_marginTop="438dp">
+					android:layout_marginStart="28dp"
+					android:layout_marginTop="445dp">
 
 					<LinearLayout
 						android:layout_width="wrap_content"
@@ -147,7 +179,7 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="28dp"
-					android:layout_marginTop="162dp">
+					android:layout_marginTop="142dp">
 					<LinearLayout
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -179,7 +211,7 @@
 					android:layout_width="335dp"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="28dp"
-					android:layout_marginTop="70dp">
+					android:layout_marginTop="60dp">
 					<LinearLayout
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
@@ -212,7 +244,6 @@
 					android:layout_marginStart="106dp"
 					android:layout_marginTop="710dp"
 					android:gravity="center">
-
 					<Button
 						android:id="@+id/create_event_button"
 						android:layout_width="205dp"

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_event_information_page"
+    android:layout_width="match_parent"
+    android:layout_height="807dp"
+    android:background="@drawable/container_event_information_page"
+    tools:context=".MainActivity">
+
+  <ImageView
+      android:id="@+id/back_attendee_event_info_signup"
+      android:layout_width="14.21dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="20dp"
+      android:layout_marginTop="17.66dp"
+      android:layout_marginEnd="357.76dp"
+      android:layout_marginBottom="766.48dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/back_less" />
+
+  <TextView
+      android:id="@+id/container_frame13"
+      android:layout_width="wrap_content"
+      android:layout_height="24dp"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="83dp"
+      android:layout_marginTop="16dp"
+      android:gravity="center_horizontal|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text="Send Event Notification"
+      android:textColor="#FF1A1A1A"
+      android:textSize="20sp"
+      android:textStyle="bold" />
+  <RelativeLayout
+      android:id="@+id/place_holders"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="28dp"
+      android:layout_marginTop="80dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="0dp"
+          android:layout_marginTop="0dp"
+          android:text="Notification Type"
+          android:textColor="@color/black"
+          android:textSize="16.02sp"
+          android:textStyle="bold" />
+
+      <EditText
+          android:layout_width="335dp"
+          android:layout_height="50dp"
+          android:background="@drawable/boundary_style"
+          android:hint="Food"
+          android:importantForAutofill="no"
+          android:inputType="date" />
+    </LinearLayout>
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="28dp"
+      android:layout_marginTop="180dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+      <TextView
+          android:id="@+id/date"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="0dp"
+          android:layout_marginTop="0dp"
+          android:text="Notification Info"
+          android:textColor="@color/black"
+          android:textSize="16.02sp"
+          android:textStyle="bold" />
+
+      <EditText
+          android:id="@+id/editDate"
+          android:layout_width="335dp"
+          android:layout_height="250dp"
+          android:background="@drawable/boundary_style"
+          android:hint="🍕 Hot Deal Alert! Enjoy 20% ... 🎉"
+          android:importantForAutofill="no"
+          android:inputType="date" />
+    </LinearLayout>
+  </RelativeLayout>
+
+  <RelativeLayout
+      android:id="@+id/light_green_signup_button"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_marginTop="620dp"
+      android:gravity="center">
+    <View
+        android:id="@+id/light_green_button_rect"
+        android:layout_width="205dp"
+        android:layout_height="27dp"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="-1dp"
+        android:background="@drawable/light_green_button_setup" />
+    <TextView
+        android:id="@+id/sign_up_button"
+        android:layout_width="205dp"
+        android:layout_height="wrap_content"
+        android:shadowColor="#000000"
+        android:shadowDx="0"
+        android:shadowDy="4"
+        android:shadowRadius="4"
+        android:text="Post"
+        android:textAlignment="center"
+        android:textColor="@color/create_event_color"
+        android:textSize="16.02sp"
+        android:textStyle="bold" />
+  </RelativeLayout>
+
+</FrameLayout>
