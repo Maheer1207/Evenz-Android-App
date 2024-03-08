@@ -1,14 +1,11 @@
 package com.example.evenz;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +28,23 @@ public class AttendeesActivity extends AppCompatActivity {
         attendeesList.add(new Attendee("John Doe", "1234567890", "780-123-4567", "jhondoe@gmail.com"));
         attendeesList.add(new Attendee("Jane Doe", "1234567890", "780-123-4567", "jane@gmail.com"));
         attendeesList.add(new Attendee("John Smith", "1234567890", "780-123-4567", "smith@gmail.com"));
+
+        // send one of these attendees to the database
+        FirebaseAttendeeManager attendeeManager = new FirebaseAttendeeManager();
+        attendeeManager.submitAttendee(attendeesList.get(0));
+
+        // Fetch the attendees from the database and print all of them
+        attendeeManager.getAllAttendeesAsynchronously().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<Attendee> attendees = task.getResult();
+                // Handle the list of attendees
+            } else {
+                // Handle the error
+            }
+        });
+
+
+
 
         adapter = new AttendeeAdapter(attendeesList);
         recyclerView.setAdapter(adapter);

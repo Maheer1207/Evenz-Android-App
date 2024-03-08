@@ -1,14 +1,14 @@
 package com.example.evenz;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
@@ -20,10 +20,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -96,11 +94,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         //  TODO: Demo Button, Need to be deleted
-        final Button admin_event_browse = findViewById(R.id.button_admin_event_browse);
+        final Button admin_event_browse = findViewById(R.id.button_attendee);
         admin_event_browse.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AdminBrowseEventActivity.class);
+                Intent intent = new Intent(MainActivity.this, AttendeesActivity.class);
                 startActivity(intent);
             }
         });
@@ -123,14 +122,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //  TODO: Demo Button, Need to be deleted
-        final Button event_browse = findViewById(R.id.button_event_browse);
-        event_browse.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EventBrowseActivity.class);
-                startActivity(intent);
-            }
-        });
+
 
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
