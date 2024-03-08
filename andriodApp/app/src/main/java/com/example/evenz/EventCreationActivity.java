@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.util.Log;
 import androidx.media3.common.util.UnstableApi;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -53,11 +54,14 @@ public class EventCreationActivity extends AppCompatActivity {
             public void onClick(View view) {
                 try {
                     submitEvent();
+                    startActivity(new Intent(EventCreationActivity.this, MainActivity.class));
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
             }
         });
+
+        findViewById(R.id.back_less).setOnClickListener(v -> finish());
     }
 
     private void initUI() {
@@ -78,12 +82,10 @@ public class EventCreationActivity extends AppCompatActivity {
         String orgName = editTextOrganizerName.getText().toString().trim();
         String eventDatestring = editDate.getText().toString().trim();
 
-
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
         Date eventDate = null;
 
         eventDate = dateFormat.parse(eventDatestring);
-
 
         // handle attendee limit error:
         int eventAttendeeLimit = 0; // Default to 0 or some other appropriate default value
