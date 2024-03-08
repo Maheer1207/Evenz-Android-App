@@ -31,6 +31,13 @@
         <activity
             android:name=".EventBrowseActivity"
             android:exported="true"/>
+<!--        <activity-->
+<!--            android:name=".UserEditProfileActivity"-->
+<!--            android:exported="false" />-->
+<!--        <activity-->
+<!--            android:name=".AdminBrowseProfilesActivity"-->
+<!--            android:exported="false" />-->
+
         <activity
             android:name=".OrgSendNotificationActivity"
             android:exported="true"/>
