@@ -27,8 +27,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attendees_home_page);
 
-        eventDetailTextView = findViewById(R.id.text_event_location); // Initialize the TextView after setting content view
-
         notificationsRecyclerView = findViewById(R.id.notificationsRecyclerView);
         notificationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
