@@ -8,7 +8,6 @@ import androidx.media3.common.util.UnstableApi;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,7 +37,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.UUID;
 
 
@@ -181,7 +178,7 @@ public class EventCreationActivity extends AppCompatActivity {
         eventMap.put("eventDate", newEvent.getEventDate());
         eventMap.put("location", newEvent.getLocation());
         eventMap.put("eventPosterID", newEvent.getEventPosterID());
-        eventMap.put("notifications", newEvent.getNotificationList());
+        eventMap.put("notifications", newEvent.getNotifications());
 
         // added add() so, event ID will be automatically generated.
         // TODO: review with TEAM

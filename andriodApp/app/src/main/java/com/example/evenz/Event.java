@@ -1,23 +1,9 @@
 package com.example.evenz;
 
-import static android.content.ContentValues.TAG;
-
 import android.graphics.Bitmap;
-import android.util.Log;
-import android.util.Pair;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.Map;
 
 public class Event
@@ -32,7 +18,7 @@ public class Event
     private int eventAttendLimit;
     private Date eventDate;
     private Map<String, Long> userList;
-    private ArrayList<String> notificationList;
+    private ArrayList<String> notifications;
     private String location;
     public Event(){
 
@@ -65,7 +51,7 @@ public class Event
         this.eventAttendLimit = eventAttendLimit;
         this.organizationName = organizationName;
         this.eventDate = eventDate;
-        this.notificationList = notificationList;
+        this.notifications = notificationList;
 
     }
 
@@ -147,11 +133,11 @@ public class Event
         return eventAttendLimit;
     }
 
-    public ArrayList<String> getNotificationList() {
-        return notificationList;
+    public ArrayList<String> getNotifications() {
+        return notifications;
     }
-    public void setNotificationList(ArrayList<String> notificationList) {
-        this.notificationList = notificationList;
+    public void setNotifications(ArrayList<String> notifications) {
+        this.notifications = notifications;
     }
 
     public Map<String, Long> getAttendeeIDList() {

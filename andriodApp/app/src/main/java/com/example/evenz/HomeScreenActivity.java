@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeScreenActivity extends AppCompatActivity {
     private ImageView eventPoster;
@@ -50,14 +49,14 @@ public class HomeScreenActivity extends AppCompatActivity {
                 // Directly update the TextView with the event's location
 
                 if (event != null) {
-                    eventDetail.setText(event.getDescription());
+                    eventDetail.setText("\uD83D\uDC4B Welcome to " + event.getEventName() + "! \uD83D\uDE80");
                     eventLocation.setText(event.getLocation());
-                }
 
-                ArrayList<String> notifications = event.getNotificationList(); // Assuming this correctly fetches the notifications
-                if (notifications != null) {
-                    notificationsAdapter = new NotificationsAdapter(HomeScreenActivity.this, notifications);
-                    notificationsRecyclerView.setAdapter(notificationsAdapter);
+                    ArrayList<String> notifications = event.getNotifications(); // Assuming this correctly fetches the notifications
+                    if (notifications != null) {
+                        notificationsAdapter = new NotificationsAdapter(HomeScreenActivity.this, notifications);
+                        notificationsRecyclerView.setAdapter(notificationsAdapter);
+                    }
                 }
             } else {
                 // TODO: Handle the case where the event doesn't exist in the database

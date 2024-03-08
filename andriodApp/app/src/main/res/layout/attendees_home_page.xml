@@ -33,7 +33,7 @@
         android:layout_width="330dp"
         android:layout_height="204dp"
         android:layout_gravity="top|start"
-        android:layout_marginStart="25dp"
+        android:layout_marginStart="20dp"
         android:layout_marginTop="0dp"
         android:scaleType="centerInside"
         android:src="@drawable/img_career_fairs_web_banner" />
