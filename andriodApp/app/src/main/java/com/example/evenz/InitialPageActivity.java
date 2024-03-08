@@ -19,7 +19,17 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
-
+/**
+ * The InitialPageActivity class represents the initial screen of the application,
+ * where users are directed based on their roles (attendee, organizer, or guest).
+ * <p>
+ * This class handles user authentication and navigation to relevant screens
+ * based on the user's information stored in the Firestore database.
+ * <p>
+ * Note: This class assumes the existence of layout resources such as R.layout.container_initial_page.
+ * @author hrithick
+ * @version 1.0
+ */
 public class InitialPageActivity extends AppCompatActivity {
 
     private DocumentReference doc;
@@ -28,7 +38,12 @@ public class InitialPageActivity extends AppCompatActivity {
 
     private String deviceID;
 
-
+    /**
+     * Called when the activity is first created. Initializes UI components,
+     * sets up Firestore references, and checks user information for navigation.
+     *
+     * @param savedInstanceState A Bundle containing the activity's previously saved state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +58,7 @@ public class InitialPageActivity extends AppCompatActivity {
 
         String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            // Listen for changes in user data in Firestore
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots,
                                 @Nullable FirebaseFirestoreException error) {
@@ -72,7 +88,7 @@ public class InitialPageActivity extends AppCompatActivity {
             }
         });
 
-
+        // Set click listeners for role-specific layouts
         attendeeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

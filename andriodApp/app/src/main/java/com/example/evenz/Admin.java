@@ -9,7 +9,7 @@ package com.example.evenz;
  * <p>This class serves as a foundation for implementing administrative functionalities within
  * the application.
  *
- * @author maheeee1207
+ * @author maheer1207
  * @version 1.0
  * @see User
  */

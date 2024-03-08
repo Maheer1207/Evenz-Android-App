@@ -20,17 +20,44 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 
 //call ArrayList<Event> eventDataList
-
+/**
+ * The {@code EventBrowseActivity} class represents an activity in the application for attendees to
+ * browse and view a list of events. It extends the {@code AppCompatActivity} class and facilitates
+ * the display of events in a RecyclerView, using the {@code EventAdapter} to manage the UI.
+ *
+ * <p>The activity includes the layout defined in the {@code attendees_browse_events.xml} file,
+ * which contains a RecyclerView to display the list of events. Events are fetched from Firestore
+ * using the {@code fetchEvents} method, and the data is displayed with the help of the
+ * {@code EventAdapter}.
+ *
+ * <p>The "back" button is set up to finish the activity when clicked, returning to the previous
+ * screen. Events are asynchronously loaded from Firestore and displayed using the
+ * {@code EventAdapter}, which handles the complexity of loading event poster images from Firebase
+ * Storage.
+ *
+ * <p>This class is part of the attendee module and contributes to the user interface and interaction
+ * for event browsing in the attendee section of the application.
+ *
+ * @author hrithick
+ * @version 1.0
+ * @see AppCompatActivity
+ * @see EventAdapter
+ */
 public class EventBrowseActivity extends AppCompatActivity {
     private RecyclerView eventsRecyclerView;
     private EventAdapter eventAdapter;
     private ArrayList<Event> eventDataList;
-
+    /**
+     * Called when the activity is first created. Responsible for initializing the activity, setting up
+     * the layout, configuring the RecyclerView, and fetching events from Firestore.
+     *
+     * @param savedInstanceState A Bundle containing the activity's previously saved state, if available.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attendees_browse_events);
-
+        // Initialize RecyclerView and set its layout manager
         eventsRecyclerView = findViewById(R.id.eventsRecyclerView);
 
         eventsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -39,12 +66,14 @@ public class EventBrowseActivity extends AppCompatActivity {
         eventDataList = new ArrayList<>();
         eventAdapter = new EventAdapter(this, eventDataList);
         eventsRecyclerView.setAdapter(eventAdapter);
-
+        // Fetch events from Firestore
         fetchEvents();
-
+        // Set up the "back" button click listener to finish the activity and return to the previous screen.
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
     }
-
+    /**
+     * Fetches events from Firestore and updates the {@code eventDataList} accordingly.
+     */
     private void fetchEvents() {
         // Code to fetch events from Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -70,7 +99,12 @@ public class EventBrowseActivity extends AppCompatActivity {
         });
     }
 
-    // Helper method to parse the Firestore document into an Event object
+    /**
+     * Helper method to parse the Firestore document into an {@code Event} object.
+     *
+     * @param doc The Firestore document representing an event.
+     * @return An {@code Event} object created from the Firestore document.
+     */
     private Event parseEvent(QueryDocumentSnapshot doc) {
         // Example of reconstructing a Geolocation object
         // Assuming you store geolocation as a map with latitude and longitude

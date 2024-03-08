@@ -1,7 +1,12 @@
 package com.example.evenz;
 
 import java.util.ArrayList;
-
+/**
+ * The User class represents a user in the application with basic personal information.
+ * It includes properties such as name, profile picture ID, phone number, email, user ID, and user type.
+ * This class is designed to be used for Firebase data mapping and contains default and parameterized constructors,
+ * along with getter and setter methods for each property.
+ */
 public class User
 {
     private String name;
@@ -17,7 +22,16 @@ public class User
     public User() {
     }
 
-
+    /**
+     * Parameterized constructor to create a User instance with specified attributes.
+     *
+     * @param name         The name of the user.
+     * @param profilePicID The ID associated with the user's profile picture.
+     * @param phone        The phone number of the user.
+     * @param email        The email address of the user.
+     * @param userId       The unique identifier for the user.
+     * @param userType     The type of the user (e.g., "organizer" or "attendee").
+     */
     public User(String name, String profilePicID, String phone, String email, String userId, String userType)
     {
         this.name = name;

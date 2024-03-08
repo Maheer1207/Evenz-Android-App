@@ -25,7 +25,23 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Objects;
-
+/**
+ * MainActivity serves as the main entry point for the application. It initializes and manages
+ * the connection to Firestore, retrieves and updates event and user data, and populates corresponding
+ * data lists for display.
+ *
+ * <p>The class utilizes Firestore's addSnapshotListener to keep the local eventDataList and userDataList
+ * updated with real-time changes in the "events" and "users" collections. The fetched data is stored in
+ * Event and User objects, respectively.
+ *
+ * <p>Important Note: The class assumes the presence of specific fields in the Firestore documents such as
+ * "organizationName," "eventName," "eventPosterID," "description," "geolocation," "qrCodeBrowse," "qrCodeIn,"
+ * "AttendLimit," "eventDate," "location" for events, and "name," "profilePicID," "phone," "email," "userId," "userType"
+ * for users. Make sure the Firestore schema aligns with these assumptions.
+ *
+ * @see Event
+ * @see User
+ */
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
@@ -34,7 +50,12 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Event> eventDataList;
     private ArrayList<User> userDataList;
-    
+    /**
+     * Initializes the activity, sets up Firestore connections, and registers listeners to keep
+     * the local data lists updated with changes in the "events" and "users" collections.
+     *
+     * @param savedInstanceState A Bundle object containing the activity's previously saved state, or null if unavailable.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +68,16 @@ public class MainActivity extends AppCompatActivity {
         eventsRef = db.collection("events");
         usersRef = db.collection("users");
 
-
+        /**
+         * Called when there is a change in the "events" collection in Firestore. Updates the local eventDataList
+         * with the latest event data fetched from the Firestore database.
+         *
+         * @param querySnapshots A snapshot of the "events" collection containing the updated event data.
+         * @param error          An exception that occurred during the event listener execution, if any.
+         *                      If null, no errors occurred.
+         *
+         * @see Event
+         */
         eventsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots,
@@ -164,7 +194,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        /**
+         * Called when there is a change in the "users" collection in Firestore. Updates the local userDataList
+         * with the latest user data fetched from the Firestore database.
+         *
+         * @param querySnapshots A snapshot of the "users" collection containing the updated user data.
+         * @param error          An exception that occurred during the event listener execution, if any.
+         *                      If null, no errors occurred.
+         *
+         * @see User
+         */
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots,

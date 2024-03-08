@@ -20,7 +20,21 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
-
+/**
+ * HomeScreenActivity is the main activity for the home screen of the attendees' app.
+ * It displays event details, such as the event poster, location, and additional notifications.
+ *
+ * This activity includes functionality to fetch event details and notifications from
+ * the Firestore database and display them on the home screen.
+ *
+ * The class uses a specific event ID, obtained by the getEventIdForHomeScreen() method,
+ * to fetch details for the home screen. The fetched details include the event name, location,
+ * event poster, and notifications, which are displayed using various UI elements such as
+ * TextViews, ImageViews, and a RecyclerView.
+ *
+ * @author hrithick
+ * @version 1.0
+ */
 public class HomeScreenActivity extends AppCompatActivity {
     private ImageView eventPoster;
     private TextView eventLocation, eventDetail;
@@ -29,7 +43,12 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     // Replace with the actual event ID for the home screen
     private String specificEventId;
-
+    /**
+     * Called when the activity is first created.
+     * Initializes UI elements and fetches event details and notifications.
+     *
+     * @param savedInstanceState The saved state of the activity.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,7 +68,11 @@ public class HomeScreenActivity extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * Fetches event details and notifications from Firestore.
+     *
+     * @param eventId The ID of the event to fetch details for.
+     */
     private void fetchEventDetailsAndNotifications(String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("events").document("sTxGMBeN1Fnw1Slau2j5").get().addOnSuccessListener(documentSnapshot -> {
@@ -75,12 +98,23 @@ public class HomeScreenActivity extends AppCompatActivity {
             // TODO: handle errors
         });
     }
-
+    /**
+     * Retrieves the event ID for the home screen.
+     *
+     * @return The event ID for the home screen.
+     */
     private String getEventIdForHomeScreen() { //TODO: Implement this method populating the event ID
         // Placeholder method to obtain the event ID
         // Implement this to retrieve the event ID for the home screen
         return "your_specific_event_id";
     }
+
+    /**
+     * Displays the image associated with the given image ID in the specified ImageView.
+     *
+     * @param imageID The ID of the image to display.
+     * @param imgView The ImageView to display the image.
+     */
     private void displayImage(String imageID, ImageView imgView)
     {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();

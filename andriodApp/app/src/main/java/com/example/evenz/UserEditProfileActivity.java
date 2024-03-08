@@ -17,9 +17,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-
+/**
+ * UserEditProfileActivity allows users to edit their profile information, including name, phone, and email.
+ * It provides a user interface for updating the user's details and saves the changes to the Firebase Firestore database.
+ */
 public class UserEditProfileActivity extends AppCompatActivity {
-
+	/**
+	 * Initializes the activity and sets up the UI elements.
+	 *
+	 * @param savedInstanceState A Bundle containing the activity's previously saved state, or null
+	 *                           if the activity is being started for the first time.
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -28,6 +36,7 @@ public class UserEditProfileActivity extends AppCompatActivity {
 		findViewById(R.id.back_button).setOnClickListener(v -> finish());
 
 		findViewById(R.id.save_button).setOnClickListener(v -> {
+			// Retrieve user input from EditText fields
 			String name = ((EditText) findViewById(R.id.name_input)).getText().toString();
 			String phone = ((EditText) findViewById(R.id.phone_input)).getText().toString();
 			String email = ((EditText) findViewById(R.id.email_input)).getText().toString();
@@ -38,6 +47,7 @@ public class UserEditProfileActivity extends AppCompatActivity {
 
 			DocumentReference userDocRef = db.collection("users").document(deviceID);
 
+			// Check if the user with the same name already exists in the database
 			userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
 				@Override
 				public void onComplete(@NonNull Task<DocumentSnapshot> task) {

@@ -43,7 +43,25 @@ import java.util.Map;
 import java.text.ParseException;
 import java.util.UUID;
 
-
+/**
+ * The {@code EventCreationActivity} class represents an activity in the application for organizers
+ * to create and submit new events. It extends the {@code AppCompatActivity} class and provides
+ * functionality for capturing event details, including an event poster image, and submitting the
+ * event to Firestore.
+ *
+ * <p>The activity includes the layout defined in the {@code create_event.xml} file. It utilizes
+ * Firebase Storage for uploading event poster images and Firestore for storing event data. The
+ * {@code EventCreationActivity} class is part of the organizer module and contributes to the
+ * user interface and interaction for event creation in the organizer section of the application.
+ *
+ * <p>This class uses asynchronous image uploading with a progress dialog to keep the user informed
+ * of the upload status. It also checks for existing users in Firestore and creates new users if
+ * necessary, associating them with the organizer role.
+ *
+ * @author hrithick
+ * @version 1.0
+ * @see AppCompatActivity
+ */
 public class EventCreationActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 22;
@@ -67,7 +85,12 @@ public class EventCreationActivity extends AppCompatActivity {
     // Firestore instance
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private CollectionReference ref = db.collection("events");
-
+    /**
+     * Called when the activity is first created. Responsible for initializing the activity, setting up
+     * the layout, configuring UI components, and defining event handlers.
+     *
+     * @param savedInstanceState A Bundle containing the activity's previously saved state, if available.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -88,7 +111,7 @@ public class EventCreationActivity extends AppCompatActivity {
                 select();
             }
         });
-
+        // Set up the click listener for the "Create Event" button
         submitEventButton = findViewById(R.id.create_event_button);
         submitEventButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,10 +125,18 @@ public class EventCreationActivity extends AppCompatActivity {
                 }
             }
         });
-
+        // Set up the click listener for the "Back" button
         findViewById(R.id.back_less).setOnClickListener(v->finish());
     }
-
+    /**
+     * Called when an activity launched by this one returns a result. In this case, it handles the result
+     * of selecting an image using the image picker.
+     *
+     * @param requestCode The integer request code originally supplied to startActivityForResult(),
+     *                    allowing you to identify who this result came from.
+     * @param resultCode  The integer result code returned by the child activity through its setResult().
+     * @param data        An Intent, which can return result data to the caller (various data can be attached to Intent).
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -133,7 +164,11 @@ public class EventCreationActivity extends AppCompatActivity {
             }
     }
 
-
+    /**
+     * Initializes the UI components by finding and assigning references to the corresponding
+     * views in the layout. This method is called during the activity's creation to set up the
+     * EditText fields, ImageView, and the submitEventButton.
+     */
     private void initUI() {
         editTextOrganizerName = findViewById(R.id.editTextOrganizerName);
         editTextEventName = findViewById(R.id.editTextEventName);
@@ -143,7 +178,23 @@ public class EventCreationActivity extends AppCompatActivity {
         editTextEventLoc = findViewById(R.id.editTextLocation);
         submitEventButton = findViewById(R.id.create_event_button); //Create event button
     }
-
+    /**
+     * Submits the created event to Firestore after gathering information from the input fields
+     * and user selections. This method constructs an Event object, checks user existence in Firestore,
+     * and either creates a new user with UserType set to "organizer" or updates existing user data.
+     * It then adds the event to the Firestore "events" collection and associates it with the user.
+     *
+     * <p>The method parses user input, such as the event name, description, attendee limit, organizer name,
+     * event date, and location. It also retrieves the current device ID to identify the user. The event is
+     * created with a default attendee limit, geolocation, and placeholder QR codes. The Event object is
+     * then converted to a Map, and the map is added to the "events" collection in Firestore. The user's
+     * "eventList" field is updated with the newly created event ID.
+     *
+     * <p>This method handles the process of creating or updating the user and adding the event to Firestore
+     * in an asynchronous manner, ensuring a seamless user experience.
+     *
+     * @throws ParseException If there is an error parsing the event date from the user input.
+     */
     private void submitEvent() throws ParseException {
 
         String eventName = editTextEventName.getText().toString().trim();
@@ -162,6 +213,16 @@ public class EventCreationActivity extends AppCompatActivity {
         DocumentReference userDocRef = db.collection("users").document(deviceID);
 
         userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            /**
+             * Callback method triggered when the Firestore document representing the user's information
+             * is successfully retrieved or not found. If the document exists, it indicates that the user
+             * already exists in Firestore, and the event creation or user data update can proceed. If the
+             * document does not exist, a new user is created with UserType set to "organizer," and the user
+             * data is initialized as needed.
+             *
+             * @param task The task containing the result of the asynchronous operation. It holds the
+             *             DocumentSnapshot, which can be queried for information about the document.
+             */
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -213,6 +274,17 @@ public class EventCreationActivity extends AppCompatActivity {
         // added add() so, event ID will be automatically generated.
         // TODO: review with TEAM
         db.collection("events").add(eventMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    /**
+                     * Asynchronously adds the event information to the Firestore "events" collection. Upon successful addition,
+                     * the auto-generated document ID is logged, and the user's "eventList" field is updated with the new event ID.
+                     * If the addition fails, the error is logged for further investigation.
+                     *
+                     * <p>This method uses Firestore's add method to insert the event data into the "events" collection. It then
+                     * listens for the success or failure of this operation using the provided OnSuccessListener and OnFailureListener.
+                     *
+                     * @param eventMap         A Map containing the event information to be added to Firestore.
+                     * @param userDocRef       The DocumentReference to the user's document in Firestore.
+                     */
                     @OptIn(markerClass = UnstableApi.class)
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
@@ -230,7 +302,10 @@ public class EventCreationActivity extends AppCompatActivity {
                     }
                 });
     }
-
+    /**
+     * Called when the user clicks the "Select Image" ImageView. Initiates the process of
+     * selecting an image from the device's gallery using an intent.
+     */
         private void select()
         {
             Intent intent = new Intent();
@@ -239,10 +314,13 @@ public class EventCreationActivity extends AppCompatActivity {
             startActivityForResult(Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
         }
 
-        /**
-         * Given that filePath has already been defined within the activity, uploads an image previously selected by the user
-         * This includes adding the image to the firebase storage with proper notifications for upload progress.
-         */
+    /**
+     * Given that filePath has already been defined within the activity, uploads an image
+     * previously selected by the user. This includes adding the image to Firebase Storage
+     * with proper notifications for upload progress.
+     *
+     * @param photoRef The StorageReference for the location where the image will be stored.
+     */
         private void upload(StorageReference photoRef) {
             if (filePath != null) {
                 ProgressDialog progressDialog = new ProgressDialog(this);
