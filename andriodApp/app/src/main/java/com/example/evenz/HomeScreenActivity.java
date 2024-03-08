@@ -1,6 +1,7 @@
 package com.example.evenz;
 
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeScreenActivity extends AppCompatActivity {
-    private TextView eventDetailTextView; // TextView for event location
+    private ImageView eventPoster;
+    private TextView eventLocation, eventDetail;
     private RecyclerView notificationsRecyclerView;
     private NotificationsAdapter notificationsAdapter;
+    private EventHomeDetailsAdapter eventHomeDetailsAdapter;
     // Replace with the actual event ID for the home screen
     private String specificEventId;
 
@@ -26,6 +29,10 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         notificationsRecyclerView = findViewById(R.id.notificationsRecyclerView);
         notificationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        eventPoster = findViewById(R.id.attendee_home_event_poster);
+        eventLocation = findViewById(R.id.attendee_home_event_location);
+        eventDetail = findViewById(R.id.attendee_home_event_detail);
 
         specificEventId = getEventIdForHomeScreen();
 
@@ -41,8 +48,11 @@ public class HomeScreenActivity extends AppCompatActivity {
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 Event event = documentSnapshot.toObject(Event.class);
                 // Directly update the TextView with the event's location
-                String eventDetails = event.getLocation(); // Assuming getLocation() returns the location as String
-                eventDetailTextView.setText(eventDetails);
+
+                if (event != null) {
+                    eventDetail.setText(event.getDescription());
+                    eventLocation.setText(event.getLocation());
+                }
 
                 ArrayList<String> notifications = event.getNotificationList(); // Assuming this correctly fetches the notifications
                 if (notifications != null) {

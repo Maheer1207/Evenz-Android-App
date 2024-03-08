@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="312dp"
+        android:layout_marginTop="360dp"
         android:layout_gravity="top|left"
         android:gravity="left|center_vertical"
         android:includeFontPadding="false"
@@ -22,21 +22,67 @@
         android:textColor="#FF000000"
         android:textSize="18sp" />
 
-  <!-- RecyclerView for notifications -->
-  <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/eventRecyclerView"
+  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="340dp"
-      android:clipToPadding="false"
-      android:paddingBottom="110dp" />
+      android:orientation="vertical"
+      android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/attendee_home_event_poster"
+        android:layout_width="330dp"
+        android:layout_height="204dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="0dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/img_career_fairs_web_banner" />
+
+    <ImageView
+        android:id="@+id/location_pin_attendee_home"
+        android:layout_width="17.5dp"
+        android:layout_height="25dp"
+        android:layout_gravity="top|left"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/location_pin" />
+
+    <TextView
+        android:id="@+id/attendee_home_event_location"
+        android:layout_width="wrap_content"
+        android:layout_height="17dp"
+        android:layout_gravity="top|left"
+        android:layout_marginLeft="41dp"
+        android:layout_marginTop="-23dp"
+        android:gravity="left|center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="CCIS, UofA"
+        android:textColor="#FF000000"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/attendee_home_event_detail"
+        android:layout_width="310dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="28dp"
+        android:gravity="left|top"
+        android:includeFontPadding="false"
+        android:lineHeight="24dp"
+        android:text="👋 Welcome to Career Launchpad 2024! 🚀\n"
+        android:textColor="#FF000000"
+        android:textSize="20dp" />
+  </LinearLayout>
 
     <!-- RecyclerView for notifications -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notificationsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="340dp"
+        android:layout_marginTop="380dp"
         android:clipToPadding="false"
         android:paddingBottom="110dp" />
 
