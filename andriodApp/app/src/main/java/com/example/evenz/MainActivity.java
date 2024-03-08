@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
                         Event tempEvent = new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                                 doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"),
                                 (Bitmap)doc.get("qrCodeIn"), (int)eventAttendLimit,
-                                new Hashtable<>(), eventDate); //TODO: review if this is correct implementation
+                                new Hashtable<>(), eventDate, new String[0]); //TODO: review if this is correct implementation
 
 
                         Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String userID = doc.getId();
                         User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"),
-                                doc.getString("phone"), doc.getString("email"));
+                                doc.getString("phone"), doc.getString("email"), doc.getString("userId"), doc.getString("userType"));
                         userDataList.add(tempUser);
                     }
                 }
