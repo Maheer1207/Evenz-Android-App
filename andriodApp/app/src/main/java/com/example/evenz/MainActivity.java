@@ -148,6 +148,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //  TODO: Demo Button, Need to be deleted
+        final Button qrScanScreen = findViewById(R.id.QR_Screen);
+        qrScanScreen.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ScanQRActivity.class);
+                startActivity(intent);
+            }
+        });
+
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot querySnapshots,
