@@ -1,3 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Evenz</string>
+	<!-- edit_profile strings -->
+
+	<string name="app_name">Evenz</string>
+	<string name="ek_img_content">ExportKit Image</string>
+	<string name="view_profile_header">View profile</string>
+	<string name="name_string">Name</string>
+	<string name="phone_string">Phone Number</string>
+	<string name="email__optional__string">Email (Optional)</string>
+	<string name="delete_profile_button">Delete Profile</string>
+	<string name="enable_notification_string">Enable Notification</string>
+	<string name="enable_location_string">Enable Location</string>
+    <string name="enable_notifications">Enable Notifications</string>
+    <string name="enable_Location">Enable Location</string>
+	<string name="name_email_com">name@email.com</string>
+	<string name="phone_number_input">#</string>
+	<string name="back_button">back button\n</string>
+	<string name="name">John Smith</string>
+	<string name="pfp_placeholder">pfp placeholder</string>
+	<string name="camera_button">camera button</string>
+	<string name="pfp_default">pfp default</string>
+	<string name="edit_profile_header">Edit Profile</string>
+	<string name="edit_profile_ek3_string">Edit Profile</string>
+	<string name="save_changes_button">Save Changes</string>
 </resources>

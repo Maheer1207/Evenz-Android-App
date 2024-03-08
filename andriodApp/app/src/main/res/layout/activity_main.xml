@@ -6,13 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+        <Button
+            android:id="@+id/button_create_new_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="create new event"
+            tools:ignore="MissingConstraints"/>
+
+        <Button
+            android:id="@+id/button_event_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Event List"
+            tools:ignore="MissingConstraints"/>
+
+        <Button
+            android:id="@+id/button_admin_event_browse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Admin Event List"
+            tools:ignore="MissingConstraints"/>
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
