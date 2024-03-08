@@ -32,7 +32,7 @@ public class Event
     private int eventAttendLimit;
     private Date eventDate;
     private Map<String, Long> userList;
-    private String[] notificationList;
+    private ArrayList<String> notificationList;
     private String location;
 
     /**
@@ -50,7 +50,7 @@ public class Event
      */
     public Event(String organizationName, String eventName, String eventPosterID, String description,
                  Geolocation geolocation,Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, int eventAttendLimit,
-                 Map<String, Long> userList, Date eventDate, String[] notificationList, String location)
+                 Map<String, Long> userList, Date eventDate, ArrayList<String> notificationList, String location)
     {
         this.eventName = eventName;
         this.eventPosterID = eventPosterID;
@@ -144,10 +144,10 @@ public class Event
         return eventAttendLimit;
     }
 
-    public String[] getNotificationList() {
+    public ArrayList<String> getNotificationList() {
         return notificationList;
     }
-    public void setNotificationList(String[] notificationList) {
+    public void setNotificationList(ArrayList<String> notificationList) {
         this.notificationList = notificationList;
     }
 

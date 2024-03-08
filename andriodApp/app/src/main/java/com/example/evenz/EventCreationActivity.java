@@ -20,6 +20,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -95,10 +96,10 @@ public class EventCreationActivity extends AppCompatActivity {
         Bitmap qrCodeBrowse = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code
         Bitmap qrCodeCheckIn = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code for events
         Map<String, Long> userList = new Hashtable<>(); // TODO: append attendee who check in the event
-        String[] notificationlist = new String[0]; // TODO: append notification to the list
+        ArrayList<String> notificationList = new ArrayList<String>(); // TODO: append notification to the list
 
         // Constructing the Event object
-        Event newEvent = new Event(orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate, notificationlist, location);
+        Event newEvent = new Event(orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate, notificationList, location);
 
         // Now, convert  Event object to a Map or directly use the attributes to add to Firestore
         Map<String, Object> eventMap = new HashMap<>();
@@ -108,6 +109,7 @@ public class EventCreationActivity extends AppCompatActivity {
         eventMap.put("AttendLimit", newEvent.getEventAttendLimit());
         eventMap.put("eventDate", newEvent.getEventDate());
         eventMap.put("stringLocation", newEvent.getEventLoc());
+        eventMap.put("notification", newEvent.getNotificationList());
 
         // added add() so, event ID will be automatically generated.
         // TODO: review with TEAM
