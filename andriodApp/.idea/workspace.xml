@@ -91,11 +91,12 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="&quot;feat: Merge Omar's branch, add Edit User UI functionality and Firebase integration for Attendee creation&quot;">
+    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="feat: Updated UserEditProfileActivity to allow user to select and upload profile picture to Firebase">
+      <change afterPath="$PROJECT_DIR$/app/src/test/java/com/example/evenz/eventTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/UserEditProfileActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/UserEditProfileActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/Geolocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/Geolocation.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -171,7 +172,7 @@
       <recent name="com.example.evenz" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Gradle.eventTest">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Evenz.app.main" />
       <option name="DEPLOY" value="true" />
@@ -239,6 +240,35 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration name="eventTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:testDebugUnitTest" />
+            <option value="--tests" />
+            <option value="&quot;com.example.evenz.eventTest&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.eventTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -249,6 +279,15 @@
       <option name="presentableId" value="Default" />
       <updated>1709761885654</updated>
     </task>
+    <task id="LOCAL-00001" summary="feat: Updated UserEditProfileActivity to allow user to select and upload profile picture to Firebase">
+      <option name="closed" value="true" />
+      <created>1709929928599</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1709929928599</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -264,6 +303,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="&quot;feat: Merge Omar's branch, add Edit User UI functionality and Firebase integration for Attendee creation&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;feat: Merge Omar's branch, add Edit User UI functionality and Firebase integration for Attendee creation&quot;" />
+    <MESSAGE value="feat: Updated UserEditProfileActivity to allow user to select and upload profile picture to Firebase" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Updated UserEditProfileActivity to allow user to select and upload profile picture to Firebase" />
   </component>
 </project>
