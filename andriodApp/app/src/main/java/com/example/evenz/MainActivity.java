@@ -20,10 +20,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
@@ -124,10 +122,28 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //  TODO: Demo Button, Need to be deleted
-        final Button event_browse = findViewById(R.id.button_event_browse);
-        event_browse.setOnClickListener(new View.OnClickListener() {
+        final Button edit_user = findViewById(R.id.button_edit_user_profile);
+        edit_user.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EventBrowseActivity.class);
+                Intent intent = new Intent(MainActivity.this, UserEditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button admin_browse_profiles = findViewById(R.id.button_admin_browse_profile);
+        admin_browse_profiles.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AdminBrowseProfilesActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button admin_browse_images = findViewById(R.id.button_admin_browse_images);
+        admin_browse_images.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AdminBrowseImagesActivity.class);
                 startActivity(intent);
             }
         });

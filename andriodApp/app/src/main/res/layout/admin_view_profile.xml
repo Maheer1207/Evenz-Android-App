@@ -18,7 +18,7 @@
      *
      */
     -->
-    <ScrollView
+    <FrameLayout
         android:id="@+id/adminview_profile"
         android:layout_width="wrap_content"
         android:layout_height="match_parent">
@@ -42,7 +42,8 @@
                     android:layout_height="807dp"
                     android:layout_marginStart="0dp"
                     android:layout_marginTop="0dp"
-                    android:background="@drawable/_bg__edit_profile_ek2_shape" />
+                    android:background="@drawable/_bg__edit_profile_ek2_shape"
+                    android:clickable="false" />
 
 
                 <RelativeLayout
@@ -58,7 +59,7 @@
                         android:layout_height="48dp"
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="0dp"
-                        android:contentDescription="@string/back_button"
+                        android:contentDescription="back_button"
                         android:src="@drawable/vector" />
 
                     <TextView
@@ -67,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="123dp"
                         android:layout_marginTop="2dp"
-                        android:text="@string/view_profile_header"
+                        android:text="View Profile"
                         android:textColor="@color/_bg__profile_ek1_color"
                         android:textSize="20.02sp"
                         android:textStyle="bold" />
@@ -79,16 +80,8 @@
                         android:layout_marginStart="106dp"
                         android:layout_marginTop="46dp"
                         android:src="@drawable/ellipse_1"
-                        android:contentDescription="@string/pfp_placeholder" />
+                        android:contentDescription="pfp_placeholder" />
 
-                    <ImageButton
-                        android:id="@+id/pfp_upload_button"
-                        android:layout_width="18.86dp"
-                        android:layout_height="16.1dp"
-                        android:layout_marginStart="214dp"
-                        android:layout_marginTop="154dp"
-                        android:contentDescription="@string/camera_button"
-                        android:src="@drawable/vector_ek1" />
 
                     <ImageView
                         android:id="@+id/user_pfp"
@@ -97,7 +90,7 @@
                         android:layout_marginStart="152dp"
                         android:layout_marginTop="93dp"
                         android:src="@drawable/vector_ek2"
-                        android:contentDescription="@string/pfp_default" />
+                        android:contentDescription="pfp_default" />
 
                 </RelativeLayout>
 
@@ -122,7 +115,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="0dp"
-                            android:text="@string/name_string"
+                            android:text="Name"
                             android:textColor="@color/_bg__profile_ek1_color"
                             android:textSize="16.02sp"
                             android:textStyle="bold" />
@@ -152,7 +145,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="0dp"
-                            android:text="@string/phone_string"
+                            android:text="Phone Number"
                             android:textColor="@color/_bg__profile_ek1_color"
                             android:textSize="16.02sp"
                             android:textStyle="bold" />
@@ -182,7 +175,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="0dp"
                             android:layout_marginTop="0dp"
-                            android:text="@string/email__optional__string"
+                            android:text="Email"
                             android:textColor="@color/_bg__profile_ek1_color"
                             android:textSize="16.02sp"
                             android:textStyle="bold" />
@@ -215,7 +208,7 @@
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="0dp"
                         android:background="@drawable/save_shape"
-                        tools:text="@string/delete_profile_button" />
+                        tools:text="Delete Profile" />
 
 
                 </RelativeLayout>
@@ -229,7 +222,8 @@
                     android:layout_marginTop="500dp"
                     android:layout_marginEnd="13dp"
                     android:layout_marginBottom="13dp"
-                    android:text="@string/enable_notifications"
+                    android:clickable="false"
+                    android:text="Enable Notifications"
                     android:textColor="@color/_bg__profile_ek1_color"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -245,12 +239,12 @@
                 android:layout_marginTop="550dp"
                 android:layout_marginEnd="13dp"
                 android:layout_marginBottom="13dp"
-                android:text="@string/enable_Location"
+                android:text="Enable Location"
                 android:textColor="@color/_bg__profile_ek1_color"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </RelativeLayout>
 
-    </ScrollView>
+    </FrameLayout>
 
 </HorizontalScrollView>

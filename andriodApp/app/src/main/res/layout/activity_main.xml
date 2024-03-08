@@ -53,10 +53,24 @@
             android:text="Attendee Event Info Sign Up"
             tools:ignore="MissingConstraints"/>
         <Button
-            android:id="@+id/button_event_browse"
+            android:id="@+id/button_edit_user_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Scrollable Event List"
+            android:text="Edit User Profile"
+            tools:ignore="MissingConstraints"
+            />
+        <Button
+            android:id="@+id/button_admin_browse_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Browse Profile"
+            tools:ignore="MissingConstraints"
+            />
+        <Button
+            android:id="@+id/button_admin_browse_images"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Browse Images"
             tools:ignore="MissingConstraints"
             />
     </LinearLayout>

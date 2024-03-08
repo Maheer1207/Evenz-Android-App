@@ -27,10 +27,10 @@
             android:name=".EventBrowseActivity"
             android:exported="true"/>
         <activity
-            android:name=".edit_profile_activity"
+            android:name=".UserEditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".admin_browse_profile_activity"
+            android:name=".AdminBrowseProfilesActivity"
             android:exported="false" />
 
         <activity
