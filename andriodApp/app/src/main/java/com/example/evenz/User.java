@@ -27,19 +27,6 @@ public class User
         this.userId = userId;
         this.userType = userType;
     }
-
-    public User(String deviceID, String name, String phone, String email) {
-        this.userId = deviceID;
-        this.name = name;
-        this.phone = phone;
-        this.email = email;
-        // Set the rest to Null
-        this.profilePicID = null;
-        this.userType = null;
-
-
-    }
-
     public String getName() {
         return name;
     }

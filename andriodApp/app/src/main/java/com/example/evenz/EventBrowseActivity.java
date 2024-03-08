@@ -86,7 +86,7 @@ public class EventBrowseActivity extends AppCompatActivity {
         return new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                 doc.getString("description"), geolocation, placeholderBitmap,
                 placeholderBitmap, 0,
-                new Hashtable<>(), doc.getDate("eventDate"));
+                new Hashtable<>(), doc.getDate("eventDate"), new ArrayList<String>(), doc.getString("location"));
     }
 
 }

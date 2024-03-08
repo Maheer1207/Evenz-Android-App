@@ -1,24 +1,9 @@
 package com.example.evenz;
 
-import static android.content.ContentValues.TAG;
-
 import android.graphics.Bitmap;
-import android.util.Log;
-import android.util.Pair;
-
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Dictionary;
-import java.util.Enumeration;
 import java.util.Map;
 
 public class Event
@@ -33,7 +18,11 @@ public class Event
     private int eventAttendLimit;
     private Date eventDate;
     private Map<String, Long> userList;
+    private ArrayList<String> notifications;
+    private String location;
+    public Event(){
 
+    }
     /**
      * This is the public constructor to create an event
      *
@@ -47,18 +36,23 @@ public class Event
      * @param eventAttendLimit   The limit of attendees in the event
      * @param userList           The list of users signed up to attend the event which is the number of times checked in (0 is rsvp) and the id of the user
      */
-    public Event(String organizationName, String eventName, String eventPosterID, String description, Geolocation geolocation, Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, int eventAttendLimit, Map<String, Long> userList, Date eventDate)
+    public Event(String organizationName, String eventName, String eventPosterID, String description,
+                 Geolocation geolocation,Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, int eventAttendLimit,
+                 Map<String, Long> userList, Date eventDate, ArrayList<String> notificationList, String location)
     {
         this.eventName = eventName;
         this.eventPosterID = eventPosterID;
         this.description = description;
-        this.geolocation = geolocation;
+//        this.geolocation = geolocation;
+        this.location = location;
         this.qrCodeBrowse = qrCodeBrowse;
         this.qrCodeCheckIn = qrCodeCheckIn;
         this.userList = userList;
         this.eventAttendLimit = eventAttendLimit;
         this.organizationName = organizationName;
         this.eventDate = eventDate;
+        this.notifications = notificationList;
+
     }
 
     public String getOrganizationName() {
@@ -68,7 +62,6 @@ public class Event
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
-
     public Date getEventDate() {
         return this.eventDate;
     }
@@ -93,6 +86,13 @@ public class Event
         this.eventPosterID = eventPosterID;
     }
 
+    public String getLocation() {
+        return this.location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
     public String getDescription() {
         return this.description;
     }
@@ -133,49 +133,25 @@ public class Event
         return eventAttendLimit;
     }
 
-
+    public ArrayList<String> getNotifications() {
+        return notifications;
+    }
+    public void setNotifications(ArrayList<String> notifications) {
+        this.notifications = notifications;
+    }
 
     public Map<String, Long> getAttendeeIDList() {
         return userList;
     }
 
+
+
     /**
      * This function returns the attendee list for the event
      * @return Returns the list in the format of an ArrayList of Pairs being <Attendee, check-in count>
+     *     RIP
      */
-    public ArrayList<Pair<Attendee, Long>> getAttendeeList() {
-        ArrayList<Pair<Attendee, Long>> attendees = new ArrayList<Pair<Attendee, Long>>();
-        Enumeration<String> enu = Collections.enumeration(userList.keySet());
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-        String tempID;
-        while (enu.hasMoreElements())
-        {
-            tempID = enu.nextElement();
-            DocumentReference docRef = db.collection("users").document(tempID);
-            String finalTempID = tempID;
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-
-                            attendees.add(new Pair<Attendee, Long>((Attendee)(document.get(finalTempID)), userList.get(finalTempID)));
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        } else {
-                            Log.d(TAG, "No such document");
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
-                }
-            });
-
-        }
-
-        return attendees;
-    }
 
     public void setUserList(Map<String, Long> userList) {
         this.userList = userList;
