@@ -13,25 +13,46 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The FirebaseAttendeeManager class is responsible for managing the attendees data in Firebase.
+ * <p>
+ * This class provides methods to submit an attendee to Firebase, get all attendees for a specific event, get all attendees, and clear all attendees.
+ *
+ * @version 1.0
+ * @see FirebaseFirestore
+ * @see CollectionReference
+ * @see Attendee
+ */
 public class FirebaseAttendeeManager {
 
-
     // Firestore instance
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final CollectionReference ref = db.collection("attendee");
+    private final FirebaseFirestore db;
+    private final CollectionReference ref;
 
-    // Create another constructor that will take no parameters
+    /**
+     * Default constructor that initializes the Firestore instance and the collection reference.
+     */
     public FirebaseAttendeeManager() {
+        this.db = FirebaseFirestore.getInstance();
+        this.ref = db.collection("attendee");
     }
 
-    // Create a basic constructor that takes a Firestore instance as a parameter
+    /**
+     * Constructor that takes a Firestore instance as a parameter.
+     *
+     * @param db the Firestore instance
+     */
     public FirebaseAttendeeManager(FirebaseFirestore db) {
         this.db = db;
+        this.ref = db.collection("attendee");
     }
 
+    /**
+     * Submits an attendee to Firebase.
+     *
+     * @param attendee the attendee to be submitted
+     */
     public void submitAttendee(Attendee attendee) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         // Convert Attendee object to a Map
         Map<String, Object> attendeeMap = new HashMap<>();
         attendeeMap.put("name", attendee.getName());
@@ -42,22 +63,22 @@ public class FirebaseAttendeeManager {
         attendeeMap.put("notification", attendee.isNotifications());
         attendeeMap.put("eventList", attendee.getEventList());
 
-        // It's better to use a unique ID instead of the name to avoid overwriting documents
-        // with the same name. The following line generates a new document ID.
-        // If you want to use a specific property as the ID, you can set it instead of 'newId'.
+        // Generate a new document ID
         String documentId = db.collection("attendee").document().getId();
 
-        // You can also use attendee.getName() if you're sure it will be unique
-        // Or use another unique identifier
-
+        // Submit the attendee to Firebase
         db.collection("attendee").document(documentId).set(attendeeMap)
                 .addOnSuccessListener(aVoid -> Log.d("submitAttendee", "DocumentSnapshot successfully written!"))
                 .addOnFailureListener(e -> Log.w("submitAttendee", "Error writing document", e));
     }
 
-    // Create a method to getAllAttendeesAsynchronously but only for a specific event
+    /**
+     * Fetches all attendees for a specific event from Firebase.
+     *
+     * @param eventID the ID of the event
+     * @return a task that represents the asynchronous operation of fetching the attendees
+     */
     public Task<List<Attendee>> getEventAttendees(String eventID) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         final List<Attendee> attendeesList = new ArrayList<>();
 
         return db.collection("attendee").get().continueWith(task -> {
@@ -85,11 +106,12 @@ public class FirebaseAttendeeManager {
         });
     }
 
-
-    // Create a method to fetch all attendees from Firestore and store them in a list that is then reutrned to the caller
-
+    /**
+     * Fetches all attendees from Firebase.
+     *
+     * @return a task that represents the asynchronous operation of fetching the attendees
+     */
     public Task<List<Attendee>> getAllAttendeesAsynchronously() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         final List<Attendee> attendeesList = new ArrayList<>();
 
         return db.collection("attendee").get().continueWith(task -> {
@@ -111,7 +133,9 @@ public class FirebaseAttendeeManager {
         });
     }
 
-    // Create a method to clear the list of attendees
+    /**
+     * Clears all attendees from Firebase.
+     */
     public void clearAttendees() {
         ref.get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -126,7 +150,3 @@ public class FirebaseAttendeeManager {
         });
     }
 }
-
-
-
-
