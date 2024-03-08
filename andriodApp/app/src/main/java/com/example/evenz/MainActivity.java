@@ -73,12 +73,6 @@ public class MainActivity extends AppCompatActivity {
     private Button upload;
 
     private final int PICK_IMAGE_REQUEST = 22;
-
-
-
-
-public class MainActivity extends AppCompatActivity {
-    private FirebaseFirestore db;
     TextView txv;
     Button y;
 
@@ -148,9 +142,9 @@ public class MainActivity extends AppCompatActivity {
                     eventDataList.clear();
                     for (QueryDocumentSnapshot doc : querySnapshots) {
                         String eventID = doc.getId();
-                        Event tempEvent = new Event(doc.getString("eventName"), doc.getString("eventPosterID"),
+                        Event tempEvent = new Event(doc.getString("eventID"), doc.getString("eventName"), doc.getString("eventPosterID"),
                                 doc.getString("description"), (Date) doc.get("date"), (Geolocation) doc.get("geolocation"),
-                                (Bitmap) doc.get("qrCodeBrowse"), (Bitmap) doc.get("qrCodeCheckIn"), (ArrayList<Pair<String, Integer>>) doc.get("userList"));
+                                (Bitmap) doc.get("qrCodeBrowse"), (Bitmap) doc.get("qrCodeCheckIn"), (Map<String, Integer>) doc.get("userList"));
                         Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
                     }
@@ -171,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     userDataList.clear();
                     for (QueryDocumentSnapshot doc : querySnapshots) {
                         String userID = doc.getId();
-                        User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"), doc.getString("phone"), doc.getString("email"));
+                        User tempUser = new User(doc.getString("userID"), doc.getString("userType"), doc.getString("name"), doc.getString("profilePicID"), doc.getString("phone"), doc.getString("email"));
                         userDataList.add(tempUser);
                     }
                 }
@@ -180,6 +174,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // gets data for profile picture when user has selected from camera
+    // FOR UPLOADING PROFILE PICTURES
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -208,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // FOR QR CODE SECTION
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         IntentResult intentResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
@@ -254,6 +250,8 @@ public class MainActivity extends AppCompatActivity {
         HashMap<String, Event> data = new HashMap<>();
         data.put(id, event);
         eventsRef.document(id).set(data);
+
+        eventsRef.document(id).update("AttendeeList", )
     }
 
     /**

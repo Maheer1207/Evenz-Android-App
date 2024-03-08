@@ -20,13 +20,17 @@ import java.util.HashMap;
 
 public class User
 {
+    private String userID;
+    private String userType;
     private String name;
     private String profilePicID;
     private String phone;
     private String email;
 
-    public User(String name, String profilePicID, String phone, String email)
+    public User(String userID, String userType, String name, String profilePicID, String phone, String email)
     {
+        this.userID = userID;
+        this.userType = userType;
         this.name = name;
         this.profilePicID = profilePicID;
         this.phone = phone;

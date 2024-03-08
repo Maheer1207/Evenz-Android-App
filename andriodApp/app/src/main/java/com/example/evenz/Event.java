@@ -30,6 +30,7 @@ import java.util.Map;
 
 public class Event
 {
+    private String eventID;
     private String eventName;
     private String eventPosterID;
     private String description;
@@ -37,10 +38,11 @@ public class Event
     private Geolocation geolocation;
     private Bitmap qrCodeBrowse;
     private Bitmap qrCodeCheckIn;
-    private ArrayList<Pair<String, Integer>> userList;
+    private Map<String, Integer> userList;
 
     /**
      * This is the public constructor to create an event
+     * @param eventID The id for the event
      * @param eventName The name of the event
      * @param eventPosterID The id for the event poster image
      * @param description The description of the event
@@ -50,8 +52,9 @@ public class Event
      * @param qrCodeCheckIn The qrcode to check in to the event
      * @param userList The list of users signed up to attend the event which is the number of times checked in (0 is rsvp) and the id of the user
      */
-    public Event(String eventName, String eventPosterID, String description, Date date, Geolocation geolocation, Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, ArrayList<Pair<String, Integer>> userList)
+    public Event(String eventID, String eventName, String eventPosterID, String description, Date date, Geolocation geolocation, Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, Map<String, Integer> userList)
     {
+        this.eventID = eventID;
         this.eventName = eventName;
         this.eventPosterID = eventPosterID;
         this.description = description;
@@ -110,7 +113,7 @@ public class Event
         this.qrCodeCheckIn = qrCodeCheckIn;
     }
 
-    public ArrayList<Pair<String, Integer>> getAttendeeIDList() {
+    public Map<String, Integer> getAttendeeIDList() {
         return userList;
     }
 
@@ -118,19 +121,41 @@ public class Event
      * This function returns the attendee list for the event
      * @return Returns the list in the format of an ArrayList of Pairs being <Attendee, check-in count>
      */
-    public ArrayList<Pair<Attendee, Integer>> getAttendeeList() {
-        ArrayList<Pair<Attendee, Integer>> attendees = new ArrayList<Pair<Attendee, Integer>>();
+    public Map<Attendee, Integer> getAttendeeList() {
+        Map<Attendee, Integer> attendees = new HashMap<Attendee, Integer>();
+        Map<String, Integer> attendeeID = new HashMap<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         // go through every attendee pulled from the event attendee list
         String tempID;
-        for (int i = 0; i<userList.size(); i++)
+
+        DocumentReference docRef = db.collection("events").document(getEventID());
+
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                        String iD = ((HashMap<String, Object>) document.getData().get("attendeeList")).get("UserID").toString();
+                        Integer count = (Integer)((HashMap<String, Object>) document.getData().get("attendeeList")).get("Count");
+                        attendeeID.put(iD, count);
+                    } else {
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+
+        for (Map.Entry<String, Integer> entry : attendeeID.entrySet())
         {
             // get the next atendee and find refrence on firebase
-            tempID = userList.get(i).first;
-            DocumentReference docRef = db.collection("users").document(tempID);
+            tempID = entry.getKey();
+            DocumentReference userDocRef = db.collection("users").document(tempID);
             String finalTempID = tempID;
-            int iter = i;
             docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -138,7 +163,11 @@ public class Event
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             // gets the attendee and the number of times they have checked into the event
-                            attendees.add(new Pair<Attendee, Integer>((Attendee)(document.get(finalTempID)), userList.get(iter).second));
+                            User tempUser = new Attendee(document.getString("userID"), document.getString("userType"),
+                                    document.getString("profilePicID"), document.getString("phone"),
+                                    document.getString("email"), document.getGeoPoint("geolocation"),
+                                    document.getBoolean("notifications"), document.get);
+                            attendees.put((Attendee)document.get(finalTempID), entry.getValue());
                             Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                         } else {
                             Log.d(TAG, "No such document");
@@ -148,13 +177,15 @@ public class Event
                     }
                 }
             });
-
         }
-
         return attendees;
     }
 
-    public void setUserList(ArrayList<Pair<String, Integer>> userList) {
+    private String getEventID() {
+        return eventID;
+    }
+
+    public void setUserList(Map<String, Integer> userList) {
         this.userList = userList;
     }
 }

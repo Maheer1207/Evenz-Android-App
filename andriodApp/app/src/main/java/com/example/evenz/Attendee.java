@@ -8,8 +8,8 @@ public class Attendee extends User
     private boolean notifications;
     private ArrayList<String> eventList;
 
-    public Attendee(String name, String profilePicID, String phone, String email, Geolocation geolocation, boolean notifications, ArrayList<String> eventList) {
-        super(name, profilePicID, phone, email);
+    public Attendee(String userID, String userType, String name, String profilePicID, String phone, String email, Geolocation geolocation, boolean notifications, ArrayList<String> eventList) {
+        super(userID, userType, name, profilePicID, phone, email);
         this.geolocation = geolocation;
         this.notifications = notifications;
         this.eventList.addAll(eventList);
