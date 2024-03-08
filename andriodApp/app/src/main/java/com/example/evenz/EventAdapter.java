@@ -72,7 +72,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.textDate.setText(dateFormat.format(event.getEventDate()));
 
         // Assuming you have a method to get a displayable location string from Geolocation
-        holder.textLocation.setText(event.getEventLoc()); // You need to adjust this based on your Geolocation data.
+        holder.textLocation.setText(event.getLocation());
 
     }
 

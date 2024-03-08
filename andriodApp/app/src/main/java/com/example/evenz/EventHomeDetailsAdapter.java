@@ -40,7 +40,7 @@ public class EventHomeDetailsAdapter extends RecyclerView.Adapter<EventHomeDetai
 
         public ViewHolder(View itemView) {
             super(itemView);
-            txtEventDetail = itemView.findViewById(R.id.text_ccis_uofa);
+            txtEventDetail = itemView.findViewById(R.id.text_event_location);
         }
     }
 }

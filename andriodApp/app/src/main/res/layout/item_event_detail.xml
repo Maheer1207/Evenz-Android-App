@@ -29,17 +29,10 @@
     <TextView
         android:id="@+id/text_event_location"
         android:layout_width="wrap_content"
-        android:layout_height="17dp"
-        android:layout_gravity="top|left"
-        android:layout_marginLeft="41dp"
-        android:layout_marginTop="-23dp"
-        android:gravity="left|center_vertical"
-        android:includeFontPadding="false"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:text="CCIS, UofA"
-        android:textColor="#FF000000"
-        android:textSize="18sp" />
+        android:layout_height="wrap_content"
+        android:text="Event Location"
+        android:layout_margin="8dp"
+        />
 
     <TextView
         android:layout_width="310dp"

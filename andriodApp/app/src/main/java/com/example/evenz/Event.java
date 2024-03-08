@@ -34,6 +34,8 @@ public class Event
     private Map<String, Long> userList;
     private ArrayList<String> notificationList;
     private String location;
+    public Event() {
+    }
 
     /**
      * This is the public constructor to create an event
@@ -48,6 +50,8 @@ public class Event
      * @param eventAttendLimit   The limit of attendees in the event
      * @param userList           The list of users signed up to attend the event which is the number of times checked in (0 is rsvp) and the id of the user
      */
+    //non-argument constructor
+
     public Event(String organizationName, String eventName, String eventPosterID, String description,
                  Geolocation geolocation,Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, int eventAttendLimit,
                  Map<String, Long> userList, Date eventDate, ArrayList<String> notificationList, String location)
