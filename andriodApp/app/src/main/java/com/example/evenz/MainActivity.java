@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String eventID = doc.getId(); //TODO: convert qrcode browse getLong to getInt
 
-                        long eventAttendLimit = ((Long) Objects.requireNonNull(doc.get("AttendLimit")));
+                        Object attendLimitObj = doc.get("AttendLimit");
+                        long eventAttendLimit = attendLimitObj != null ? (Long) attendLimitObj : 0; // 0 is a default value
                         
                         // Get the Timestamp object from the document
                         Timestamp timestamp = doc.getTimestamp("eventDate");
@@ -93,7 +94,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        //  TODO: Demo Button, Need to be deleted
+        final Button intialPage = findViewById(R.id.initial_who_Screen);
+        intialPage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, InitialPageActivity.class);
+                startActivity(intent);
+            }
+        });
         //  TODO: Demo Button, Need to be deleted
         final Button admin_event_browse = findViewById(R.id.button_admin_event_browse);
         admin_event_browse.setOnClickListener(new View.OnClickListener() {

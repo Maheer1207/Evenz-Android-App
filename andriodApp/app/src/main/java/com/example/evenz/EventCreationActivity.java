@@ -12,15 +12,19 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -150,7 +154,33 @@ public class EventCreationActivity extends AppCompatActivity {
         String eventDatestring = editDate.getText().toString().trim();
         String location = editTextEventLoc.getText().toString().trim();
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
+        String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        // Reference to 'users' collection
+        DocumentReference userDocRef = db.collection("users").document(deviceID);
+
+        userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document != null && document.exists()) {
+                        // User exists, you can now proceed with event creation or update user data as needed
+                    } else {
+                        // User does not exist, create a new user with UserType set to "organizer"
+                        Map<String, Object> newUser = new HashMap<>();
+                        newUser.put("userType", "organizer");
+                        // Add other user details as needed
+                        newUser.put("userId", deviceID); // Assuming you want to use deviceID as userId
+
+                        // Save the new user
+                        db.collection("users").document(deviceID).set(newUser);
+                    }
+                }
+            }
+        });
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
         Date eventDate = null;
 
@@ -182,13 +212,13 @@ public class EventCreationActivity extends AppCompatActivity {
 
         // added add() so, event ID will be automatically generated.
         // TODO: review with TEAM
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("events").add(eventMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @OptIn(markerClass = UnstableApi.class)
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         // Successfully added event with auto-generated ID
                         Log.d("Firestore", "DocumentSnapshot added with ID: " + documentReference.getId());
+                        userDocRef.update("eventList", documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

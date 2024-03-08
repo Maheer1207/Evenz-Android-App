@@ -82,6 +82,13 @@
             android:text="QR Screen"
             tools:ignore="MissingConstraints"
             />
+        <Button
+            android:id="@+id/initial_who_Screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="INTIAL HOME PAGE"
+            tools:ignore="MissingConstraints"
+            />
 
     </LinearLayout>
 
