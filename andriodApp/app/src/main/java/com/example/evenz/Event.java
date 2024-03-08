@@ -17,7 +17,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Map;
 
@@ -33,8 +32,8 @@ public class Event
     private int eventAttendLimit;
     private Date eventDate;
     private Map<String, Long> userList;
-
     private String[] notificationList;
+    private String location;
 
     /**
      * This is the public constructor to create an event
@@ -50,13 +49,14 @@ public class Event
      * @param userList           The list of users signed up to attend the event which is the number of times checked in (0 is rsvp) and the id of the user
      */
     public Event(String organizationName, String eventName, String eventPosterID, String description,
-                 Geolocation geolocation, Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, int eventAttendLimit,
-                 Map<String, Long> userList, Date eventDate, String[] notificationList)
+                 Geolocation geolocation,Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, int eventAttendLimit,
+                 Map<String, Long> userList, Date eventDate, String[] notificationList, String location)
     {
         this.eventName = eventName;
         this.eventPosterID = eventPosterID;
         this.description = description;
-        this.geolocation = geolocation;
+//        this.geolocation = geolocation;
+        this.location = location;
         this.qrCodeBrowse = qrCodeBrowse;
         this.qrCodeCheckIn = qrCodeCheckIn;
         this.userList = userList;
@@ -74,7 +74,12 @@ public class Event
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
-
+    public String getEventLoc() {
+        return this.location;
+    }
+    public void setEventLoc(String loc) {
+        this.location = loc;
+    }
     public Date getEventDate() {
         return this.eventDate;
     }

@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         Event tempEvent = new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                                 doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"),
                                 (Bitmap)doc.get("qrCodeIn"), (int)eventAttendLimit,
-                                new Hashtable<>(), eventDate, new String[0]); //TODO: review if this is correct implementation
+                                new Hashtable<>(), eventDate, new String[0], doc.getString("stringLocation")); //TODO: review if this is correct implementation
 
                         Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
@@ -126,6 +126,15 @@ public class MainActivity extends AppCompatActivity {
         event_browse.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, EventBrowseActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button sendNotification = findViewById(R.id.send_notification);
+        sendNotification.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, OrgSendNotificationActivity.class);
                 startActivity(intent);
             }
         });

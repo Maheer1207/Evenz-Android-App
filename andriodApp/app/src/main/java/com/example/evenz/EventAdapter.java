@@ -62,7 +62,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.textDate.setText(dateFormat.format(event.getEventDate()));
 
         // Assuming you have a method to get a displayable location string from Geolocation
-        holder.textLocation.setText("Location details"); // You need to adjust this based on your Geolocation data.
+        holder.textLocation.setText(event.getEventLoc()); // You need to adjust this based on your Geolocation data.
 
         // For image loading from an ID or URL, you'll use a library like Glide or Picasso. Example:
         // Glide.with(context).load(event.getEventPosterID()).into(holder.imageBanner);

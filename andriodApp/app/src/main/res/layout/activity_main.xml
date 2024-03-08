@@ -59,6 +59,13 @@
             android:text="Scrollable Event List"
             tools:ignore="MissingConstraints"
             />
+        <Button
+            android:id="@+id/send_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Send Notification"
+            tools:ignore="MissingConstraints"
+            />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -23,19 +21,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 
 
 public class EventCreationActivity extends AppCompatActivity {
 
-    private EditText editTextOrganizerName, editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo;
+    private EditText editTextOrganizerName, editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
     private Button submitEventButton;
 
     // Firestore instance
@@ -71,6 +67,7 @@ public class EventCreationActivity extends AppCompatActivity {
         editDate = findViewById(R.id.editDate); // Ensure you have input formatting or parsing for date
         editTextAttendeeLimit = findViewById(R.id.no_limit);
         editTextEventInfo = findViewById(R.id.editTextEventInfo);
+        editTextEventLoc = findViewById(R.id.editTextLocation);
         submitEventButton = findViewById(R.id.create_event_button); //Create event button
     }
 
@@ -82,6 +79,8 @@ public class EventCreationActivity extends AppCompatActivity {
         String attendeeLimit = editTextAttendeeLimit.getText().toString().trim();
         String orgName = editTextOrganizerName.getText().toString().trim();
         String eventDatestring = editDate.getText().toString().trim();
+        String location = editTextEventLoc.getText().toString().trim();
+
 
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
         Date eventDate = null;
@@ -99,7 +98,7 @@ public class EventCreationActivity extends AppCompatActivity {
         String[] notificationlist = new String[0]; // TODO: append notification to the list
 
         // Constructing the Event object
-        Event newEvent = new Event(orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate, notificationlist);
+        Event newEvent = new Event(orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate, notificationlist, location);
 
         // Now, convert  Event object to a Map or directly use the attributes to add to Firestore
         Map<String, Object> eventMap = new HashMap<>();
@@ -108,6 +107,7 @@ public class EventCreationActivity extends AppCompatActivity {
         eventMap.put("description", newEvent.getDescription());
         eventMap.put("AttendLimit", newEvent.getEventAttendLimit());
         eventMap.put("eventDate", newEvent.getEventDate());
+        eventMap.put("stringLocation", newEvent.getEventLoc());
 
         // added add() so, event ID will be automatically generated.
         // TODO: review with TEAM

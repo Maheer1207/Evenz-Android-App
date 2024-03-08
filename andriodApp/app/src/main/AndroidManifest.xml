@@ -27,6 +27,9 @@
             android:name=".EventBrowseActivity"
             android:exported="true"/>
         <activity
+            android:name=".OrgSendNotificationActivity"
+            android:exported="true"/>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 

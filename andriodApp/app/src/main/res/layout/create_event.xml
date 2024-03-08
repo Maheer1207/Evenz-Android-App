@@ -99,13 +99,13 @@
 							android:textStyle="bold" />
 
 						<EditText
-							android:id="@+id/location"
+							android:id="@+id/editTextLocation"
 							android:layout_width="335dp"
 							android:layout_height="50dp"
 							android:background="@drawable/boundary_style"
-							android:hint="@string/no_limit_string"
+							android:hint="8801 111 ST NW Edmonton, AB"
 							android:importantForAutofill="no"
-							android:inputType="date" />
+							android:inputType="text" />
 					</LinearLayout>
 				</RelativeLayout>
 

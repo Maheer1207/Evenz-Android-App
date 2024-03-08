@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
   <ImageView
-      android:id="@+id/back_attendee_event_info_signup"
+      android:id="@+id/back_send_notification"
       android:layout_width="14.21dp"
       android:layout_height="wrap_content"
       android:layout_marginStart="20dp"
@@ -61,8 +61,7 @@
           android:layout_height="50dp"
           android:background="@drawable/boundary_style"
           android:hint="Food"
-          android:importantForAutofill="no"
-          android:inputType="date" />
+          android:importantForAutofill="no" />
     </LinearLayout>
   </RelativeLayout>
 
@@ -94,8 +93,7 @@
           android:layout_height="250dp"
           android:background="@drawable/boundary_style"
           android:hint="🍕 Hot Deal Alert! Enjoy 20% ... 🎉"
-          android:importantForAutofill="no"
-          android:inputType="date" />
+          android:importantForAutofill="no" />
     </LinearLayout>
   </RelativeLayout>
 
