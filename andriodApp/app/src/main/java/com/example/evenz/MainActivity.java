@@ -131,22 +131,38 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //  TODO: Demo Button, Need to be deleted
-        final Button sendNotification = findViewById(R.id.send_notification);
-        sendNotification.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, OrgSendNotificationActivity.class);
-                startActivity(intent);
-            }
-        });
+//        final Button sendNotification = findViewById(R.id.send_notification);
+//        sendNotification.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, OrgSendNotificationActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         //  TODO: Demo Button, Need to be deleted
         final Button attendee_home = findViewById(R.id.attendee_home);
         attendee_home.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                Bundle b = new Bundle();
+                b.putString("role", "attendee");
+                intent.putExtras(b);
                 startActivity(intent);
             }
         });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button org_home = findViewById(R.id.Org_home);
+        org_home.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                Bundle b = new Bundle();
+                b.putString("role", "org");
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+
 
         //  TODO: Demo Button, Need to be deleted
         final Button qrScanScreen = findViewById(R.id.QR_Screen);

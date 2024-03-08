@@ -28,13 +28,17 @@ import java.util.Map;
 
 public class OrgSendNotificationActivity extends AppCompatActivity {
     TextView post;
+    String eventID;
     EditText editTextNotificationType, editTextNotificationInfo;
-    final String eventID = "sTxGMBeN1Fnw1Slau2j5";
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Bundle b = getIntent().getExtras();
+        assert b != null;
+        eventID = b.getString("eventID");
 
         setContentView(R.layout.org_send_event_notification);
         post = findViewById(R.id.post_notification_button);
@@ -43,16 +47,17 @@ public class OrgSendNotificationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 initUI();
                 postNotificaion();
-                startActivity(new Intent(OrgSendNotificationActivity.this, MainActivity.class));
+                Intent intent = new Intent(new Intent(OrgSendNotificationActivity.this, HomeScreenActivity.class));
+                Bundle b = new Bundle();
+                b.putString("role", "org");
+                intent.putExtras(b);
+                startActivity(intent);
             }
         });
 
         findViewById(R.id.back_send_notification).setOnClickListener(v -> finish());
     }
 
-//    public OrgSendNotificationActivity(String eventId){
-//        super();
-//    }
     private void initUI() {
         editTextNotificationType = findViewById(R.id.editTextNotificationType);
         editTextNotificationInfo = findViewById(R.id.editTextNotificationInfo);

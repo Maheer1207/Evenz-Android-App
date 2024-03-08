@@ -34,12 +34,14 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public void onBindViewHolder(@NonNull NotificationsAdapter.ViewHolder holder, int position) {
         String notification = notifications.get(position);
 
-        String[] notificationParts =notification.split(",",2); // will be matched 1 times.
 
-        holder.txtNotificationTitle.setText(notificationParts[0]);
-        holder.txtNotificationDetails.setText(notificationParts[1]);
-        // Since we are using just a String, we won't have a title or timestamp.
-        // If those are needed, you'd have to parse the String or change the data structure.
+        String[] notificationParts = notification.split(",",2); // will be matched 1 times.
+        if (notificationParts.length == 1) {
+            holder.txtNotificationDetails.setText(notification);
+        } else {
+            holder.txtNotificationTitle.setText(notificationParts[0]);
+            holder.txtNotificationDetails.setText(notificationParts[1]);
+        }
     }
 
     @Override
