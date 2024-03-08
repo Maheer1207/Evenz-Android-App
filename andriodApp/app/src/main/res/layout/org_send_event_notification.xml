@@ -60,7 +60,6 @@
           android:layout_width="335dp"
           android:layout_height="50dp"
           android:background="@drawable/boundary_style"
-          android:hint="Food"
           android:importantForAutofill="no" />
     </LinearLayout>
   </RelativeLayout>
@@ -92,7 +91,7 @@
           android:layout_width="335dp"
           android:layout_height="250dp"
           android:background="@drawable/boundary_style"
-          android:hint="🍕 Hot Deal Alert! Enjoy 20% ... 🎉"
+          android:hint= "Enter the notification info here"
           android:importantForAutofill="no" />
     </LinearLayout>
   </RelativeLayout>

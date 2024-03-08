@@ -35,7 +35,7 @@
         android:layout_gravity="top|start"
         android:layout_marginStart="20dp"
         android:layout_marginTop="0dp"
-        android:scaleType="centerInside"
+        android:scaleType="centerCrop"
         android:src="@drawable/img_career_fairs_web_banner" />
 
     <ImageView
