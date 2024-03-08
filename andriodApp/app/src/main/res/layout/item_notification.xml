@@ -34,12 +34,4 @@
             android:text="Notification Details" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/txt_notification_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:textSize="18sp"
-        android:text="Time" />
-
 </LinearLayout>

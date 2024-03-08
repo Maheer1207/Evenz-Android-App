@@ -81,7 +81,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notificationsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="300dp"
         android:layout_marginTop="380dp"
         android:clipToPadding="false"
         android:paddingBottom="110dp" />
@@ -105,9 +105,9 @@
       android:layout_marginTop="700dp"
       android:layout_marginEnd="314.43dp"
       android:layout_marginBottom="30.81dp"
+      android:contentDescription="Button to view attendee's projile"
       android:scaleType="centerInside"
-      android:src="@drawable/profile"
-      android:contentDescription="Button to view attendee's projile" />
+      android:src="@drawable/profile" />
 
   <ImageView
       android:id="@+id/camera_scan_attendee"
