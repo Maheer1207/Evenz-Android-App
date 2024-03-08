@@ -16,10 +16,9 @@ import java.util.Objects;
 public class FirebaseAttendeeManager {
 
 
-
     // Firestore instance
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private final CollectionReference ref = db.collection("attendees");
+    private final CollectionReference ref = db.collection("attendee");
 
     // Create another constructor that will take no parameters
     public FirebaseAttendeeManager() {
@@ -29,6 +28,7 @@ public class FirebaseAttendeeManager {
     public FirebaseAttendeeManager(FirebaseFirestore db) {
         this.db = db;
     }
+
     public void submitAttendee(Attendee attendee) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -55,7 +55,35 @@ public class FirebaseAttendeeManager {
                 .addOnFailureListener(e -> Log.w("submitAttendee", "Error writing document", e));
     }
 
+    // Create a method to getAllAttendeesAsynchronously but only for a specific event
+    public Task<List<Attendee>> getEventAttendees(String eventID) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        final List<Attendee> attendeesList = new ArrayList<>();
 
+        return db.collection("attendee").get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                    List<String> eventList = (List<String>) document.get("eventList");
+                    if (eventList != null && eventList.contains(eventID)) {
+                        Attendee attendee = new Attendee(
+                                document.getString("name"),
+                                document.getString("profilePicID"),
+                                document.getString("phone"),
+                                document.getString("email"),
+                                null,
+                                Boolean.TRUE.equals(document.getBoolean("notification")),
+                                (ArrayList<String>) eventList
+                        );
+                        attendeesList.add(attendee);
+                        System.out.println("Attendee: " + attendee.getName() + " is attending event: " + eventID);
+                    }
+                }
+            } else {
+                System.out.println("Error getting documents: " + task.getException());
+            }
+            return attendeesList;
+        });
+    }
 
 
     // Create a method to fetch all attendees from Firestore and store them in a list that is then reutrned to the caller
@@ -83,7 +111,22 @@ public class FirebaseAttendeeManager {
         });
     }
 
-
-
-
+    // Create a method to clear the list of attendees
+    public void clearAttendees() {
+        ref.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                    ref.document(document.getId()).delete()
+                            .addOnSuccessListener(aVoid -> System.out.println("clearAttendees: " + document.getId() + " was successfully deleted."))
+                            .addOnFailureListener(e -> System.out.println("clearAttendees: Failed to delete " + document.getId() + ". Error: " + e.getMessage()));
+                }
+            } else {
+                System.out.println("clearAttendees: Error getting documents: " + task.getException());
+            }
+        });
+    }
 }
+
+
+
+
