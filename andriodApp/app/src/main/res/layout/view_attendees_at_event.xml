@@ -17,22 +17,25 @@
       android:layout_marginBottom="691dp"
       android:contentDescription="BackButton"
       android:scaleType="centerInside"
-      android:src="@drawable/header_icon" />
+      android:src="@drawable/header_icon"
+      android:clickable="true"
+      android:onClick="onHeaderIconClicked" />
 
   <!-- Add additional views here if necessary -->
 
 
   <TextView
       android:id="@+id/header_frame_text"
-      android:layout_width="wrap_content"
+      android:layout_width="155dp"
       android:layout_height="wrap_content"
       android:layout_alignParentStart="true"
       android:layout_alignParentEnd="true"
-      android:layout_marginStart="147dp"
-      android:layout_marginEnd="144dp"
+      android:layout_marginStart="124dp"
+      android:layout_marginEnd="132dp"
       android:text="Attendees 15/24"
       android:textColor="#FF1A1A1A"
-      android:textSize="16dp" />
+        android:textStyle="bold"
+      android:textSize="20dp" />
 
   <androidx.recyclerview.widget.RecyclerView
       android:id="@+id/recycler_view"
@@ -40,6 +43,42 @@
       android:layout_height="558dp"
       android:layout_below="@id/header_frame_text"
       android:layout_marginTop="32dp" />
-  <!--  layour manager-->
+
+  <RelativeLayout
+      android:id="@+id/bottom_bar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+      android:padding="16dp"
+      android:background="#FFFFFF">
+
+    <!-- Icon 1 -->
+
+    <!-- Icon 2 -->
+    <ImageView
+        android:id="@+id/icon1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="38dp"
+        android:src="@drawable/profile" />
+
+    <ImageView
+        android:id="@+id/icon2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/home"/>
+
+    <!-- Icon 3 -->
+    <ImageView
+        android:id="@+id/icon3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="42dp"
+        android:src="@drawable/camera_scan" />
+
+  </RelativeLayout>
 
 </RelativeLayout>
