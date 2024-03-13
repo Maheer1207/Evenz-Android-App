@@ -25,7 +25,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -152,7 +154,19 @@ public class EventCreationActivity extends AppCompatActivity {
         submitEventButton = findViewById(R.id.create_event_button); //Create event button
     }
 
-    private void submitEvent() throws ParseException {
+    private Task<Void> createUserIfNotExists(String userId, String eventId) {
+        DocumentReference userDocRef = db.collection("users").document(userId);
+
+
+        Map<String, Object> newUser = new HashMap<>();
+        newUser.put("userType", "organizer");
+        newUser.put("userId", userId);
+        newUser.put("eventList", eventId);
+
+        return userDocRef.set(newUser, SetOptions.merge());
+    }
+
+    @OptIn(markerClass = UnstableApi.class) private void submitEvent() throws ParseException {
 
         String eventName = editTextEventName.getText().toString().trim();
         String eventPosterID = eventPosterID_temp; // Assuming a default or gathered elsewhere
@@ -168,27 +182,28 @@ public class EventCreationActivity extends AppCompatActivity {
 
         // Reference to 'users' collection
         DocumentReference userDocRef = db.collection("users").document(deviceID);
+//        userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document != null && document.exists()) {
+//                        // User exists, you can now proceed with event creation or update user data as needed
+////                        continue;
+//                    } else {
+//                        // User does not exist, create a new user with UserType set to "organizer"
+//                        Map<String, Object> newUser = new HashMap<>();
+//                        newUser.put("userType", "organizer");
+//                        // Add other user details as needed
+//                        newUser.put("userId", deviceID); // Assuming you want to use deviceID as userId
+//
+//                        // Save the new user
+//                        db.collection("users").document(deviceID).set(newUser);
+//                    }
+//                }
+//            }
+//        });
 
-        userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null && document.exists()) {
-                        // User exists, you can now proceed with event creation or update user data as needed
-                    } else {
-                        // User does not exist, create a new user with UserType set to "organizer"
-                        Map<String, Object> newUser = new HashMap<>();
-                        newUser.put("userType", "organizer");
-                        // Add other user details as needed
-                        newUser.put("userId", deviceID); // Assuming you want to use deviceID as userId
-
-                        // Save the new user
-                        db.collection("users").document(deviceID).set(newUser);
-                    }
-                }
-            }
-        });
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
         Date eventDate = null;
 
@@ -220,24 +235,31 @@ public class EventCreationActivity extends AppCompatActivity {
 
         // added add() so, event ID will be automatically generated.
         // TODO: review with TEAM
-        db.collection("events").add(eventMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @OptIn(markerClass = UnstableApi.class)
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        // Successfully added event with auto-generated ID
-                        Log.d("Firestore", "DocumentSnapshot added with ID: " + documentReference.getId());
-                        userDocRef.update("eventList", documentReference.getId());
-                        eventID = documentReference.getId();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @OptIn(markerClass = UnstableApi.class)
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        // Handle the error
-                        Log.w("Firestore", "Error adding document", e);
-                    }
-                });
+        db.collection("events").add(eventMap).addOnSuccessListener(documentReference -> {
+            Log.d("event create", "TESTSTT " + documentReference.getId());
+            eventID = documentReference.getId();
+        });
+//        db.collection("events").add(eventMap).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @OptIn(markerClass = UnstableApi.class)
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        // Successfully added event with auto-generated ID
+//                        Log.d("Firestore", "DocumentSnapshot added with ID: " + documentReference.getId());
+//                        userDocRef.update("eventList", FieldValue.arrayUnion(documentReference.getId()));
+////                        eventID = documentReference.getId();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @OptIn(markerClass = UnstableApi.class)
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        // Handle the error
+//                        Log.w("Firestore", "Error adding document", e);
+//                    }
+//                });
+
+//        db.collection("events").getId();
+        createUserIfNotExists(deviceID, eventID);
     }
 
         private void select()

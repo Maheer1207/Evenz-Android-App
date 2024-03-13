@@ -64,7 +64,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         String role = b.getString("role");
         eventID = b.getString("eventID");
 
-        specificEventId = getEventIdForHomeScreen();
+//        specificEventId = getEventIdForHomeScreen();
 
 //        db = FirebaseFirestore.getInstance();
 //        usersRef = db.collection("users");
@@ -109,8 +109,9 @@ public class HomeScreenActivity extends AppCompatActivity {
             eventLocation = findViewById(R.id.attendee_home_event_location);
             eventDetail = findViewById(R.id.attendee_home_event_detail);
 
-            if (!specificEventId.isEmpty()) {
-                fetchEventDetailsAndNotifications(specificEventId);
+//            if (!specificEventId.isEmpty()) {
+            if (!eventID.isEmpty()) {
+                fetchEventDetailsAndNotifications(eventID);
             }
 
             ImageView browseEvent = findViewById(R.id.event_list);
@@ -139,8 +140,8 @@ public class HomeScreenActivity extends AppCompatActivity {
             eventLocation = findViewById(R.id.org_home_event_location);
             eventDetail = findViewById(R.id.org_home_event_detail);
 
-            if (!specificEventId.isEmpty()) {
-                fetchEventDetailsAndNotifications(specificEventId);
+            if (!eventID.isEmpty()) {
+                fetchEventDetailsAndNotifications(eventID);
             }
 
             FloatingActionButton postNotification = findViewById(R.id.add_fab);
@@ -193,7 +194,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
     private void fetchEventDetailsAndNotifications(String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("events").document(eventID).get().addOnSuccessListener(documentSnapshot -> {
+        db.collection("events").document(eventId).get().addOnSuccessListener(documentSnapshot -> {
             if (documentSnapshot != null && documentSnapshot.exists()) {
                 Event event = documentSnapshot.toObject(Event.class);
                 // Directly update the TextView with the event's location
