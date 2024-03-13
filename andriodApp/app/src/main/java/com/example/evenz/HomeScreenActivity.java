@@ -64,41 +64,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         String role = b.getString("role");
         eventID = b.getString("eventID");
 
-//        specificEventId = getEventIdForHomeScreen();
-
-//        db = FirebaseFirestore.getInstance();
-//        usersRef = db.collection("users");
-//
-//        String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-//        usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-//            @Override
-//            public void onEvent(@Nullable QuerySnapshot querySnapshots,
-//                                @Nullable FirebaseFirestoreException error) {
-//                if (error != null) {
-//                    Log.e("Firestore", error.toString());
-//                    return;
-//                }
-//                boolean userFound = false;
-//                if (querySnapshots != null) {
-//                    for (QueryDocumentSnapshot doc : querySnapshots) {
-//                        String userID = doc.getId();
-//                        Log.d("Firestore", "Checking user ID: " + userID);
-//                        if (userID.equals(deviceID)) {
-//                            userFound = true;
-//                            eventID = doc.getString("eventList");
-//                            Log.d("Firestore", "Event ID found: " + eventID);
-//
-//                            // Fetch event details after eventID is fetched
-//                            fetchEventDetailsAndNotifications(eventID);
-//                            break;
-//                        }
-//                    }
-//                    if (!userFound) Log.e("Firestore", "No matching user/document found for deviceID: " + deviceID);
-//                }
-//            }
-//        });
-
-
         if (Objects.equals(role, "attendee")) {
             setContentView(R.layout.attendees_home_page);
 

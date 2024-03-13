@@ -49,7 +49,8 @@ public class OrgSendNotificationActivity extends AppCompatActivity {
                 postNotificaion();
                 Intent intent = new Intent(new Intent(OrgSendNotificationActivity.this, HomeScreenActivity.class));
                 Bundle b = new Bundle();
-                b.putString("role", "org");
+                b.putString("role", "organizer");
+                b.putString("eventID", eventID);
                 intent.putExtras(b);
                 startActivity(intent);
                 startActivity(new Intent(OrgSendNotificationActivity.this, HomeScreenActivity.class));
