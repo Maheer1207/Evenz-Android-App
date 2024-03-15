@@ -91,9 +91,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="feat: Added unit test for user class">
-      <change afterPath="$PROJECT_DIR$/app/src/test/java/com/example/evenz/OrganizerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="feat: Added unit test for AttendeeAdapter class">
+      <change afterPath="$PROJECT_DIR$/app/src/test/java/com/example/evenz/UserTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -170,7 +169,7 @@
       <recent name="com.example.evenz" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.OrganizerTest">
+  <component name="RunManager" selected="Gradle.AttendeeAdapterTest">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Evenz.app.main" />
       <option name="DEPLOY" value="true" />
@@ -286,54 +285,6 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="OrganizerTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":app:testDebugUnitTest" />
-            <option value="--tests" />
-            <option value="&quot;com.example.evenz.OrganizerTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="UserTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":app:testDebugUnitTest" />
-            <option value="--tests" />
-            <option value="&quot;com.example.evenz.UserTest&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="eventTest" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -360,8 +311,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.OrganizerTest" />
-        <item itemvalue="Gradle.UserTest" />
         <item itemvalue="Gradle.AttendeeAdapterTest" />
         <item itemvalue="Gradle.GeolocationTest" />
         <item itemvalue="Gradle.eventTest" />
@@ -409,15 +358,7 @@
       <option name="project" value="LOCAL" />
       <updated>1709933449377</updated>
     </task>
-    <task id="LOCAL-00005" summary="feat: Added unit test for user class">
-      <option name="closed" value="true" />
-      <created>1709933583285</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1709933583285</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -437,7 +378,6 @@
     <MESSAGE value="feat: Added unit test for Event class and updated Geolocation class with getters and setters" />
     <MESSAGE value="feat: Added unit test for Geolocation class" />
     <MESSAGE value="feat: Added unit test for AttendeeAdapter class" />
-    <MESSAGE value="feat: Added unit test for user class" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Added unit test for user class" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Added unit test for AttendeeAdapter class" />
   </component>
 </project>
