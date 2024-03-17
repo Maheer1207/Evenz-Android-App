@@ -11,4 +11,30 @@ public class Geolocation {
         this.xcoord = xcoord;
         this.ycoord = ycoord;
     }
+
+
+// Getters and Setters
+    public String getGeolocationID() {
+        return geolocationID;
+    }
+
+    public void setGeolocationID(String geolocationID) {
+        this.geolocationID = geolocationID;
+    }
+
+    public float getXcoord() {
+        return xcoord;
+    }
+
+    public void setXcoord(float xcoord) {
+        this.xcoord = xcoord;
+    }
+
+    public float getYcoord() {
+        return ycoord;
+    }
+
+    public void setYcoord(float ycoord) {
+        this.ycoord = ycoord;
+    }
 }

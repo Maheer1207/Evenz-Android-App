@@ -1,0 +1,250 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:alpha="100">
+    <!--
+    /*
+     *	This content is generated from the API File Info.
+     *	(Alt+Shift+Ctrl+I).
+     *
+     *	@desc
+     *	@file 		edit_profile
+     *	@date 		Thursday 07th of March 2024 02:14:56 AM
+     *	@title 		Page 1
+     *	@author
+     *	@keywords
+     *	@generator 	Export Kit v1.3.figma
+     *
+     */
+    -->
+    <FrameLayout
+        android:id="@+id/adminview_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:id="@+id/content_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <RelativeLayout
+                android:id="@+id/page_edit_profile_ek1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp">
+
+                <View
+                    android:id="@+id/_bg__edit_profile_ek2"
+                    android:layout_width="393dp"
+                    android:layout_height="807dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/_bg__edit_profile_ek2_shape"
+                    android:clickable="false" />
+
+
+                <RelativeLayout
+                    android:id="@+id/profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="29dp"
+                    android:layout_marginTop="27dp">
+
+                    <ImageButton
+                        android:id="@+id/back_button"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:contentDescription="back_button"
+                        android:src="@drawable/vector" />
+
+                    <TextView
+                        android:id="@+id/view_profile_header"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="123dp"
+                        android:layout_marginTop="2dp"
+                        android:text="View Profile"
+                        android:textColor="@color/_bg__profile_ek1_color"
+                        android:textSize="20.02sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/pfp_circle"
+                        android:layout_width="126.14dp"
+                        android:layout_height="126.14dp"
+                        android:layout_marginStart="106dp"
+                        android:layout_marginTop="46dp"
+                        android:src="@drawable/ellipse_1"
+                        android:contentDescription="pfp_placeholder" />
+
+
+                    <ImageView
+                        android:id="@+id/user_pfp"
+                        android:layout_width="40.86dp"
+                        android:layout_height="38.76dp"
+                        android:layout_marginStart="152dp"
+                        android:layout_marginTop="93dp"
+                        android:src="@drawable/vector_ek2"
+                        android:contentDescription="pfp_default" />
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/place_holders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="215dp">
+
+                    <RelativeLayout
+                        android:id="@+id/adminview_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp">
+
+                        <TextView
+                            android:id="@+id/name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="0dp"
+                            android:text="Name"
+                            android:textColor="@color/_bg__profile_ek1_color"
+                            android:textSize="16.02sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/adminview_name"
+                            android:layout_width="335.37dp"
+                            android:layout_height="48.05dp"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="29dp"
+                            android:alpha="1000"
+                            android:background="@drawable/name_rectangle_shape"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/adminview_phone_number"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="97.11dp">
+
+                        <TextView
+                            android:id="@+id/phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="0dp"
+                            android:text="Phone Number"
+                            android:textColor="@color/_bg__profile_ek1_color"
+                            android:textSize="16.02sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/adminview_phone"
+                            android:layout_width="335.37dp"
+                            android:layout_height="48.05dp"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="29dp"
+                            android:alpha="100"
+                            android:background="@drawable/phone_rectangle_shape" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/email_place_holder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="194.21dp">
+
+
+                        <TextView
+                            android:id="@+id/email__optional_"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="0dp"
+                            android:text="Email"
+                            android:textColor="@color/_bg__profile_ek1_color"
+                            android:textSize="16.02sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/adminview_email"
+                            android:layout_width="335.37dp"
+                            android:layout_height="48.05dp"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="29dp"
+                            android:alpha="100"
+                            android:background="@drawable/email_rectangle_shape" />
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/save_changes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="86dp"
+                    android:layout_marginTop="650dp">
+
+                    <Button
+                        android:id="@+id/delete_profile"
+                        android:layout_width="222.88dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp"
+                        android:background="@drawable/save_shape"
+                        tools:text="Delete Profile" />
+
+
+                </RelativeLayout>
+
+
+                <CheckBox
+                    android:id="@+id/enable_notification"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="500dp"
+                    android:layout_marginEnd="13dp"
+                    android:layout_marginBottom="13dp"
+                    android:clickable="false"
+                    android:text="Enable Notifications"
+                    android:textColor="@color/_bg__profile_ek1_color"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <CheckBox
+                android:id="@+id/enable_location"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="550dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="13dp"
+                android:text="Enable Location"
+                android:textColor="@color/_bg__profile_ek1_color"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</HorizontalScrollView>
