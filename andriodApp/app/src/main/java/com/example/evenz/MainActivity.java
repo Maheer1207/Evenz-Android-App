@@ -148,6 +148,24 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         //  TODO: Demo Button, Need to be deleted
+        final Button attendee_list = findViewById(R.id.button_attendee);
+        attendee_list.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AttendeesActivity.class);
+                startActivity(intent);
+            }
+        });
+        //  TODO: Demo Button, Need to be deleted
+        final Button create_new_user = findViewById(R.id.button_create_new_user);
+        create_new_user.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UserEditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+
+        //  TODO: Demo Button, Need to be deleted
         final Button attendee_home = findViewById(R.id.attendee_home);
         attendee_home.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

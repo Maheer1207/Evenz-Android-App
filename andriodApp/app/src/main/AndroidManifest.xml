@@ -47,6 +47,13 @@
             android:name=".ShareQRActivity"
             android:exported="true"/>
         <activity
+            android:name=".UserEditProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AttendeesActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
 
