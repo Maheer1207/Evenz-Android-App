@@ -31,20 +31,10 @@ public class Attendee extends User
              * @param phone        the phone number of the attendee
              * @param email        the email of the attendee
              */
-            public Attendee(String name, String profilePicID, String phone, String email) {
-                this(name, profilePicID, phone, email, null, false, new ArrayList<>());
-            }
+//            public Attendee(String name, String profilePicID, String phone, String email) {
+//                this(name, profilePicID, phone, email, null, false, new ArrayList<>());
+//            }
 
-            /**
-             * Constructs a new Attendee object with the specified name, phone number, and email.
-             *
-             * @param name  the name of the attendee
-             * @param phone the phone number of the attendee
-             * @param email the email of the attendee
-             */
-            public Attendee(String name, String phone, String email) {
-                this(name, null, phone, email, null, false, new ArrayList<>());
-            }
 
             /**
              * Constructs a new Attendee object with the specified name, profile picture ID, phone number, email, geolocation, notifications flag, and event list.
@@ -58,7 +48,10 @@ public class Attendee extends User
              * @param eventList    the event list of the attendee
              */
             public Attendee(String name, String profilePicID, String phone, String email, Geolocation geolocation, boolean notifications, ArrayList<String> eventList) {
-                super(name, profilePicID, phone, email);
+                this.setName(name);
+                this.setProfilePicID(profilePicID);
+                this.setPhone(phone);
+                this.setEmail(email);
                 this.geolocation = geolocation;
                 this.notifications = notifications;
                 this.eventList = eventList;

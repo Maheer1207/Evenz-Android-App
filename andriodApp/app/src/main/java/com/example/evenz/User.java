@@ -28,6 +28,8 @@ public class User
         this.userType = userType;
     }
 
+
+
     public User(String deviceID, String name, String phone, String email) {
         this.userId = deviceID;
         this.name = name;
