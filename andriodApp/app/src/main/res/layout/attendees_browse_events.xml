@@ -63,24 +63,24 @@
       android:contentDescription="Button to view attendee's projile" />
 
   <ImageView
-      android:id="@+id/camera_scan_attendee"
+      android:id="@+id/home_admin_browse_attendee"
       android:layout_width="38dp"
       android:layout_height="38dp"
       android:layout_marginStart="172dp"
       android:layout_marginTop="700dp"
       android:scaleType="centerInside"
-      android:src="@drawable/camera_scan"
+      android:src="@drawable/home"
       android:contentDescription="Button to scan a QR using the camera" />
 
 <!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
   <ImageView
       android:id="@+id/event_list"
       android:layout_width="38dp"
-      android:layout_height="38dp"
+      android:layout_height="wrap_content"
       android:layout_marginStart="300dp"
       android:layout_marginTop="700dp"
       android:layout_marginBottom="0.05dp"
+      android:contentDescription="Button to show a list "
       android:scaleType="centerInside"
-      android:src="@drawable/event_list"
-      android:contentDescription="Button to show a list " />
+      android:src="@drawable/event_list" />
 </FrameLayout>

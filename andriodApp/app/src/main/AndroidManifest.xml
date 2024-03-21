@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools">
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <uses-feature android:name="android.hardware.camera"/>
     <application
         android:allowBackup="true"
@@ -41,6 +43,16 @@
         <activity
             android:name=".InitialPageActivity"
             android:exported="true"/>
+        <activity
+            android:name=".ShareQRActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".UserEditProfileActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AttendeesActivity"
+            android:exported="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
-  xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/container_home_page_attendees"
-  android:layout_width="match_parent"
-  android:layout_height="807dp"
-  android:background="@drawable/container_home_page_attendees">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container_home_page_attendees"
+    android:layout_width="match_parent"
+    android:layout_height="807dp"
+    android:background="@drawable/container_home_page_attendees">
 
   <TextView
         android:id="@+id/text_notifications"
@@ -22,14 +22,14 @@
         android:textColor="#FF000000"
         android:textSize="18sp" />
 
-  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  <LinearLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:orientation="vertical"
       android:padding="8dp">
 
     <ImageView
-        android:id="@+id/attendee_home_event_poster"
+        android:id="@+id/org_home_event_poster"
         android:layout_width="330dp"
         android:layout_height="204dp"
         android:layout_gravity="top|start"
@@ -39,7 +39,7 @@
         android:src="@drawable/img_career_fairs_web_banner" />
 
     <ImageView
-        android:id="@+id/location_pin_attendee_home"
+        android:id="@+id/location_pin_org_home"
         android:layout_width="17.5dp"
         android:layout_height="25dp"
         android:layout_gravity="top|left"
@@ -49,9 +49,9 @@
         android:src="@drawable/location_pin" />
 
     <TextView
-        android:id="@+id/attendee_home_event_location"
+        android:id="@+id/org_home_event_location"
         android:layout_width="wrap_content"
-        android:layout_height="17dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="top|left"
         android:layout_marginLeft="41dp"
         android:layout_marginTop="-23dp"
@@ -64,7 +64,7 @@
         android:textSize="18sp" />
 
     <TextView
-        android:id="@+id/attendee_home_event_detail"
+        android:id="@+id/org_home_event_detail"
         android:layout_width="310dp"
         android:layout_height="48dp"
         android:layout_marginLeft="40dp"
@@ -107,7 +107,7 @@
       android:layout_marginBottom="30.81dp"
       android:contentDescription="Button to view attendee's projile"
       android:scaleType="centerInside"
-      android:src="@drawable/profile" />
+      android:src="@drawable/attendees_black" />
 
   <ImageView
       android:id="@+id/camera_scan_attendee"
@@ -121,15 +121,15 @@
 
   <!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
   <ImageView
-      android:id="@+id/event_list"
+      android:id="@+id/shareQR"
       android:layout_width="38dp"
       android:layout_height="38dp"
       android:layout_marginStart="300dp"
       android:layout_marginTop="700dp"
       android:layout_marginBottom="0.05dp"
       android:scaleType="centerInside"
-      android:src="@drawable/event_list"
-      android:contentDescription="Button to show a list " />
+      android:src="@drawable/share"
+      android:contentDescription="Button to event QR" />
 
   <TextView
       android:layout_width="wrap_content"
@@ -142,4 +142,14 @@
       android:textColor="#FF4E4B66"
       android:textSize="13dp" />
 
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/add_fab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="600dp"
+      android:layout_marginStart="310dp"
+      android:layout_marginBottom="16dp"
+      android:src="@drawable/plus_white"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent" />
 </FrameLayout>

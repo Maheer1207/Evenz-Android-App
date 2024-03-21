@@ -34,6 +34,11 @@ public class ScanQRActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
+//        IntentIntegrator intent =  new IntentIntegrator(ScanQRActivity.this);
+//        intent.setOrientationLocked(true);
+//        intent.setPrompt("Scan a QR code");
+//        intent.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
+//        intent.initiateScan();
 
         //testing my method
         txv = findViewById(R.id.textView);
