@@ -129,18 +129,18 @@ public class EventCreationActivity extends AppCompatActivity {
                 && data != null
                 && data.getData() != null) {
 
-                // Get the Uri of data
-                filePath = data.getData();
-                try {
+            // Get the Uri of data
+            filePath = data.getData();
+            try {
 
-                    // Setting image on image view using Bitmap
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                    imageView.setImageBitmap(bitmap);
-                } catch (IOException e) {
-                    // Log the exception
-                    e.printStackTrace();
-                }
+                // Setting image on image view using Bitmap
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+                imageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                // Log the exception
+                e.printStackTrace();
             }
+        }
     }
 
 
@@ -282,4 +282,3 @@ public class EventCreationActivity extends AppCompatActivity {
         }
     }
 }
-
