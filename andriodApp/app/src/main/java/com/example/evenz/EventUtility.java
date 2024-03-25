@@ -1,7 +1,11 @@
 package com.example.evenz;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.nfc.Tag;
 import android.util.Log;
 
@@ -13,11 +17,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -164,6 +170,66 @@ public final class EventUtility {
                 new Hashtable<>(), doc.getDate("eventDate"), new ArrayList<String>(), doc.getString("location"));
     }
 
+    /**
+     * Function adds or removes a specified notification from the Notification array in an event.
+     * can be extended to generally operate on Array-firebase field
+     * @param type  notification type, string   *used to specify or search notification
+     * @param details  notification details, string   *used specify to search notification
+     * @param edid  the document ID of the vent
+     * @param flag  1=add,  0=remove.
+     */
+    public static void notificationOps(String type, String details, String edid, int flag) {
+        FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+
+        //if I understand the code over there correctly, all it is is updating
+        //the array of notifications with the event class
+        //but you download the document, edit the array, then re-upload
+        // but if I am correct, there are ways to directly update an array-type field.
+        //https://firebase.google.com/docs/firestore/manage-data/add-data#update_elements_in_an_array
+        String t = type + ", "+ details;
+        DocumentReference dr = db1.collection("events").document(edid);
+        Log.d("bentag", edid);
+        Log.d("bentag1", type);
+        Log.d("bentag2", details);
+        if (flag == 1) {
+            dr.update("notifications", FieldValue.arrayUnion(t)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d("notificationOps","Successfull notification Operation: added");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("notificationOps","unsccessful add operation");
+
+                }
+            });
+        }
+        else if (flag == 0) {
+            dr.update("notifications", FieldValue.arrayRemove(t)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d("notificationOps","Successfull notification Operation: remove");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("notificationOps","Unsuccesful remove oepration");
+
+                }
+            });
+        }
+        else {
+            Log.e("errorin notification update", "please enter 0=add or 1=remove");
+        }
+
+    }
+    /*
+    public static void getGeolocation() {
+        LocationManager locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+    }
+     */
 
    /*
     public static void evtomap(String orgnm,
