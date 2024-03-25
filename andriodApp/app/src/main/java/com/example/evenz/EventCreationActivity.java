@@ -219,7 +219,7 @@ public class EventCreationActivity extends AppCompatActivity {
         // added add() so, event ID will be automatically generated.
         // TODO: review with TEAM
 
-        EventUtility.storeEventnnm(eventMap1);
+        EventUtility.storeEventwnm(eventMap1, eventID);
 
         userDocRef.update("eventList", eventID).addOnFailureListener(new OnFailureListener() {
             @OptIn(markerClass = UnstableApi.class) @Override
