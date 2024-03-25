@@ -133,8 +133,6 @@ public class HomeScreenActivity extends AppCompatActivity {
                     Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
                     intent.putExtra("BitmapImage", bitmapUri.toString());
                     startActivity(intent);
-//                    ImageView qrimg = findViewById(R.id.QRcode);
-//                    qrimg.setImageBitmap(bitmap);
                 }
             });
 
