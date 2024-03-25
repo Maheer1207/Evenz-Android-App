@@ -64,6 +64,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         String role = b.getString("role");
         eventID = b.getString("eventID");
 
+
         // Checking if the role is "attendee" and setting the appropriate layout
         if (Objects.equals(role, "attendee")) {
             setContentView(R.layout.attendees_home_page);
@@ -95,6 +96,16 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         ImageView eventPoster = findViewById(R.id.attendee_home_event_poster);
         eventPoster.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, AttendeeEventInfoActivity.class)));
+
+        ImageView profileAttendee = findViewById(R.id.profile_attendee);
+        profileAttendee.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeScreenActivity.this, UserEditProfileActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("eventID", eventID);
+            bundle.putString("role", "attendee");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
     }
 
     // This method sets up the view for the organizer
@@ -166,9 +177,9 @@ public class HomeScreenActivity extends AppCompatActivity {
                     if (notifications != null) {
                         notificationsAdapter = new NotificationsAdapter(HomeScreenActivity.this, notifications);
                         notificationsRecyclerView.setAdapter(notificationsAdapter);
+                        notificationsAdapter.notifyDataSetChanged();
                     }
                 }
-                notificationsAdapter.notifyDataSetChanged();
             } else {
                 // TODO: Handle the case where the event doesn't exist in the database
             }
@@ -177,3 +188,4 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 }
+
