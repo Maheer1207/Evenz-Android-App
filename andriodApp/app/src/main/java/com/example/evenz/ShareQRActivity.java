@@ -20,6 +20,7 @@ public class ShareQRActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.container_qr_code_generated_organizer);
 
+//        Intent intent = getIntent();
         ImageView qr = findViewById(R.id.qrImage);
 
         Uri bitmapUri = Uri.parse(getIntent().getStringExtra("BitmapImage"));
