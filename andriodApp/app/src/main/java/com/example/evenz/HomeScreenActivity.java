@@ -74,7 +74,6 @@ public class HomeScreenActivity extends AppCompatActivity {
             eventLocation = findViewById(R.id.attendee_home_event_location);
             eventDetail = findViewById(R.id.attendee_home_event_detail);
 
-//            if (!specificEventId.isEmpty()) {
             if (!eventID.isEmpty()) {
                 fetchEventDetailsAndNotifications(eventID);
             }
