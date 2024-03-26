@@ -45,9 +45,6 @@ public class HomeScreenActivity extends AppCompatActivity {
     private TextView eventLocation, eventDetail;
     private RecyclerView notificationsRecyclerView;
     private NotificationsAdapter notificationsAdapter;
-
-    // Replace with the actual event ID for the home screen
-    private String specificEventId;
     private String eventID;
     private FirebaseFirestore db;
     private CollectionReference usersRef;
@@ -86,11 +83,16 @@ public class HomeScreenActivity extends AppCompatActivity {
                 }
             });
 
-            ImageView eventPoster = findViewById(R.id.attendee_home_event_poster);
+//            ImageView eventPoster = findViewById(R.id.attendee_home_event_poster);
             eventPoster.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(HomeScreenActivity.this, AttendeeEventInfoActivity.class));
+                    Intent intent = new Intent(HomeScreenActivity.this, EventDetailsActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("role", "attendee");
+                    b.putString("eventID", eventID);
+                    intent.putExtras(b);
+                    startActivity(intent);
                 }
             });
 
@@ -133,6 +135,18 @@ public class HomeScreenActivity extends AppCompatActivity {
 
                     intent.putExtra("eventID", eventID);
                     intent.putExtra("BitmapImage", bitmapUri.toString());
+                    startActivity(intent);
+                }
+            });
+
+            eventPoster.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(HomeScreenActivity.this, EventDetailsActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("role", "organizer");
+                    b.putString("eventID", eventID);
+                    intent.putExtras(b);
                     startActivity(intent);
                 }
             });

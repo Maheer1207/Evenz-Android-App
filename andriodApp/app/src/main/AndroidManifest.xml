@@ -20,10 +20,7 @@
             android:name=".EventCreationActivity"
             android:exported="true" />
         <activity
-            android:name=".AttendeeEventInfoActivity"
-            android:exported="true" />
-        <activity
-            android:name=".AttendeeEventInfoSignUpActivity"
+            android:name=".EventDetailsActivity"
             android:exported="true" />
         <activity
             android:name=".AdminBrowseEventActivity"

@@ -9,8 +9,8 @@
     tools:context=".MainActivity">
 
   <ImageView
-      android:id="@+id/back_attendee_event_info"
-      android:layout_width="14.21dp"
+      android:id="@+id/back_org_event_info"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_marginStart="20dp"
       android:layout_marginTop="17.66dp"
@@ -36,7 +36,7 @@
       android:textStyle="bold" />
 
   <ImageView
-      android:id="@+id/image_career_fairs_web_banner"
+      android:id="@+id/poster_org_eventInfo"
       android:layout_width="361dp"
       android:layout_height="214dp"
       android:layout_marginStart="15dp"
@@ -58,12 +58,12 @@
       android:contentDescription="map_icon" />
 
   <TextView
-      android:id="@+id/text_ccis_uofa"
+      android:id="@+id/loc_org_eventInfo"
       android:layout_width="wrap_content"
-      android:layout_height="17dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="top|start"
       android:layout_marginStart="40dp"
       android:layout_marginTop="275dp"
-      android:layout_gravity="top|start"
       android:gravity="start|center_vertical"
       android:includeFontPadding="false"
       android:maxLines="1"
@@ -96,7 +96,7 @@
       android:background="@drawable/drawable_shape">
 
     <TextView
-        android:id="@+id/continer_event_summary_date_icon1"
+        android:id="@+id/info_org_eventInfo"
         android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|start"
@@ -132,7 +132,7 @@ At each of our career fairs, chat with a career advisor for a free 10-minute rev
       android:layout_marginEnd="314.43dp"
       android:layout_marginBottom="30.81dp"
       android:scaleType="centerInside"
-      android:src="@drawable/profile" />
+      android:src="@drawable/attendees_black" />
 
   <ImageView
       android:id="@+id/home_admin_browse_attendee"
@@ -151,6 +151,6 @@ At each of our career fairs, chat with a career advisor for a free 10-minute rev
       android:layout_marginTop="700dp"
       android:layout_marginBottom="0.05dp"
       android:scaleType="centerInside"
-      android:src="@drawable/photos" />
+      android:src="@drawable/share" />
 
 </FrameLayout>

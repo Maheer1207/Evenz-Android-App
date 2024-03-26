@@ -36,7 +36,7 @@
       android:textStyle="bold" />
 
   <ImageView
-      android:id="@+id/image_career_fairs_web_banner"
+      android:id="@+id/poster_attendee_eventInfo"
       android:layout_width="361dp"
       android:layout_height="214dp"
       android:layout_marginStart="15dp"
@@ -58,7 +58,7 @@
       android:contentDescription="map_icon" />
 
   <TextView
-      android:id="@+id/text_ccis_uofa"
+      android:id="@+id/loc_attendee_eventInfo"
       android:layout_width="wrap_content"
       android:layout_height="17dp"
       android:layout_marginStart="40dp"
@@ -96,7 +96,7 @@
       android:background="@drawable/drawable_shape">
 
     <TextView
-        android:id="@+id/continer_event_summary_date_icon1"
+        android:id="@+id/info_attendee_eventInfo"
         android:layout_width="360dp"
         android:layout_height="258dp"
         android:layout_gravity="bottom|start"

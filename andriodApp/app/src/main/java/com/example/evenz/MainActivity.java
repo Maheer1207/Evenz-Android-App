@@ -112,24 +112,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //  TODO: Demo Button, Need to be deleted
-        final Button attendee_event_info = findViewById(R.id.button_attendee_event_info);
-        attendee_event_info.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AttendeeEventInfoActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //  TODO: Demo Button, Need to be deleted
-        final Button attendee_event_info_signup = findViewById(R.id.button_attendee_event_info_signup);
-        attendee_event_info_signup.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AttendeeEventInfoSignUpActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //  TODO: Demo Button, Need to be deleted
         final Button event_browse = findViewById(R.id.button_event_browse);
         event_browse.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {

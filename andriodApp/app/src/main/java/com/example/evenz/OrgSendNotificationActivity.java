@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import java.util.Map;
 
 public class OrgSendNotificationActivity extends AppCompatActivity {
     TextView post;
+    ImageView back;
     String eventID;
     EditText editTextNotificationType, editTextNotificationInfo;
 
@@ -53,11 +55,21 @@ public class OrgSendNotificationActivity extends AppCompatActivity {
                 b.putString("eventID", eventID);
                 intent.putExtras(b);
                 startActivity(intent);
-                startActivity(new Intent(OrgSendNotificationActivity.this, HomeScreenActivity.class));
             }
         });
 
-        findViewById(R.id.back_send_notification).setOnClickListener(v -> finish());
+        back = findViewById(R.id.back_send_notification);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(new Intent(OrgSendNotificationActivity.this, HomeScreenActivity.class));
+                Bundle b = new Bundle();
+                b.putString("role", "organizer");
+                b.putString("eventID", eventID);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
     }
 
     private void initUI() {
