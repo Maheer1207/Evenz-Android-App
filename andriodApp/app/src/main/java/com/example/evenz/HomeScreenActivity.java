@@ -83,7 +83,6 @@ public class HomeScreenActivity extends AppCompatActivity {
                 }
             });
 
-//            ImageView eventPoster = findViewById(R.id.attendee_home_event_poster);
             eventPoster.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
