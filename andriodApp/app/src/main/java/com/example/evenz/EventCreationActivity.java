@@ -52,16 +52,10 @@ public class EventCreationActivity extends AppCompatActivity {
     private Uri filePath;
     StorageReference storageReference;
     StorageReference phtoRef;
-
-
     private ImageView imageView;
-
-
     private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
     private Button submitEventButton;
-
     private String eventPosterID_temp;
-
     private String eventID;
 
     // Firestore instance
