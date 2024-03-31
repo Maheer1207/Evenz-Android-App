@@ -1,28 +1,50 @@
 package com.example.evenz;
 
+import static androidx.core.content.ContextCompat.getSystemService;
+
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.nfc.Tag;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class EventUtility {
 
@@ -164,6 +186,123 @@ public final class EventUtility {
                 new Hashtable<>(), doc.getDate("eventDate"), new ArrayList<String>(), doc.getString("location"));
     }
 
+    /**
+     * Function adds or removes a specified notification from the Notification array in an event.
+     * can be extended to generally operate on Array-firebase field
+     * @param type  notification type, string   *used to specify or search notification
+     * @param details  notification details, string   *used specify to search notification
+     * @param edid  the document ID of the vent
+     * @param flag  1=add,  0=remove.
+     */
+    public static void notificationOps(String type, String details, String edid, int flag) {
+        FirebaseFirestore db1 = FirebaseFirestore.getInstance();
+
+        //if I understand the code over there correctly, all it is is updating
+        //the array of notifications with the event class
+        //but you download the document, edit the array, then re-upload
+        // but if I am correct, there are ways to directly update an array-type field.
+        //https://firebase.google.com/docs/firestore/manage-data/add-data#update_elements_in_an_array
+        String t = type + ", "+ details;
+        DocumentReference dr = db1.collection("events").document(edid);
+        Log.d("bentag", edid);
+        Log.d("bentag1", type);
+        Log.d("bentag2", details);
+        if (flag == 1) {
+            dr.update("notifications", FieldValue.arrayUnion(t)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d("notificationOps","Successfull notification Operation: added");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("notificationOps","unsccessful add operation");
+
+                }
+            });
+        }
+        else if (flag == 0) {
+            dr.update("notification", FieldValue.arrayRemove(t)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void unused) {
+                    Log.d("notificationOps","Successfull notification Operation: remove");
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Log.d("notificationOps","Unsuccesful remove oepration");
+
+                }
+            });
+        }
+        else {
+            Log.e("errorin notification update", "please enter 0=add or 1=remove");
+        }
+
+    }
+
+    public static void sendMessage() {
+        Log.d("BEN4444", "test11");
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+
+        OkHttpClient client = new OkHttpClient.Builder()
+                .build();
+        Log.d("BEN4444", "test22");
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("https://fcm.googleapis.com/")
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .client(client)
+                .build();
+        Log.d("BEN4444", "test33");
+        fcmAPI fcmApi = retrofit.create(fcmAPI.class);
+
+        JsonObject payload = buildNotificationPayload();
+
+        Call<JsonObject> call = fcmApi.sendNotification(payload);
+        Log.d("BEN4444", "test44");
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful()) {
+                    Log.d("BEN4444", "FCM notification sent");
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d("BEN4444", "Failed to send FCM notification");
+            }
+        });
+
+    }
+    private static JsonObject buildNotificationPayload() {
+        // compose notification json payload
+        JsonObject payload = new JsonObject();
+        payload.addProperty("to", "client");
+        // compose data payload here
+        JsonObject data = new JsonObject();
+        data.addProperty("title", "testing");
+        data.addProperty("message", "testingbody");
+        Log.d("BEN4444", "test55");
+        // add data payload
+        payload.add("data", data);
+        Log.d("BEN4444", "test66");
+        return payload;
+    }
+
+
+
+
+    /*
+    public static void getGeolocation() {
+        LocationManager locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+    }
+     */
 
    /*
     public static void evtomap(String orgnm,

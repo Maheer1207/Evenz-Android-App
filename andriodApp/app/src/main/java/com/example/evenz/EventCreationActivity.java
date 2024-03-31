@@ -57,7 +57,7 @@ public class EventCreationActivity extends AppCompatActivity {
     private ImageView imageView;
 
 
-    private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
+    private EditText editTextOrganizerName, editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
     private Button submitEventButton;
 
     private String eventPosterID_temp;
@@ -113,7 +113,7 @@ public class EventCreationActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.back_less).setOnClickListener(v->finish());
+        findViewById(R.id.back_less).setOnClickListener(v -> finish());
     }
 
     @Override
@@ -219,18 +219,18 @@ public class EventCreationActivity extends AppCompatActivity {
         // added add() so, event ID will be automatically generated.
         // TODO: review with TEAM
 
-        EventUtility.storeEventnnm(eventMap1);
+        EventUtility.storeEventwnm(eventMap1, eventID);
 
         userDocRef.update("eventList", eventID).addOnFailureListener(new OnFailureListener() {
-            @OptIn(markerClass = UnstableApi.class) @Override
+            @OptIn(markerClass = UnstableApi.class)
+            @Override
             public void onFailure(@NonNull Exception e) {
                 Log.w("Firestore", "Error updating document", e);
             }
         });
     }
 
-    private void select()
-    {
+    private void select() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
