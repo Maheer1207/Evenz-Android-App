@@ -5,11 +5,6 @@
       <config />
     </shared>
     <layouts>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_codia_main.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
@@ -51,11 +46,6 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/attendees_home_page.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/container_frame.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
         </config>
@@ -105,11 +95,6 @@
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/layout_codia_root.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/org_event_info.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
@@ -147,15 +132,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice">
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/PushNotificationService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/fcmAPI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot/chatSessions/00000000000.xd" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilot/chatSessions/00000000000.xd" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/copilot/chatSessions/xd.lck" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilot/chatSessions/xd.lck" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventCreationActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventCreationActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/HomeScreenActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/HomeScreenActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/ImageUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/ImageUtility.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/attendees_home_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/attendees_home_page.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/OrgSendNotificationActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/OrgSendNotificationActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,15 +172,15 @@
       <list>
         <option value="layoutResourceFile" />
         <option value="valueResourceFile" />
-        <option value="Class" />
         <option value="resourceFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="frontend" />
+        <entry key="$PROJECT_DIR$/.." value="Bengao2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -390,9 +376,11 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.eventTest" />
+        <item itemvalue="Gradle.GeolocationTest" />
+        <item itemvalue="Gradle.AttendeeAdapterTest" />
         <item itemvalue="Gradle.AttendeeAdapterTest" />
         <item itemvalue="Gradle.GeolocationTest" />
-        <item itemvalue="Gradle.eventTest" />
       </list>
     </recent_temporary>
   </component>
@@ -492,14 +480,28 @@
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java</url>
-          <line>198</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventDetailsActivity.java</url>
           <line>129</line>
           <option name="timeStamp" value="40" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java</url>
+          <line>294</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java</url>
+          <line>243</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/PushNotificationService.java</url>
+          <line>67</line>
+          <properties class="com.example.evenz.PushNotificationService" method="onNewToken">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -116,5 +116,11 @@ public class OrgSendNotificationActivity extends AppCompatActivity {
 
     private void fetchEventDetailsAndNotifications(String eventID, String notificationType, String notificationInfo) {
         EventUtility.notificationOps(notificationType, notificationInfo, eventID, 1);
+        // Trigger push notifications to all attendees
+        EventUtility.sendPushNotificationToEventAttendees(
+                eventID,
+                "New Event Notification", // This could be more dynamic based on your needs
+                String.format("%s: %s", notificationType, notificationInfo)
+        );
     }
 }

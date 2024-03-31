@@ -4,7 +4,7 @@
     <string name="action_create_event_menu">Create Event Menu</string>
     <string name="demo_button_create_new_event">Create New Event</string>
     <string name="sign_up">Sign Up</string>
-
+    <string name="notification_default">This is for your notification service</string>
     <string name="ek_img_content">ExportKit Image</string>
     <string name="create_new_event_string">Create New Event</string>
     <string name="date_string">Date</string>
