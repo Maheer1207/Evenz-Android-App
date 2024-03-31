@@ -31,6 +31,10 @@ public final class ImageUtility {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
     }
+    public interface UploadCallback {
+        void onSuccess(String imageID, String imageURL);
+        void onFailure(Exception e);
+    }
 
     /**
      * Given that filePath has already been defined within the activity, uploads an image previously selected by the user
@@ -38,23 +42,39 @@ public final class ImageUtility {
      * @param filePath Uri filepath of
      * @return returns generated id for image uploaded
      */
-    public String upload(Uri filePath) {
+
+    public void upload(Uri filePath, UploadCallback callback) {
         if (filePath != null) {
-
             String id = UUID.randomUUID().toString();
-            // Defining the child of storageReference
-            storage = FirebaseStorage.getInstance();
-            StorageReference storageReference = storage.getReference();
             StorageReference ref = storageReference.child("images/" + id);
-
-            // adding listeners on upload
-            // or failure of image
-            ref.putFile(filePath);
-
-            return id;
+            ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String imageURL = uri.toString();
+                            if (callback != null) {
+                                callback.onSuccess(id, imageURL);
+                            }
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if (callback != null) {
+                        callback.onFailure(e);
+                    }
+                }
+            });
+        } else {
+            if (callback != null) {
+                callback.onFailure(new Exception("File path is null"));
+            }
         }
-        return null;
     }
+
 
     /**
      * Displays an image from the firebase storage given

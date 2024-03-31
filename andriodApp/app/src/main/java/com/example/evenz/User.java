@@ -8,11 +8,10 @@ public class User
     private String profilePicID;
     private String phone;
     private String email;
-
     private String userId;
-
     private String userType;
     private ArrayList<String> eventsSignedUpFor;
+
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
@@ -32,13 +31,9 @@ public class User
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) {this.name = name;}
 
-    public String getProfilePicID() {
-        return profilePicID;
-    }
+    public String getProfilePicID() {return profilePicID;}
 
     public void setProfilePicID(String profilePicID) {
         this.profilePicID = profilePicID;

@@ -87,9 +87,19 @@ public class HomeScreenActivity extends AppCompatActivity {
         if (eventID != null && !Objects.equals(eventID, " ")) {
             fetchEventDetailsAndNotifications(eventID);
         }
+        ImageView imageEllipse = findViewById(R.id.image_ellipse);
+        imageEllipse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeScreenActivity.this, ScanQRActivity.class);
+                startActivity(intent);
+            }
+        });
 
         ImageView browseEvent = findViewById(R.id.event_list);
         browseEvent.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, EventBrowseActivity.class)));
+
+
 
 //        ImageView eventPoster = findViewById(R.id.attendee_home_event_poster);
 //        eventPoster.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, AttendeeEventInfoActivity.class)));

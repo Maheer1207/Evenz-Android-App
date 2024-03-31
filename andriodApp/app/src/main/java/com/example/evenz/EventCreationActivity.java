@@ -9,7 +9,6 @@ import androidx.media3.common.util.UnstableApi;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -53,10 +52,16 @@ public class EventCreationActivity extends AppCompatActivity {
     private Uri filePath;
     StorageReference storageReference;
     StorageReference phtoRef;
+
+
     private ImageView imageView;
+
+
     private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
     private Button submitEventButton;
+
     private String eventPosterID_temp;
+
     private String eventID;
 
     // Firestore instance
@@ -81,8 +86,6 @@ public class EventCreationActivity extends AppCompatActivity {
         // Initialize UI components
         initUI();
         imageView = findViewById(R.id.vector_ek2);
-        ImageUtility imageUtility = new ImageUtility();
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,7 +98,7 @@ public class EventCreationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    ImageUtility.uploadImage(EventCreationActivity.this, phtoRef, filePath);
+                    upload(phtoRef);
                     submitEvent();
 
                     Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
@@ -238,5 +241,44 @@ public class EventCreationActivity extends AppCompatActivity {
      * Given that filePath has already been defined within the activity, uploads an image previously selected by the user
      * This includes adding the image to the firebase storage with proper notifications for upload progress.
      */
+    private void upload(StorageReference photoRef) {
+        if (filePath != null) {
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Uploading...");
+            progressDialog.show();
 
+            // Defining the child of storageReference
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
+
+            // adding listeners on upload
+            // or failure of image
+            photoRef.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                            // Image uploaded successfully
+                            // Dismiss dialog
+                            progressDialog.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                            // Error, Image not uploaded
+                            progressDialog.dismiss();
+                        }
+                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+
+                        // Progress Listener for loading
+                        // percentage on the dialog box
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
+                        }
+                    });
+        }
+    }
 }
