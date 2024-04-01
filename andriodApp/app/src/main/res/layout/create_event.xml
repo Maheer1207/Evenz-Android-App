@@ -66,14 +66,26 @@
 							android:textSize="16.02sp"
 							android:textStyle="bold" />
 
-						<EditText
-							android:id="@+id/editDate"
-							android:layout_width="335dp"
-							android:layout_height="50dp"
-							android:background="@drawable/boundary_style"
-							android:hint="@string/mm_dd_yy_string"
-							android:importantForAutofill="no"
-							android:inputType="date" />
+						<LinearLayout
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:background="@drawable/boundary_style">
+							<EditText
+								android:id="@+id/editDate"
+								android:layout_width="300dp"
+								android:layout_height="50dp"
+								android:hint="@string/mm_dd_yy_string"
+								android:importantForAutofill="no"
+								android:inputType="date" />
+							<ImageView
+								android:id="@+id/event_Date_Picker"
+								android:layout_width="33.31dp"
+								android:layout_height="28.19dp"
+								android:contentDescription="vector_ek2"
+								android:src="@drawable/icons_calendar"
+								android:layout_gravity="center"/>
+						</LinearLayout>
 					</LinearLayout>
 				</RelativeLayout>
 
@@ -98,14 +110,19 @@
 							android:textSize="16.02sp"
 							android:textStyle="bold" />
 
-						<EditText
-							android:id="@+id/editTextLocation"
-							android:layout_width="335dp"
-							android:layout_height="50dp"
-							android:background="@drawable/boundary_style"
-							android:hint="8801 111 ST NW Edmonton, AB"
-							android:importantForAutofill="no"
-							android:inputType="text" />
+						<LinearLayout
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:orientation="horizontal"
+							android:background="@drawable/boundary_style">
+							<EditText
+								android:id="@+id/editTextLocation"
+								android:layout_width="335dp"
+								android:layout_height="50dp"
+								android:hint="8801 111 ST NW, Edmonton"
+								android:importantForAutofill="no"
+								android:inputType="text" />
+						</LinearLayout>
 					</LinearLayout>
 				</RelativeLayout>
 

@@ -45,4 +45,10 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+
+    implementation ("com.google.android.gms:play-services-location:21.2.0")
+    implementation ("com.google.android.libraries.places:places:3.4.0")
+    implementation ("com.google.android.gms:play-services-maps:x.y.z")
+    implementation ("androidx.appcompat:appcompat:1.6.1")
+    implementation ("com.android.volley:volley:1.2.1")
 }

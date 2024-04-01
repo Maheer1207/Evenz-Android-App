@@ -60,6 +60,13 @@ public class EventDetailsActivity  extends AppCompatActivity {
                 }
             });
 
+            eventLocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openMapIntent(eventID, "attendee", (String) eventLocation.getText());
+                }
+            });
+
         } else {
             setContentView(R.layout.org_event_info);
 
@@ -95,10 +102,27 @@ public class EventDetailsActivity  extends AppCompatActivity {
                     startActivity(intent);
                 }
             });
+
+            eventLocation.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openMapIntent(eventID, "organizer", (String) eventLocation.getText());
+                }
+            });
         }
         if (!eventID.isEmpty()) {
             fetchEventDetailsAndNotifications(eventID);
         }
+    }
+
+    private void openMapIntent(String eventID, String role, String addressString) {
+        Intent intent = new Intent(EventDetailsActivity.this, MapsActivity.class);
+
+        intent.putExtra("eventID", eventID);
+        intent.putExtra("role", role);
+        intent.putExtra("addressString", addressString);
+        intent.putExtra("from", "eventDetails");
+        startActivity(intent);
     }
 
     private Uri saveBitmapToCache(Bitmap bitmap) {

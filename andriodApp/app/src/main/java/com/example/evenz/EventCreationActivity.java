@@ -46,21 +46,12 @@ import java.util.Map;
 import java.text.ParseException;
 import java.util.UUID;
 
-import org.osmdroid.config.Configuration;
-import org.osmdroid.library.BuildConfig;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
-import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
-
 public class EventCreationActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener {
 
     private static final int PICK_IMAGE_REQUEST = 22;
     private Uri filePath;
     StorageReference storageReference;
-    StorageReference phtoRef;
-    private MapView map;
+    StorageReference photoRef;
 
     private ImageView imageView, datePickerButton;
 
@@ -86,7 +77,7 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         eventPosterID_temp = UUID.randomUUID().toString();
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        phtoRef = storageReference.child("images/" + eventPosterID_temp);
+        photoRef = storageReference.child("images/" + eventPosterID_temp);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_event);
@@ -116,7 +107,7 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
             @Override
             public void onClick(View view) {
                 try {
-                    upload(phtoRef);
+                    upload(photoRef);
                     submitEvent();
 
                     Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
@@ -133,33 +124,6 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
 
         findViewById(R.id.back_less).setOnClickListener(v->finish());
     }
-
-//    private void initMap() {
-//        Configuration.getInstance().load(getApplicationContext(), android.preference.PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-//        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-//
-//        map = findViewById(R.id.mapview);
-//        map.setTileSource(TileSourceFactory.MAPNIK);
-//        map.setBuiltInZoomControls(true);
-//        map.setMultiTouchControls(true);
-//
-//        GpsMyLocationProvider provider = new GpsMyLocationProvider(this);
-//        MyLocationNewOverlay myLocationNewOverlay = new MyLocationNewOverlay(provider, map);
-//        myLocationNewOverlay.enableMyLocation();
-//        map.getOverlays().add(myLocationNewOverlay);
-//
-//        myLocationNewOverlay.runOnFirstFix(new Runnable() {
-//            @Override
-//            public void run() {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        map.getController().animateTo(myLocationNewOverlay.getMyLocation());
-//                    }
-//                });
-//            }
-//        });
-//    }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
