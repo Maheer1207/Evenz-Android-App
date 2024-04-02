@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private ImageView imageView;
     private ImageView profPic;
+    private TextView text;
     private Uri filePath;
     FirebaseStorage storage;
     StorageReference storageReference;
@@ -80,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
         upload = findViewById(R.id.upload);
         imageView = findViewById(R.id.image);
         profPic = findViewById(R.id.profPic);
+        text = findViewById(R.id.textView);
         imageUtility = new ImageUtility();
 
         storage = FirebaseStorage.getInstance();
@@ -100,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String id = imageUtility.upload(filePath);
                 // set user profpic id to id above
+                text.setText(id);
             }
         });
 
