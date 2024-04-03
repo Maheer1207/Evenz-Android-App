@@ -78,12 +78,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeScreenActivity.this, EventDetailsActivity.class);
-                Bundle b = new Bundle();
-                b.putString("role", "attendee");
-                b.putString("eventID", eventID);
-                intent.putExtras(b);
-                startActivity(intent);
+                openEventDetailsIntent(eventID, "attendee");
             }
         });
 
@@ -148,12 +143,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeScreenActivity.this, EventDetailsActivity.class);
-                Bundle b = new Bundle();
-                b.putString("role", "organizer");
-                b.putString("eventID", eventID);
-                intent.putExtras(b);
-                startActivity(intent);
+                openEventDetailsIntent(eventID, "organizer");
             }
         });
         eventLocation.setOnClickListener(new View.OnClickListener() {
@@ -171,6 +161,15 @@ public class HomeScreenActivity extends AppCompatActivity {
         intent.putExtra("role", role);
         intent.putExtra("addressString", addressString);
         intent.putExtra("from", "homeScreen");
+        startActivity(intent);
+    }
+
+    private void openEventDetailsIntent(String eventID, String role) {
+        Intent intent = new Intent(HomeScreenActivity.this, EventDetailsActivity.class);
+        Bundle b = new Bundle();
+        b.putString("role", role);
+        b.putString("eventID", eventID);
+        intent.putExtras(b);
         startActivity(intent);
     }
 
