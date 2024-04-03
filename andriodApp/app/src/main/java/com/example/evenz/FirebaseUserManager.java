@@ -3,9 +3,11 @@ package com.example.evenz;
 import android.util.Log;
 
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,21 +29,24 @@ public class FirebaseUserManager {
         this.ref = db.collection("users");
     }
 
-    public void submitUser(User user) {
+    public Task<Void> submitUser(User user) {
+        if (user == null) {
+            return Tasks.forException(new IllegalArgumentException("User cannot be null"));
+        }
+
         Map<String, Object> userMap = new HashMap<>();
         userMap.put("name", user.getName());
         userMap.put("profilePicID", user.getProfilePicID());
         userMap.put("phone", user.getPhone());
         userMap.put("email", user.getEmail());
-        userMap.put("userId", user.getUserId());
+        // No need to put "userId" in the map since it's used as document ID.
         userMap.put("userType", user.getUserType());
         userMap.put("eventsSignedUpFor", user.getEventsSignedUpFor());
 
-        String documentId = ref.document().getId();
-        db.collection("users").document(documentId).set(userMap)
-                .addOnSuccessListener(aVoid -> Log.d("submitUser", "DocumentSnapshot successfully written!"))
-                .addOnFailureListener(e -> Log.w("submitUser", "Error writing document", e));
+        // Use userId as the document ID
+        return db.collection("users").document(user.getUserId()).set(userMap, SetOptions.merge());
     }
+
 
     public Task<List<User>> getAllUsers() {
         final List<User> userList = new ArrayList<>();

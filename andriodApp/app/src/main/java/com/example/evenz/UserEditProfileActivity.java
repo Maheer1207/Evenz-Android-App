@@ -3,6 +3,7 @@ package com.example.evenz;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,7 +37,7 @@ public class UserEditProfileActivity extends AppCompatActivity {
 	private ImageView imageView;
 	private EditText nameInput, phoneInput, emailInput;
 
-	private ImageUtility imageUtility;
+	private String profilePicID = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +49,79 @@ public class UserEditProfileActivity extends AppCompatActivity {
 		phoneInput = findViewById(R.id.phone_input);
 		emailInput = findViewById(R.id.email_input);
 
-		imageUtility = new ImageUtility();
-
 		imageView.setOnClickListener(v -> selectImage());
 		findViewById(R.id.back_button).setOnClickListener(v -> finish());
 		findViewById(R.id.save_button).setOnClickListener(v -> saveUserInfo());
 	}
+
+	private void saveUserInfo() {
+
+		User user = buildUserObject();
+		if (user == null) {
+			// A toast message is shown within buildUserObject() for specific errors.
+			return; // Exit the method if validation fails.
+		}
+
+		// Submit the user to the database
+		FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+
+		// Check if the task submitUser was successful
+		firebaseUserManager.submitUser(user).addOnSuccessListener(aVoid -> {
+			// If successful print a toast message
+			Toast.makeText(UserEditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+
+			// Start the HomeScreenActivity
+			Intent intent = new Intent(UserEditProfileActivity.this, HomeScreenActivity.class);
+			Bundle homescreenBundle = new Bundle();
+			homescreenBundle.putString("role", user.getUserType());
+			homescreenBundle.putString("eventID", "CLQuoRALxppaIHscuwnG");
+			intent.putExtras(homescreenBundle);
+			startActivity(intent);
+
+		}).addOnFailureListener(e -> {
+			// If unsuccessful print a toast message
+			showToast("Profile Update Failed");
+		});
+
+
+	}
+
+	// Create a class that will handle the UI interaction by building the user object
+	private User buildUserObject() {
+		String name = nameInput.getText().toString().trim();
+		String phone = phoneInput.getText().toString().trim();
+		String email = emailInput.getText().toString().trim();
+
+		// Validate name, phone, and email. Add or modify validation as necessary.
+		if (name.isEmpty()) {
+			showToast("Name cannot be empty.");
+			return null;
+		}
+		if (phone.isEmpty()) {
+			showToast("Phone cannot be empty.");
+			return null;
+		}
+		if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+			showToast("Invalid email address.");
+			return null;
+		}
+
+		@SuppressLint("HardwareIds") String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+		Bundle b = getIntent().getExtras();
+		if (b == null) {
+			showToast("User type not provided.");
+			return null;
+		}
+		String userType = b.getString("role");
+		if (userType == null) {
+			showToast("Invalid user type.");
+			return null;
+		}
+
+		return new User(deviceID, name, phone, email, profilePicID, userType);
+	}
+
 
 	private void selectImage() {
 		Intent intent = new Intent();
@@ -77,74 +145,10 @@ public class UserEditProfileActivity extends AppCompatActivity {
 		}
 	}
 
-	private void saveUserInfo() {
-		String name = nameInput.getText().toString().trim();
-		String phone = phoneInput.getText().toString().trim();
-		String email = emailInput.getText().toString().trim();
-
-		Bundle b = getIntent().getExtras();
-		assert b != null;
-		String userType = b.getString("role");
-		String eventID = b.getString("eventID");
-
-		@SuppressLint("HardwareIds") String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-
-		FirebaseFirestore db = FirebaseFirestore.getInstance();
-		DocumentReference userDocRef = db.collection("users").document(deviceID);
-
-		userDocRef.get().addOnCompleteListener(task -> {
-			if (task.isSuccessful()) {
-				DocumentSnapshot document = task.getResult();
-				if (document.exists()) {
-					updateUserProfile(name, phone, email, userType, userDocRef, eventID);
-					Toast.makeText(UserEditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-				} else {
-					createNewUserProfile(name, phone, email, userType, userDocRef);
-					Toast.makeText(UserEditProfileActivity.this, "Profile added successfully", Toast.LENGTH_SHORT).show();
-				}
-			} else {
-				Toast.makeText(UserEditProfileActivity.this, "Failed to check if user exists: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-			}
-		});
+	private void showToast(String message) {
+		Toast.makeText(UserEditProfileActivity.this, message, Toast.LENGTH_SHORT).show();
 	}
 
-	private void updateUserProfile(String name, String phone, String email, String userType, DocumentReference userDocRef, String eventID) {
-		Map<String, Object> userMap = new HashMap<>();
-		userMap.put("name", name);
-		userMap.put("phone", phone);
-		userMap.put("email", email);
-
-		userDocRef.update(userMap)
-				.addOnSuccessListener(aVoid -> {
-					Intent intent = new Intent(UserEditProfileActivity.this, HomeScreenActivity.class);
-					Bundle b = new Bundle();
-					b.putString("role", userType);
-					b.putString("eventID", eventID);
-
-					intent.putExtras(b);
-					startActivity(intent);
-				})
-				.addOnFailureListener(e -> Toast.makeText(UserEditProfileActivity.this, "Failed to update profile: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-	}
-
-	private void createNewUserProfile(String name, String phone, String email, String userType, DocumentReference userDocRef) {
-		Map<String, Object> userMap = new HashMap<>();
-		userMap.put("name", name);
-		userMap.put("phone", phone);
-		userMap.put("email", email);
-		userMap.put("userType", userType);
-		userMap.put("eventID", "");
-
-		userDocRef.set(userMap)
-				.addOnSuccessListener(aVoid -> {
-					Intent intent = new Intent(UserEditProfileActivity.this, HomeScreenActivity.class);
-					Bundle b = new Bundle();
-					b.putString("role", userType);
-					b.putString("eventID", "CLQuoRALxppaIHscuwnG");
-					intent.putExtras(b);
-					startActivity(intent);
-				})
-				.addOnFailureListener(e -> Toast.makeText(UserEditProfileActivity.this, "Failed to create profile: " + e.getMessage(), Toast.LENGTH_SHORT).show());
-	}
 
 }
+

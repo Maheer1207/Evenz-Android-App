@@ -12,14 +12,16 @@ public class User
     private String userId;
 
     private String userType;
-    private ArrayList<String> eventsSignedUpFor;
+
+    // Should be empty initally
+    private ArrayList<String> eventsSignedUpFor = new ArrayList<>();
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
     }
 
 
-    public User(String name, String profilePicID, String phone, String email, String userId, String userType)
+    public User(String userId, String name, String phone, String email, String profilePicID, String userType)
     {
         this.name = name;
         this.profilePicID = profilePicID;
@@ -79,6 +81,16 @@ public class User
 
     public void setEventsSignedUpFor(ArrayList<String> eventsSignedUpFor) {
         this.eventsSignedUpFor = eventsSignedUpFor;
+    }
+
+    //Add an event to the list of events signed up for
+    public void addEvent(String eventID) {
+        eventsSignedUpFor.add(eventID);
+    }
+
+    // Remove an event from the list of events signed up for
+    public void removeEvent(String eventID) {
+        eventsSignedUpFor.remove(eventID);
     }
 
 
