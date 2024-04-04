@@ -1,25 +1,16 @@
 package com.example.evenz;
 
-import static android.app.Activity.RESULT_OK;
-
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 public final class ImageUtility {
@@ -74,6 +65,26 @@ public final class ImageUtility {
                 imgView.setImageBitmap(bmp);
             }
         });
+    }
+
+    public static void fetchAllImg(ImageFetchListener listener) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference imagesRef = storageReference.child("images/");
+
+        imagesRef.listAll()
+                .addOnSuccessListener(listResult -> {
+                    ArrayList<String> imgPathList = new ArrayList<>();
+                    for (StorageReference item : listResult.getItems()) {
+                        imgPathList.add(item.getPath());
+                    }
+                    // Invoke the callback with the fetched list
+                    listener.onImagePathsFetched(imgPathList);
+                })
+                .addOnFailureListener(e -> {
+                    // Handle any errors here
+                    // For simplicity, we're just printing the stack trace
+                    e.printStackTrace();
+                });
     }
 
 }
