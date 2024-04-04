@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ArrayList<Event> eventDataList;
     private ArrayList<User> userDataList;
+    private TextView textView;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         eventsRef = db.collection("events");
         usersRef = db.collection("users");
-
 
         eventsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
@@ -183,6 +184,11 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        final TextView text = findViewById(R.id.textView);
+        String deviceID = "af29ad5875d972fd";
+        String eventID = EventUtility.getEventID(deviceID);
+        text.setText(eventID);
 
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

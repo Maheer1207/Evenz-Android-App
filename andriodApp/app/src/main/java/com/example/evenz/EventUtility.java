@@ -2,6 +2,8 @@ package com.example.evenz;
 
 import static androidx.core.content.ContextCompat.getSystemService;
 
+import static com.google.firebase.appcheck.internal.util.Logger.TAG;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -12,10 +14,13 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -248,5 +253,14 @@ public final class EventUtility {
 
      */
 
+    public static String getEventID(String deviceID){
+        ArrayList<String> eventID = new ArrayList<>();
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference doc = db.collection("users").document(deviceID);
+        //db.collection("users").where("userId", "==", deviceID).get()
+        return "hitere";
+        //return eventID.get(0);
+    }
 
 }

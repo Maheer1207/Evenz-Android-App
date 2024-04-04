@@ -8,9 +8,7 @@ public class User
     private String profilePicID;
     private String phone;
     private String email;
-
     private String userId;
-
     private String userType;
     private ArrayList<String> eventsSignedUpFor;
 
@@ -28,6 +26,12 @@ public class User
         this.userId = userId;
         this.userType = userType;
     }
+
+    public void signUp(String id)
+    {
+        eventsSignedUpFor.add(id);
+    }
+
     public String getName() {
         return name;
     }
@@ -80,9 +84,6 @@ public class User
     public void setEventsSignedUpFor(ArrayList<String> eventsSignedUpFor) {
         this.eventsSignedUpFor = eventsSignedUpFor;
     }
-
-
-
 
     public void setUserType(String userType) {
         this.userType = userType;
