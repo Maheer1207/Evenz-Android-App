@@ -149,16 +149,6 @@ public class HomeScreenActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-//        ImageView shareQR = findViewById(R.id.shareQR);
-//        shareQR.setOnClickListener(v -> {
-//            QRGenerator test = new QRGenerator();
-//            Bitmap bitmap = test.generate(eventID, 400, 400);
-//            Uri bitmapUri = saveBitmapToCache(bitmap);
-//
-//            Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
-//            intent.putExtra("BitmapImage", bitmapUri.toString());
-//            startActivity(intent);
-//        });
         ImageView shareQR = findViewById(R.id.shareQR);
         shareQR.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -50,40 +51,32 @@ public class EventCreationActivity extends AppCompatActivity {
 
     private static final int PICK_IMAGE_REQUEST = 22;
     private Uri filePath;
-    StorageReference storageReference;
-    StorageReference phtoRef;
-
-
     private ImageView imageView;
-
-
-    private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
     private Button submitEventButton;
-
     private String eventPosterID_temp;
-
     private String eventID;
+    private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
 
-    // Firestore instance
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private CollectionReference ref = db.collection("events");
+    // ImageUtility instance
+    private ImageUtility imageUtility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.create_event);
 
+        // Initialize Firebase Storage reference
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+
+        // Initialize ImageUtility
+        imageUtility = new ImageUtility();
+
+        // Get extras from intent
         Bundle b = getIntent().getExtras();
         assert b != null;
         String role = b.getString("role");
 
-        eventPosterID_temp = UUID.randomUUID().toString();
-        storageReference = FirebaseStorage.getInstance().getReference();
 
-        phtoRef = storageReference.child("images/" + eventPosterID_temp);
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_event);
-
-        // Initialize UI components
         initUI();
         imageView = findViewById(R.id.vector_ek2);
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -93,56 +86,55 @@ public class EventCreationActivity extends AppCompatActivity {
             }
         });
 
-        submitEventButton = findViewById(R.id.create_event_button);
-        submitEventButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    upload(phtoRef);
-                    submitEvent();
+        // Submit event button listener for initiating the upload process
+        submitEventButton.setOnClickListener(view -> {
+            if (filePath != null) {
+                ImageUtility.UploadCallback callback = new ImageUtility.UploadCallback() {
+                    @Override
+                    public void onSuccess(String imageID, String imageURL) throws ParseException {
+                        // Image successfully uploaded
+                        // Proceed with event submission or other actions as needed
+                        eventPosterID_temp = imageID; // If needed for further operations
+                        submitEvent();
+                        navigateToHomeScreen();
+                    }
 
-                    Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
-                    Bundle b = new Bundle();
-                    b.putString("role", "organizer");
-                    b.putString("eventID", eventID);
-                    intent.putExtras(b);
-                    startActivity(intent);
-                } catch (ParseException e) {
-                    throw new RuntimeException(e);
-                }
+                    @Override
+                    public void onFailure(Exception e) {
+                        // Handle upload failure
+                        Toast.makeText(EventCreationActivity.this, "Upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                };
+
+                imageUtility.upload(filePath, callback);
+            } else {
+                Toast.makeText(EventCreationActivity.this, "Please select an image first", Toast.LENGTH_SHORT).show();
             }
         });
+    }
 
-        findViewById(R.id.back_less).setOnClickListener(v->finish());
+    // Method to initiate the image selection
+    private void select() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // checking request code and result code
-        // if request code is PICK_IMAGE_REQUEST and
-        // resultCode is RESULT_OK
-        // then set image in the image view
-        if (requestCode == PICK_IMAGE_REQUEST
-                && resultCode == RESULT_OK
-                && data != null
-                && data.getData() != null) {
-
-            // Get the Uri of data
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
-
-                // Setting image on image view using Bitmap
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 imageView.setImageBitmap(bitmap);
             } catch (IOException e) {
-                // Log the exception
                 e.printStackTrace();
             }
         }
     }
-
 
     private void initUI() {
         editTextOrganizerName = findViewById(R.id.editTextOrganizerName);
@@ -152,6 +144,16 @@ public class EventCreationActivity extends AppCompatActivity {
         editTextEventInfo = findViewById(R.id.editTextEventInfo);
         editTextEventLoc = findViewById(R.id.editTextLocation);
         submitEventButton = findViewById(R.id.create_event_button); //Create event button
+    }
+
+
+    private void navigateToHomeScreen() {
+        Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
+        Bundle b = new Bundle();
+        b.putString("role", "organizer");
+        b.putString("eventID", eventID);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     private void submitEvent() throws ParseException {
@@ -229,56 +231,4 @@ public class EventCreationActivity extends AppCompatActivity {
         });
     }
 
-    private void select()
-    {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
-    }
-
-    /**
-     * Given that filePath has already been defined within the activity, uploads an image previously selected by the user
-     * This includes adding the image to the firebase storage with proper notifications for upload progress.
-     */
-    private void upload(StorageReference photoRef) {
-        if (filePath != null) {
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Uploading...");
-            progressDialog.show();
-
-            // Defining the child of storageReference
-            StorageReference storageReference = FirebaseStorage.getInstance().getReference();
-
-
-            // adding listeners on upload
-            // or failure of image
-            photoRef.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
-                            // Image uploaded successfully
-                            // Dismiss dialog
-                            progressDialog.dismiss();
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                            // Error, Image not uploaded
-                            progressDialog.dismiss();
-                        }
-                    }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                        // Progress Listener for loading
-                        // percentage on the dialog box
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                            progressDialog.setMessage("Uploaded " + (int) progress + "%");
-                        }
-                    });
-        }
-    }
 }

@@ -17,8 +17,13 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class PushNotificationService extends FirebaseMessagingService {
 
     private static final String TAG = "FCM Service";
@@ -72,13 +77,15 @@ public class PushNotificationService extends FirebaseMessagingService {
     }
 
     private void sendTokenToServer(String token) {
-        // Using device ID as the user ID to update the token in Firestore
         @SuppressLint("HardwareIds") String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference userDocRef = db.collection("users").document(deviceID);
 
-        userDocRef.update("deviceToken", token)
+        Map<String, Object> data = new HashMap<>();
+        data.put("deviceToken", token);
+
+        userDocRef.set(data, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> Log.d(TAG, "Token updated successfully for device: " + deviceID))
                 .addOnFailureListener(e -> Log.w(TAG, "Error updating token for device: " + deviceID, e));
     }

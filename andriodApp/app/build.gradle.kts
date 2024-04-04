@@ -32,6 +32,8 @@ android {
 dependencies {
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.github.bumptech.glide:glide:4.11.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.11.0")
     implementation("com.google.zxing:core:3.4.1")
     implementation("com.google.firebase:firebase-storage")
     implementation("androidx.appcompat:appcompat:1.6.1")

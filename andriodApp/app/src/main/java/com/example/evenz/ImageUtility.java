@@ -2,6 +2,7 @@ package com.example.evenz;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -20,6 +22,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.UUID;
 
 public final class ImageUtility {
@@ -32,7 +35,7 @@ public final class ImageUtility {
         storageReference = storage.getReference();
     }
     public interface UploadCallback {
-        void onSuccess(String imageID, String imageURL);
+        void onSuccess(String imageID, String imageURL) throws ParseException;
         void onFailure(Exception e);
     }
 
@@ -55,7 +58,11 @@ public final class ImageUtility {
                         public void onSuccess(Uri uri) {
                             String imageURL = uri.toString();
                             if (callback != null) {
-                                callback.onSuccess(id, imageURL);
+                                try {
+                                    callback.onSuccess(id, imageURL);
+                                } catch (ParseException e) {
+                                    throw new RuntimeException(e);
+                                }
                             }
                         }
                     });
@@ -95,5 +102,6 @@ public final class ImageUtility {
             }
         });
     }
+
 
 }
