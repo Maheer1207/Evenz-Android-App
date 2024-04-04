@@ -51,6 +51,38 @@ public class FirebaseUserManager {
         return db.collection("users").document(userId).update("eventsSignedUpFor", FieldValue.arrayUnion(eventId));
     }
 
+    // Remove user from event
+    public Task<Void> removeEventFromUser(String userId, String eventId) {
+        return db.collection("users").document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(eventId));
+    }
+
+    // Create a method that will return all of the attendes for a given event
+    public Task<List<User>> getAttendeesForEvent(String eventId) {
+        final List<User> userList = new ArrayList<>();
+
+        return db.collection("users").whereArrayContains("eventsSignedUpFor", eventId).get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    User user = new User(
+                            document.getString("name"),
+                            document.getString("profilePicID"),
+                            document.getString("phone"),
+                            document.getString("email"),
+                            document.getString("userId"),
+                            document.getString("userType")
+                    );
+                    // Initialize the eventsSignedUpFor ArrayList if it exists in the document
+                    List<String> eventsSignedUpFor = (List<String>) document.get("eventsSignedUpFor");
+                    if (eventsSignedUpFor != null) {
+                        user.setEventsSignedUpFor(new ArrayList<>(eventsSignedUpFor));
+                    }
+                    userList.add(user);
+                }
+            }
+            return userList;
+        });
+    }
+
 
     public Task<List<User>> getAllUsers() {
         final List<User> userList = new ArrayList<>();
