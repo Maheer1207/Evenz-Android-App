@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
              android:layout_height="match_parent">
@@ -26,8 +27,11 @@
 At each of our career fairs, chat with a career advisor for a free 10-minute review of your resume "
         android:textColor="#FF000000"
         android:textSize="15sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="404dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.313"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/container_frame13"
@@ -42,8 +46,12 @@ At each of our career fairs, chat with a career advisor for a free 10-minute rev
         android:textColor="#FF1A1A1A"
         android:textSize="20dp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="84dp"
-        tools:layout_editor_absoluteY="23dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/bottom_actionbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.437"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.032" />
 
     <ImageView
         android:id="@+id/back_attendee_browse_events"
@@ -73,8 +81,8 @@ At each of our career fairs, chat with a career advisor for a free 10-minute rev
         android:contentDescription="Button to view attendee's projile"
         android:scaleType="centerInside"
         android:src="@drawable/profile"
-        tools:layout_editor_absoluteX="298dp"
-        tools:layout_editor_absoluteY="677dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="298dp" />
 
     <ImageView
         android:id="@+id/home_admin_browse_attendee"
@@ -83,8 +91,8 @@ At each of our career fairs, chat with a career advisor for a free 10-minute rev
         android:contentDescription="Button to scan a QR using the camera"
         android:scaleType="centerInside"
         android:src="@drawable/home"
-        tools:layout_editor_absoluteX="168dp"
-        tools:layout_editor_absoluteY="678dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="168dp" />
 
     <ImageView
         android:id="@+id/event_list"
@@ -93,22 +101,30 @@ At each of our career fairs, chat with a career advisor for a free 10-minute rev
         android:contentDescription="Button to show a list "
         android:scaleType="centerInside"
         android:src="@drawable/event_list"
-        tools:layout_editor_absoluteX="64dp"
-        tools:layout_editor_absoluteY="678dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="64dp" />
 
     <TextView
         android:id="@+id/admin_event_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="56dp"
         android:text="TextView"
-        tools:layout_editor_absoluteX="156dp"
-        tools:layout_editor_absoluteY="121dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/container_frame13"
+        app:layout_constraintVertical_bias="0.205" />
 
     <Button
         android:id="@+id/deletebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete"
-        tools:layout_editor_absoluteX="144dp"
-        tools:layout_editor_absoluteY="570dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/bottom_actionbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/continer_event_summary_date_icon1"
+        app:layout_constraintVertical_bias="0.406" />
 </androidx.constraintlayout.widget.ConstraintLayout>

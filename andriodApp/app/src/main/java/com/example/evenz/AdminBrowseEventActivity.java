@@ -50,6 +50,18 @@ public class AdminBrowseEventActivity extends AppCompatActivity {
                 Log.d("Ben8888", "clicked event: " + model.getEventName());
 
                 Intent intent = new Intent(AdminBrowseEventActivity.this, AdminDeleteEvent.class);
+                Bundle rb = getIntent().getExtras();
+
+                Bundle b = new Bundle();
+                b.putString("organizationame",  model.getOrganizationName());
+                b.putString("eventName", model.getEventName());
+                b.putString("eventpostID", model.getEventPosterID());
+                b.putString("eventDesc", model.getDescription());
+                b.putString("eventDate", model.getEventDate().toString());
+                b.putString("location", model.getLocation());
+
+                intent.putExtras(b);
+
                 startActivity(intent);
 
             }
