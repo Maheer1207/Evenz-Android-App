@@ -1,10 +1,9 @@
 package com.example.evenz;
 
-import android.util.Log;
-
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.SetOptions;
@@ -45,6 +44,11 @@ public class FirebaseUserManager {
 
         // Use userId as the document ID
         return db.collection("users").document(user.getUserId()).set(userMap, SetOptions.merge());
+    }
+
+    // Create a method to update a user document in the database to add an event to the eventsSignedUpFor list
+    public Task<Void> addEventToUser(String userId, String eventId) {
+        return db.collection("users").document(userId).update("eventsSignedUpFor", FieldValue.arrayUnion(eventId));
     }
 
 
