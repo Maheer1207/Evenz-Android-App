@@ -1,5 +1,6 @@
 package com.example.evenz;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private ArrayList<String> imgPathList; // List of image paths
     private ImageUtility imageUtility; // ImageUtility instance for image loading
     private Context context; // Context for inflating views
+    private static OnClickListener onClickListener;
 
     // Constructor
     public ImageAdapter(Context context, ArrayList<String> imgPathList) {
@@ -27,20 +29,28 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, OnClickListener onClickListener) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.browser_image); // Assuming imageView ID in your layout
+            imageView = itemView.findViewById(R.id.browser_image);
+            itemView.setOnClickListener(view -> {
+                if (ImageAdapter.onClickListener != null) {
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        ImageAdapter.onClickListener.onClick(position);
+                    }
+                }
+            });
         }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // Inflate the item layout
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_photo, parent, false); // Assuming image_item.xml as your item layout
-        return new ViewHolder(view);
+                .inflate(R.layout.item_photo, parent, false);
+        return new ViewHolder(view, onClickListener);
     }
+
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
@@ -59,4 +69,21 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         // Return the size of imgPathList
         return imgPathList.size();
     }
+
+    public interface OnClickListener {
+        void onClick(int position);
+    }
+
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    public void updateData(ArrayList<String> newImgPathList) {
+        imgPathList.clear();
+        imgPathList.addAll(newImgPathList);
+        notifyDataSetChanged(); // Refresh the RecyclerView
+    }
+
+
+
 }

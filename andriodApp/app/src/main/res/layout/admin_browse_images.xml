@@ -12,7 +12,7 @@
         android:layout_height="24dp"
         android:layout_gravity="top|start"
         android:layout_marginStart="160dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:gravity="center_horizontal|center_vertical"
         android:includeFontPadding="false"
         android:maxLines="1"
@@ -25,7 +25,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/imgsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="620dp"
         android:layout_marginTop="60dp"/>
 
     <ImageView
@@ -57,7 +57,7 @@
         android:layout_marginEnd="314.43dp"
         android:layout_marginBottom="30.81dp"
         android:scaleType="centerInside"
-        android:src="@drawable/profile"
+        android:src="@drawable/attendees_black"
         android:contentDescription="Button to view attendee's projile" />
 
     <ImageView
@@ -67,7 +67,7 @@
         android:layout_marginStart="172dp"
         android:layout_marginTop="700dp"
         android:scaleType="centerInside"
-        android:src="@drawable/camera_scan"
+        android:src="@drawable/home"
         android:contentDescription="Button to scan a QR using the camera" />
 
     <!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
@@ -79,6 +79,6 @@
         android:layout_marginTop="700dp"
         android:layout_marginBottom="0.05dp"
         android:scaleType="centerInside"
-        android:src="@drawable/event_list"
+        android:src="@drawable/photos_white"
         android:contentDescription="Button to show a list " />
 </FrameLayout>

@@ -6,6 +6,9 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -52,7 +55,7 @@ public final class ImageUtility {
      * @param imageID id of the image being displayed
      * @param imgView The image view to place the image on
      */
-    public void displayImage(String imageID, ImageView imgView)
+    public static void displayImage(String imageID, ImageView imgView)
     {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference photoReference = storageReference.child("images/" + imageID);
@@ -85,6 +88,27 @@ public final class ImageUtility {
                     // For simplicity, we're just printing the stack trace
                     e.printStackTrace();
                 });
+    }
+
+    public static void deleteImage(String imageID)
+    {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference photoReference = storageReference.child("images/" + imageID);
+
+        photoReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // Image deletion succeeded
+                Log.d("Delete Image", "Image successfully deleted");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Image deletion failed
+                Log.d("Delete Image", "Image deletion failed", exception);
+            }
+        });
+
     }
 
 }
