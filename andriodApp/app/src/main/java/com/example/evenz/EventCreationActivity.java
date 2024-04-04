@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -57,7 +58,7 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
 
 
     private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
-    private Button submitEventButton;
+    private RelativeLayout submitEventButton;
 
     private String eventPosterID_temp;
 
@@ -84,7 +85,7 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
 
         // Initialize UI components
         initUI();
-//        initMap();
+
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

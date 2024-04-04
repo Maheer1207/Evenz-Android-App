@@ -253,24 +253,34 @@
 							android:inputType="text" />
 					</LinearLayout>
 				</RelativeLayout>
-
 				<RelativeLayout
-					android:id="@+id/light_green_event_create_button"
+					android:id="@+id/create_event_button"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginStart="106dp"
 					android:layout_marginTop="710dp"
 					android:gravity="center">
-					<Button
-						android:id="@+id/create_event_button"
+					<View
+						android:id="@+id/light_green_button_rect"
+						android:layout_width="205dp"
+						android:layout_height="48dp"
+						android:layout_marginStart="-1dp"
+						android:layout_marginTop="-1dp"
+						android:background="@drawable/light_green_button_setup" />
+					<TextView
+						android:id="@+id/create_event_text"
 						android:layout_width="205dp"
 						android:layout_height="wrap_content"
-						android:background="@drawable/light_green_button_setup"
+						android:shadowColor="#000000"
+						android:shadowDx="0"
+						android:shadowDy="4"
+						android:shadowRadius="4"
 						android:text="Create Event"
 						android:textAlignment="center"
-						android:textColor="@color/white"
+						android:textColor="@color/create_event_color"
 						android:textSize="16.02sp"
-						android:textStyle="bold" />
+						android:textStyle="bold"
+						android:layout_marginTop="10dp"/>
 				</RelativeLayout>
 				<ImageView
 					android:id="@+id/upload_qr"

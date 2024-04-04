@@ -35,6 +35,12 @@
             android:name=".AdminBrowseEventActivity"
             android:exported="true" />
         <activity
+            android:name=".ImageBrowseActivity"
+            android:exported="true" />
+        <activity
+            android:name=".ImageDeleteActivity"
+            android:exported="true" />
+        <activity
             android:name=".EventBrowseActivity"
             android:exported="true"/>
         <activity

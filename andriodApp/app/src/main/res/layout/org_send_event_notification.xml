@@ -99,20 +99,21 @@
   </RelativeLayout>
 
   <RelativeLayout
-      android:id="@+id/light_green_signup_button"
-      android:layout_width="match_parent"
+      android:id="@+id/post_notification_button"
+      android:layout_width="wrap_content"
       android:layout_height="50dp"
       android:layout_marginTop="620dp"
+      android:layout_marginStart="106dp"
       android:gravity="center">
     <View
         android:id="@+id/light_green_button_rect"
         android:layout_width="205dp"
-        android:layout_height="27dp"
+        android:layout_height="48dp"
         android:layout_marginStart="-1dp"
         android:layout_marginTop="-1dp"
         android:background="@drawable/light_green_button_setup" />
     <TextView
-        android:id="@+id/post_notification_button"
+        android:id="@+id/post_notification_text"
         android:layout_width="205dp"
         android:layout_height="wrap_content"
         android:shadowColor="#000000"
@@ -123,7 +124,8 @@
         android:textAlignment="center"
         android:textColor="@color/create_event_color"
         android:textSize="16.02sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="10dp"/>
   </RelativeLayout>
 
 </FrameLayout>
