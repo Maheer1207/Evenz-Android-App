@@ -44,7 +44,7 @@ public class FirebaseAttendeeManager {
      */
     public FirebaseAttendeeManager(FirebaseFirestore db) {
         this.db = db;
-        this.ref = db.collection("attendee");
+        this.ref = db.collection("users");
     }
 
     /**

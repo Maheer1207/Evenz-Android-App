@@ -253,14 +253,38 @@ public final class EventUtility {
 
      */
 
-    public static String getEventID(String deviceID){
-        ArrayList<String> eventID = new ArrayList<>();
+    public static ArrayList<String> fetchallUserID() {
+        ArrayList<String> userDataList = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference doc = db.collection("users").document(deviceID);
-        //db.collection("users").where("userId", "==", deviceID).get()
-        return "hitere";
-        //return eventID.get(0);
+        db.collection("users").addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot querySnapshots, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e("Firestore", error.toString());
+                    return;
+                }
+
+                if (querySnapshots != null) {
+
+                    for (QueryDocumentSnapshot doc : querySnapshots) {
+                        String userID = doc.getId();
+                        userDataList.add(userID);
+                    }
+                }
+            }
+        });
+        return userDataList;
+
+    }
+
+    public static String getEventID(String deviceID) {
+
+        String x = fetchallEvent().get(0).getEventName();
+
+        return x;
+
+
     }
 
 }
