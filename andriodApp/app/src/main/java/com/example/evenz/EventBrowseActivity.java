@@ -33,6 +33,7 @@ public class EventBrowseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.attendees_browse_events);
 
+
         eventsRecyclerView = findViewById(R.id.eventsRecyclerView);
 
         eventsRecyclerView.setLayoutManager(new LinearLayoutManager(this));

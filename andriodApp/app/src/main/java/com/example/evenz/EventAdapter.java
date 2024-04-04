@@ -31,6 +31,9 @@ import java.util.Locale;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
     private ArrayList<Event> eventDataList;
+
+    //change1
+    private OnClickListener onClickListener;
     private Context context;
 
     public EventAdapter(Context context, ArrayList<Event> eventDataList) {
@@ -66,6 +69,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.textCategories.setText(event.getEventName());
         holder.textDescription.setText(event.getDescription());
 
+        //change 2
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onClickListener != null) {
+                    onClickListener.onClick(position, event);
+                }
+            }
+        });
+
         this.displayImage(event.getEventPosterID(), holder.imageBanner);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
@@ -74,6 +87,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         // Assuming you have a method to get a displayable location string from Geolocation
         holder.textLocation.setText(event.getLocation()); // You need to adjust this based on your Geolocation data.
 
+    }
+
+    //change 3
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
+
+    //change 4
+
+    public interface OnClickListener {
+        void onClick(int position, Event model);
     }
 
     @Override

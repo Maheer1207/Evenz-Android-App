@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+             android:layout_height="match_parent">
+    <FrameLayout
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="343dp"
+        android:background="@drawable/drawable_shape">
+
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/continer_event_summary_date_icon1"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:gravity="start|top"
+        android:includeFontPadding="false"
+        android:lineHeight="19sp"
+        android:text="Carethe Main Floor Atrium of the Katz Group Centre for Pharmacy and Health Research (KATZ).
+At each of our career fairs, chat with a career advisor for a free 10-minute review of your resume "
+        android:textColor="#FF000000"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="404dp" />
+
+    <TextView
+        android:id="@+id/container_frame13"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_gravity="top|start"
+        android:gravity="center_horizontal|center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="ADministration Event View"
+        android:textColor="#FF1A1A1A"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="84dp"
+        tools:layout_editor_absoluteY="23dp" />
+
+    <ImageView
+        android:id="@+id/back_attendee_browse_events"
+        android:layout_width="wrap_content"
+        android:layout_height="22.86dp"
+        android:layout_marginStart="21.04dp"
+        android:layout_marginTop="17.66dp"
+        android:layout_marginRight="357.76dp"
+        android:layout_marginBottom="766.48dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/back_less" />
+    <ImageView
+        android:id="@+id/bottom_actionbar"
+        android:layout_width="395dp"
+        android:layout_height="74dp"
+        android:layout_gravity="top|start"
+        android:background="@drawable/bottom_actionbar"
+        android:scaleType="centerInside"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="660dp" />
+
+    <!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
+    <ImageView
+        android:id="@+id/profile_attendee"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:contentDescription="Button to view attendee's projile"
+        android:scaleType="centerInside"
+        android:src="@drawable/profile"
+        tools:layout_editor_absoluteX="298dp"
+        tools:layout_editor_absoluteY="677dp" />
+
+    <ImageView
+        android:id="@+id/home_admin_browse_attendee"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:contentDescription="Button to scan a QR using the camera"
+        android:scaleType="centerInside"
+        android:src="@drawable/home"
+        tools:layout_editor_absoluteX="168dp"
+        tools:layout_editor_absoluteY="678dp" />
+
+    <ImageView
+        android:id="@+id/event_list"
+        android:layout_width="38dp"
+        android:layout_height="wrap_content"
+        android:contentDescription="Button to show a list "
+        android:scaleType="centerInside"
+        android:src="@drawable/event_list"
+        tools:layout_editor_absoluteX="64dp"
+        tools:layout_editor_absoluteY="678dp" />
+
+    <TextView
+        android:id="@+id/admin_event_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        tools:layout_editor_absoluteX="156dp"
+        tools:layout_editor_absoluteY="121dp" />
+
+    <Button
+        android:id="@+id/deletebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"
+        tools:layout_editor_absoluteX="144dp"
+        tools:layout_editor_absoluteY="570dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>

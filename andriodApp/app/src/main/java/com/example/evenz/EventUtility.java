@@ -136,7 +136,7 @@ public final class EventUtility {
      * Fetches every event currently in Database as an array of Event Objects.
      * @return Arraylist of Events
      */
-    public static ArrayList<Event> fetchallEvent() {
+    public static ArrayList<Event> fetchallEvent(EventAdapter eva) {
         ArrayList<Event> eventDataList = new ArrayList<>();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -156,6 +156,7 @@ public final class EventUtility {
                         Event tempEvent = parseEvent(doc);
                         eventDataList.add(tempEvent);
                     }
+                    eva.notifyDataSetChanged();
                 }
             }
         });
