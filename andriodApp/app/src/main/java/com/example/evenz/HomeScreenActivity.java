@@ -143,7 +143,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 QRGenerator test = new QRGenerator();
-                Bitmap bitmap = test.generate(eventID, "SignUp", 400, 400);
+                Bitmap bitmap = test.generate(eventID, "", 400, 400); //TODO: change for the sign UP/check in
                 Uri bitmapUri = saveBitmapToCache(bitmap);
 
                 Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);

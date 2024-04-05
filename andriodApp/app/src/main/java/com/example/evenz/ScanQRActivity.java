@@ -1,6 +1,7 @@
 package com.example.evenz;
-
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -15,6 +16,7 @@ import androidx.camera.core.ImageProxy;
 import androidx.camera.core.Preview;
 import androidx.camera.lifecycle.ProcessCameraProvider;
 import androidx.camera.view.PreviewView;
+import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.evenz.R;
@@ -31,10 +33,18 @@ public class ScanQRActivity extends AppCompatActivity {
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
+    private static final int REQUEST_CAMERA_PERMISSION = 100; //TODO: fix later
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.qr_code_scan); // Ensure this layout has a PreviewView with the ID `viewFinder`
+
+        // Request camera permission
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
+        }
 
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {

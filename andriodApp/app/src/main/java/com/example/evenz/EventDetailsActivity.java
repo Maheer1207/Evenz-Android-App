@@ -145,7 +145,7 @@ public class EventDetailsActivity  extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     QRGenerator test = new QRGenerator();
-                    Bitmap bitmap = test.generate(eventID, "SignUp", 400, 400);
+                    Bitmap bitmap = test.generate(eventID, "", 400, 400); //TODO: change for the sign up page/check IN
                     Uri bitmapUri = saveBitmapToCache(bitmap);
 
                 Intent intent = new Intent(EventDetailsActivity.this, ShareQRActivity.class);
