@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ public class UserEditProfileActivity extends AppCompatActivity {
 
 	private ImageView imageView;
 	private EditText nameInput, phoneInput, emailInput;
+	private CheckBox notificationEnabledInput, locationEnabledInput;
 
 	private String profilePicID = "";
 
@@ -35,6 +37,8 @@ public class UserEditProfileActivity extends AppCompatActivity {
 		nameInput = findViewById(R.id.name_input);
 		phoneInput = findViewById(R.id.phone_input);
 		emailInput = findViewById(R.id.email_input);
+		notificationEnabledInput = findViewById(R.id.enable_notification);
+		locationEnabledInput = findViewById(R.id.enable_location);
 
 		imageView.setOnClickListener(v -> selectImage());
 		findViewById(R.id.back_button).setOnClickListener(v -> finish());
@@ -78,6 +82,8 @@ public class UserEditProfileActivity extends AppCompatActivity {
 		String name = nameInput.getText().toString().trim();
 		String phone = phoneInput.getText().toString().trim();
 		String email = emailInput.getText().toString().trim();
+		boolean notificationEnabled = notificationEnabledInput.isChecked();
+		boolean locationEnabled = locationEnabledInput.isChecked();
 
 		// Validate name, phone, and email. Add or modify validation as necessary.
 		if (name.isEmpty()) {
@@ -106,7 +112,7 @@ public class UserEditProfileActivity extends AppCompatActivity {
 			return null;
 		}
 
-		return new User(deviceID, name, phone, email, profilePicID, userType);
+		return new User(deviceID, name, phone, email, profilePicID, userType, notificationEnabled, locationEnabled);
 	}
 
 

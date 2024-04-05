@@ -41,6 +41,10 @@ public class FirebaseUserManager {
         // No need to put "userId" in the map since it's used as document ID.
         userMap.put("userType", user.getUserType());
         userMap.put("eventsSignedUpFor", user.getEventsSignedUpFor());
+        userMap.put("checkedInEvent", user.getCheckedInEvent());
+        userMap.put("notificationEnabled", user.getNotificationsEnabled());
+        userMap.put("locationEnabled", user.getLocationEnabled());
+
 
         // Use userId as the document ID
         return db.collection("users").document(user.getUserId()).set(userMap, SetOptions.merge());
@@ -71,57 +75,45 @@ public class FirebaseUserManager {
         });
     }
 
-    // Create a method that will return all of the attendes for a given event
+    // Create a method that will return all of the attendes for a given event it uses the getUser method to get the user object
     public Task<List<User>> getAttendeesForEvent(String eventId) {
-        final List<User> userList = new ArrayList<>();
-
-        return db.collection("users").whereArrayContains("eventsSignedUpFor", eventId).get().continueWith(task -> {
+        return db.collection("users").whereArrayContains("eventsSignedUpFor", eventId).get().continueWithTask(task -> {
             if (task.isSuccessful()) {
+                List<Task<User>> tasks = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
-                    User user = new User(
-                            document.getString("name"),
-                            document.getString("profilePicID"),
-                            document.getString("phone"),
-                            document.getString("email"),
-                            document.getString("userId"),
-                            document.getString("userType")
-                    );
-                    // Initialize the eventsSignedUpFor ArrayList if it exists in the document
-                    List<String> eventsSignedUpFor = (List<String>) document.get("eventsSignedUpFor");
-                    if (eventsSignedUpFor != null) {
-                        user.setEventsSignedUpFor(new ArrayList<>(eventsSignedUpFor));
-                    }
-                    userList.add(user);
+                    String userId = document.getString("userId");
+                    tasks.add(getUser(userId));
                 }
+                return Tasks.whenAllSuccess(tasks);
+            } else {
+                return Tasks.forException(task.getException());
             }
-            return userList;
         });
     }
 
-
-    public Task<List<User>> getAllUsers() {
-        final List<User> userList = new ArrayList<>();
-
-        return db.collection("users").get().continueWith(task -> {
+    // Create user method that will return a user object for a given userId
+    public Task<User> getUser(String userId) {
+        return db.collection("users").document(userId).get().continueWith(task -> {
             if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    User user = new User(
-                            document.getString("name"),
-                            document.getString("profilePicID"),
-                            document.getString("phone"),
-                            document.getString("email"),
-                            document.getString("userId"),
-                            document.getString("userType")
-                    );
-                    // Initialize the eventsSignedUpFor ArrayList if it exists in the document
-                    List<String> eventsSignedUpFor = (List<String>) document.get("eventsSignedUpFor");
-                    if (eventsSignedUpFor != null) {
-                        user.setEventsSignedUpFor(new ArrayList<>(eventsSignedUpFor));
-                    }
-                    userList.add(user);
+                QueryDocumentSnapshot document = (QueryDocumentSnapshot) task.getResult();
+                User user = new User(
+                        document.getString("userId"),
+                        document.getString("name"),
+                        document.getString("phone"),
+                        document.getString("email"),
+                        document.getString("profilePicID"),
+                        document.getString("userType"),
+                        document.getBoolean("notificationEnabled"),
+                        document.getBoolean("locationEnabled")
+                );
+                // Initialize the eventsSignedUpFor ArrayList if it exists in the document
+                List<String> eventsSignedUpFor = (List<String>) document.get("eventsSignedUpFor");
+                if (eventsSignedUpFor != null) {
+                    user.setEventsSignedUpFor(new ArrayList<>(eventsSignedUpFor));
                 }
+                return user;
             }
-            return userList;
+            return null;
         });
     }
 

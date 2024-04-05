@@ -13,6 +13,10 @@ public class User
 
     private String userType;
 
+    private Boolean notificationsEnabled;
+
+    private Boolean locationEnabled;
+
     // Should be empty initally
     private ArrayList<String> eventsSignedUpFor = new ArrayList<>();
 
@@ -23,7 +27,7 @@ public class User
     }
 
 
-    public User(String userId, String name, String phone, String email, String profilePicID, String userType)
+    public User(String userId, String name, String phone, String email, String profilePicID, String userType, Boolean notificationsEnabled, Boolean locationEnabled)
     {
         this.name = name;
         this.profilePicID = profilePicID;
@@ -31,6 +35,8 @@ public class User
         this.email = email;
         this.userId = userId;
         this.userType = userType;
+        this.notificationsEnabled = notificationsEnabled;
+        this.locationEnabled = locationEnabled;
     }
     public String getName() {
         return name;
@@ -105,9 +111,26 @@ public class User
     }
 
 
+    public Boolean getNotificationsEnabled() {
+        return notificationsEnabled;
+    }
+
+    public void setNotificationsEnabled(Boolean notificationsEnabled) {
+        this.notificationsEnabled = notificationsEnabled;
+    }
+
+    public Boolean getLocationEnabled() {
+        return locationEnabled;
+    }
+
+    public void setLocationEnabled(Boolean locationEnabled) {
+        this.locationEnabled = locationEnabled;
+    }
+
 
 
     public void setUserType(String userType) {
         this.userType = userType;
     }
 }
+
