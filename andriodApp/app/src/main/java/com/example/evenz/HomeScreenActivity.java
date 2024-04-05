@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,6 +32,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private RecyclerView notificationsRecyclerView;
     private NotificationsAdapter notificationsAdapter;
     private String eventID;
+    private String role;
     private FirebaseFirestore db;
     private CollectionReference usersRef;
     private DocumentReference doc;
@@ -38,24 +42,43 @@ public class HomeScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // getting the devices id to get the user
+        String deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);;
+        FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
 
-        // Extracting the role and eventID from the intent extras
-        Bundle b = getIntent().getExtras();
-        assert b != null;
-        String role = b.getString("role");
-        eventID = b.getString("eventID");
+        // getting the user type
+        Task<String> getUserType = firebaseUserManager.getUserType(deviceID);
+        getUserType.addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String type) {
+                role = type;
 
+                // getting the signed in event or organized event id
+                Task<String> getEventID = firebaseUserManager.getEventID(deviceID);
+                getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String ID) {
+                        eventID = ID;
+                        // If the user has no event in the event
+                        if (eventID.equals("N")) {
 
-        // Checking if the role is "attendee" and setting the appropriate layout
-        if (Objects.equals(role, "attendee")) {
-            setContentView(R.layout.attendees_home_page);
-            setupAttendeeView();
-        } else {
-            setContentView(R.layout.org_home_page);
-            setupOrganizerView();
-        }
+                        }
 
-        imageUtility = new ImageUtility();
+                        // Checking if the role is "attendee" and setting the appropriate layout
+                        if (role.equals("attendee")) {
+                            setContentView(R.layout.attendees_home_page);
+                            setupAttendeeView();
+                            // User is organizer, setting the appropriate layout
+                        } else {
+                            setContentView(R.layout.org_home_page);
+                            setupOrganizerView();
+                        }
+
+                        imageUtility = new ImageUtility();
+                    }
+                });
+            }
+        });
     }
 
     // This method sets up the view for the attendee
