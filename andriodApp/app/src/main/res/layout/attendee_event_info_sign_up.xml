@@ -117,7 +117,7 @@
         android:shadowDx="0"
         android:shadowDy="4"
         android:shadowRadius="4"
-        android:text="CHECK OUT"
+        android:text="SIGN UP"
         android:textAlignment="center"
         android:textColor="@color/create_event_color"
         android:textSize="16.02sp"

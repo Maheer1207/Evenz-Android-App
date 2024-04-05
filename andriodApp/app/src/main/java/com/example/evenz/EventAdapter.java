@@ -1,5 +1,6 @@
 package com.example.evenz;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -31,6 +32,9 @@ import java.util.Locale;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
     private ArrayList<Event> eventDataList;
+
+    //change1
+    private OnClickListener onClickListener;
     private Context context;
 
     public EventAdapter(Context context, ArrayList<Event> eventDataList) {
@@ -59,25 +63,59 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return new EventViewHolder(itemView);
     }
 
-    @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventDataList.get(position);
 
         holder.textCategories.setText(event.getEventName());
         holder.textDescription.setText(event.getDescription());
 
-        ImageUtility.displayImage(event.getEventPosterID(), holder.imageBanner);
+        // Set click listener to notify the interface implementer
+        holder.itemView.setOnClickListener(v -> {
+            if (onClickListener != null) {
+                onClickListener.onClick(position, event);
+            }
+        });
+
+        this.displayImage(event.getEventPosterID(), holder.imageBanner);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
         holder.textDate.setText(dateFormat.format(event.getEventDate()));
+        holder.textLocation.setText(event.getLocation()); // Adjust based on your data
+    }
 
-        // Assuming you have a method to get a displayable location string from Geolocation
-        holder.textLocation.setText(event.getLocation()); // You need to adjust this based on your Geolocation data.
+    //change 3
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
 
+    //change 4
+
+    public interface OnClickListener {
+        void onClick(int position, Event model);
     }
 
     @Override
     public int getItemCount() {
         return eventDataList.size();
+    }
+
+    private void displayImage(String imageID, ImageView imgView)
+    {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StorageReference photoReference= storageReference.child("images/" + imageID);
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        photoReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                imgView.setImageBitmap(bmp);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                Toast.makeText(context.getApplicationContext(), "No Such file or Path found!!", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

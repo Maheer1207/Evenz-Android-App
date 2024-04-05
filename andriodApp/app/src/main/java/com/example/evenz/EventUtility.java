@@ -177,10 +177,10 @@ public final class EventUtility {
         // Using placeholders for Bitmaps as you'll load them asynchronously in the adapter/view
         Bitmap placeholderBitmap = null; // TODO: add actual QR for attendee checkIN and Browse
 
-        return new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
+        return new Event(doc.getString("eventID"), doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                 doc.getString("description"), geolocation, placeholderBitmap,
                 placeholderBitmap, 0,
-                new Hashtable<>(), doc.getDate("eventDate"), new ArrayList<String>(), doc.getString("location"));
+                new ArrayList<String>(), doc.getDate("eventDate"), new ArrayList<String>(), doc.getString("location"));
     }
 
     /**
@@ -264,6 +264,49 @@ public final class EventUtility {
                     }
                 });
     }
+    //used for adding an Ever to the event userlist
+    public static void addUserToEvent(String userId, String eventId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference eventRef = db.collection("events").document(eventId);
+
+        // Use FieldValue.arrayUnion() to add the userID to the UserList field
+        eventRef.update("UserList", FieldValue.arrayUnion(userId))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("EventUtility", "User added to event successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("EventUtility", "Error: " + e.getMessage());
+                    }
+                });
+    }
+
+    //used for removing a user from the event userlist,By Hrithick
+    public static void removeAttendeeFromEvent(String userId, String eventId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference eventRef = db.collection("events").document(eventId);
+
+        // Use FieldValue.arrayRemove() to remove the userID from the UserList field
+        eventRef.update("UserList", FieldValue.arrayRemove(userId))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("EventUtility", "User removed from event successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("EventUtility", "Error: " + e.getMessage());
+                    }
+                });
+    }
+
+    //TODO: unused for now
     private static void sendNotificationToDeviceTokens(List<String> deviceTokens, String title, String body) {
         try {
             OkHttpClient client = new OkHttpClient();

@@ -28,6 +28,8 @@ public class UserEditProfileActivity extends AppCompatActivity {
 
 	private String profilePicID = "";
 
+	private ImageUtility imageUtility = new ImageUtility(); //user imageUtilty for upload DP
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,35 +48,42 @@ public class UserEditProfileActivity extends AppCompatActivity {
 	}
 
 	private void saveUserInfo() {
+		if (filePath != null) {
+			imageUtility.upload(filePath, new ImageUtility.UploadCallback() {
+				@Override
+				public void onSuccess(String imageID, String imageURL) {
+					profilePicID = imageID; // Update profilePicID with the uploaded image ID
 
-		User user = buildUserObject();
-		if (user == null) {
-			// A toast message is shown within buildUserObject() for specific errors.
-			return; // Exit the method if validation fails.
+					User user = buildUserObject();
+					if (user == null) {
+						return; // Exit if validation fails
+					}
+
+					// Now submit the user to the database with the updated profilePicID
+					submitUserToDatabase(user);
+				}
+
+				@Override
+				public void onFailure(Exception e) {
+					showToast("Profile Picture Upload Failed");
+				}
+			});
+		} else {
+			// Proceed without a profile picture
+			User user = buildUserObject();
+			if (user != null) {
+				submitUserToDatabase(user);
+			}
 		}
+	}
 
-		// Submit the user to the database
+	private void submitUserToDatabase(User user) {
 		FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-
-		// Check if the task submitUser was successful
 		firebaseUserManager.submitUser(user).addOnSuccessListener(aVoid -> {
-			// If successful print a toast message
 			Toast.makeText(UserEditProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
-
-			// Start the HomeScreenActivity
 			Intent intent = new Intent(UserEditProfileActivity.this, HomeScreenActivity.class);
-			Bundle homescreenBundle = new Bundle();
-			homescreenBundle.putString("role", user.getUserType());
-			homescreenBundle.putString("eventID", "r3E98L0D4stEi4QN7osk");
-			intent.putExtras(homescreenBundle);
 			startActivity(intent);
-
-		}).addOnFailureListener(e -> {
-			// If unsuccessful print a toast message
-			showToast("Profile Update Failed");
-		});
-
-
+		}).addOnFailureListener(e -> showToast("Profile Update Failed"));
 	}
 
 	// Create a class that will handle the UI interaction by building the user object
