@@ -203,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String userID = doc.getId();
                         User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"),
-                                doc.getString("phone"), doc.getString("email"), doc.getString("userId"), doc.getString("userType"));
+                                doc.getString("phone"), doc.getString("email"), doc.getString("userId"), doc.getString("userType"), doc.getBoolean("notificationEnabled"), doc.getBoolean("locationEnabled"));
                         userDataList.add(tempUser);
                     }
                 }
