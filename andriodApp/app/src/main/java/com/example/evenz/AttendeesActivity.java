@@ -32,7 +32,6 @@ import java.util.List;
 public class AttendeesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private AttendeeAdapter adapter;
     private List<Attendee> attendeesList;
 
     /**
@@ -56,16 +55,13 @@ public class AttendeesActivity extends AppCompatActivity {
         Task<List<Attendee>> getAttendeesTask = firebaseAttendeeManager.getEventAttendees("Drake Concert");
 
 // Add a listener to handle the result when the task completes
-        getAttendeesTask.addOnSuccessListener(new OnSuccessListener<List<Attendee>>() {
-            @Override
-            public void onSuccess(List<Attendee> attendees) {
-                // The attendees list contains all the attendees for the "Drake Concert" event
-                // Here you can update your RecyclerView or UI components
-                // For example:
-                attendeesList = attendees;
-                AttendeeAdapter adapter = new AttendeeAdapter(attendeesList);
-                recyclerView.setAdapter(adapter);
-            }
+        getAttendeesTask.addOnSuccessListener(attendees -> {
+            // The attendees list contains all the attendees for the "Drake Concert" event
+            // Here you can update your RecyclerView or UI components
+            // For example:
+            attendeesList = attendees;
+            AttendeeAdapter adapter = new AttendeeAdapter(attendeesList);
+            recyclerView.setAdapter(adapter);
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {

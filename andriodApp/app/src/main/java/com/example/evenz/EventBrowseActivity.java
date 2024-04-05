@@ -41,7 +41,6 @@ public class EventBrowseActivity extends AppCompatActivity {
         if (extras != null) {
             String eventID = extras.getString("eventID");
             String role = extras.getString("role");
-            // Use eventID and userID here
         }
         // Initialize eventDataList
         eventDataList = new ArrayList<>();

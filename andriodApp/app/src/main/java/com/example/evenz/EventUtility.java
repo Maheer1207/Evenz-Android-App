@@ -69,6 +69,11 @@ public final class EventUtility {
         return eventMap;
 
     }
+    /**
+     * A firebase task that given the device id of the user returns their userType
+     * @param deviceID The id of the device (userID)
+     * @return the devices usertype being Attendee, Organizer, or Admin
+     */
 
 
     //notice, it seems we have not established a system of event IDs, simply adding them.
@@ -159,6 +164,7 @@ public final class EventUtility {
 
     }
 
+
     /**
      * Translates firebase doc into an Event.
      *
@@ -181,6 +187,25 @@ public final class EventUtility {
                 doc.getString("description"), geolocation, placeholderBitmap,
                 placeholderBitmap, 0,
                 new ArrayList<String>(), doc.getDate("eventDate"), new ArrayList<String>(), doc.getString("location"));
+    }
+
+    //Fetch specific events from the database, by Hrithick
+    public static void fetchEvents(FirebaseFirestore db, List<String> eventIds, ArrayList<Event> eventDataList, EventAdapter eventAdapter) {
+        db.collection("events").whereIn("id", eventIds).get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                QuerySnapshot querySnapshot = task.getResult();
+                if (querySnapshot != null) {
+                    eventDataList.clear();
+                    for (QueryDocumentSnapshot doc : querySnapshot) {
+                        Event tempEvent = EventUtility.parseEvent(doc);
+                        eventDataList.add(tempEvent);
+                    }
+                    eventAdapter.notifyDataSetChanged();
+                }
+            } else {
+                Log.e("Firestore", "Error getting events", task.getException());
+            }
+        });
     }
 
     /**

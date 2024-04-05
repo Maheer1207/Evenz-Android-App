@@ -19,7 +19,6 @@ import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.evenz.R;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
@@ -27,6 +26,7 @@ import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class ScanQRActivity extends AppCompatActivity {
@@ -70,7 +70,7 @@ public class ScanQRActivity extends AppCompatActivity {
                 .build();
 
         imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), imageProxy -> {
-            @NonNull InputImage image = InputImage.fromMediaImage(imageProxy.getImage(), imageProxy.getImageInfo().getRotationDegrees());
+            @NonNull InputImage image = InputImage.fromMediaImage(Objects.requireNonNull(imageProxy.getImage()), imageProxy.getImageInfo().getRotationDegrees());
             scanBarcodes(image, imageProxy);
         });
 
@@ -88,7 +88,7 @@ public class ScanQRActivity extends AppCompatActivity {
                     for (Barcode barcode : barcodes) {
                         String rawValue = barcode.getRawValue();
                         runOnUiThread(() -> handleQRCode(rawValue));
-                        break; // Assuming you want to process only the first QR code found
+                        break; //process first barcode only
                     }
                     imageProxy.close(); // Ensure to close the ImageProxy
                 })
