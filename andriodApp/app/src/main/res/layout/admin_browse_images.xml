@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container_user_browse_events"
+    android:layout_width="393dp"
+    android:layout_height="807dp"
+    android:background="@drawable/container_user_browse_events">
+    <TextView
+        android:id="@+id/container_frame13"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="24dp"
+        android:gravity="center_horizontal|center_vertical"
+        android:includeFontPadding="false"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:text="Gallery"
+        android:textColor="#FF1A1A1A"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/imgsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="620dp"
+        android:layout_marginTop="60dp"/>
+
+    <ImageView
+        android:id="@+id/back_admin_browse_images"
+        android:layout_width="39dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/back_button_implemented_with_less_then"
+        android:foregroundGravity="left|bottom"
+        android:src="@drawable/back_less" />
+
+    <ImageView
+        android:id="@+id/bottom_actionbar"
+        android:layout_width="395dp"
+        android:layout_height="74dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="-2dp"
+        android:layout_marginTop="682dp"
+        android:background="@drawable/bottom_actionbar"
+        android:scaleType="centerInside" />
+
+    <ImageView
+        android:id="@+id/profile_attendee"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="52.38dp"
+        android:layout_marginTop="700dp"
+        android:layout_marginEnd="314.43dp"
+        android:layout_marginBottom="30.81dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/attendees_black"
+        android:contentDescription="Button to view attendee's projile" />
+
+    <ImageView
+        android:id="@+id/camera_scan_attendee"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="172dp"
+        android:layout_marginTop="700dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/home"
+        android:contentDescription="Button to scan a QR using the camera" />
+
+    <!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
+    <ImageView
+        android:id="@+id/event_list"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:layout_marginStart="300dp"
+        android:layout_marginTop="700dp"
+        android:layout_marginBottom="0.05dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/photos_white"
+        android:contentDescription="Button to show a list " />
+</FrameLayout>

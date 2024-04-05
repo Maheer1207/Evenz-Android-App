@@ -1,132 +1,254 @@
-// code for image upload based on https://www.geeksforgeeks.org/android-how-to-upload-an-image-on-firebase-storage/
-
 package com.example.evenz;
 
-
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.util.Log;
-import android.util.Pair;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.google.firebase.firestore.FirebaseFirestore;
+import java.util.Hashtable;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
-    private ImageView imageView;
-    private ImageView profPic;
-    private TextView text;
-    private Uri filePath;
-    FirebaseStorage storage;
-    StorageReference storageReference;
+    private CollectionReference eventsRef;
+    private CollectionReference usersRef;
 
-    private Button select;
-    private Button upload;
-    private ImageUtility imageUtility;
-
-    private final int PICK_IMAGE_REQUEST = 22;
-
+    private ArrayList<Event> eventDataList;
+    private ArrayList<User> userDataList;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        select = findViewById(R.id.select);
-        upload = findViewById(R.id.upload);
-        imageView = findViewById(R.id.image);
-        profPic = findViewById(R.id.profPic);
-        text = findViewById(R.id.textView);
-        imageUtility = new ImageUtility();
+        eventDataList = new ArrayList<>();
+        userDataList = new ArrayList<>();
+        
+        db = FirebaseFirestore.getInstance();
+        eventsRef = db.collection("events");
+        usersRef = db.collection("users");
 
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
 
-        select.setOnClickListener(new View.OnClickListener() {
+        eventsRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
+            public void onEvent(@Nullable QuerySnapshot querySnapshots,
+                                @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e("Firestore", error.toString());
+                    return;
+                }
+
+                if (querySnapshots != null) {
+                    eventDataList.clear();
+                    for (QueryDocumentSnapshot doc: querySnapshots) {
+                        String eventID = doc.getId(); //TODO: convert qrcode browse getLong to getInt
+
+                        Object attendLimitObj = doc.get("AttendLimit");
+                        long eventAttendLimit = attendLimitObj != null ? (Long) attendLimitObj : 0; // 0 is a default value
+                        
+                        // Get the Timestamp object from the document
+                        Timestamp timestamp = doc.getTimestamp("eventDate");
+
+                        //Convert the Timestamp to a java.util.Date object
+                        Date eventDate = null;
+                        if (timestamp != null) {
+                            eventDate = timestamp.toDate(); // converts Timestamp to Date
+                        }
+
+                        Event tempEvent = new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
+                                doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"),
+                                (Bitmap)doc.get("qrCodeIn"), (int)eventAttendLimit,
+                                new Hashtable<>(), eventDate, new ArrayList<String>(), doc.getString("location")); //TODO: review if this is correct implementation
+
+                        Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
+                        eventDataList.add(tempEvent);
+                    }
+                }
             }
         });
 
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
+        //  TODO: Demo Button, Need to be deleted
+        final Button createEvent = findViewById(R.id.button_create_new_event);
+        createEvent.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String id = imageUtility.upload(filePath);
-                // set user profpic id to id above
-                text.setText(id);
+                Intent intent = new Intent(MainActivity.this, EventCreationActivity.class);
+                startActivity(intent);
+            }
+        });
+        //  TODO: Demo Button, Need to be deleted
+        final Button intialPage = findViewById(R.id.initial_who_Screen);
+        intialPage.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, InitialPageActivity.class);
+                startActivity(intent);
+            }
+        });
+        //  TODO: Demo Button, Need to be deleted
+        final Button admin_event_browse = findViewById(R.id.button_admin_event_browse);
+        admin_event_browse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AdminBrowseEventActivity.class);
+                startActivity(intent);
             }
         });
 
-        // displays an image from firebase storage
-        imageUtility.displayImage("034851bb-c778-4632-b0c3-4c3693456c1b", profPic);
+        //  TODO: Demo Button, Need to be deleted
+        final Button admin_img_browse = findViewById(R.id.button_admin_img_browse);
+        admin_img_browse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ImageBrowseActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button event_browse = findViewById(R.id.button_event_browse);
+        event_browse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EventBrowseActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+//        final Button sendNotification = findViewById(R.id.send_notification);
+//        sendNotification.setOnClickListener(new View.OnClickListener() {
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, OrgSendNotificationActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button attendee_list = findViewById(R.id.button_attendee);
+        attendee_list.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, AttendeesActivity.class);
+                startActivity(intent);
+            }
+        });
+        //  TODO: Demo Button, Need to be deleted
+        final Button create_new_user = findViewById(R.id.button_create_new_user);
+        create_new_user.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, UserEditProfileActivity.class);
+                Bundle b = new Bundle();
+                b.putString("role", "attendee");
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button attendee_home = findViewById(R.id.attendee_home);
+        attendee_home.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                Bundle b = new Bundle();
+                b.putString("role", "attendee");
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button org_home = findViewById(R.id.Org_home);
+        org_home.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                Bundle b = new Bundle();
+                b.putString("role", "org");
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
+
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button qrScanScreen = findViewById(R.id.QR_Screen);
+        qrScanScreen.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ScanQRActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot querySnapshots,
+                                @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e("Firestore", error.toString());
+                    return;
+                }
+                if (querySnapshots != null) {
+                    userDataList.clear();
+                    for (QueryDocumentSnapshot doc: querySnapshots) {
+                        String userID = doc.getId();
+                        User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"),
+                                doc.getString("phone"), doc.getString("email"), doc.getString("userId"), doc.getString("userType"), doc.getBoolean("notificationEnabled"), doc.getBoolean("locationEnabled"));
+                        userDataList.add(tempUser);
+                    }
+                }
+            }
+        });
     }
 
-    // gets data for profile picture when user has selected from camera
-    // FOR UPLOADING PROFILE PICTURES
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        // checking request code and result code
-        // then set image in the image view
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            // Get the Uri of data
-            filePath = data.getData();
-            try {
-                // Setting image on image view using Bitmap
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    /**
+     * This function adds a user to the database
+     * @param id The id of the user
+     * @param user The contents of the user (all variables from user class)
+     */
+    private void addUser(String id, User user) {
+        HashMap<String, User> data = new HashMap<>();
+        data.put(id, user);
+        usersRef.document(id).set(data);
     }
+
+    /**
+     * This function deletes a user from the database
+     * @param id The id of the user to be deleted
+     */
+    private void deleteUser(String id)
+    {
+        usersRef.document(id).delete();
+    }
+
+    /**
+     * This function adds an event to the database
+     * @param id The id of the event to be added
+     * @param event The contents of the event (all variables from event class)
+     */
+    private void addEvent(String id, Event event) {
+        HashMap<String, Event> data = new HashMap<>();
+        data.put(id, event);
+        eventsRef.document(id).set(data);
+    }
+
+    /**
+     * This function deletes an event from the database
+     * @param id The id of the event to be deleted
+     */
+    private void deleteEvent(String id)
+    {
+        usersRef.document(id).delete();
+    }
+
 }

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_event_information_page"
+    android:layout_width="match_parent"
+    android:layout_height="807dp"
+    android:background="@drawable/container_event_information_page"
+    tools:context=".MainActivity">
+
+  <ImageView
+      android:id="@+id/poster_org_eventInfo"
+      android:layout_width="361dp"
+      android:layout_height="214dp"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="20dp"
+      android:layout_marginTop="8dp"
+      android:scaleType="centerCrop"
+      android:src="@drawable/image_career_fairs_web_banner"
+      android:contentDescription="event_poster" />
+
+  <ImageView
+      android:id="@+id/location_pin_event_info_signup"
+      android:layout_width="17.5dp"
+      android:layout_height="25dp"
+      android:layout_marginStart="20dp"
+      android:layout_marginTop="230dp"
+      android:layout_gravity="top|start"
+      android:scaleType="centerInside"
+      android:src="@drawable/location_pin"
+      android:contentDescription="map_icon" />
+
+  <TextView
+      android:id="@+id/loc_org_eventInfo"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="45dp"
+      android:layout_marginTop="235dp"
+      android:gravity="start|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text="CCIS, UofA"
+      android:textColor="#FF000000"
+      android:textSize="13sp" />
+
+  <TextView
+      android:id="@+id/org_event_detail_welcome"
+      android:layout_width="358dp"
+      android:layout_height="48dp"
+      android:layout_marginStart="20dp"
+      android:layout_marginTop="265dp"
+      android:gravity="left|top"
+      android:includeFontPadding="false"
+      android:lineHeight="24dp"
+      android:text="👋 Welcome to Career Launchpad 2024! 🚀\n"
+      android:textColor="#FF000000"
+      android:textSize="20dp" />
+  <TextView
+      android:id="@+id/text_event_info"
+      android:layout_width="wrap_content"
+      android:layout_height="20dp"
+      android:layout_marginStart="20dp"
+      android:layout_marginTop="320dp"
+      android:layout_gravity="top|start"
+      android:gravity="start|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text="Event Info:"
+      android:textColor="#FF000000"
+      android:textSize="13sp" />
+
+  <FrameLayout
+      android:layout_width="360dp"
+      android:layout_height="wrap_content"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="20dp"
+      android:layout_marginTop="343dp"
+      android:background="@drawable/drawable_shape">
+
+    <TextView
+        android:id="@+id/info_org_eventInfo"
+        android:layout_width="350dp"
+        android:layout_height="310dp"
+        android:layout_marginStart="5dp"
+        android:layout_gravity="bottom|start"
+        android:gravity="start|top"
+        android:includeFontPadding="false"
+        android:scrollbars="vertical"
+        android:lineHeight="19sp"
+        android:text="Career fairs are a great way to connect with U of A students, postdoctoral fellows, and alumni, and meet potential employee prospects.
+You can expect to connect with a variety of students and alumni from all areas of study at our Careers Day and Spring Hiring Fair events, or with students from the specific programs at the Education Fair and the Pharmacy Fair.
+This year Careers Day, Education Career Fair, and the Spring Hiring Fair will all take place in The Centennial Centre for Interdisciplinary Science on the U of A North Campus.
+The Pharmacy Career Fair will be held in the Main Floor Atrium of the Katz Group Centre for Pharmacy and Health Research (KATZ).
+At each of our career fairs, chat with a career advisor for a free 10-minute review of your resume "
+        android:textColor="#FF000000"
+        android:textSize="15sp" />
+  </FrameLayout>
+
+
+  <ImageView
+      android:id="@+id/bottom_actionbar"
+      android:layout_width="395dp"
+      android:layout_height="74dp"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="-2dp"
+      android:layout_marginTop="682dp"
+      android:background="@drawable/bottom_actionbar"
+      android:scaleType="centerInside" />
+
+  <ImageView
+      android:id="@+id/attendees_admin_browse_event"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="52.38dp"
+      android:layout_marginTop="700dp"
+      android:layout_marginEnd="314.43dp"
+      android:layout_marginBottom="30.81dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/attendees_black" />
+
+  <ImageView
+      android:id="@+id/home_event_details_org"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="172dp"
+      android:layout_marginTop="700dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/home"/>
+
+  <ImageView
+      android:id="@+id/shareQR_event_details"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="300dp"
+      android:layout_marginTop="700dp"
+      android:layout_marginBottom="0.05dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/share" />
+
+</FrameLayout>

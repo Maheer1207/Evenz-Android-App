@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="393dp"
+	android:layout_height="807dp">
+	<ScrollView android:id="@+id/create_event"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		tools:ignore="MissingConstraints">
+		<RelativeLayout
+			android:id="@+id/page_create_event_ek1"
+			android:layout_width="393dp"
+			android:layout_height="807dp"
+			android:background="@color/white">
+
+			<RelativeLayout
+				android:id="@+id/profile"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="left"
+				tools:ignore="RtlHardcoded">
+
+				<ImageView
+					android:id="@+id/back_less"
+					android:layout_width="39dp"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="22dp"
+					android:layout_marginTop="24dp"
+					android:contentDescription="@string/back_button_implemented_with_less_then"
+					android:foregroundGravity="left|bottom"
+					android:src="@drawable/back_less" />
+
+				<TextView
+					android:id="@+id/create_new_event"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="16dp"
+					android:layout_marginLeft="35dp"
+					android:layout_toEndOf="@+id/back_less"
+					android:text="@string/create_new_event_string"
+					android:textColor="@color/black"
+					android:textSize="24sp"
+					android:textStyle="bold" />
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:id="@+id/place_holders"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="28dp"
+				android:layout_marginTop="219dp">
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+
+					<TextView
+						android:id="@+id/date"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginStart="0dp"
+						android:layout_marginTop="0dp"
+						android:text="@string/date_string"
+						android:textColor="@color/black"
+						android:textSize="16.02sp"
+						android:textStyle="bold" />
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal"
+						android:background="@drawable/boundary_style">
+						<EditText
+							android:id="@+id/editDate"
+							android:layout_width="300dp"
+							android:layout_height="50dp"
+							android:hint="@string/mm_dd_yy_string"
+							android:importantForAutofill="no"
+							android:inputType="date" />
+						<ImageView
+							android:id="@+id/event_Date_Picker"
+							android:layout_width="33.31dp"
+							android:layout_height="28.19dp"
+							android:contentDescription="vector_ek2"
+							android:src="@drawable/icons_calendar"
+							android:layout_gravity="center"/>
+					</LinearLayout>
+				</LinearLayout>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:id="@+id/place_holders_location"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="28dp"
+				android:layout_marginTop="300dp">
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+
+					<TextView
+						android:id="@+id/location_placeholder"
+						android:layout_width="135.60175189972dp"
+						android:layout_height="18.601751899719dp"
+						android:text="Event Location"
+						android:textColor="@color/black"
+						android:textSize="16.02sp"
+						android:textStyle="bold" />
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal"
+						android:background="@drawable/boundary_style">
+						<EditText
+							android:id="@+id/editTextLocation"
+							android:layout_width="335dp"
+							android:layout_height="50dp"
+							android:hint="8801 111 ST NW, Edmonton"
+							android:importantForAutofill="no"
+							android:inputType="text" />
+					</LinearLayout>
+				</LinearLayout>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:id="@+id/place_holders_ek2"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="28dp"
+				android:layout_marginTop="375dp">
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+
+					<TextView
+						android:id="@+id/attendee_limit"
+						android:layout_width="135.60175189972dp"
+						android:layout_height="18.601751899719dp"
+						android:text="@string/attendee_limit_string"
+						android:textColor="@color/black"
+						android:textSize="16.02sp"
+						android:textStyle="bold" />
+
+					<EditText
+						android:id="@+id/no_limit"
+						android:layout_width="335dp"
+						android:layout_height="50dp"
+						android:background="@drawable/boundary_style"
+						android:hint="@string/no_limit_string"
+						android:importantForAutofill="no"
+						android:inputType="date" />
+				</LinearLayout>
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:id="@+id/place_holders_ek4"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="28dp"
+				android:layout_marginTop="445dp">
+
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+					<TextView
+						android:id="@+id/event_info"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginStart="0dp"
+						android:layout_marginTop="0dp"
+						android:text="@string/event_info_string"
+						android:textColor="@color/black"
+						android:textSize="16.02sp"
+						android:textStyle="bold" />
+					<EditText
+						android:id="@+id/editTextEventInfo"
+						android:layout_width="335dp"
+						android:layout_height="100dp"
+						android:background="@drawable/boundary_style"
+						android:hint="@string/event_info"
+						android:importantForAutofill="no"
+						android:inputType="text" />
+				</LinearLayout>
+			</RelativeLayout>
+
+
+			<RelativeLayout
+				android:id="@+id/email_place_holder"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="28dp"
+				android:layout_marginTop="142dp">
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+					<TextView
+						android:id="@+id/event_name"
+						android:layout_width="113.60175189972dp"
+						android:layout_height="18.601751899719dp"
+						android:layout_marginStart="2dp"
+						android:layout_marginTop="0dp"
+						android:text="@string/event_name_string"
+						android:textColor="@color/black"
+						android:textSize="16.02sp"
+						android:textStyle="bold" />
+					<EditText
+						android:id="@+id/editTextEventName"
+						android:layout_width="335dp"
+						android:layout_height="50dp"
+						android:background="@drawable/boundary_style"
+						android:hint="@string/career_fair_2023_string"
+						android:importantForAutofill="no"
+						android:inputType="text" />
+				</LinearLayout>
+			</RelativeLayout>
+
+
+			<RelativeLayout
+				android:id="@+id/name_place_holder"
+				android:layout_width="335dp"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="28dp"
+				android:layout_marginTop="60dp">
+				<LinearLayout
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+					<TextView
+						android:id="@+id/name_of_organizer"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginStart="9dp"
+						android:layout_marginTop="0dp"
+						android:text="@string/name_of_organizer_string"
+						android:textColor="@color/black"
+						android:textSize="16.02sp"
+						android:textStyle="bold" />
+					<EditText
+						android:id="@+id/editTextOrganizerName"
+						android:layout_width="335dp"
+						android:layout_height="50dp"
+						android:background="@drawable/boundary_style"
+						android:hint="@string/hint_event_organizer"
+						android:importantForAutofill="no"
+						android:inputType="text" />
+				</LinearLayout>
+			</RelativeLayout>
+			<RelativeLayout
+				android:id="@+id/create_event_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginStart="106dp"
+				android:layout_marginTop="710dp"
+				android:gravity="center">
+				<View
+					android:id="@+id/light_green_button_rect"
+					android:layout_width="205dp"
+					android:layout_height="48dp"
+					android:layout_marginStart="-1dp"
+					android:layout_marginTop="-1dp"
+					android:background="@drawable/light_green_button_setup" />
+				<TextView
+					android:id="@+id/create_event_text"
+					android:layout_width="205dp"
+					android:layout_height="wrap_content"
+					android:shadowColor="#000000"
+					android:shadowDx="0"
+					android:shadowDy="4"
+					android:shadowRadius="4"
+					android:text="Create Event"
+					android:textAlignment="center"
+					android:textColor="@color/create_event_color"
+					android:textSize="16.02sp"
+					android:textStyle="bold"
+					android:layout_marginTop="10dp"/>
+			</RelativeLayout>
+			<ImageView
+				android:id="@+id/upload_qr"
+				android:layout_width="33.31dp"
+				android:layout_height="28.19dp"
+				android:layout_marginStart="275dp"
+				android:layout_marginTop="594dp"
+				android:contentDescription="@string/upload_event_qr_code"
+				android:src="@drawable/folder_plus_upload" />
+
+			<TextView
+				android:id="@+id/upload_your_qr_code"
+				android:layout_width="108dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_horizontal|center"
+				android:layout_marginStart="238dp"
+				android:layout_marginTop="629dp"
+				android:gravity="center"
+				android:text="@string/upload_your_qr_code_string"
+				android:textColor="@color/black"
+				android:textSize="15sp"
+				android:textStyle="bold" />
+
+			<ImageView
+				android:id="@+id/vector_ek2"
+				android:layout_width="33.31dp"
+				android:layout_height="28.19dp"
+				android:layout_marginStart="82dp"
+				android:layout_marginTop="595dp"
+				android:contentDescription="vector_ek2"
+				android:src="@drawable/folder_plus_upload" />
+
+			<TextView
+				android:id="@+id/upload_event_poster"
+				android:layout_width="115dp"
+				android:layout_height="35dp"
+				android:layout_gravity="center_horizontal|center"
+				android:layout_marginStart="48dp"
+				android:layout_marginTop="629dp"
+				android:gravity="center"
+				android:text="@string/upload_event_poster_string"
+				android:textColor="@color/black"
+				android:textSize="15sp"
+				android:textStyle="bold" />
+		</RelativeLayout>
+	</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
