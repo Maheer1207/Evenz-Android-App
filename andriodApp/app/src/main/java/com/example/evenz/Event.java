@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class Event
 {
+    private String eventID;
+
     private String organizationName;
     private String eventName;
     private String eventPosterID;
@@ -17,7 +19,7 @@ public class Event
     private Bitmap qrCodeCheckIn;
     private int eventAttendLimit;
     private Date eventDate;
-    private Map<String, Long> userList;
+    private ArrayList<String> userList;
     private ArrayList<String> notifications;
     private String location;
     public Event(){
@@ -36,9 +38,9 @@ public class Event
      * @param eventAttendLimit   The limit of attendees in the event
      * @param userList           The list of users signed up to attend the event which is the number of times checked in (0 is rsvp) and the id of the user
      */
-    public Event(String organizationName, String eventName, String eventPosterID, String description,
+    public Event(String eventID, String organizationName, String eventName, String eventPosterID, String description,
                  Geolocation geolocation,Bitmap qrCodeBrowse, Bitmap qrCodeCheckIn, int eventAttendLimit,
-                 Map<String, Long> userList, Date eventDate, ArrayList<String> notificationList, String location)
+                 ArrayList<String> userList, Date eventDate, ArrayList<String> notificationList, String location)
     {
         this.eventName = eventName;
         this.eventPosterID = eventPosterID;
@@ -52,9 +54,17 @@ public class Event
         this.organizationName = organizationName;
         this.eventDate = eventDate;
         this.notifications = notificationList;
+        this.eventID = eventID;
 
     }
 
+    public String getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(String eventID) {
+        this.eventID = eventID;
+    }
     public String getOrganizationName() {
         return this.organizationName;
     }
@@ -140,10 +150,9 @@ public class Event
         this.notifications = notifications;
     }
 
-    public Map<String, Long> getAttendeeIDList() {
+    public ArrayList<String> getUserList() {
         return userList;
     }
-
 
 
     /**
@@ -152,8 +161,7 @@ public class Event
      *     RIP
      */
 
-
-    public void setUserList(Map<String, Long> userList) {
+    public void setUserList(ArrayList<String> userList) {
         this.userList = userList;
     }
 }

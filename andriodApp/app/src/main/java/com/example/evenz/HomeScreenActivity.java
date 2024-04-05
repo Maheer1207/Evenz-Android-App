@@ -29,6 +29,8 @@ public class HomeScreenActivity extends AppCompatActivity {
     private RecyclerView notificationsRecyclerView;
     private NotificationsAdapter notificationsAdapter;
     private String eventID;
+    private String role; // This is the role of the user, either "attendee" or "organizer"
+
     private FirebaseFirestore db;
     private CollectionReference usersRef;
     private DocumentReference doc;
@@ -42,7 +44,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         // Extracting the role and eventID from the intent extras
         Bundle b = getIntent().getExtras();
         assert b != null;
-        String role = b.getString("role");
+        role = b.getString("role");
         eventID = b.getString("eventID");
 
 
@@ -81,8 +83,12 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
 
         ImageView browseEvent = findViewById(R.id.event_list);
-        browseEvent.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, EventBrowseActivity.class)));
-
+        browseEvent.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeScreenActivity.this, EventBrowseActivity.class);
+            intent.putExtra("eventID", eventID);
+            intent.putExtra("role", role);
+            startActivity(intent);
+        });
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

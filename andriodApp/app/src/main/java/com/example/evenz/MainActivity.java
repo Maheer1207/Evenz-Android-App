@@ -71,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
                             eventDate = timestamp.toDate(); // converts Timestamp to Date
                         }
 
-                        Event tempEvent = new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
+                        Event tempEvent = new Event(doc.getString("eventID"), doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                                 doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"),
                                 (Bitmap)doc.get("qrCodeIn"), (int)eventAttendLimit,
-                                new Hashtable<>(), eventDate, new ArrayList<String>(), doc.getString("location")); //TODO: review if this is correct implementation
+                                new ArrayList<>(), eventDate, new ArrayList<String>(), doc.getString("location")); //TODO: review if this is correct implementation
 
                         Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);

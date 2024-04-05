@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,7 +65,26 @@ public class EventDetailsActivity  extends AppCompatActivity {
                 openHomePageIntent("attendee", eventID);
             }
         });
+        TextView signUpButton = findViewById(R.id.sign_up_button);
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get the device ID
+                String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
+                // Call  addUserToEvent method. This will add the user to the event
+                EventUtility.addUserToEvent(userID, eventID);
+
+                // Add user to the list of events they've signed up for
+                FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+                firebaseUserManager.addEventToUser(userID, eventID);
+
+                // Display toast message
+                Toast.makeText(EventDetailsActivity.this, "Successfully Signed Up for Event!!!", Toast.LENGTH_SHORT).show();
+
+                finish();// Close the activity and go back
+            }
+        });
         eventLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
