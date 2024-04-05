@@ -154,4 +154,47 @@ public class FirebaseAttendeeManager {
             }
         });
     }
+
+    public Task<String> getEventID(String deviceID) {
+        final List<String> eventID = new ArrayList<>();
+
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.contains("eventList")) {
+                                if (document.getId().equals(deviceID)) {
+                                    eventID.add(document.getString("eventList"));
+                                }
+                            }
+                        }
+                        return eventID.get(0);
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
+    public Task<Integer> getEventAttendeeLimit(String eventID) {
+        final List<Long> limit = new ArrayList<>();
+
+        return FirebaseFirestore.getInstance()
+                .collection("events")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.getId().equals(eventID)){
+                                limit.add(document.getLong("AttendLimit"));
+                            }
+                        }
+                        return limit.get(0).intValue();
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
 }

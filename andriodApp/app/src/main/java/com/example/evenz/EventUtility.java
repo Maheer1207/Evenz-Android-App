@@ -10,6 +10,8 @@ import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.nfc.Tag;
 import android.util.Log;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 
 public final class EventUtility {
@@ -278,13 +281,27 @@ public final class EventUtility {
 
     }
 
-    public static String getEventID(String deviceID) {
+    public static void getEventID(String deviceID, TextView textView) {
+        ArrayList<String> id = new ArrayList<>();
 
-        String x = fetchallEvent().get(0).getEventName();
+        FirebaseAttendeeManager firebaseAttendeeManager = new FirebaseAttendeeManager();
+        Task<String> getEventID = firebaseAttendeeManager.getEventID(deviceID);
+        getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String eventID) {
+                //return eventID;
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                id.add("hithere");
+                textView.setText(id.get(0));
+                textView.notify();
+            }
+        });
 
-        return x;
-
-
+        //return "test";
+        //return id.get(0);
     }
 
 }

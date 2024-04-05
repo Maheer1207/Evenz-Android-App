@@ -1,5 +1,6 @@
 package com.example.evenz;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.EventListener;
@@ -166,12 +170,21 @@ public class MainActivity extends AppCompatActivity {
         //  TODO: Demo Button, Need to be deleted
         final Button org_home = findViewById(R.id.Org_home);
         org_home.setOnClickListener(new View.OnClickListener() {
+            String deviceID = "56d8904ace9c2275";
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
-                Bundle b = new Bundle();
-                b.putString("role", "org");
-                intent.putExtras(b);
-                startActivity(intent);
+                FirebaseAttendeeManager firebaseAttendeeManager = new FirebaseAttendeeManager();
+                Task<String> getEventID = firebaseAttendeeManager.getEventID(deviceID);
+                getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String eventID) {
+                        Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("role", "org");
+                        b.putString("eventID", eventID);
+                        intent.putExtras(b);
+                        startActivity(intent);
+                    }
+                });
             }
         });
 
@@ -184,11 +197,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        final TextView text = findViewById(R.id.textView);
-        String deviceID = "af29ad5875d972fd";
-        String eventID = EventUtility.getEventID(deviceID);
-        text.setText(eventID);
 
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
