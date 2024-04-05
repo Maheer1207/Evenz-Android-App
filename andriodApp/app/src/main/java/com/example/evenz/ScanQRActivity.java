@@ -47,7 +47,11 @@ public class ScanQRActivity extends AppCompatActivity {
                 Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class); //TODO: replace with ORG homepage
                 Bundle b = new Bundle();
                 b.putString("role", "attendee");
-                b.putString("eventID", intentResult.getContents());
+
+                String qr = intentResult.getContents();
+                String[] qrParts = qr.split("/");   // Example: qr = ""eTqe38iRQ6h1TPikBoNM/SignUp"
+
+                b.putString("eventID", qrParts[0]);
                 intent.putExtras(b);
                 startActivity(intent);
             }

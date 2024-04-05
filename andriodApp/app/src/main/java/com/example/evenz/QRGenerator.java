@@ -10,7 +10,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class QRGenerator {
     public Bitmap generate(String eventID, String additionalInfo, int width, int height) {
-        String basestring = eventID + additionalInfo;
+        String basestring = eventID + "/" + additionalInfo;
 
         MultiFormatWriter wrter = new MultiFormatWriter();
 
