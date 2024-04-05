@@ -48,13 +48,13 @@
     android:layout_width="345.92dp"
     android:layout_height="348.94dp"
     android:layout_marginTop="158.87dp"
-      android:layout_marginStart="20dp">
+      android:layout_marginStart="25dp">
     
     <ImageView
       android:id="@+id/qrImage"
       android:layout_width="247dp"
       android:layout_height="match_parent"
-      android:layout_marginStart="40.94dp"
+      android:layout_marginStart="50.94dp"
       android:layout_marginTop="38.27dp"
       android:layout_marginBottom="37.67dp"
       android:layout_gravity="left"
@@ -117,7 +117,7 @@
       android:layout_width="41dp"
       android:layout_height="41dp"
       android:scaleType="centerInside"
-      android:src="@drawable/image_icon_export" />
+      android:src="@drawable/share_not_filled" />
     
     <TextView
       android:id="@+id/text_share_now"
