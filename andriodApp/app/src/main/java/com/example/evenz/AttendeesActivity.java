@@ -3,6 +3,7 @@ package com.example.evenz;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -27,13 +28,13 @@ import java.util.List;
  * @see AppCompatActivity
  * @see RecyclerView
  * @see AttendeeAdapter
- * @see Attendee
  */
 public class AttendeesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private AttendeeAdapter adapter;
     private List<Attendee> attendeesList;
+    private TextView header;
 
     /**
      * Called when the activity is starting. This is where most initialization should go.
@@ -44,6 +45,23 @@ public class AttendeesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_attendees_at_event);
+
+        header = findViewById(R.id.header_frame_text);
+        
+        String deviceID = "56d8904ace9c2275";
+        FirebaseAttendeeManager firebaseAttendeeManager = new FirebaseAttendeeManager();
+        Task<String> getEventID = firebaseAttendeeManager.getEventID(deviceID);
+        getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String eventID) {
+                Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                Bundle b = new Bundle();
+                b.putString("role", "attendee");
+                b.putString("eventID", eventID);
+                intent.putExtras(b);
+                startActivity(intent);
+            }
+        });
 
         // Initialize the RecyclerView and set its layout manager
         recyclerView = findViewById(R.id.recycler_view);
