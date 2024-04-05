@@ -30,7 +30,6 @@ public class EventDetailsActivity  extends AppCompatActivity {
     private ImageView eventPoster, homeButton;
     private TextView eventLocation, eventDetail, eventWelcomeNote;
 
-    private NotificationsAdapter notificationsAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,43 +41,49 @@ public class EventDetailsActivity  extends AppCompatActivity {
 
         if (Objects.equals(role, "attendee")) {
             setContentView(R.layout.attendee_event_info_sign_up);
-
-            eventPoster = findViewById(R.id.poster_attendee_eventInfo);
-            eventLocation = findViewById(R.id.loc_attendee_eventInfo);
-            eventDetail = findViewById(R.id.info_attendee_eventInfo);
-            eventWelcomeNote = findViewById(R.id.attendee_event_detail_welcome);
-            homeButton = findViewById(R.id.home_event_details_attendee);
-            homeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(new Intent(EventDetailsActivity.this, HomeScreenActivity.class));
-                    Bundle b = new Bundle();
-                    b.putString("role", "attendee");
-                    b.putString("eventID", eventID);
-                    intent.putExtras(b);
-                    startActivity(intent);
-                }
-            });
-
+            setupAttendeeView();
         } else {
             setContentView(R.layout.org_event_info);
+            setupOrganizerView();
+        }
+        if (!eventID.isEmpty()) {
+            fetchEventDetailsAndNotifications(eventID);
+        }
+    }
 
-            eventPoster = findViewById(R.id.poster_org_eventInfo);
-            eventLocation = findViewById(R.id.loc_org_eventInfo);
-            eventDetail = findViewById(R.id.info_org_eventInfo);
-            eventWelcomeNote = findViewById(R.id.org_event_detail_welcome);
-            homeButton = findViewById(R.id.home_event_details_org);
-            homeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(new Intent(EventDetailsActivity.this, HomeScreenActivity.class));
-                    Bundle b = new Bundle();
-                    b.putString("role", "organizer");
-                    b.putString("eventID", eventID);
-                    intent.putExtras(b);
-                    startActivity(intent);
-                }
-            });
+    private void setupAttendeeView() {
+        eventPoster = findViewById(R.id.poster_attendee_eventInfo);
+        eventLocation = findViewById(R.id.loc_attendee_eventInfo);
+        eventDetail = findViewById(R.id.info_attendee_eventInfo);
+        eventWelcomeNote = findViewById(R.id.attendee_event_detail_welcome);
+        homeButton = findViewById(R.id.home_event_details_attendee);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openHomePageIntent("attendee", eventID);
+            }
+        });
+
+        eventLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMapIntent(eventID, "attendee", (String) eventLocation.getText());
+            }
+        });
+    }
+
+    private void setupOrganizerView() {
+        eventPoster = findViewById(R.id.poster_org_eventInfo);
+        eventLocation = findViewById(R.id.loc_org_eventInfo);
+        eventDetail = findViewById(R.id.info_org_eventInfo);
+        eventWelcomeNote = findViewById(R.id.org_event_detail_welcome);
+        homeButton = findViewById(R.id.home_event_details_org);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openHomePageIntent("organizer", eventID);
+            }
+        });
 
             ImageView shareQR = findViewById(R.id.shareQR_event_details);
             shareQR.setOnClickListener(new View.OnClickListener() {
@@ -88,17 +93,39 @@ public class EventDetailsActivity  extends AppCompatActivity {
                     Bitmap bitmap = test.generate(eventID, "SignUp", 400, 400);
                     Uri bitmapUri = saveBitmapToCache(bitmap);
 
-                    Intent intent = new Intent(EventDetailsActivity.this, ShareQRActivity.class);
+                Intent intent = new Intent(EventDetailsActivity.this, ShareQRActivity.class);
 
-                    intent.putExtra("eventID", eventID);
-                    intent.putExtra("BitmapImage", bitmapUri.toString());
-                    startActivity(intent);
-                }
-            });
-        }
-        if (!eventID.isEmpty()) {
-            fetchEventDetailsAndNotifications(eventID);
-        }
+                intent.putExtra("eventID", eventID);
+                intent.putExtra("BitmapImage", bitmapUri.toString());
+                startActivity(intent);
+            }
+        });
+
+        eventLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMapIntent(eventID, "organizer", (String) eventLocation.getText());
+            }
+        });
+    }
+
+    private void openMapIntent(String eventID, String role, String addressString) {
+        Intent intent = new Intent(EventDetailsActivity.this, MapsActivity.class);
+
+        intent.putExtra("eventID", eventID);
+        intent.putExtra("role", role);
+        intent.putExtra("addressString", addressString);
+        intent.putExtra("from", "eventDetails");
+        startActivity(intent);
+    }
+
+    private void openHomePageIntent(String role, String eventID) {
+        Intent intent = new Intent(new Intent(EventDetailsActivity.this, HomeScreenActivity.class));
+        Bundle b = new Bundle();
+        b.putString("role", role);
+        b.putString("eventID", eventID);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     private Uri saveBitmapToCache(Bitmap bitmap) {

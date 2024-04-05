@@ -34,7 +34,7 @@
 					android:id="@+id/create_new_event"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="19dp"
+					android:layout_marginTop="16dp"
 					android:layout_marginLeft="35dp"
 					android:layout_toEndOf="@+id/back_less"
 					android:text="@string/create_new_event_string"
@@ -66,14 +66,26 @@
 						android:textSize="16.02sp"
 						android:textStyle="bold" />
 
-					<EditText
-						android:id="@+id/editDate"
-						android:layout_width="335dp"
-						android:layout_height="50dp"
-						android:background="@drawable/boundary_style"
-						android:hint="@string/mm_dd_yy_string"
-						android:importantForAutofill="no"
-						android:inputType="date" />
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal"
+						android:background="@drawable/boundary_style">
+						<EditText
+							android:id="@+id/editDate"
+							android:layout_width="300dp"
+							android:layout_height="50dp"
+							android:hint="@string/mm_dd_yy_string"
+							android:importantForAutofill="no"
+							android:inputType="date" />
+						<ImageView
+							android:id="@+id/event_Date_Picker"
+							android:layout_width="33.31dp"
+							android:layout_height="28.19dp"
+							android:contentDescription="vector_ek2"
+							android:src="@drawable/icons_calendar"
+							android:layout_gravity="center"/>
+					</LinearLayout>
 				</LinearLayout>
 			</RelativeLayout>
 
@@ -98,14 +110,19 @@
 						android:textSize="16.02sp"
 						android:textStyle="bold" />
 
-					<EditText
-						android:id="@+id/editTextLocation"
-						android:layout_width="335dp"
-						android:layout_height="50dp"
-						android:background="@drawable/boundary_style"
-						android:hint=" Enter the location of the event"
-						android:importantForAutofill="no"
-						android:inputType="text" />
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:orientation="horizontal"
+						android:background="@drawable/boundary_style">
+						<EditText
+							android:id="@+id/editTextLocation"
+							android:layout_width="335dp"
+							android:layout_height="50dp"
+							android:hint="8801 111 ST NW, Edmonton"
+							android:importantForAutofill="no"
+							android:inputType="text" />
+					</LinearLayout>
 				</LinearLayout>
 			</RelativeLayout>
 
@@ -162,24 +179,14 @@
 						android:textColor="@color/black"
 						android:textSize="16.02sp"
 						android:textStyle="bold" />
-
 					<EditText
 						android:id="@+id/editTextEventInfo"
 						android:layout_width="335dp"
-						android:layout_height="50dp"
+						android:layout_height="100dp"
 						android:background="@drawable/boundary_style"
 						android:hint="@string/event_info"
 						android:importantForAutofill="no"
 						android:inputType="text" />
-
-					<CheckBox
-						android:id="@+id/checkbox_generate_qr"
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content"
-						android:layout_marginStart="0dp"
-						android:layout_marginTop="5dp"
-						android:text="Generate a unique QR code for promotion of your event"
-						android:textSize="16sp" />
 				</LinearLayout>
 			</RelativeLayout>
 
@@ -209,7 +216,7 @@
 						android:layout_width="335dp"
 						android:layout_height="50dp"
 						android:background="@drawable/boundary_style"
-						android:hint=" Enter the name of the event"
+						android:hint="@string/career_fair_2023_string"
 						android:importantForAutofill="no"
 						android:inputType="text" />
 				</LinearLayout>
@@ -244,26 +251,36 @@
 						android:hint="@string/hint_event_organizer"
 						android:importantForAutofill="no"
 						android:inputType="text" />
-
 				</LinearLayout>
 			</RelativeLayout>
 			<RelativeLayout
-				android:id="@+id/light_green_event_create_button"
+				android:id="@+id/create_event_button"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginStart="106dp"
-				android:layout_marginTop="680dp"
+				android:layout_marginTop="710dp"
 				android:gravity="center">
-				<Button
-					android:id="@+id/create_event_button"
+				<View
+					android:id="@+id/light_green_button_rect"
+					android:layout_width="205dp"
+					android:layout_height="48dp"
+					android:layout_marginStart="-1dp"
+					android:layout_marginTop="-1dp"
+					android:background="@drawable/light_green_button_setup" />
+				<TextView
+					android:id="@+id/create_event_text"
 					android:layout_width="205dp"
 					android:layout_height="wrap_content"
-					android:background="@drawable/light_green_button_setup"
+					android:shadowColor="#000000"
+					android:shadowDx="0"
+					android:shadowDy="4"
+					android:shadowRadius="4"
 					android:text="Create Event"
 					android:textAlignment="center"
-					android:textColor="@color/white"
+					android:textColor="@color/create_event_color"
 					android:textSize="16.02sp"
-					android:textStyle="bold" />
+					android:textStyle="bold"
+					android:layout_marginTop="10dp"/>
 			</RelativeLayout>
 			<ImageView
 				android:id="@+id/upload_qr"
@@ -290,7 +307,7 @@
 			<ImageView
 				android:id="@+id/vector_ek2"
 				android:layout_width="33.31dp"
-				android:layout_height="26.19dp"
+				android:layout_height="28.19dp"
 				android:layout_marginStart="82dp"
 				android:layout_marginTop="595dp"
 				android:contentDescription="vector_ek2"

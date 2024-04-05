@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.util.Log;
 import androidx.media3.common.util.UnstableApi;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -15,8 +16,10 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -26,9 +29,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -37,6 +38,7 @@ import com.google.firebase.storage.UploadTask;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -46,17 +48,21 @@ import java.util.Map;
 import java.text.ParseException;
 import java.util.UUID;
 
-
-public class EventCreationActivity extends AppCompatActivity {
+public class EventCreationActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener {
 
     private static final int PICK_IMAGE_REQUEST = 22;
     private Uri filePath;
-    private ImageView imageView;
-    private Button submitEventButton;
+    StorageReference storageReference;
+    StorageReference photoRef;
+
+    private ImageView imageView, datePickerButton;
+
+
+    private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
+    private RelativeLayout submitEventButton;
+
     private String eventPosterID_temp;
     private String eventID;
-    private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
-
     // ImageUtility instance
     private ImageUtility imageUtility;
 
@@ -76,8 +82,24 @@ public class EventCreationActivity extends AppCompatActivity {
         assert b != null;
         String role = b.getString("role");
 
+        eventPosterID_temp = UUID.randomUUID().toString();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
+        photoRef = storageReference.child("images/" + eventPosterID_temp);
+
+
+        // Initialize UI components
         initUI();
+
+        datePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Please note that use your package name here
+                DatePickerFragment mDatePickerDialogFragment = new DatePickerFragment();
+                mDatePickerDialogFragment.show(getSupportFragmentManager(), "DATE PICK");
+            }
+        });
+
         imageView = findViewById(R.id.vector_ek2);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,6 +144,16 @@ public class EventCreationActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        Calendar mCalendar = Calendar.getInstance();
+        mCalendar.set(Calendar.YEAR, year);
+        mCalendar.set(Calendar.MONTH, month);
+        mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        String selectedDate = DateFormat.getDateInstance(DateFormat.FULL).format(mCalendar.getTime());
+        editDate.setText(selectedDate);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -140,6 +172,7 @@ public class EventCreationActivity extends AppCompatActivity {
         editTextOrganizerName = findViewById(R.id.editTextOrganizerName);
         editTextEventName = findViewById(R.id.editTextEventName);
         editDate = findViewById(R.id.editDate); // Ensure you have input formatting or parsing for date
+        datePickerButton = findViewById(R.id.event_Date_Picker);
         editTextAttendeeLimit = findViewById(R.id.no_limit);
         editTextEventInfo = findViewById(R.id.editTextEventInfo);
         editTextEventLoc = findViewById(R.id.editTextLocation);
@@ -164,6 +197,7 @@ public class EventCreationActivity extends AppCompatActivity {
         String attendeeLimit = editTextAttendeeLimit.getText().toString().trim();
         String orgName = editTextOrganizerName.getText().toString().trim();
         String eventDatestring = editDate.getText().toString().trim();
+
         String location = editTextEventLoc.getText().toString().trim();
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -197,7 +231,7 @@ public class EventCreationActivity extends AppCompatActivity {
             }
         });
 
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT, Locale.getDefault());
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, Locale.getDefault());
         Date eventDate = null;
 
         eventDate = dateFormat.parse(eventDatestring);

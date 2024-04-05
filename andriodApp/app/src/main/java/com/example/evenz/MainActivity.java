@@ -20,11 +20,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -107,6 +104,15 @@ public class MainActivity extends AppCompatActivity {
         admin_event_browse.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AdminBrowseEventActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button admin_img_browse = findViewById(R.id.button_admin_img_browse);
+        admin_img_browse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ImageBrowseActivity.class);
                 startActivity(intent);
             }
         });

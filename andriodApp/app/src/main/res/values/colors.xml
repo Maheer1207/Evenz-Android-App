@@ -12,6 +12,8 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="red">#FF0000</color>
+
     <color name="_bg__create_event_ek2_color">#FFFFFF</color>
     <color name="_bg__profile_ek1_color">#000000</color>
     <color name="dd_mm_yy_color">#757575</color>
