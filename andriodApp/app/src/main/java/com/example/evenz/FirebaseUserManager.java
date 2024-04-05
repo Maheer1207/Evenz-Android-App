@@ -56,6 +56,21 @@ public class FirebaseUserManager {
         return db.collection("users").document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(eventId));
     }
 
+    // Add a checkin event to a user
+    public Task<Void> checkInUser(String userId, String eventId) {
+        return db.collection("users").document(userId).update("checkedInEvent", eventId);
+    }
+
+    // Create a method that will return the eventID of the checked-in event for a given user
+    public Task<String> getCheckedInEventForUser(String userId) {
+        return db.collection("users").document(userId).get().continueWith(task -> {
+            if (task.isSuccessful()) {
+                return task.getResult().getString("checkedInEvent");
+            }
+            return null;
+        });
+    }
+
     // Create a method that will return all of the attendes for a given event
     public Task<List<User>> getAttendeesForEvent(String eventId) {
         final List<User> userList = new ArrayList<>();

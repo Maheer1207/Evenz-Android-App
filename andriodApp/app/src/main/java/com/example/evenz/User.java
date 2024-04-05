@@ -16,6 +16,8 @@ public class User
     // Should be empty initally
     private ArrayList<String> eventsSignedUpFor = new ArrayList<>();
 
+    private String checkedInEvent = null;
+
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
     }
@@ -79,8 +81,17 @@ public class User
         return eventsSignedUpFor;
     }
 
+
     public void setEventsSignedUpFor(ArrayList<String> eventsSignedUpFor) {
         this.eventsSignedUpFor = eventsSignedUpFor;
+    }
+
+    public String getCheckedInEvent() {
+        return checkedInEvent;
+    }
+
+    public void setCheckedInEvent(String checkedInEvent) {
+        this.checkedInEvent = checkedInEvent;
     }
 
     //Add an event to the list of events signed up for
