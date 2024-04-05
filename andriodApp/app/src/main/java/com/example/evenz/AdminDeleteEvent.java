@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -24,6 +25,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import android.content.Context;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -35,13 +38,29 @@ public class AdminDeleteEvent extends AppCompatActivity{
         setContentView(R.layout.admin_delete_event);
 
 
-
         Bundle rb = getIntent().getExtras();
         String etitle = rb.getString("eventName");
         String edesc = rb.getString("eventDesc");
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference dev = db.collection("events");
+
+        TextView eventname = findViewById(R.id.event_Name2);
+        TextView location = findViewById(R.id.location234);
+        TextView date = findViewById(R.id.event_datedata234);
+        TextView orgname = findViewById(R.id.orgdata);
+        TextView desc = findViewById(R.id.continer_event_summary_date_icon1);
+        ImageView imgV = findViewById(R.id.image_career_fairs_web_banner);
+        eventname.setText(etitle);
+        location.setText(rb.getString("location"));
+        date.setText(rb.getString("eventDate"));
+        orgname.setText(rb.getString("organizationame"));
+        desc.setText(edesc);
+
+        ImageUtility x = new ImageUtility();
+        x.displayImage(rb.getString("imgID"), imgV);
+
+
 
         final String[] docID = new String[1];
         dev.whereEqualTo("eventName", etitle).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -75,7 +94,15 @@ public class AdminDeleteEvent extends AppCompatActivity{
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d("Ben8888", "successful delete");
+                        finish();
 
+                    }
+
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Ben8888", "delete failed?");
+                        Log.d("Ben8888",  e.toString());
                     }
                 });
 

@@ -59,6 +59,7 @@ public class AdminBrowseEventActivity extends AppCompatActivity {
                 b.putString("eventDesc", model.getDescription());
                 b.putString("eventDate", model.getEventDate().toString());
                 b.putString("location", model.getLocation());
+                b.putString("imgID", model.getEventPosterID());
 
                 intent.putExtras(b);
 
