@@ -22,13 +22,22 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public final class EventUtility {
 
@@ -228,25 +237,71 @@ public final class EventUtility {
         }
 
     }
-    /*
-    public static void getGeolocation() {
-        LocationManager locationManager = (LocationManager)
-                getSystemService(Context.LOCATION_SERVICE);
+    public static void sendPushNotificationToEventAttendees(String eventId, String notificationTitle, String notificationBody) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Assume "users" is the collection where user details are stored
+        db.collection("users")
+                .whereEqualTo("eventID", eventId)
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<String> deviceTokens = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Assume each user document has a "deviceToken" field
+                            String deviceToken = document.getString("deviceToken");
+                            if (deviceToken != null && !deviceToken.isEmpty()) {
+                                deviceTokens.add(deviceToken);
+                            }
+                        }
+
+                        // Now you have a list of device tokens, send the notification
+                        if (!deviceTokens.isEmpty()) {
+                            sendNotificationToDeviceTokens(deviceTokens, notificationTitle, notificationBody);
+                        }
+                    } else {
+                        Log.d("EventUtility", "Error getting documents: ", task.getException());
+                    }
+                });
     }
-     */
+    private static void sendNotificationToDeviceTokens(List<String> deviceTokens, String title, String body) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+            MediaType mediaType = MediaType.parse("application/json");
 
-   /*
-    public static void evtomap(String orgnm,
-                               String evnm,
-                               String evdesc,
-                               Long maxat,
-                               Date evdt,
-                               String evloc,
-                               ) {
+            JsonObject payload = new JsonObject();
 
+            // Notification content
+            JsonObject notification = new JsonObject();
+            notification.addProperty("title", title);
+            notification.addProperty("body", body);
+            payload.add("notification", notification);
+
+            // Adding device tokens
+            JsonArray tokens = new JsonArray();
+            for (String token : deviceTokens) {
+                tokens.add(token);
+            }
+            payload.add("registration_ids", tokens);
+
+            RequestBody requestBody = RequestBody.create(mediaType, payload.toString());
+            Request request = new Request.Builder()
+                    .url("https://fcm.googleapis.com/fcm/send")
+                    .post(requestBody)
+                    .addHeader("Content-Type", "application/json")
+                    .addHeader("Authorization", "key=YOUR_SERVER_KEY")
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            if (response.isSuccessful()) {
+                Log.d("EventUtility", "Notification sent successfully: " + response.body().string());
+            } else {
+                Log.e("EventUtility", "Failed to send notification: " + response.body().string());
+            }
+        } catch (Exception e) {
+            Log.e("EventUtility", "Error sending FCM notification", e);
+        }
     }
-
-     */
-
 
 }
+

@@ -85,13 +85,13 @@ public class EventDetailsActivity  extends AppCompatActivity {
             }
         });
 
-        ImageView shareQR = findViewById(R.id.shareQR_event_details);
-        shareQR.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                QRGenerator test = new QRGenerator();
-                Bitmap bitmap = test.generate(eventID, 400, 400);
-                Uri bitmapUri = saveBitmapToCache(bitmap);
+            ImageView shareQR = findViewById(R.id.shareQR_event_details);
+            shareQR.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    QRGenerator test = new QRGenerator();
+                    Bitmap bitmap = test.generate(eventID, "SignUp", 400, 400);
+                    Uri bitmapUri = saveBitmapToCache(bitmap);
 
                 Intent intent = new Intent(EventDetailsActivity.this, ShareQRActivity.class);
 

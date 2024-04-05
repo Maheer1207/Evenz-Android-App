@@ -1,24 +1,24 @@
 <resources>
     <string name="app_name">Evenz</string>
-    <string name="hint_event_organizer">Organizer Name</string>
+    <string name="hint_event_organizer">\u00A0Enter Name of Organizer</string>
     <string name="action_create_event_menu">Create Event Menu</string>
     <string name="demo_button_create_new_event">Create New Event</string>
     <string name="sign_up">Sign Up</string>
-
+    <string name="notification_default">This is for your notification service</string>
     <string name="ek_img_content">ExportKit Image</string>
     <string name="create_new_event_string">Create New Event</string>
     <string name="date_string">Date</string>
     <string name="mm_dd_yy_string"> mm/dd/yy</string>
     <string name="attendee_limit_string">Attendee Limit</string>
-    <string name="no_limit_string">No Limit</string>
+    <string name="no_limit_string">\u00A0Limit number of attendees</string>
     <string name="event_info_string">Event Info</string>
-    <string name="event_info">Career fairs are a great way to connect…</string>
+    <string name="event_info">\u00A0Enter Event Info </string>
     <string name="event_name_string">Event Name</string>
     <string name="career_fair_2023_string">Career Fair 2023</string>
     <string name="name_of_organizer_string">Name Of Organizer</string>
     <string name="roger_jones_string">Alicia Wood</string>
     <string name="generate_qr_code_string">      Generate QR Code</string>
-    <string name="upload_your_qr_code_string">Upload YourQR Code</string>
+    <string name="upload_your_qr_code_string">Upload Existing QR Code</string>
     <string name="upload_event_poster_string">Upload EventPoster</string>
     <string name="upload_event_qr_code">upload event qr code</string>
     <string name="back_button_implemented_with_less_then">back button implemented with less then</string>

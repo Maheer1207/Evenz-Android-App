@@ -1,5 +1,9 @@
 package com.example.evenz;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -8,12 +12,15 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.text.ParseException;
 import java.util.UUID;
 
 public final class ImageUtility {
@@ -25,6 +32,10 @@ public final class ImageUtility {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
     }
+    public interface UploadCallback {
+        void onSuccess(String imageID, String imageURL) throws ParseException;
+        void onFailure(Exception e);
+    }
 
     /**
      * Given that filePath has already been defined within the activity, uploads an image previously selected by the user
@@ -32,23 +43,43 @@ public final class ImageUtility {
      * @param filePath Uri filepath of
      * @return returns generated id for image uploaded
      */
-    public String upload(Uri filePath) {
+
+    public void upload(Uri filePath, UploadCallback callback) {
         if (filePath != null) {
-
             String id = UUID.randomUUID().toString();
-            // Defining the child of storageReference
-            storage = FirebaseStorage.getInstance();
-            StorageReference storageReference = storage.getReference();
             StorageReference ref = storageReference.child("images/" + id);
-
-            // adding listeners on upload
-            // or failure of image
-            ref.putFile(filePath);
-
-            return id;
+            ref.putFile(filePath).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            String imageURL = uri.toString();
+                            if (callback != null) {
+                                try {
+                                    callback.onSuccess(id, imageURL);
+                                } catch (ParseException e) {
+                                    throw new RuntimeException(e);
+                                }
+                            }
+                        }
+                    });
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    if (callback != null) {
+                        callback.onFailure(e);
+                    }
+                }
+            });
+        } else {
+            if (callback != null) {
+                callback.onFailure(new Exception("File path is null"));
+            }
         }
-        return null;
     }
+
 
     /**
      * Displays an image from the firebase storage given

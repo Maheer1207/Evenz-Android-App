@@ -71,6 +71,14 @@ public class HomeScreenActivity extends AppCompatActivity {
         if (eventID != null && !Objects.equals(eventID, " ")) {
             fetchEventDetailsAndNotifications(eventID);
         }
+        ImageView imageEllipse = findViewById(R.id.image_ellipse);
+        imageEllipse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeScreenActivity.this, ScanQRActivity.class);
+                startActivity(intent);
+            }
+        });
 
         ImageView browseEvent = findViewById(R.id.event_list);
         browseEvent.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, EventBrowseActivity.class)));
@@ -129,7 +137,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 QRGenerator test = new QRGenerator();
-                Bitmap bitmap = test.generate(eventID, 400, 400);
+                Bitmap bitmap = test.generate(eventID, "SignUp", 400, 400);
                 Uri bitmapUri = saveBitmapToCache(bitmap);
 
                 Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);

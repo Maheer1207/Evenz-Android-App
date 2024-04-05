@@ -45,7 +45,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
       <TextView
           android:id="@+id/notificationType"
           android:layout_width="wrap_content"
@@ -57,12 +56,17 @@
           android:textSize="16.02sp"
           android:textStyle="bold" />
 
-      <EditText
-          android:id="@+id/editTextNotificationType"
+      <Spinner
+          android:id="@+id/spinnerNotificationType"
           android:layout_width="335dp"
           android:layout_height="50dp"
+          android:layout_marginStart="0dp"
+          android:layout_marginTop="0dp"
+          android:textColor="@color/black"
+          android:textSize="16.02sp"
           android:background="@drawable/boundary_style"
-          android:importantForAutofill="no" />
+          android:textStyle="bold" />
+
     </LinearLayout>
   </RelativeLayout>
 
@@ -93,7 +97,7 @@
           android:layout_width="335dp"
           android:layout_height="250dp"
           android:background="@drawable/boundary_style"
-          android:hint= "Enter the notification info here"
+          android:hint= "                ~Enter notification info~"
           android:importantForAutofill="no" />
     </LinearLayout>
   </RelativeLayout>
