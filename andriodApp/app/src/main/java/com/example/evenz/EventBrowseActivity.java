@@ -37,11 +37,26 @@ public class EventBrowseActivity extends AppCompatActivity {
 
         eventsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String eventID = extras.getString("eventID");
+            String role = extras.getString("role");
+            // Use eventID and userID here
+        }
         // Initialize eventDataList
         eventDataList = new ArrayList<>();
         eventAdapter = new EventAdapter(this, eventDataList);
         eventsRecyclerView.setAdapter(eventAdapter);
-
+        eventAdapter.setOnClickListener(new EventAdapter.OnClickListener() {
+            @Override
+            public void onClick(int position, Event model) {
+                Intent intent = new Intent(EventBrowseActivity.this, EventDetailsActivity.class);
+                intent.putExtra("eventID", model.getEventID());
+                intent.putExtra("source","browse");
+                intent.putExtra("role", "attendee"); // TODO: This is hardcoded for now, but you can pass the role from the previous activity
+                startActivity(intent);
+            }
+        });
         fetchEvents();
 
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
@@ -71,25 +86,6 @@ public class EventBrowseActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    // Helper method to parse the Firestore document into an Event object
-    private Event parseEvent(QueryDocumentSnapshot doc) {
-        // Example of reconstructing a Geolocation object
-        // Assuming you store geolocation as a map with latitude and longitude
-        float xcoord = doc.contains("xcoord") ? ((Number) doc.get("xcoord")).floatValue() : 0; //TODO: add geolocation stuff, figure it out
-        float ycoord = doc.contains("ycoord") ? ((Number) doc.get("ycoord")).floatValue() : 0;
-        String geolocationID = doc.getString("geolocationID"); // Assuming there's an ID field; adjust if necessary
-
-        Geolocation geolocation = new Geolocation(geolocationID, xcoord, ycoord);
-
-        // Using placeholders for Bitmaps as you'll load them asynchronously in the adapter/view
-        Bitmap placeholderBitmap = null; // TODO: add actual QR for attendee checkIN and Browse
-
-        return new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
-                doc.getString("description"), geolocation, placeholderBitmap,
-                placeholderBitmap, 0,
-                new Hashtable<>(), doc.getDate("eventDate"), new ArrayList<String>(), doc.getString("location"));
     }
 
 }

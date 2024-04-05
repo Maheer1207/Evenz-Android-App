@@ -243,11 +243,11 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         Geolocation geolocation = new Geolocation("asd", 0.0f, 0.0f); //TODO: replace with actual values
         Bitmap qrCodeBrowse = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code
         Bitmap qrCodeCheckIn = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code for events
-        Map<String, Long> userList = new Hashtable<>(); // TODO: append attendee who check in the event
+        ArrayList<String> userList = new ArrayList<>(); // TODO: append attendee who check in the event
         ArrayList<String> notificationList = new ArrayList<String>(); // TODO: append notification to the list
 
         // Constructing the Event object
-        Event newEvent = new Event(orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate, notificationList, location);
+        Event newEvent = new Event(eventID, orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate, notificationList, location);
 
         // Now, convert  Event object to a Map or directly use the attributes to add to Firestore
         Map<String, Object> eventMap1 = EventUtility.evtomMap(newEvent);
