@@ -1,5 +1,7 @@
 package com.example.evenz;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -66,23 +69,54 @@ public class EventDetailsActivity  extends AppCompatActivity {
             }
         });
         TextView signUpButton = findViewById(R.id.sign_up_button);
+        View lightButton= findViewById(R.id.light_green_button_rect);//this is for changing the color of the button
+        String source = getIntent().getStringExtra("source");
+        if ("homepage".equals(source)) {
+            lightButton.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.red)); //If they need checkout button set color to be RED
+            signUpButton.setText("Check Out");
+        } else if ("browse".equals(source)) {
+            signUpButton.setText("Sign Up");
+        }
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Get the device ID
                 String userID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-                // Call  addUserToEvent method. This will add the user to the event
-                EventUtility.addUserToEvent(userID, eventID);
+                String source = getIntent().getStringExtra("source");
+                if ("homepage".equals(source)) {
+                    new AlertDialog.Builder(EventDetailsActivity.this)
+                            .setTitle("Check Out Confirmation")
+                            .setMessage("Are you sure you want to check out of the event?")
+                            .setPositiveButton("Yes", (dialog, which) -> {
+                                // Call method to remove event from user's list of events
+                                FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+                                firebaseUserManager.removeEventFromUser(userID, eventID);
 
-                // Add user to the list of events they've signed up for
-                FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-                firebaseUserManager.addEventToUser(userID, eventID);
+                                EventUtility.removeAttendeeFromEvent(userID, eventID);//remove user from event
 
-                // Display toast message
-                Toast.makeText(EventDetailsActivity.this, "Successfully Signed Up for Event!!!", Toast.LENGTH_SHORT).show();
+                                // Display toast message
+                                Toast.makeText(EventDetailsActivity.this, "Successfully Checked Out of Event!!!", Toast.LENGTH_SHORT).show();
 
-                finish();// Close the activity and go back
+                                // Close the activity and go back
+                                finish();
+                            })
+                            .setNegativeButton("No", null)
+                            .show();
+                } else if ("browse".equals(source)) {
+                    // Call  addUserToEvent method. This will add the user to the event
+                    EventUtility.addUserToEvent(userID, eventID);
+
+                    // Add user to the list of events they've signed up for
+                    FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+                    firebaseUserManager.addEventToUser(userID, eventID);
+
+                    // Display toast message
+                    Toast.makeText(EventDetailsActivity.this, "Successfully Signed Up for Event!!!", Toast.LENGTH_SHORT).show();
+
+                    // Close the activity and go back
+                    finish();
+                }
             }
         });
         eventLocation.setOnClickListener(new View.OnClickListener() {

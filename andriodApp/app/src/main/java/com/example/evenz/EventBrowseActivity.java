@@ -52,7 +52,7 @@ public class EventBrowseActivity extends AppCompatActivity {
             public void onClick(int position, Event model) {
                 Intent intent = new Intent(EventBrowseActivity.this, EventDetailsActivity.class);
                 intent.putExtra("eventID", model.getEventID());
-
+                intent.putExtra("source","browse");
                 intent.putExtra("role", "attendee"); // TODO: This is hardcoded for now, but you can pass the role from the previous activity
                 startActivity(intent);
             }

@@ -59,14 +59,14 @@ public class InitialPageActivity extends AppCompatActivity {
                                     Intent intent = new Intent(InitialPageActivity.this, HomeScreenActivity.class);
                                     Bundle b = new Bundle();
                                     b.putString("role", "attendee");
-                                    b.putString("eventID", "uWxuJu01XyqKMPJkebjB");
+                                    b.putString("eventID", "1VAclanoXG9DVW6qhWHM");
                                     intent.putExtras(b);
                                     startActivity(intent);
                                 } else {
                                     Intent intent = new Intent(InitialPageActivity.this, HomeScreenActivity.class);
                                     Bundle b = new Bundle();
                                     b.putString("role", "attendee");
-                                    b.putString("eventID", "uWxuJu01XyqKMPJkebjB");
+                                    b.putString("eventID", "1VAclanoXG9DVW6qhWHM");
                                     intent.putExtras(b);
                                     startActivity(intent);
                                 }

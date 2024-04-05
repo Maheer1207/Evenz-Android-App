@@ -285,6 +285,27 @@ public final class EventUtility {
                 });
     }
 
+    //used for removing a user from the event userlist,By Hrithick
+    public static void removeAttendeeFromEvent(String userId, String eventId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference eventRef = db.collection("events").document(eventId);
+
+        // Use FieldValue.arrayRemove() to remove the userID from the UserList field
+        eventRef.update("UserList", FieldValue.arrayRemove(userId))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("EventUtility", "User removed from event successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("EventUtility", "Error: " + e.getMessage());
+                    }
+                });
+    }
+
     //TODO: unused for now
     private static void sendNotificationToDeviceTokens(List<String> deviceTokens, String title, String body) {
         try {
