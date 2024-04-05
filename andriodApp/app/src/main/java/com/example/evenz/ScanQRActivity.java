@@ -4,6 +4,7 @@ package com.example.evenz;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -44,11 +45,22 @@ public class ScanQRActivity extends AppCompatActivity {
             String contents = intentResult.getContents();
 
             if (contents != null) {
-                Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class); //TODO: replace with ORG homepage
+                Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class);
                 Bundle b = new Bundle();
                 b.putString("role", "attendee");
                 b.putString("eventID", intentResult.getContents());
                 intent.putExtras(b);
+
+                FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+                String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+                //String instanceId = FirebaseInstanceId.getInstance().getId();//TODO:check if this works
+
+
+                firebaseUserManager.checkInUser(deviceId, intentResult.getContents())
+                        .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
+                        .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
+
                 startActivity(intent);
             }
         }

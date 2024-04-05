@@ -62,7 +62,7 @@ public class FirebaseUserManager {
 
     // Add a checkin event to a user
     public Task<Void> checkInUser(String userId, String eventId) {
-        return db.collection("users").document(userId).update("checkedInEvent", eventId);
+        return db.collection("users").document(userId).update("checkedInEvent", eventId);//eventID is the event they checked in at
     }
 
     // Create a method that will return the eventID of the checked-in event for a given user
