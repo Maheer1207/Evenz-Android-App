@@ -2,7 +2,9 @@ package com.example.evenz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,6 +36,9 @@ public class AttendeesActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AttendeeAdapter adapter;
     private List<Attendee> attendeesList;
+    private TextView limit;
+    private String limitString;
+    private String eventID;
 
     /**
      * Called when the activity is starting. This is where most initialization should go.
@@ -49,28 +54,57 @@ public class AttendeesActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        limit = findViewById(R.id.header_frame_text);
+        limitString = "Attendees ";
+
+        // Initialize the FirebaseUserManager to fetch eventID
+        FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+
         // Initialize the FirebaseAttendeeManager to fetch attendees from Firebase
         FirebaseAttendeeManager firebaseAttendeeManager = new FirebaseAttendeeManager();
 
-        // Call getEventAttendees with the event ID
-        Task<List<Attendee>> getAttendeesTask = firebaseAttendeeManager.getEventAttendees("Drake Concert");
+        String deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
-// Add a listener to handle the result when the task completes
-        getAttendeesTask.addOnSuccessListener(new OnSuccessListener<List<Attendee>>() {
+        // get the eventID
+        Task<String> getEventID = firebaseUserManager.getEventID(deviceID);
+        getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
             @Override
-            public void onSuccess(List<Attendee> attendees) {
-                // The attendees list contains all the attendees for the "Drake Concert" event
-                // Here you can update your RecyclerView or UI components
-                // For example:
-                attendeesList = attendees;
-                AttendeeAdapter adapter = new AttendeeAdapter(attendeesList);
-                recyclerView.setAdapter(adapter);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                // Handle the error case
-                Toast.makeText(AttendeesActivity.this, "Error fetching attendees: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            public void onSuccess(String ID) {
+                eventID = ID;
+
+                // Call getEventAttendees with the event ID
+                Task<List<Attendee>> getAttendeesTask = firebaseAttendeeManager.getEventAttendees(eventID);
+
+                // Add a listener to handle the result when the task completes
+                getAttendeesTask.addOnSuccessListener(new OnSuccessListener<List<Attendee>>() {
+                    @Override
+                    public void onSuccess(List<Attendee> attendees) {
+                        // The attendees list contains all the attendees for the "Drake Concert" event
+                        // Here you can update your RecyclerView or UI components
+                        // For example:
+                        attendeesList = attendees;
+                        AttendeeAdapter adapter = new AttendeeAdapter(attendeesList);
+                        recyclerView.setAdapter(adapter);
+                        limitString = limitString + attendeesList.size();
+                        limit.setText(limitString);
+                        Task<Integer> getAttendLimit = EventUtility.getAttendLimit(eventID);
+                        getAttendLimit.addOnSuccessListener(new OnSuccessListener<Integer>() {
+                            @Override
+                            public void onSuccess(Integer attendLimit) {
+                                if (attendLimit != -1) {
+                                    limitString = limitString + "/" + attendLimit;
+                                    limit.setText(limitString);
+                                }
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle the error case
+                        Toast.makeText(AttendeesActivity.this, "Error fetching attendees: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
     }

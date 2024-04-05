@@ -10,6 +10,8 @@ import android.widget.FrameLayout;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
@@ -25,6 +27,7 @@ public class InitialPageActivity extends AppCompatActivity {
     private DocumentReference doc;
     private FirebaseFirestore db;
     private CollectionReference usersRef;
+    private String role;
 
     private String deviceID;
 
@@ -41,49 +44,27 @@ public class InitialPageActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         usersRef = db.collection("users");
 
-        String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-        usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
+        // getting the devices id to get the user
+        deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+
+        // getting the user type
+        Task<String> getUserType = firebaseUserManager.getUserType(deviceID);
+        getUserType.addOnSuccessListener(new OnSuccessListener<String>() {
             @Override
-            public void onEvent(@Nullable QuerySnapshot querySnapshots,
-                                @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.e("Firestore", error.toString());
-                    return;
-                }
-                if (querySnapshots != null) {
-                    for (QueryDocumentSnapshot doc: querySnapshots) {
-                        String userID = doc.getId();
-                        if (userID.equals(deviceID)) {
-                            if (doc.getString("userType").equals("attendee")) {
-                                if (doc.getString("eventList") != null) {
-                                    Intent intent = new Intent(InitialPageActivity.this, HomeScreenActivity.class);
-                                    Bundle b = new Bundle();
-                                    b.putString("role", "attendee");
-                                    b.putString("eventID", "1VAclanoXG9DVW6qhWHM");
-                                    intent.putExtras(b);
-                                    startActivity(intent);
-                                } else {
-                                    Intent intent = new Intent(InitialPageActivity.this, HomeScreenActivity.class);
-                                    Bundle b = new Bundle();
-                                    b.putString("role", "attendee");
-                                    b.putString("eventID", "1VAclanoXG9DVW6qhWHM");
-                                    intent.putExtras(b);
-                                    startActivity(intent);
-                                }
-                            } else if (doc.getString("userType").equals("organizer")) {
-                                Intent intent = new Intent(InitialPageActivity.this, HomeScreenActivity.class); //TODO: replace with ORG homepage
-                                Bundle b = new Bundle();
-                                b.putString("role", "organizer");
-                                b.putString("eventID", doc.getString("eventList"));
-                                intent.putExtras(b);
-                                startActivity(intent);
-                            }
-                        }
-                    }
+            public void onSuccess(String type) {
+                role = type;
+                // role is attendee/organizer so sends to event page
+                if (role.equals("attendee") || role.equals("organizer")) {
+                    Intent intent = new Intent(InitialPageActivity.this, HomeScreenActivity.class);
+                    startActivity(intent);
+                // role is admin so sends to admin browse event
+                } else if (role.equals("admin")){
+                    Intent intent = new Intent(InitialPageActivity.this, AdminBrowseEventActivity.class);
+                    startActivity(intent);
                 }
             }
         });
-
 
         attendeeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
