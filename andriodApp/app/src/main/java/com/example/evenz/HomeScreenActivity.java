@@ -43,7 +43,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // getting the devices id to get the user
-        String deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);;
+        String deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
 
         // getting the user type

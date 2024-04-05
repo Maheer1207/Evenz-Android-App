@@ -137,11 +137,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice">
-      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/config.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024-03-06_3_09_p_m___Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2024-03-06_3_09_p_m___Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/FirebaseUserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/FirebaseUserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/AttendeesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/AttendeesActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/HomeScreenActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/HomeScreenActivity.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -482,12 +480,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java</url>
-          <line>294</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java</url>
-          <line>243</line>
+          <line>244</line>
           <option name="timeStamp" value="42" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
