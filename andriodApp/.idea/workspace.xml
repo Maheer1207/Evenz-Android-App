@@ -141,12 +141,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice">
+    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Merged With Hriticks branch">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle.kts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,6 +194,13 @@
     &quot;assignee&quot;: &quot;AizazTahir&quot;
   }
 }</component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+      </list>
+    </option>
+  </component>
   <component name="GithubPullRequestsUISettings">
     <option name="selectedUrlAndAccountId">
       <UrlAndAccount>
@@ -215,20 +220,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "com.google.services.firebase.aqiPopupShown": "true",
-    "git-widget-placeholder": "matahir",
-    "last_opened_file_path": "C:/Users/omarf/Documents/GitHub/BooleanBabes/andriodApp",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;matahir&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/omarf/Documents/GitHub/BooleanBabes/andriodApp&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.evenz" />
@@ -439,7 +444,15 @@
       <option name="project" value="LOCAL" />
       <updated>1710706645462</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Merged With Hriticks branch">
+      <option name="closed" value="true" />
+      <created>1712359913835</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1712359913835</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -460,7 +473,8 @@
     <MESSAGE value="feat: Added unit test for Geolocation class" />
     <MESSAGE value="feat: Added unit test for AttendeeAdapter class" />
     <MESSAGE value="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice" />
+    <MESSAGE value="Merged With Hriticks branch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merged With Hriticks branch" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
