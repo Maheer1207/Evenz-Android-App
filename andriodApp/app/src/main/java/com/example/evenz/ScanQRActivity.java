@@ -5,10 +5,12 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
@@ -34,6 +36,9 @@ public class ScanQRActivity extends AppCompatActivity {
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
     private static final int REQUEST_CAMERA_PERMISSION = 100; //TODO: fix later
+    private Camera camera;
+
+    private boolean isFlashlightOn = false;//For flashlight QR scaning
 
 
     @Override
@@ -58,7 +63,8 @@ public class ScanQRActivity extends AppCompatActivity {
         }, ContextCompat.getMainExecutor(this));
     }
 
-    @OptIn(markerClass = ExperimentalGetImage.class) private void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
+    @OptIn(markerClass = ExperimentalGetImage.class)
+    private void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
         Preview preview = new Preview.Builder().build();
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
@@ -75,6 +81,16 @@ public class ScanQRActivity extends AppCompatActivity {
         });
 
         cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
+        camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
+
+        // Get the ImageView and set an OnClickListener on it
+        ImageView flashlightButton = findViewById(R.id.img_rectangle);
+        flashlightButton.setOnClickListener(v -> toggleFlashlight()); //TODO: check if flashlight is working
+    }
+
+    private void toggleFlashlight() {
+        isFlashlightOn = !isFlashlightOn;
+        camera.getCameraControl().enableTorch(isFlashlightOn);
     }
 
     private void scanBarcodes(InputImage image, ImageProxy imageProxy) {

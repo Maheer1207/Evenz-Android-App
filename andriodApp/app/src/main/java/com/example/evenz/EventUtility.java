@@ -170,7 +170,6 @@ public final class EventUtility {
     /**
      * Translates firebase doc into an Event.
      *
-     * @param doc
      * @return firebase doc translated into Event.
      */
     public static Event parseEvent(QueryDocumentSnapshot doc) {
