@@ -171,6 +171,12 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
 
+        ImageView viewAttendees = findViewById(R.id.profile_attendee);
+        viewAttendees.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeScreenActivity.this, AttendeesActivity.class);
+            startActivity(intent);
+        });
+
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
