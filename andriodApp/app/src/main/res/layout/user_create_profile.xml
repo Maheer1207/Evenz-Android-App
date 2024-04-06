@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/container_event_information_page" >
 
-    <RelativeLayout
+        <RelativeLayout
             android:id="@+id/content_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
@@ -43,7 +43,7 @@
                         tools:ignore="RtlHardcoded">
 
                         <ImageView
-                            android:id="@+id/back_button"
+                            android:id="@+id/back_button_create_prf"
                             android:layout_width="39dp"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="22dp"
@@ -53,17 +53,18 @@
                             android:src="@drawable/back_less" />
 
                         <TextView
-                            android:id="@+id/edit_profile_text"
+                            android:id="@+id/create_profile_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:layout_marginLeft="85dp"
-                            android:layout_toEndOf="@+id/back_button"
-                            android:text="Edit Profile"
+                            android:layout_marginLeft="75dp"
+                            android:layout_toEndOf="@+id/back_button_create_prf"
+                            android:text="Create Profile"
                             android:textColor="@color/black"
                             android:textSize="24sp"
                             android:textStyle="bold" />
                     </RelativeLayout>
+
                     <ImageView
                         android:id="@+id/pfp_circle"
                         android:layout_width="165dp"
@@ -83,7 +84,7 @@
                         android:src="@drawable/mini_camera_icon" />
 
                     <ImageView
-                        android:id="@+id/profile_pic"
+                        android:id="@+id/create_profile_pic"
                         android:layout_width="105dp"
                         android:layout_height="105dp"
                         android:layout_marginStart="155dp"
@@ -108,7 +109,7 @@
                         android:layout_marginTop="0dp">
 
                         <TextView
-                            android:id="@+id/name"
+                            android:id="@+id/name_create_prf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="0dp"
@@ -119,7 +120,7 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/name_input"
+                            android:id="@+id/name_input_create_prf"
                             android:layout_width="335.37dp"
                             android:layout_height="48.05dp"
                             android:layout_marginStart="0dp"
@@ -137,7 +138,7 @@
 
 
                     <RelativeLayout
-                        android:id="@+id/edit_phone_number"
+                        android:id="@+id/edit_phone_number_create_prf"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="0dp"
@@ -155,7 +156,7 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/phone_input"
+                            android:id="@+id/phone_input_create_prf"
                             android:layout_width="335.37dp"
                             android:layout_height="48.05dp"
                             android:layout_marginStart="0dp"
@@ -180,7 +181,7 @@
 
 
                         <TextView
-                            android:id="@+id/email__optional_"
+                            android:id="@+id/email__optional_create_prf"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="0dp"
@@ -191,7 +192,7 @@
                             android:textStyle="bold" />
 
                         <EditText
-                            android:id="@+id/email_input"
+                            android:id="@+id/email_input_create_prf"
                             android:layout_width="335.37dp"
                             android:layout_height="48.05dp"
                             android:layout_marginStart="0dp"
@@ -209,7 +210,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/save_button"
+                    android:id="@+id/create_prf_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="86dp"
@@ -223,14 +224,14 @@
                         android:layout_marginTop="-1dp"
                         android:background="@drawable/light_green_button_setup" />
                     <TextView
-                        android:id="@+id/save_button_text"
+                        android:id="@+id/create_button_text"
                         android:layout_width="205dp"
                         android:layout_height="wrap_content"
                         android:shadowColor="#000000"
                         android:shadowDx="0"
                         android:shadowDy="4"
                         android:shadowRadius="4"
-                        android:text="Save Changes"
+                        android:text="Create"
                         android:textAlignment="center"
                         android:textColor="@color/create_event_color"
                         android:textSize="16.02sp"
@@ -240,7 +241,7 @@
 
 
                 <CheckBox
-                    android:id="@+id/enable_notification"
+                    android:id="@+id/enable_notification_create_prf"
                     android:layout_width="wrap_content"
                     android:layout_height="48dp"
                     android:layout_marginStart="30dp"
@@ -256,7 +257,7 @@
             </RelativeLayout>
 
             <CheckBox
-                android:id="@+id/enable_location"
+                android:id="@+id/enable_location_create_prf"
                 android:layout_width="wrap_content"
                 android:layout_height="48dp"
                 android:layout_marginStart="30dp"

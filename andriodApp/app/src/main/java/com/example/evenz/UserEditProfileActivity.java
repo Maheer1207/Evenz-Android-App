@@ -7,16 +7,29 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
-public class UserEditProfileActivity extends AppCompatActivity {
+public class UserEditProfileActivity extends AppCompatActivity implements ImageOptionsFragment.ImageOptionsListener {
 
 	private static final int PICK_IMAGE_REQUEST = 22;
 	private static final String TAG = "UserEditProfileActivity";
@@ -27,24 +40,97 @@ public class UserEditProfileActivity extends AppCompatActivity {
 	private CheckBox notificationEnabledInput, locationEnabledInput;
 
 	private String profilePicID = "";
+	private FirebaseFirestore db;
+	private CollectionReference usersRef;
 
 	private ImageUtility imageUtility = new ImageUtility(); //user imageUtilty for upload DP
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.user_edit_profile);
 
-		imageView = findViewById(R.id.vector_ek2);
+		String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+		db = FirebaseFirestore.getInstance();
+		usersRef = db.collection("users");
+		DocumentReference userDocRef = usersRef.document(deviceID);
+
+		// Asynchronously retrieve the document from Firestore
+		userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+			@Override
+			public void onComplete(Task<DocumentSnapshot> task) {
+				if (task.isSuccessful()) {
+					DocumentSnapshot doc = task.getResult();
+					if (doc != null && doc.exists()) {
+						setUpEditProfile(doc);
+					} else {
+						setUpCreateProfile();
+					}
+				}
+			}
+		});
+	}
+
+	private void initCreate() {
+		imageView = findViewById(R.id.create_profile_pic);
+		nameInput = findViewById(R.id.name_input_create_prf);
+		phoneInput = findViewById(R.id.phone_input_create_prf);
+		emailInput = findViewById(R.id.email_input_create_prf);
+		notificationEnabledInput = findViewById(R.id.enable_notification_create_prf);
+		locationEnabledInput = findViewById(R.id.enable_location_create_prf);
+	}
+	private void initEdit() {
+		imageView = findViewById(R.id.profile_pic);
 		nameInput = findViewById(R.id.name_input);
 		phoneInput = findViewById(R.id.phone_input);
 		emailInput = findViewById(R.id.email_input);
 		notificationEnabledInput = findViewById(R.id.enable_notification);
 		locationEnabledInput = findViewById(R.id.enable_location);
+	}
 
-		imageView.setOnClickListener(v -> selectImage());
+	private void fillProfile(DocumentSnapshot doc) {
+		nameInput.setText(doc.getString("name"));
+		phoneInput.setText(doc.getString("phone"));
+		emailInput.setText(doc.getString("email"));
+		notificationEnabledInput.setChecked(Boolean.TRUE.equals(doc.getBoolean("notificationEnabled")));
+		locationEnabledInput.setChecked(Boolean.TRUE.equals(doc.getBoolean("locationEnabled")));
+		if (Objects.equals(doc.getString("profilePicID"), "")) {
+			String name = nameInput.getText().toString().trim();
+			Bitmap profileImage = ImageGenerator.generateProfileImage(name, 500, 500); // Adjust the size as needed
+
+			imageView.setImageBitmap(profileImage);
+		} else {
+			ImageUtility.displayImage(doc.getString("profilePicID"), imageView);
+		}
+
+	}
+
+	private void setUpCreateProfile() {
+		setContentView(R.layout.user_create_profile);
+
+		initCreate();
+
+		imageView.setOnClickListener(v -> {
+			ImageOptionsFragment optionsFragment = new ImageOptionsFragment();
+			optionsFragment.show(getSupportFragmentManager(), "imageOptionsDialog");
+		});
+
+		findViewById(R.id.back_button_create_prf).setOnClickListener(v -> finish());
+		findViewById(R.id.create_prf_button).setOnClickListener(v -> saveUserInfo());
+	}
+
+	private void setUpEditProfile(DocumentSnapshot doc) {
+		setContentView(R.layout.user_edit_profile);
+		initEdit();
+
+
+		imageView.setOnClickListener(v -> {
+			ImageOptionsFragment optionsFragment = new ImageOptionsFragment();
+			optionsFragment.show(getSupportFragmentManager(), "imageOptionsDialog");
+		});
+
 		findViewById(R.id.back_button).setOnClickListener(v -> finish());
 		findViewById(R.id.save_button).setOnClickListener(v -> saveUserInfo());
+		fillProfile(doc);
 	}
 
 	private void saveUserInfo() {
@@ -124,6 +210,33 @@ public class UserEditProfileActivity extends AppCompatActivity {
 		return new User(deviceID, name, phone, email, profilePicID, userType, notificationEnabled, locationEnabled);
 	}
 
+//	private Uri saveBitmapAndGetUri(Bitmap bitmap, String fileName) {
+//		// Save the bitmap to a file in the app's internal storage
+//		File file = new File(getFilesDir(), fileName + ".png");
+//		try (FileOutputStream out = new FileOutputStream(file)) {
+//			bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		// Get a content Uri for the file using FileProvider
+//		Uri uri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
+//		return uri;
+//	}
+	@Override
+	public void onSelectImage() {
+		selectImage();
+	}
+
+	@Override
+	public void onDeleteImage() {
+		String name = nameInput.getText().toString().trim();
+		Bitmap profileImage = ImageGenerator.generateProfileImage(name, 500, 500); // Adjust the size as needed
+
+//		filePath = saveBitmapAndGetUri(profileImage, name);
+
+		imageView.setImageBitmap(profileImage);
+	}
 
 	private void selectImage() {
 		Intent intent = new Intent();
@@ -150,7 +263,5 @@ public class UserEditProfileActivity extends AppCompatActivity {
 	private void showToast(String message) {
 		Toast.makeText(UserEditProfileActivity.this, message, Toast.LENGTH_SHORT).show();
 	}
-
-
 }
 
