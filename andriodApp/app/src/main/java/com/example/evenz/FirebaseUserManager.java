@@ -171,7 +171,30 @@ public class FirebaseUserManager {
      * @param deviceID The id of the device (userID)
      * @return the eventID they are currently attending or hosting
      */
-    public Task<String> getEventID(String deviceID) {
+    public Task<String> getEventIDOrg(String deviceID) {
+        final List<String> eventID = new ArrayList<>();
+
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.contains("eventList")) {
+                                if (document.getId().equals(deviceID)) {
+                                    eventID.add(document.getString("eventList"));
+                                    return eventID.get(0);
+                                }
+                            }
+                        }
+                        eventID.add("N");
+                        return eventID.get(0);
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+    public Task<String> getEventIDAttendee(String deviceID) {
         final List<String> eventID = new ArrayList<>();
 
         return FirebaseFirestore.getInstance()

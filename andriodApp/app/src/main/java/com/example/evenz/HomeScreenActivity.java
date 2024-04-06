@@ -54,7 +54,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                 role = type;
 
                 // getting the signed in event or organized event id
-                Task<String> getEventID = firebaseUserManager.getEventID(deviceID);
+                Task<String> getEventID = firebaseUserManager.getEventIDOrg(deviceID);
                 getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
                     @Override
                     public void onSuccess(String ID) {

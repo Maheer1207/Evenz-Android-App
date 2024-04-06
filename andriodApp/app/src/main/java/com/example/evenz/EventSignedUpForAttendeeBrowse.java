@@ -6,6 +6,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -73,17 +74,13 @@ public class EventSignedUpForAttendeeBrowse extends AppCompatActivity {
 
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
 
-        View lightButton= findViewById(R.id.light_green_button_rect);
-        lightButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(EventSignedUpForAttendeeBrowse.this, EventBrowseActivity.class);
-
-                intent.putExtra("role", role);
-                intent.putExtra("eventID", eventID);
-                startActivity(intent);
-            }
+        RelativeLayout lightGreenButton = findViewById(R.id.light_green_signup_button);
+        lightGreenButton.setOnClickListener(v -> {
+            Log.d("Button Click", "Button was clicked");
+            Intent intent = new Intent(EventSignedUpForAttendeeBrowse.this, EventBrowseActivity.class);
+            intent.putExtra("role", role);
+            intent.putExtra("eventID", eventID);
+            startActivity(intent);
         });
     }
-
 }
