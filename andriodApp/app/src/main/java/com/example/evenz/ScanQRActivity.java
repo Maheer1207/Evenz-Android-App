@@ -9,10 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -22,9 +27,12 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ScanQRActivity extends AppCompatActivity {
-    //    TextView txv;
+
+    private List<Attendee> attendeesList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +53,36 @@ public class ScanQRActivity extends AppCompatActivity {
 
             if (contents != null) {
                 Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class); //TODO: replace with ORG homepage
-                Bundle b = new Bundle();
-                b.putString("role", "attendee");
-                b.putString("eventID", intentResult.getContents());
-                intent.putExtras(b);
-                startActivity(intent);
+
+                FirebaseAttendeeManager firebaseAttendeeManager = new FirebaseAttendeeManager();
+
+                Task<List<Attendee>> getAttendeesTask = firebaseAttendeeManager.getEventAttendees(contents);
+
+                // Add a listener to handle the result when the task completes
+                getAttendeesTask.addOnSuccessListener(new OnSuccessListener<List<Attendee>>() {
+                    @Override
+                    public void onSuccess(List<Attendee> attendees) {
+                        attendeesList = attendees;
+                        Task<Integer> getAttendLimit = EventUtility.getAttendLimit(contents);
+                        getAttendLimit.addOnSuccessListener(new OnSuccessListener<Integer>() {
+                            @Override
+                            public void onSuccess(Integer attendLimit) {
+                                if (attendLimit != -1) {
+                                    startActivity(intent);
+                                }
+                                //else if (attendLimit == contents) {
+
+                                //}
+                            }
+                        });
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Handle the error case
+                        //Toast.makeText(AttendeesActivity.this, "Error fetching attendeeLimit: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         }
         else {
