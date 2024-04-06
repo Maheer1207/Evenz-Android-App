@@ -10,14 +10,23 @@ public class User
     private String email;
     private String userId;
     private String userType;
-    private ArrayList<String> eventsSignedUpFor;
+
+    private Boolean notificationsEnabled;
+
+    private Boolean locationEnabled;
+
+    // Should be empty initally
+    private ArrayList<String> eventsSignedUpFor = new ArrayList<>();
+
+    private String checkedInEvent = null;
+
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public User() {
     }
 
 
-    public User(String name, String profilePicID, String phone, String email, String userId, String userType)
+    public User(String userId, String name, String phone, String email, String profilePicID, String userType, Boolean notificationsEnabled, Boolean locationEnabled)
     {
         this.name = name;
         this.profilePicID = profilePicID;
@@ -25,24 +34,16 @@ public class User
         this.email = email;
         this.userId = userId;
         this.userType = userType;
+        this.notificationsEnabled = notificationsEnabled;
+        this.locationEnabled = locationEnabled;
     }
-
-    public void signUp(String id)
-    {
-        eventsSignedUpFor.add(id);
-    }
-
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) {this.name = name;}
 
-    public String getProfilePicID() {
-        return profilePicID;
-    }
+    public String getProfilePicID() {return profilePicID;}
 
     public void setProfilePicID(String profilePicID) {
         this.profilePicID = profilePicID;
@@ -81,11 +82,50 @@ public class User
         return eventsSignedUpFor;
     }
 
+
     public void setEventsSignedUpFor(ArrayList<String> eventsSignedUpFor) {
         this.eventsSignedUpFor = eventsSignedUpFor;
     }
+
+    public String getCheckedInEvent() {
+        return checkedInEvent;
+    }
+
+    public void setCheckedInEvent(String checkedInEvent) {
+        this.checkedInEvent = checkedInEvent;
+    }
+
+    //Add an event to the list of events signed up for
+    public void addEvent(String eventID) {
+        eventsSignedUpFor.add(eventID);
+    }
+
+    // Remove an event from the list of events signed up for
+    public void removeEvent(String eventID) {
+        eventsSignedUpFor.remove(eventID);
+    }
+
+
+    public Boolean getNotificationsEnabled() {
+        return notificationsEnabled;
+    }
+
+    public void setNotificationsEnabled(Boolean notificationsEnabled) {
+        this.notificationsEnabled = notificationsEnabled;
+    }
+
+    public Boolean getLocationEnabled() {
+        return locationEnabled;
+    }
+
+    public void setLocationEnabled(Boolean locationEnabled) {
+        this.locationEnabled = locationEnabled;
+    }
+
+
 
     public void setUserType(String userType) {
         this.userType = userType;
     }
 }
+

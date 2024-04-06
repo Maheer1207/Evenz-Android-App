@@ -4,7 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="light_green">#FA96DC6C</color>
     <color name="dark_grey">#303030</color>
-
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
@@ -13,6 +12,7 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="red">#FF0000</color>
 
     <color name="_bg__create_event_ek2_color">#FFFFFF</color>
     <color name="_bg__profile_ek1_color">#000000</color>
@@ -21,5 +21,6 @@
     <color name="rectangle_25_color">#A8E0A2</color>
     <color name="create_event_color">#FFFCFC</color>
     <color name="_bg__user_alt_ek1_color">#2384DF</color>
+    <color name="red_alert">#FF0000</color>
 
 </resources>

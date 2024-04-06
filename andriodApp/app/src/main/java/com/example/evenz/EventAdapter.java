@@ -1,11 +1,12 @@
 package com.example.evenz;
 
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -23,7 +24,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 //TODO: make sure Event ID is set up correctly, when storing new events
@@ -31,6 +31,9 @@ import java.util.Locale;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
     private ArrayList<Event> eventDataList;
+
+    //change1
+    private OnClickListener onClickListener;
     private Context context;
 
     public EventAdapter(Context context, ArrayList<Event> eventDataList) {
@@ -59,21 +62,35 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return new EventViewHolder(itemView);
     }
 
-    @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventDataList.get(position);
 
         holder.textCategories.setText(event.getEventName());
         holder.textDescription.setText(event.getDescription());
 
+        // Set click listener to notify the interface implementer
+        holder.itemView.setOnClickListener(v -> {
+            if (onClickListener != null) {
+                onClickListener.onClick(position, event);
+            }
+        });
+
         this.displayImage(event.getEventPosterID(), holder.imageBanner);
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
         holder.textDate.setText(dateFormat.format(event.getEventDate()));
+        holder.textLocation.setText(event.getLocation()); // Adjust based on your data
+    }
 
-        // Assuming you have a method to get a displayable location string from Geolocation
-        holder.textLocation.setText(event.getLocation()); // You need to adjust this based on your Geolocation data.
+    //change 3
+    public void setOnClickListener(OnClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
 
+    //change 4
+
+    public interface OnClickListener {
+        void onClick(int position, Event model);
     }
 
     @Override

@@ -9,8 +9,9 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
 public class QRGenerator {
-    public Bitmap generate(String basestring, int width, int height) {
-        
+    public Bitmap generate(String eventID, String additionalInfo, int width, int height) {
+        String basestring = eventID + additionalInfo;
+
         MultiFormatWriter wrter = new MultiFormatWriter();
 
         try {
