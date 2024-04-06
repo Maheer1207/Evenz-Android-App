@@ -8,7 +8,7 @@
 		android:id="@+id/container_user_browse_events"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
-		android:background="@drawable/container_user_browse_events"
+		android:background="@drawable/white_background_layout"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent"
 		app:layout_constraintTop_toTopOf="parent"

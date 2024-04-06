@@ -36,7 +36,7 @@
       android:layout_height="48dp"
       android:layout_marginStart="20dp"
       android:layout_marginTop="265dp"
-      android:gravity="left|top"
+      android:gravity="start|top"
       android:includeFontPadding="false"
       android:lineHeight="24dp"
       android:text="👋 Welcome to Career Launchpad 2024! 🚀\n"

@@ -7,8 +7,8 @@
   android:id="@+id/container_qr_code_generated_organizer"
   android:layout_width="match_parent"
   android:layout_height="807dp"
-  android:background="@drawable/container_qr_code_generated_organizer"
-  android:gravity="left|top"
+  android:background="@drawable/white_background_layout"
+  android:gravity="start|top"
   android:orientation="vertical">
 
   <FrameLayout
@@ -34,7 +34,7 @@
         android:layout_marginStart="36.5dp"
         android:layout_marginTop="-3.5dp"
         android:layout_marginBottom="-3.5dp"
-        android:gravity="left|center_vertical"
+        android:gravity="start|center_vertical"
         android:includeFontPadding="false"
         android:maxLines="1"
         android:singleLine="true"
@@ -57,7 +57,7 @@
       android:layout_marginStart="50.94dp"
       android:layout_marginTop="38.27dp"
       android:layout_marginBottom="37.67dp"
-      android:layout_gravity="left"
+      android:layout_gravity="start"
       android:scaleType="centerCrop" />
     
     <ImageView
@@ -107,9 +107,9 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="116dp"
     android:layout_marginTop="48.33dp"
-    android:layout_gravity="left"
+    android:layout_gravity="start"
     android:clipToPadding="false"
-    android:gravity="left|center_vertical"
+    android:gravity="start|center_vertical"
     android:orientation="horizontal">
     
     <ImageView
