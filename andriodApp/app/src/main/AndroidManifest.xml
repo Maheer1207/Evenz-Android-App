@@ -69,6 +69,9 @@
             android:name=".ShareQRActivity"
             android:exported="true"/>
         <activity
+            android:name=".ScanQRActivity"
+            android:exported="true"/>
+        <activity
             android:name=".UserEditProfileActivity"
             android:exported="true" />
         <activity

@@ -147,12 +147,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice">
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/copilot/chatSessions/00000000000.xd" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilot/chatSessions/00000000000.xd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/copilot/chatSessions/xd.lck" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilot/chatSessions/xd.lck" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventSignedUpForAttendeeBrowse.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventSignedUpForAttendeeBrowse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/attendees_browse_signedup_events.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/attendees_browse_signedup_events.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -490,14 +488,9 @@
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventBrowseActivity.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="44" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventSignedUpForAttendeeBrowse.java</url>
-          <line>57</line>
-          <option name="timeStamp" value="45" />
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/HomeScreenActivity.java</url>
+          <line>100</line>
+          <option name="timeStamp" value="47" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/PushNotificationService.java</url>
