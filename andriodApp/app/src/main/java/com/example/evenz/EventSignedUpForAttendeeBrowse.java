@@ -58,11 +58,18 @@ public class EventSignedUpForAttendeeBrowse extends AppCompatActivity {
         firebaseUserManager.getEventsSignedUpForUser(userId).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 List<String> eventIds = task.getResult();
-                EventUtility.fetchEvents(db, eventIds, eventDataList, eventAdapter);
+                if (eventIds != null && !eventIds.isEmpty()) {
+                    // Call the new method that handles fetching by document IDs
+                    EventUtility.fetchEventsByIds(db, eventIds, eventDataList, eventAdapter);
+                } else {
+                    // Handle the case where there are no event IDs (e.g., user hasn't signed up for any events)
+                    Log.d("Firestore", "User hasn't signed up for any events or eventIds list is null");
+                }
             } else {
                 Log.e("Firestore", "Error getting signed up events", task.getException());
             }
         });
+
 
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
 

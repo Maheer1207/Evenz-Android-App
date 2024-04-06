@@ -1,5 +1,7 @@
 package com.example.evenz;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
@@ -77,32 +79,37 @@ public class FirebaseUserManager {
     }
 
     // Create a method that will return all of the attendes for a given event it uses the getUser method to get the user object
-    public Task<List<User>> getAttendeesForEvent(String eventId) {
-        return db.collection("users").whereArrayContains("eventsSignedUpFor", eventId).get().continueWithTask(task -> {
-            if (task.isSuccessful()) {
-                List<Task<User>> tasks = new ArrayList<>();
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    String userId = document.getString("userId");
-                    tasks.add(getUser(userId));
-                }
-                return Tasks.whenAllSuccess(tasks);
-            } else {
-                return Tasks.forException(task.getException());
-            }
-        });
-    }
-    // Create a method that will return all the events an attendee is signed up for
     public Task<List<String>> getEventsSignedUpForUser(String userId) {
         return db.collection("users").document(userId).get().continueWith(task -> {
-            if (task.isSuccessful()) {
+            List<String> eventsSignedUpFor = new ArrayList<>();
+            if (task.isSuccessful() && task.getResult() != null) {
                 DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    return (List<String>) document.get("eventsSignedUpFor");
+                if (document.exists() && document.getData() != null) {
+                    // Attempt to get the eventsSignedUpFor field as a List
+                    Object eventsObject = document.get("eventsSignedUpFor");
+                    if (eventsObject instanceof List<?>) {
+                        List<?> eventsRawList = (List<?>) eventsObject;
+                        for (Object item : eventsRawList) {
+                            if (item instanceof String) {
+                                eventsSignedUpFor.add((String) item);
+                            } else {
+                                Log.e("Firestore", "Invalid item type in eventsSignedUpFor array");
+                            }
+                        }
+                    } else {
+                        Log.e("Firestore", "'eventsSignedUpFor' field is not a List");
+                    }
+                } else {
+                    Log.e("Firestore", "Document does not exist");
                 }
+            } else {
+                Log.e("Firestore", "Failed to fetch user document", task.getException());
             }
-            return null;
+            return eventsSignedUpFor;
         });
     }
+
+
 
     // Create user method that will return a user object for a given userId
     public Task<User> getUser(String userId) {

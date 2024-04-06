@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +33,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -190,23 +192,67 @@ public final class EventUtility {
     }
 
     //Fetch specific events from the database, by Hrithick
-    public static void fetchEvents(FirebaseFirestore db, List<String> eventIds, ArrayList<Event> eventDataList, EventAdapter eventAdapter) {
-        db.collection("events").whereIn("id", eventIds).get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                QuerySnapshot querySnapshot = task.getResult();
-                if (querySnapshot != null) {
-                    eventDataList.clear();
-                    for (QueryDocumentSnapshot doc : querySnapshot) {
-                        Event tempEvent = EventUtility.parseEvent(doc);
+    public static void fetchEventsByIds(FirebaseFirestore db, List<String> eventIds, final ArrayList<Event> eventDataList, final EventAdapter eventAdapter) {
+        if (eventIds == null || eventIds.isEmpty()) {
+            Log.d("fetchEventsByIds", "No event IDs provided");
+            return;
+        }
+
+        eventDataList.clear(); // Clear the list to prepare for new data
+
+        // A counter to keep track of completed fetch operations
+        AtomicInteger pendingFetches = new AtomicInteger(eventIds.size());
+
+        for (String eventId : eventIds) {
+            db.collection("events").document(eventId).get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    // Directly use documentSnapshot without casting
+                    Event tempEvent = parseEventTemp(documentSnapshot); // Make sure parseEvent can handle DocumentSnapshot
+                    if (tempEvent != null) {
                         eventDataList.add(tempEvent);
                     }
+                }
+                // Check if all fetches are done
+                if (pendingFetches.decrementAndGet() == 0) {
+                    // All fetches complete, update UI here
                     eventAdapter.notifyDataSetChanged();
                 }
-            } else {
-                Log.e("Firestore", "Error getting events", task.getException());
-            }
-        });
+            }).addOnFailureListener(e -> {
+                Log.e("fetchEventsByIds", "Error getting event " + eventId, e);
+                // Check if all fetches are done
+                if (pendingFetches.decrementAndGet() == 0) {
+                    // All fetches complete, update UI here
+                    eventAdapter.notifyDataSetChanged();
+                }
+            });
+        }
     }
+
+    public static Event parseEventTemp(DocumentSnapshot doc) {
+        if (!doc.exists()) {
+            return null; // or handle this case as needed
+        }
+
+        // Example of reconstructing a Geolocation object
+        // Assuming you store geolocation as a map with latitude and longitude
+        float xcoord = doc.contains("xcoord") ? ((Number) doc.get("xcoord")).floatValue() : 0;
+        float ycoord = doc.contains("ycoord") ? ((Number) doc.get("ycoord")).floatValue() : 0;
+        String geolocationID = doc.getString("geolocationID"); // Adjust if necessary
+
+        Geolocation geolocation = new Geolocation(geolocationID, xcoord, ycoord);
+
+        // Using placeholders for Bitmaps as you'll load them asynchronously in the adapter/view
+        Bitmap placeholderBitmap = null; // Add actual logic to load images as needed
+
+        return new Event(doc.getId(), doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
+                doc.getString("description"), geolocation, placeholderBitmap,
+                placeholderBitmap, 0,
+                new ArrayList<>(), doc.getDate("eventDate"), new ArrayList<>(), doc.getString("location"));
+    }
+
+
+
+
 
     /**
      * Function adds or removes a specified notification from the Notification array in an event.
