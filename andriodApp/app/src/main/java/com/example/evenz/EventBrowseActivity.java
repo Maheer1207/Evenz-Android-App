@@ -2,10 +2,10 @@ package com.example.evenz;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
+
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +19,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+
 
 //call ArrayList<Event> eventDataList
 

@@ -1,12 +1,12 @@
 package com.example.evenz;
 
-import android.content.Intent;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,7 +24,6 @@ import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 //TODO: make sure Event ID is set up correctly, when storing new events
