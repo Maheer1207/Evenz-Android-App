@@ -108,25 +108,38 @@ public class ScanQRActivity extends AppCompatActivity {
                     }
                     imageProxy.close(); // Ensure to close the ImageProxy
                 })
-                .addOnFailureListener(e -> imageProxy.close()); // Ensure to close the ImageProxy on failure as well
+                .addOnFailureListener(e -> imageProxy.close());// Ensure to close the ImageProxy on failure as well
     }
 
     private void handleQRCode(String qrCode) {
         if (qrCode != null) {
-            Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class);
-            Bundle b = new Bundle();
-            b.putString("role", "attendee");
-            b.putString("eventID", qrCode);
-            intent.putExtras(b);
+            String[] parts = qrCode.split("/");
+            String lastPart = parts[parts.length -1];
 
-            FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-            String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+            if (lastPart.equals("check_in")) {
+                // Check in the user to the event
+                Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class);
+                Bundle b =new Bundle();
+                b.putString("role", "attendee");
+                b.putString("eventID", qrCode);
+                intent.putExtras(b);
 
-            firebaseUserManager.checkInUser(deviceId, qrCode)
-                    .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
-                    .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
+                FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+                String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-            startActivity(intent);
+                firebaseUserManager.checkInUser(deviceId, qrCode)
+                        .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
+                        .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
+
+                startActivity(intent);
+            } else if (lastPart.equals("sign_up")) {
+                // Navigate to the event details for the attendee to sign up
+                Intent intent = new Intent(ScanQRActivity.this, EventDetailsActivity.class);
+                intent.putExtra("eventID", qrCode);
+                intent.putExtra("source", "browse");
+                intent.putExtra("role", "attendee");
+                startActivity(intent);
+            }
         }
     }
 }

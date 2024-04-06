@@ -119,7 +119,7 @@
 							android:id="@+id/editTextLocation"
 							android:layout_width="335dp"
 							android:layout_height="50dp"
-							android:hint="8801 111 ST NW, Edmonton"
+							android:hint=" Enter Event Location"
 							android:importantForAutofill="no"
 							android:inputType="text" />
 					</LinearLayout>
@@ -216,7 +216,7 @@
 						android:layout_width="335dp"
 						android:layout_height="50dp"
 						android:background="@drawable/boundary_style"
-						android:hint="@string/career_fair_2023_string"
+						android:hint=" Enter Event Name"
 						android:importantForAutofill="no"
 						android:inputType="text" />
 				</LinearLayout>

@@ -1,5 +1,7 @@
 package com.example.evenz;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -154,21 +156,29 @@ public class HomeScreenActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        //updated share QR option to have promotional and check-in QR code options
         ImageView shareQR = findViewById(R.id.shareQR);
         shareQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create an AlertDialog.Builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
+                builder.setTitle("Choose QR Code Type")
+                        .setItems(new String[]{"Promotional QR code", "Check-in QR code"}, (dialog, which) -> {
+                            String qrCodeType =(which == 0) ? "/sign_up" : "/check_in"; // 0 for promotional, 1 for check-in
 
-                QRGenerator test = new QRGenerator();
-                Bitmap bitmap = test.generate(eventID, "", 400, 400);
-                Uri bitmapUri = saveBitmapToCache(bitmap);
+                            QRGenerator test = new QRGenerator();
+                            Bitmap bitmap = test.generate(eventID, qrCodeType, 400, 400);//generate with a string that we can parse
+                            Uri bitmapUri = saveBitmapToCache(bitmap);
 
-                Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
-
-                intent.putExtra("eventID", eventID);
-                assert bitmapUri != null;
-                intent.putExtra("BitmapImage", bitmapUri.toString());
-                startActivity(intent);
+                            Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
+                            intent.putExtra("eventID", eventID);
+                            assert bitmapUri != null;
+                            intent.putExtra("BitmapImage", bitmapUri.toString());
+                            startActivity(intent);
+                        });
+                // Create and show the AlertDialog
+                builder.create().show();
             }
         });
 

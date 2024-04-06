@@ -126,7 +126,6 @@ public class EventDetailsActivity  extends AppCompatActivity {
             }
         });
     }
-
     private void setupOrganizerView() {
         eventPoster = findViewById(R.id.poster_org_eventInfo);
         eventLocation = findViewById(R.id.loc_org_eventInfo);
