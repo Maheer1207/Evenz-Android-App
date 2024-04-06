@@ -23,11 +23,6 @@ public class FirebaseUserManager {
         this.ref = db.collection("users");
     }
 
-    public FirebaseUserManager(FirebaseFirestore db) {
-        this.db = db;
-        this.ref = db.collection("users");
-    }
-
     public Task<Void> submitUser(User user) {
         if (user == null) {
             return Tasks.forException(new IllegalArgumentException("User cannot be null"));
@@ -47,27 +42,30 @@ public class FirebaseUserManager {
 
 
         // Use userId as the document ID
-        return db.collection("users").document(user.getUserId()).set(userMap, SetOptions.merge());
+        return ref.document(user.getUserId()).set(userMap, SetOptions.merge());
     }
+
+    // submitOrganizer method that will sumbit an organizer to the database which is just a user with only a User ID, Name, UserType, and checkedInEvent
+
 
     // Create a method to update a user document in the database to add an event to the eventsSignedUpFor list
     public Task<Void> addEventToUser(String userId, String eventId) {
-        return db.collection("users").document(userId).update("eventsSignedUpFor", FieldValue.arrayUnion(eventId));
+        return ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayUnion(eventId));
     }
 
     // Remove user from event
     public Task<Void> removeEventFromUser(String userId, String eventId) {
-        return db.collection("users").document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(eventId));
+        return ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(eventId));
     }
 
     // Add a checkin event to a user
     public Task<Void> checkInUser(String userId, String eventId) {
-        return db.collection("users").document(userId).update("checkedInEvent", eventId);
+        return ref.document(userId).update("checkedInEvent", eventId);
     }
 
     // Create a method that will return the eventID of the checked-in event for a given user
     public Task<String> getCheckedInEventForUser(String userId) {
-        return db.collection("users").document(userId).get().continueWith(task -> {
+        return ref.document(userId).get().continueWith(task -> {
             if (task.isSuccessful()) {
                 return task.getResult().getString("checkedInEvent");
             }
@@ -77,7 +75,7 @@ public class FirebaseUserManager {
 
     // Create a method that will return all of the attendes for a given event it uses the getUser method to get the user object
     public Task<List<User>> getAttendeesForEvent(String eventId) {
-        return db.collection("users").whereArrayContains("eventsSignedUpFor", eventId).get().continueWithTask(task -> {
+        return ref.whereArrayContains("eventsSignedUpFor", eventId).get().continueWithTask(task -> {
             if (task.isSuccessful()) {
                 List<Task<User>> tasks = new ArrayList<>();
                 for (QueryDocumentSnapshot document : task.getResult()) {
@@ -93,7 +91,7 @@ public class FirebaseUserManager {
 
     // Create user method that will return a user object for a given userId
     public Task<User> getUser(String userId) {
-        return db.collection("users").document(userId).get().continueWith(task -> {
+        return ref.document(userId).get().continueWith(task -> {
             if (task.isSuccessful()) {
                 QueryDocumentSnapshot document = (QueryDocumentSnapshot) task.getResult();
                 User user = new User(
