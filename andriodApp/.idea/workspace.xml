@@ -141,11 +141,13 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="">
+    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="AttendeesActivity successfull loads organizers eventID and pulls all attendees but does not populate the recycleview yet">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/AttendeeAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/AttendeeAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/AttendeesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/AttendeesActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/FirebaseUserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/FirebaseUserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/view_attendees_at_event.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/view_attendees_at_event.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -477,7 +479,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712453008491</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="AttendeesActivity successfull loads organizers eventID and pulls all attendees but does not populate the recycleview yet">
+      <option name="closed" value="true" />
+      <created>1712454408241</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1712454408241</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -514,7 +524,8 @@
     <MESSAGE value="Merged with SAND's branch and verifed that it works" />
     <MESSAGE value="Added Functionality to submit an Organizer to firebase during event creation" />
     <MESSAGE value="Implement Attendee List Access for Made AttendeesActivity successfully pull the event ID of the organanizer" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implement Attendee List Access for Made AttendeesActivity successfully pull the event ID of the organanizer" />
+    <MESSAGE value="AttendeesActivity successfull loads organizers eventID and pulls all attendees but does not populate the recycleview yet" />
+    <option name="LAST_COMMIT_MESSAGE" value="AttendeesActivity successfull loads organizers eventID and pulls all attendees but does not populate the recycleview yet" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

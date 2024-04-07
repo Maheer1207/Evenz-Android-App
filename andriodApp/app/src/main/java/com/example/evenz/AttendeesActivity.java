@@ -64,6 +64,7 @@ public class AttendeesActivity extends AppCompatActivity {
                 fetchAttendees(eventID);
                 // log the event id
                 Log.d(TAG, "onSuccess: Event ID: " + eventID);
+
             }
         });
 
@@ -84,6 +85,7 @@ public class AttendeesActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<User> attendees) {
                 updateUI(attendees);
+                setHeaderString(eventID);
                 // log the attendees
 //                Log.d(TAG, "onSuccess: Attendees: " + attendees);
             }
@@ -98,11 +100,35 @@ public class AttendeesActivity extends AppCompatActivity {
     }
 
     private void updateUI(List<User> attendees) {
-//        attendeesList = attendees;
-//        adapter = new AttendeeAdapter(attendeesList);
-//        recyclerView.setAdapter(adapter);
-//        limitString = limitString + attendeesList.size();
-//        limit.setText(limitString);
+        attendeesList = attendees;
+        adapter = new AttendeeAdapter(attendeesList);
+        recyclerView.setAdapter(adapter);
+    }
+
+    // Please create a method that will set the value of the header string
+    // to the number of attendees at the event. The header string should be
+    // in the format "Attendees: X/Y" where X is the number of attendees. and Y is the limit.
+    private void setHeaderString(String eventID) {
+        int attendees = attendeesList.size();
+        // Get the max attendees for the event from the getattendlimitfromeventname method in the eventutility class
+        EventUtility.getAttendLimitFromEventName(eventID);
+        Task<Integer> getAttendLimit = EventUtility.getAttendLimitFromEventName(eventID);
+        getAttendLimit.addOnSuccessListener(new OnSuccessListener<Integer>() {
+            @Override
+            public void onSuccess(Integer maxAttendees) {
+                // Convert the max attendees to a string
+                limitString = "Attendees: " + attendees + "/" + maxAttendees;
+                limit.setText(limitString);
+            }
+        });
+        // Handle the failure of the getAttendLimit task
+        getAttendLimit.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "onFailure: Error fetching attendees limit", e);
+            }
+        });
+
     }
 
     private void handleAttendeesFailure(@NonNull Exception e) {

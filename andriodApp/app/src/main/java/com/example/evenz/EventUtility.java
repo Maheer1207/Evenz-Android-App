@@ -376,5 +376,30 @@ public final class EventUtility {
                 });
     }
 
+    // Create a method that will return the attendlimit for the event from the event name
+    public static Task<Integer> getAttendLimitFromEventName(String eventName) {
+        final List<Integer> attendLimit = new ArrayList<>();
+
+        return FirebaseFirestore.getInstance()
+                .collection("events")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.contains("AttendLimit")) {
+                                if (document.getString("eventName").equals(eventName)) {
+                                    attendLimit.add(document.getLong("AttendLimit").intValue());
+                                    return attendLimit.get(0);
+                                }
+                            }
+                        }
+                        attendLimit.add(-1);
+                        return attendLimit.get(0);
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
 }
 
