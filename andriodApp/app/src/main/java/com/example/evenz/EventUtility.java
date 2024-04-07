@@ -367,13 +367,18 @@ public final class EventUtility {
                         for (Map<String, Object> group : groups) {
                             String id = group.get("userId").toString();
                             Long count = (Long)group.get("count");
+                            boolean attending = (boolean)group.get("attending");
                             if (id.equals(userId)){
                                 Map<String, Object> map = new HashMap<>();
                                 Map<String, Object> newMap = new HashMap<>();
                                 map.put("userId", id);
-                                map.put("attending", -1); // -1 means not signed up
+                                map.put("attending", attending); // -1 means not signed up
                                 map.put("count", count);
                                 ref.update("UserList", FieldValue.arrayRemove(map));
+                                newMap.put("userId", id);
+                                newMap.put("attending", 0); // 0 means signed up
+                                newMap.put("count", count);
+                                ref.update("UserList", FieldValue.arrayUnion(newMap));
                                 return;
                             }
                         }
