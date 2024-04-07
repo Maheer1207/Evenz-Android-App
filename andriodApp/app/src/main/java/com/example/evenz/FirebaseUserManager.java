@@ -88,27 +88,33 @@ public class FirebaseUserManager {
                         return Tasks.forException(new IllegalStateException("Result is null"));
                     }
 
-                    List<User> users = new ArrayList<>();
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        User user = new User(
-                                document.getId(),
-                                document.getString("name"),
-                                document.getString("phone"),
-                                document.getString("email"),
-                                document.getString("profilePicID"),
-                                document.getString("userType"),
-                                document.getBoolean("notificationEnabled"),
-                                document.getBoolean("locationEnabled")
-                        );
-                        users.add(user);
-                        // Log the name of the user
-                        System.out.println(user.getName());
-                    }
-                    // Return the list of User objects directly instead of a list of Tasks
-                    return Tasks.forResult(users);
+                    // Call the helper method to process the documents
+                    return Tasks.forResult(processDocuments(task.getResult()));
                 });
     }
 
+    private List<User> processDocuments(Iterable<QueryDocumentSnapshot> documents) {
+        List<User> users = new ArrayList<>();
+        for (QueryDocumentSnapshot document : documents) {
+            User user = new User(
+                    document.getId(),
+                    document.getString("name"),
+                    document.getString("phone"),
+                    document.getString("email"),
+                    document.getString("profilePicID"),
+                    document.getString("userType"),
+                    document.getBoolean("notificationEnabled"),
+                    document.getBoolean("locationEnabled")
+            );
+            // Check if the userType is "attendee" before adding the user to the list
+            if ("attendee".equals(user.getUserType())) {
+                users.add(user);
+                // Log the name of the user
+                System.out.println(user.getName());
+            }
+        }
+        return users;
+    }
 
 
 
