@@ -2,7 +2,6 @@ package com.example.evenz;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,10 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.ParseException;
 
 public class ShareQRActivity extends AppCompatActivity {
     @Override
@@ -85,7 +83,7 @@ public class ShareQRActivity extends AppCompatActivity {
         File imageFolder = new File(getCacheDir(), "images");
         Uri uri = null;
         try {
-            imageFolder.mkdirs();
+            imageFolder.mkdirs(); //TODO: check if this is necessary
             File file = new File(imageFolder, "shared_image.png");
             FileOutputStream outputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);

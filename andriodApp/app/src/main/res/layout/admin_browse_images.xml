@@ -11,32 +11,31 @@
         android:layout_width="wrap_content"
         android:layout_height="24dp"
         android:layout_gravity="top|start"
-        android:layout_marginStart="163dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="160dp"
+        android:layout_marginTop="24dp"
         android:gravity="center_horizontal|center_vertical"
         android:includeFontPadding="false"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="Image Gallery"
+        android:text="Gallery"
         android:textColor="#FF1A1A1A"
-        android:textSize="20dp"
+        android:textSize="20sp"
         android:textStyle="bold" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/eventsRecyclerView"
+        android:id="@+id/imgsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="620dp"
         android:layout_marginTop="60dp"/>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/back_admin_browse_images"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="21.04dp"
-        android:layout_marginTop="17.66dp"
-        android:layout_marginRight="357.76dp"
-        android:layout_marginBottom="766.48dp"
-        android:scaleType="centerInside"
+        android:layout_width="39dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="24dp"
+        android:contentDescription="@string/back_button_implemented_with_less_then"
+        android:foregroundGravity="left|bottom"
         android:src="@drawable/back_less" />
 
     <ImageView
@@ -58,7 +57,7 @@
         android:layout_marginEnd="314.43dp"
         android:layout_marginBottom="30.81dp"
         android:scaleType="centerInside"
-        android:src="@drawable/profile"
+        android:src="@drawable/attendees_black"
         android:contentDescription="Button to view attendee's projile" />
 
     <ImageView
@@ -68,7 +67,7 @@
         android:layout_marginStart="172dp"
         android:layout_marginTop="700dp"
         android:scaleType="centerInside"
-        android:src="@drawable/camera_scan"
+        android:src="@drawable/home"
         android:contentDescription="Button to scan a QR using the camera" />
 
     <!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
@@ -80,6 +79,6 @@
         android:layout_marginTop="700dp"
         android:layout_marginBottom="0.05dp"
         android:scaleType="centerInside"
-        android:src="@drawable/event_list"
+        android:src="@drawable/photos_white"
         android:contentDescription="Button to show a list " />
 </FrameLayout>

@@ -1,39 +1,28 @@
 package com.example.evenz;
 
-import android.content.Context;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -45,6 +34,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private RecyclerView notificationsRecyclerView;
     private NotificationsAdapter notificationsAdapter;
     private String eventID;
+    private String role;
     private FirebaseFirestore db;
     private CollectionReference usersRef;
     private DocumentReference doc;
@@ -54,24 +44,43 @@ public class HomeScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // getting the devices id to get the user
+        String deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
 
-        // Extracting the role and eventID from the intent extras
-        Bundle b = getIntent().getExtras();
-        assert b != null;
-        String role = b.getString("role");
-        eventID = b.getString("eventID");
+        // getting the user type
+        Task<String> getUserType = firebaseUserManager.getUserType(deviceID);
+        getUserType.addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String type) {
+                role = type;
 
+                // getting the signed in event or organized event id
+                Task<String> getEventID = firebaseUserManager.getEventIDOrg(deviceID);
+                getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String ID) {
+                        eventID = ID;
+                        // If the user has no event in the event
+                        if (eventID.equals("N")) {
 
-        // Checking if the role is "attendee" and setting the appropriate layout
-        if (Objects.equals(role, "attendee")) {
-            setContentView(R.layout.attendees_home_page);
-            setupAttendeeView();
-        } else {
-            setContentView(R.layout.org_home_page);
-            setupOrganizerView();
-        }
+                        }
 
-        imageUtility = new ImageUtility();
+                        // Checking if the role is "attendee" and setting the appropriate layout
+                        if (role.equals("attendee")) {
+                            setContentView(R.layout.attendees_home_page);
+                            setupAttendeeView();
+                            // User is organizer, setting the appropriate layout
+                        } else {
+                            setContentView(R.layout.org_home_page);
+                            setupOrganizerView();
+                        }
+
+                        imageUtility = new ImageUtility();
+                    }
+                });
+            }
+        });
     }
 
     // This method sets up the view for the attendee
@@ -87,21 +96,29 @@ public class HomeScreenActivity extends AppCompatActivity {
         if (eventID != null && !Objects.equals(eventID, " ")) {
             fetchEventDetailsAndNotifications(eventID);
         }
+        ImageView imageEllipse = findViewById(R.id.image_ellipse);
+        imageEllipse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HomeScreenActivity.this, ScanQRActivity.class);
+                startActivity(intent);
+            }
+        });
 
         ImageView browseEvent = findViewById(R.id.event_list);
-        browseEvent.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, EventBrowseActivity.class)));
+        browseEvent.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, EventSignedUpForAttendeeBrowse.class)));
 
-//        ImageView eventPoster = findViewById(R.id.attendee_home_event_poster);
-//        eventPoster.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, AttendeeEventInfoActivity.class)));
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeScreenActivity.this, EventDetailsActivity.class);
-                Bundle b = new Bundle();
-                b.putString("role", "attendee");
-                b.putString("eventID", eventID);
-                intent.putExtras(b);
-                startActivity(intent);
+                openEventDetailsIntent(eventID, "attendee");
+            }
+        });
+
+        eventLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMapIntent(eventID, "attendee", (String) eventLocation.getText());
             }
         });
 
@@ -139,44 +156,63 @@ public class HomeScreenActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-//        ImageView shareQR = findViewById(R.id.shareQR);
-//        shareQR.setOnClickListener(v -> {
-//            QRGenerator test = new QRGenerator();
-//            Bitmap bitmap = test.generate(eventID, 400, 400);
-//            Uri bitmapUri = saveBitmapToCache(bitmap);
-//
-//            Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
-//            intent.putExtra("BitmapImage", bitmapUri.toString());
-//            startActivity(intent);
-//        });
+        //updated share QR option to have promotional and check-in QR code options
         ImageView shareQR = findViewById(R.id.shareQR);
         shareQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create an AlertDialog.Builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
+                builder.setTitle("Choose QR Code Type")
+                        .setItems(new String[]{"Promotional QR code", "Check-in QR code"}, (dialog, which) -> {
+                            String qrCodeType =(which == 0) ? "/sign_up" : "/check_in"; // 0 for promotional, 1 for check-in
 
-                QRGenerator test = new QRGenerator();
-                Bitmap bitmap = test.generate(eventID, 400, 400);
-                Uri bitmapUri = saveBitmapToCache(bitmap);
+                            QRGenerator test = new QRGenerator();
+                            Bitmap bitmap = test.generate(eventID, qrCodeType, 400, 400);//generate with a string that we can parse
+                            Uri bitmapUri = saveBitmapToCache(bitmap);
 
-                Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
-
-                intent.putExtra("eventID", eventID);
-                intent.putExtra("BitmapImage", bitmapUri.toString());
-                startActivity(intent);
+                            Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
+                            intent.putExtra("eventID", eventID);
+                            assert bitmapUri != null;
+                            intent.putExtra("BitmapImage", bitmapUri.toString());
+                            startActivity(intent);
+                        });
+                // Create and show the AlertDialog
+                builder.create().show();
             }
         });
 
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(HomeScreenActivity.this, EventDetailsActivity.class);
-                Bundle b = new Bundle();
-                b.putString("role", "organizer");
-                b.putString("eventID", eventID);
-                intent.putExtras(b);
-                startActivity(intent);
+                openEventDetailsIntent(eventID, "organizer");
             }
         });
+        eventLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMapIntent(eventID, "organizer", (String) eventLocation.getText());
+            }
+        });
+    }
+
+    private void openMapIntent(String eventID, String role, String addressString) {
+        Intent intent = new Intent(HomeScreenActivity.this, MapsActivity.class);
+
+        intent.putExtra("eventID", eventID);
+        intent.putExtra("role", role);
+        intent.putExtra("addressString", addressString);
+        intent.putExtra("from", "homeScreen");
+        startActivity(intent);
+    }
+
+    private void openEventDetailsIntent(String eventID, String role) {
+        Intent intent = new Intent(HomeScreenActivity.this, EventDetailsActivity.class);
+        Bundle b = new Bundle();
+        b.putString("role", role);
+        b.putString("eventID", eventID);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 
     // This method saves the bitmap to cache and returns the Uri

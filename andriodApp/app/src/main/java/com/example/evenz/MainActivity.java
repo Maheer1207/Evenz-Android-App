@@ -20,11 +20,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.Map;
-import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,10 +71,10 @@ public class MainActivity extends AppCompatActivity {
                             eventDate = timestamp.toDate(); // converts Timestamp to Date
                         }
 
-                        Event tempEvent = new Event(doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
+                        Event tempEvent = new Event(doc.getString("eventID"), doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                                 doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"),
                                 (Bitmap)doc.get("qrCodeIn"), (int)eventAttendLimit,
-                                new Hashtable<>(), eventDate, new ArrayList<String>(), doc.getString("location")); //TODO: review if this is correct implementation
+                                new ArrayList<>(), eventDate, new ArrayList<String>(), doc.getString("location")); //TODO: review if this is correct implementation
 
                         Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
@@ -107,6 +104,15 @@ public class MainActivity extends AppCompatActivity {
         admin_event_browse.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, AdminBrowseEventActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        //  TODO: Demo Button, Need to be deleted
+        final Button admin_img_browse = findViewById(R.id.button_admin_img_browse);
+        admin_img_browse.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ImageBrowseActivity.class);
                 startActivity(intent);
             }
         });
@@ -197,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                     for (QueryDocumentSnapshot doc: querySnapshots) {
                         String userID = doc.getId();
                         User tempUser = new User(doc.getString("name"), doc.getString("profilePicID"),
-                                doc.getString("phone"), doc.getString("email"), doc.getString("userId"), doc.getString("userType"));
+                                doc.getString("phone"), doc.getString("email"), doc.getString("userId"), doc.getString("userType"), doc.getBoolean("notificationEnabled"), doc.getBoolean("locationEnabled"));
                         userDataList.add(tempUser);
                     }
                 }
