@@ -188,7 +188,6 @@ import java.util.zip.CRC32C;
         editTextEventName = findViewById(R.id.editTextEventName);
         editDate = findViewById(R.id.editDate); // Date picker
         datePickerButton = findViewById(R.id.event_Date_Picker);
-        imageView = findViewById(R.id.vector_ek2); // Replace 'your_image_view_id' with the actual ID of your ImageView
         editTextAttendeeLimit = findViewById(R.id.no_limit);
         editTextEventInfo = findViewById(R.id.editTextEventInfo);
         editTextEventLoc = findViewById(R.id.editTextLocation);
@@ -200,7 +199,7 @@ import java.util.zip.CRC32C;
     private void navigateToHomeScreen() {
         Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
         Bundle b = new Bundle();
-        b.putString("role", DEFAULT_ROLE);
+        b.putString("role", "organizer");
         b.putString("eventID", eventID);
         intent.putExtras(b);
         startActivity(intent);
@@ -238,11 +237,12 @@ import java.util.zip.CRC32C;
         eventData.put("location", location);
         eventData.put("eventID", eventID);
 
-        Event newEvent = new Event(eventID, orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate, notificationList, location);
 
-        Map<String, Object> eventMap1 = EventUtility.evtomMap(newEvent);
-
-        EventUtility.storeEventwnm(eventMap1, eventID);
+        EventUtility.storeEventwnm(eventData, eventID);
+        // Update the user's document with the new event ID (if necessary)
+        submitOrganizer();
+        // Navigate to the home screen after the event has been successfully stored
+        navigateToHomeScreen(eventID);
     }
 
     private void submitOrganizer() {
