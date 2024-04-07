@@ -104,9 +104,7 @@ public class EventDetailsActivity  extends AppCompatActivity {
                             .setNegativeButton("No", null)
                             .show();
                 } else if ("browse".equals(source)) {
-                    // Call  addUserToEvent method. This will add the user to the event
                     EventUtility.addUserToEvent(userID, eventID);
-
                     // Add user to the list of events they've signed up for
                     FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
                     firebaseUserManager.addEventToUser(userID, eventID);
@@ -115,8 +113,9 @@ public class EventDetailsActivity  extends AppCompatActivity {
                     Toast.makeText(EventDetailsActivity.this, "Successfully Signed Up for Event!!!", Toast.LENGTH_SHORT).show();
                     // Go back to the home screen using Intent and send Bundle
                     Intent intent = new Intent(EventDetailsActivity.this, HomeScreenActivity.class);
-                    intent.putExtra("role", "attendee"); //TODO: Don't share Bundle between activities
+                    intent.putExtra("role", "attendee");
                     intent.putExtra("eventID", eventID);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                     finish();
 
