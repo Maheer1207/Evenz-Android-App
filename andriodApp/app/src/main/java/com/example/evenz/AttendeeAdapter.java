@@ -39,6 +39,7 @@ class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.ViewHolder> {
         User user = userList.get(position);
         holder.nameTextView.setText(user.getName());
         holder.contactInfoTextView.setText(String.format("%s\n%s", user.getPhone(), user.getEmail()));
+        this.displayImage(user.getProfilePicID(), holder.profileImageView);
     }
 
     @Override
@@ -57,5 +58,10 @@ class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.ViewHolder> {
             nameTextView = itemView.findViewById(R.id.text_categories);
             contactInfoTextView = itemView.findViewById(R.id.text_contact_info);
         }
+    }
+
+    public void displayImage(String id, ImageView view)
+    {
+        ImageUtility.displayImage(id, view);
     }
 }

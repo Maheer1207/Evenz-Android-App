@@ -529,7 +529,7 @@ public final class EventUtility {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if (document.contains("AttendLimit")) {
-                                if (document.getString("eventName").equals(eventName)) {
+                                if (document.getString("eventID").equals(eventName)) {
                                     attendLimit.add(document.getLong("AttendLimit").intValue());
                                     return attendLimit.get(0);
                                 }

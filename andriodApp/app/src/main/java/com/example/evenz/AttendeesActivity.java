@@ -40,8 +40,8 @@ public class AttendeesActivity extends AppCompatActivity {
 
         initializeComponents();
 
-        //String deviceID = getDeviceID();
-        String deviceID = "1";
+        String deviceID = getDeviceID();
+        //String deviceID = "1";
         fetchEventID(deviceID);
     }
 
