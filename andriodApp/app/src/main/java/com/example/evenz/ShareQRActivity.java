@@ -35,7 +35,7 @@ public class ShareQRActivity extends AppCompatActivity {
         TextView qrText = findViewById(R.id.profile_qr_text);
 
 
-        if ("/check_in".equals(qrCodeType)) {
+        if ("Check-in".equals(qrCodeType)) {
             qrText.setText("QR Code for Check-In!"); //change the text to Check-in if generated for check-in
         }
 
