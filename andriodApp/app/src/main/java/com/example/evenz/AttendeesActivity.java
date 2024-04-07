@@ -137,7 +137,7 @@ public class AttendeesActivity extends AppCompatActivity {
     }
 
     public void onHeaderIconClicked(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeScreenActivity.class);
         startActivity(intent);
     }
 
