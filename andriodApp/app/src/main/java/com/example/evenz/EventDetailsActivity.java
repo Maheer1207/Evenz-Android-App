@@ -92,7 +92,7 @@ public class EventDetailsActivity  extends AppCompatActivity {
                             .setPositiveButton("Yes", (dialog, which) -> {
                                 // Call method to remove event from user's list of events
                                 FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-                                firebaseUserManager.removeEventFromUser(userID, eventID);
+                                firebaseUserManager.checkOutUser(userID);
 
                                 EventUtility.removeAttendeeFromEvent(userID, eventID);//remove user from event
 
