@@ -518,6 +518,32 @@ public final class EventUtility {
                 });
     }
 
+    public static Task<Integer> userAttendCount(String eventID, String userID) {
+        return FirebaseFirestore.getInstance()
+                .collection("events")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.contains("UserList")) {
+                                if (document.getId().equals(eventID)) {
+                                    List<Map<String, Object>> attendees = (List<Map<String, Object>>) document.get("UserList");
+                                    for (Map<String, Object> attendee : attendees) {
+                                        if (attendee.get("userId").toString().equals(userID)) {
+                                            return ((Long)attendee.get("count")).intValue();
+                                        }
+                                    }
+                                    return 0;
+                                }
+                            }
+                        }
+                        return 0;
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
     // Create a method that will return the attendlimit for the event from the event name
     public static Task<Integer> getAttendLimitFromEventName(String eventName) {
         final List<Integer> attendLimit = new ArrayList<>();

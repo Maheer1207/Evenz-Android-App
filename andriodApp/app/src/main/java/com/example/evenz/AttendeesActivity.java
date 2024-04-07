@@ -102,7 +102,7 @@ public class AttendeesActivity extends AppCompatActivity {
 
     private void updateUI(List<User> attendees) {
         attendeesList = attendees;
-        adapter = new AttendeeAdapter(attendeesList);
+        adapter = new AttendeeAdapter(attendeesList, eventID);
         recyclerView.setAdapter(adapter);
     }
 
