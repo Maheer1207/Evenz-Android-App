@@ -14,7 +14,7 @@
 			android:background="@color/white">
 
 			<RelativeLayout
-				android:id="@+id/profile"
+				android:id="@+id/create_new_event_header"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:gravity="left"
@@ -59,7 +59,7 @@
 						android:id="@+id/date"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_marginStart="0dp"
+						android:layout_marginStart="5dp"
 						android:layout_marginTop="0dp"
 						android:text="@string/date_string"
 						android:textColor="@color/black"
@@ -77,7 +77,9 @@
 							android:layout_height="50dp"
 							android:hint="@string/mm_dd_yy_string"
 							android:importantForAutofill="no"
-							android:inputType="date" />
+							android:inputType="date"
+							android:padding="10dp"
+							android:textColor="@color/black"/>
 						<ImageView
 							android:id="@+id/event_Date_Picker"
 							android:layout_width="33.31dp"
@@ -105,6 +107,7 @@
 						android:id="@+id/location_placeholder"
 						android:layout_width="135.60175189972dp"
 						android:layout_height="18.601751899719dp"
+						android:layout_marginStart="5dp"
 						android:text="Event Location"
 						android:textColor="@color/black"
 						android:textSize="16.02sp"
@@ -121,7 +124,9 @@
 							android:layout_height="50dp"
 							android:hint=" Enter Event Location"
 							android:importantForAutofill="no"
-							android:inputType="text" />
+							android:inputType="text"
+							android:padding="10dp"
+							android:textColor="@color/black"/>
 					</LinearLayout>
 				</LinearLayout>
 			</RelativeLayout>
@@ -142,6 +147,7 @@
 						android:id="@+id/attendee_limit"
 						android:layout_width="135.60175189972dp"
 						android:layout_height="18.601751899719dp"
+						android:layout_marginStart="5dp"
 						android:text="@string/attendee_limit_string"
 						android:textColor="@color/black"
 						android:textSize="16.02sp"
@@ -154,7 +160,9 @@
 						android:background="@drawable/boundary_style"
 						android:hint="@string/no_limit_string"
 						android:importantForAutofill="no"
-						android:inputType="date" />
+						android:inputType="date"
+						android:padding="10dp"
+						android:textColor="@color/black"/>
 				</LinearLayout>
 			</RelativeLayout>
 
@@ -173,8 +181,7 @@
 						android:id="@+id/event_info"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_marginStart="0dp"
-						android:layout_marginTop="0dp"
+						android:layout_marginStart="5dp"
 						android:text="@string/event_info_string"
 						android:textColor="@color/black"
 						android:textSize="16.02sp"
@@ -186,7 +193,9 @@
 						android:background="@drawable/boundary_style"
 						android:hint="@string/event_info"
 						android:importantForAutofill="no"
-						android:inputType="text" />
+						android:inputType="text"
+						android:padding="10dp"
+						android:textColor="@color/black"/>
 				</LinearLayout>
 			</RelativeLayout>
 
@@ -201,16 +210,17 @@
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:orientation="vertical">
+
 					<TextView
 						android:id="@+id/event_name"
 						android:layout_width="113.60175189972dp"
 						android:layout_height="18.601751899719dp"
-						android:layout_marginStart="2dp"
-						android:layout_marginTop="0dp"
+						android:layout_marginStart="5dp"
 						android:text="@string/event_name_string"
 						android:textColor="@color/black"
 						android:textSize="16.02sp"
 						android:textStyle="bold" />
+
 					<EditText
 						android:id="@+id/editTextEventName"
 						android:layout_width="335dp"
@@ -218,7 +228,9 @@
 						android:background="@drawable/boundary_style"
 						android:hint=" Enter Event Name"
 						android:importantForAutofill="no"
-						android:inputType="text" />
+						android:inputType="text"
+						android:padding="10dp"
+						android:textColor="@color/black"/>
 				</LinearLayout>
 			</RelativeLayout>
 
@@ -237,8 +249,7 @@
 						android:id="@+id/name_of_organizer"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_marginStart="9dp"
-						android:layout_marginTop="0dp"
+						android:layout_marginStart="5dp"
 						android:text="@string/name_of_organizer_string"
 						android:textColor="@color/black"
 						android:textSize="16.02sp"
@@ -250,7 +261,9 @@
 						android:background="@drawable/boundary_style"
 						android:hint="@string/hint_event_organizer"
 						android:importantForAutofill="no"
-						android:inputType="text" />
+						android:inputType="text"
+						android:padding="5dp"
+						android:textColor="@color/black"/>
 				</LinearLayout>
 			</RelativeLayout>
 			<RelativeLayout
@@ -282,49 +295,64 @@
 					android:textStyle="bold"
 					android:layout_marginTop="10dp"/>
 			</RelativeLayout>
-			<ImageView
+			<RelativeLayout
 				android:id="@+id/upload_qr"
-				android:layout_width="33.31dp"
-				android:layout_height="28.19dp"
-				android:layout_marginStart="275dp"
-				android:layout_marginTop="594dp"
-				android:contentDescription="@string/upload_event_qr_code"
-				android:src="@drawable/folder_plus_upload" />
-
-			<TextView
-				android:id="@+id/upload_your_qr_code"
-				android:layout_width="108dp"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_gravity="center_horizontal|center"
 				android:layout_marginStart="238dp"
-				android:layout_marginTop="629dp"
-				android:gravity="center"
-				android:text="@string/upload_your_qr_code_string"
-				android:textColor="@color/black"
-				android:textSize="15sp"
-				android:textStyle="bold" />
-
-			<ImageView
-				android:id="@+id/vector_ek2"
-				android:layout_width="33.31dp"
-				android:layout_height="28.19dp"
-				android:layout_marginStart="82dp"
 				android:layout_marginTop="595dp"
-				android:contentDescription="vector_ek2"
-				android:src="@drawable/folder_plus_upload" />
+				android:gravity="center">
 
-			<TextView
-				android:id="@+id/upload_event_poster"
-				android:layout_width="115dp"
-				android:layout_height="35dp"
-				android:layout_gravity="center_horizontal|center"
+				<ImageView
+					android:id="@+id/upload_qr_img"
+					android:layout_width="33.31dp"
+					android:layout_height="28.19dp"
+					android:layout_marginStart="37dp"
+					android:contentDescription="@string/upload_event_qr_code"
+					android:src="@drawable/folder_plus_upload" />
+
+				<TextView
+					android:id="@+id/upload_your_qr_code"
+					android:layout_width="108dp"
+					android:layout_height="wrap_content"
+					android:layout_gravity="center_horizontal|center"
+					android:layout_marginTop="35dp"
+					android:gravity="center"
+					android:text="@string/upload_your_qr_code_string"
+					android:textColor="@color/black"
+					android:textSize="15sp"
+					android:textStyle="bold" />
+			</RelativeLayout>
+
+			<RelativeLayout
+				android:id="@+id/upload_poster"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
 				android:layout_marginStart="48dp"
-				android:layout_marginTop="629dp"
-				android:gravity="center"
-				android:text="@string/upload_event_poster_string"
-				android:textColor="@color/black"
-				android:textSize="15sp"
-				android:textStyle="bold" />
+				android:layout_marginTop="595dp"
+				android:gravity="center">
+
+				<ImageView
+					android:id="@+id/upload_poster_img"
+					android:layout_width="33.31dp"
+					android:layout_height="28.19dp"
+					android:layout_marginStart="34dp"
+					android:contentDescription="Upload poster button image"
+					android:src="@drawable/folder_plus_upload" />
+
+				<TextView
+					android:id="@+id/upload_event_poster"
+					android:layout_width="115dp"
+					android:layout_height="35dp"
+					android:layout_gravity="center_horizontal|center"
+					android:layout_marginTop="35dp"
+					android:gravity="center"
+					android:text="@string/upload_event_poster_string"
+					android:textColor="@color/black"
+					android:textSize="15sp"
+					android:textStyle="bold" />
+			</RelativeLayout>
+
 		</RelativeLayout>
 	</ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

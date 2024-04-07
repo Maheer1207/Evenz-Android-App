@@ -83,7 +83,4 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         imgPathList.addAll(newImgPathList);
         notifyDataSetChanged(); // Refresh the RecyclerView
     }
-
-
-
 }

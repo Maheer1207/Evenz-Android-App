@@ -96,7 +96,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
 
                 intent.putExtra("eventID", eventID);
-                intent.putExtra("role", "organizer");
+                intent.putExtra("role", role);
                 startActivity(intent);
             }
         });

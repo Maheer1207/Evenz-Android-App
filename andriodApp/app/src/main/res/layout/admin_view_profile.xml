@@ -60,7 +60,7 @@
                         android:layout_marginStart="0dp"
                         android:layout_marginTop="0dp"
                         android:contentDescription="back_button"
-                        android:src="@drawable/vector" />
+                        android:src="@drawable/back_less" />
 
                     <TextView
                         android:id="@+id/view_profile_header"
@@ -89,7 +89,7 @@
                         android:layout_height="38.76dp"
                         android:layout_marginStart="152dp"
                         android:layout_marginTop="93dp"
-                        android:src="@drawable/vector_ek2"
+                        android:src="@drawable/profile_blue"
                         android:contentDescription="pfp_default" />
 
                 </RelativeLayout>

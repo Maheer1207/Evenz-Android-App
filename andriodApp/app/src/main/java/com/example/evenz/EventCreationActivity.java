@@ -27,22 +27,23 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.text.ParseException;
+import java.util.Objects;
 import java.util.UUID;
 
 public class EventCreationActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener {
 
     private static final int PICK_IMAGE_REQUEST = 22;
-    private Uri filePath;
+    private Uri filePathPoster, filePathQR;
+    StorageReference storageReference;
+    StorageReference photoRef, qrRef;
 
-    StorageReference photoRef;
-
-    private ImageView imageView, datePickerButton;
-
+    private ImageView datePickerButton, uploadPosterImg, uploadQRImg;
     private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
     private RelativeLayout submitEventButton;
 
-    private String eventPosterID_temp;
+    private String eventPosterID_temp, eventQrID, uploadedImg;
     private String eventID;
+    private Bitmap qrBitmap;
     // ImageUtility instance
     private ImageUtility imageUtility;
 
@@ -63,10 +64,11 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         String role = b.getString("role");
 
         eventPosterID_temp = UUID.randomUUID().toString();
+//        eventQrID = UUID.randomUUID().toString();
         storageReference = FirebaseStorage.getInstance().getReference();
 
         photoRef = storageReference.child("images/" + eventPosterID_temp);
-
+//        qrRef = storageReference.child("images/" + eventQrID);
 
         // Initialize UI components
         initUI();
@@ -79,17 +81,25 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
             }
         });
 
-        imageView = findViewById(R.id.vector_ek2);
-        imageView.setOnClickListener(new View.OnClickListener() {
+        uploadPosterImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uploadedImg = "poster";
+                select();
+            }
+        });
+
+        uploadQRImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadedImg = "qr";
                 select();
             }
         });
 
         // Submit event button listener for initiating the upload process
         submitEventButton.setOnClickListener(view -> {
-            if (filePath != null) {
+            if (filePathPoster != null) {
                 ImageUtility.UploadCallback callback = new ImageUtility.UploadCallback() {
                     @Override
                     public void onSuccess(String imageID, String imageURL) {
@@ -107,7 +117,7 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
                     }
                 };
 
-                imageUtility.upload(filePath, callback);
+                imageUtility.upload(filePathPoster, callback);
             } else {
                 Toast.makeText(EventCreationActivity.this, "Please select an image first", Toast.LENGTH_SHORT).show();
             }
@@ -137,10 +147,19 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
+                Bitmap bitmap;
+                if (Objects.equals(uploadedImg, "poster")) {
+                    filePathPoster = data.getData();
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePathPoster);
+                    uploadPosterImg.setImageBitmap(bitmap);
+                }
+                else {
+                    filePathQR = data.getData();
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePathQR);
+                    qrBitmap = bitmap;
+                    uploadQRImg.setImageBitmap(bitmap);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -155,6 +174,8 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         editTextAttendeeLimit = findViewById(R.id.no_limit);
         editTextEventInfo = findViewById(R.id.editTextEventInfo);
         editTextEventLoc = findViewById(R.id.editTextLocation);
+        uploadPosterImg = findViewById(R.id.upload_poster_img);
+        uploadQRImg = findViewById(R.id.upload_qr_img);
         submitEventButton = findViewById(R.id.create_event_button); //Create event button
     }
 
@@ -190,6 +211,10 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         }
         // Generate a unique ID for the event
         String eventID = FirebaseFirestore.getInstance().collection("events").document().getId();
+
+        if(qrBitmap != null) {
+            eventID = imageUtility.decodeQRCode(qrBitmap);
+        }
 
         // Prepare the event data map
         Map<String, Object> eventData = new HashMap<>();
@@ -234,6 +259,7 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         intent.putExtra("eventID", eventID);
         startActivity(intent);
     }
+
 
 
 }

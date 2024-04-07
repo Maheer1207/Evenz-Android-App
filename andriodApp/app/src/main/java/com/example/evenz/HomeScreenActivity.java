@@ -211,6 +211,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         Bundle b = new Bundle();
         b.putString("role", role);
         b.putString("eventID", eventID);
+        intent.putExtra("source", "homepage");
         intent.putExtras(b);
         startActivity(intent);
     }
