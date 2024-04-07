@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -414,6 +415,60 @@ public final class EventUtility {
         } catch (Exception e) {
             Log.e("EventUtility", "Error sending FCM notification", e);
         }
+    }
+
+    /**
+     * A firebase task that given the id of an event of the user returns the attendee limit
+     * @param eventID The id of the event
+     * @return the attendlimit for the event id, returns -1 if no limit
+     */
+    public static Task<Integer> getAttendLimit(String eventID) {
+        final List<Integer> attendLimit = new ArrayList<>();
+
+        return FirebaseFirestore.getInstance()
+                .collection("events")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.contains("AttendLimit")) {
+                                if (document.getId().equals(eventID)) {
+                                    attendLimit.add(document.getLong("AttendLimit").intValue());
+                                    return attendLimit.get(0);
+                                }
+                            }
+                        }
+                        attendLimit.add(-1);
+                        return attendLimit.get(0);
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
+    // Create a method that will return the attendlimit for the event from the event name
+    public static Task<Integer> getAttendLimitFromEventName(String eventName) {
+        final List<Integer> attendLimit = new ArrayList<>();
+
+        return FirebaseFirestore.getInstance()
+                .collection("events")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.contains("AttendLimit")) {
+                                if (document.getString("eventName").equals(eventName)) {
+                                    attendLimit.add(document.getLong("AttendLimit").intValue());
+                                    return attendLimit.get(0);
+                                }
+                            }
+                        }
+                        attendLimit.add(-1);
+                        return attendLimit.get(0);
+                    } else {
+                        throw task.getException();
+                    }
+                });
     }
 
 }

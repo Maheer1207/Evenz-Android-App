@@ -1,7 +1,5 @@
 package com.example.evenz;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -56,7 +54,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                 role = type;
 
                 // getting the signed in event or organized event id
-                Task<String> getEventID = firebaseUserManager.getEventIDOrg(deviceID);
+                Task<String> getEventID = firebaseUserManager.getEventID(deviceID);
                 getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
                     @Override
                     public void onSuccess(String ID) {
@@ -106,7 +104,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
 
         ImageView browseEvent = findViewById(R.id.event_list);
-        browseEvent.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, EventSignedUpForAttendeeBrowse.class)));
+        browseEvent.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, EventBrowseActivity.class)));
 
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,30 +154,27 @@ public class HomeScreenActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        //updated share QR option to have promotional and check-in QR code options
         ImageView shareQR = findViewById(R.id.shareQR);
         shareQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Create an AlertDialog.Builder
-                AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
-                builder.setTitle("Choose QR Code Type")
-                        .setItems(new String[]{"Promotional QR code", "Check-in QR code"}, (dialog, which) -> {
-                            String qrCodeType =(which == 0) ? "/sign_up" : "/check_in"; // 0 for promotional, 1 for check-in
 
-                            QRGenerator test = new QRGenerator();
-                            Bitmap bitmap = test.generate(eventID, qrCodeType, 400, 400);//generate with a string that we can parse
-                            Uri bitmapUri = saveBitmapToCache(bitmap);
+                QRGenerator test = new QRGenerator();
+                Bitmap bitmap = test.generate(eventID, "SignUp", 400, 400);
+                Uri bitmapUri = saveBitmapToCache(bitmap);
 
-                            Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
-                            intent.putExtra("eventID", eventID);
-                            assert bitmapUri != null;
-                            intent.putExtra("BitmapImage", bitmapUri.toString());
-                            startActivity(intent);
-                        });
-                // Create and show the AlertDialog
-                builder.create().show();
+                Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
+
+                intent.putExtra("eventID", eventID);
+                intent.putExtra("BitmapImage", bitmapUri.toString());
+                startActivity(intent);
             }
+        });
+
+        ImageView viewAttendees = findViewById(R.id.profile_attendee);
+        viewAttendees.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeScreenActivity.this, AttendeesActivity.class);
+            startActivity(intent);
         });
 
         eventPoster.setOnClickListener(new View.OnClickListener() {

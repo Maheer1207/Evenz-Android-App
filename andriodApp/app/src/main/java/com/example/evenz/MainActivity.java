@@ -211,6 +211,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
     /**
      * This function adds a user to the database
      * @param id The id of the user
