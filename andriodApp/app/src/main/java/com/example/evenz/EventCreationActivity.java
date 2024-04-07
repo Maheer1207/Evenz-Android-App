@@ -1,5 +1,7 @@
 package com.example.evenz;
 
+import static java.util.UUID.randomUUID;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
@@ -75,7 +77,7 @@ import java.util.zip.CRC32C;
         Bundle b = getIntent().getExtras();
         assert b != null;
 
-        eventPosterID_temp = UUID.randomUUID().toString();
+        eventPosterID_temp = randomUUID().toString();
         photoRef = storageReference.child("images/" + eventPosterID_temp);
 
         // Initialize UI components
@@ -208,7 +210,6 @@ import java.util.zip.CRC32C;
     private void submitOrganizer() {
         @SuppressLint("HardwareIds") String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         String name = editTextOrganizerName.getText().toString().trim();
-        String eventName = editTextEventName.getText().toString().trim();
         // Create a new user with the feilds and all other set to null
         User organizer = new User(deviceID, name, "", "", "", "Organizer", false, false);
 
@@ -217,9 +218,10 @@ import java.util.zip.CRC32C;
         firebaseUserManager.submitUser(organizer).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 // Add the event to the organizer's event list
-                firebaseUserManager.addEventToUser(deviceID, eventName).addOnCompleteListener(task1 -> {
+                firebaseUserManager.addEventToUser(deviceID, eventID).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
                         Log.d("EventCreationActivity", "Organizer added successfully");
+                        navigateToHomeScreen();
                     } else {
                         Log.e("EventCreationActivity", "Failed to add event to organizer", task1.getException());
 

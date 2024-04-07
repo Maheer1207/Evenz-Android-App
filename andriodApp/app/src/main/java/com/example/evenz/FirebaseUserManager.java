@@ -186,7 +186,6 @@ public class FirebaseUserManager {
      * @return the eventID they are currently attending or hosting
      */
     public Task<String> getEventID(String deviceID) {
-        final List<String> eventID = new ArrayList<>();
 
         return FirebaseFirestore.getInstance()
                 .collection("users")
@@ -194,15 +193,12 @@ public class FirebaseUserManager {
                 .continueWith(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.contains("eventList")) {
-                                if (document.getId().equals(deviceID)) {
-                                    eventID.add(document.getString("eventList"));
-                                    return eventID.get(0);
-                                }
+                            if (document.getId().equals(deviceID)) {
+                                List<String> eventsSignedUpFor = (List<String>) document.get("eventsSignedUpFor");
+                                return eventsSignedUpFor.get(0);
                             }
                         }
-                        eventID.add("N");
-                        return eventID.get(0);
+                        return "N";
                     } else {
                         throw task.getException();
                     }
