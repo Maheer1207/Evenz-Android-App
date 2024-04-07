@@ -29,18 +29,18 @@
     <TextView
         android:id="@+id/profile_qr_text"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginStart="36.5dp"
-        android:layout_marginTop="-3.5dp"
+        android:layout_marginStart="44.5dp"
+        android:layout_marginTop="-.5dp"
         android:layout_marginBottom="-3.5dp"
         android:gravity="start|center_vertical"
         android:includeFontPadding="false"
         android:maxLines="1"
         android:singleLine="true"
-        android:text="QR Code Generated "
+        android:text="Promotional QR Generated"
         android:textColor="#FF000000"
-        android:textSize="20.02dp" />
+        android:textSize="21.02dp" />
   </FrameLayout>
   
   <FrameLayout
