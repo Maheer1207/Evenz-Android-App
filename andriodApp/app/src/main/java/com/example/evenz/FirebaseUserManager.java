@@ -1,5 +1,7 @@
 package com.example.evenz;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
@@ -22,6 +24,11 @@ public class FirebaseUserManager {
 
     public FirebaseUserManager() {
         this.db = FirebaseFirestore.getInstance();
+        this.ref = db.collection("users");
+    }
+
+    public FirebaseUserManager(FirebaseFirestore db) {
+        this.db = db;
         this.ref = db.collection("users");
     }
 
@@ -116,7 +123,35 @@ public class FirebaseUserManager {
         return users;
     }
 
-
+    public Task<List<String>> getEventsSignedUpForUser(String userId) {
+        return db.collection("users").document(userId).get().continueWith(task -> {
+            List<String> eventsSignedUpFor = new ArrayList<>();
+            if (task.isSuccessful() && task.getResult() != null) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists() && document.getData() != null) {
+                    // Attempt to get the eventsSignedUpFor field as a List
+                    Object eventsObject = document.get("eventsSignedUpFor");
+                    if (eventsObject instanceof List<?>) {
+                        List<?> eventsRawList = (List<?>) eventsObject;
+                        for (Object item : eventsRawList) {
+                            if (item instanceof String) {
+                                eventsSignedUpFor.add((String) item);
+                            } else {
+                                Log.e("Firestore", "Invalid item type in eventsSignedUpFor array");
+                            }
+                        }
+                    } else {
+                        Log.e("Firestore", "'eventsSignedUpFor' field is not a List");
+                    }
+                } else {
+                    Log.e("Firestore", "Document does not exist");
+                }
+            } else {
+                Log.e("Firestore", "Failed to fetch user document", task.getException());
+            }
+            return eventsSignedUpFor;
+        });
+    }
 
     // Create user method that will return a user object for a given userId
     public Task<User> getUser(String userId) {
