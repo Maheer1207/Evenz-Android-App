@@ -53,7 +53,7 @@ public class AttendeesActivity extends AppCompatActivity {
         getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
             @Override
             public void onSuccess(String eventID) {
-                Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
+                Intent intent = new Intent(AttendeesActivity.this, HomeScreenActivity.class);
                 Bundle b = new Bundle();
                 b.putString("role", "attendee");
                 b.putString("eventID", eventID);
@@ -65,9 +65,6 @@ public class AttendeesActivity extends AppCompatActivity {
         // Initialize the RecyclerView and set its layout manager
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-        // Initialize the FirebaseAttendeeManager to fetch attendees from Firebase
-        FirebaseAttendeeManager firebaseAttendeeManager = new FirebaseAttendeeManager();
 
         // Call getEventAttendees with the event ID
         Task<List<Attendee>> getAttendeesTask = firebaseAttendeeManager.getEventAttendees("Drake Concert");
