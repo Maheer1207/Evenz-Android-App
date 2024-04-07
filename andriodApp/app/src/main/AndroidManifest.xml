@@ -3,14 +3,20 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-feature android:name="android.hardware.camera.any" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
     <!-- Notification permission for Android 13+ -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-feature android:name="android.hardware.camera.flash" />
 
     <uses-feature android:name="android.hardware.camera"/>
     <application
@@ -56,14 +62,17 @@
         <activity
             android:name=".HomeScreenActivity"
             android:exported="true"/>
-        <activity
-            android:name=".ScanQRActivity"
-            android:exported="true"/>
+        <activity android:name=".EventSignedUpForAttendeeBrowse"
+            android:exported="true" />
+
         <activity
             android:name=".InitialPageActivity"
             android:exported="true"/>
         <activity
             android:name=".ShareQRActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ScanQRActivity"
             android:exported="true"/>
         <activity
             android:name=".UserEditProfileActivity"

@@ -104,18 +104,21 @@ public class EventDetailsActivity  extends AppCompatActivity {
                             .setNegativeButton("No", null)
                             .show();
                 } else if ("browse".equals(source)) {
-                    // Call  addUserToEvent method. This will add the user to the event
                     EventUtility.addUserToEvent(userID, eventID);
-
                     // Add user to the list of events they've signed up for
                     FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
                     firebaseUserManager.addEventToUser(userID, eventID);
 
                     // Display toast message
                     Toast.makeText(EventDetailsActivity.this, "Successfully Signed Up for Event!!!", Toast.LENGTH_SHORT).show();
-
-                    // Close the activity and go back
+                    // Go back to the home screen using Intent and send Bundle
+                    Intent intent = new Intent(EventDetailsActivity.this, HomeScreenActivity.class);
+                    intent.putExtra("role", "attendee");
+                    intent.putExtra("eventID", eventID);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
                     finish();
+
                 }
             }
         });
@@ -126,7 +129,6 @@ public class EventDetailsActivity  extends AppCompatActivity {
             }
         });
     }
-
     private void setupOrganizerView() {
         eventPoster = findViewById(R.id.poster_org_eventInfo);
         eventLocation = findViewById(R.id.loc_org_eventInfo);
@@ -145,7 +147,7 @@ public class EventDetailsActivity  extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     QRGenerator test = new QRGenerator();
-                    Bitmap bitmap = test.generate(eventID, "SignUp", 400, 400);
+                    Bitmap bitmap = test.generate(eventID, "", 400, 400); //TODO: change for the sign up page/check IN
                     Uri bitmapUri = saveBitmapToCache(bitmap);
 
                 Intent intent = new Intent(EventDetailsActivity.this, ShareQRActivity.class);

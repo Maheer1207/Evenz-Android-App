@@ -1,9 +1,12 @@
 package com.example.evenz;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -29,8 +34,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private RecyclerView notificationsRecyclerView;
     private NotificationsAdapter notificationsAdapter;
     private String eventID;
-    private String role; // This is the role of the user, either "attendee" or "organizer"
-
+    private String role;
     private FirebaseFirestore db;
     private CollectionReference usersRef;
     private DocumentReference doc;
@@ -40,24 +44,43 @@ public class HomeScreenActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // getting the devices id to get the user
+        String deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
 
-        // Extracting the role and eventID from the intent extras
-        Bundle b = getIntent().getExtras();
-        assert b != null;
-        role = b.getString("role");
-        eventID = b.getString("eventID");
+        // getting the user type
+        Task<String> getUserType = firebaseUserManager.getUserType(deviceID);
+        getUserType.addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String type) {
+                role = type;
 
+                // getting the signed in event or organized event id
+                Task<String> getEventID = firebaseUserManager.getEventIDOrg(deviceID);
+                getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String ID) {
+                        eventID = ID;
+                        // If the user has no event in the event
+                        if (eventID.equals("N")) {
 
-        // Checking if the role is "attendee" and setting the appropriate layout
-        if (Objects.equals(role, "attendee")) {
-            setContentView(R.layout.attendees_home_page);
-            setupAttendeeView();
-        } else {
-            setContentView(R.layout.org_home_page);
-            setupOrganizerView();
-        }
+                        }
 
-        imageUtility = new ImageUtility();
+                        // Checking if the role is "attendee" and setting the appropriate layout
+                        if (role.equals("attendee")) {
+                            setContentView(R.layout.attendees_home_page);
+                            setupAttendeeView();
+                            // User is organizer, setting the appropriate layout
+                        } else {
+                            setContentView(R.layout.org_home_page);
+                            setupOrganizerView();
+                        }
+
+                        imageUtility = new ImageUtility();
+                    }
+                });
+            }
+        });
     }
 
     // This method sets up the view for the attendee
@@ -83,12 +106,8 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
 
         ImageView browseEvent = findViewById(R.id.event_list);
-        browseEvent.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeScreenActivity.this, EventBrowseActivity.class);
-            intent.putExtra("eventID", eventID);
-            intent.putExtra("role", role);
-            startActivity(intent);
-        });
+        browseEvent.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, EventSignedUpForAttendeeBrowse.class)));
+
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -137,20 +156,29 @@ public class HomeScreenActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        //updated share QR option to have promotional and check-in QR code options
         ImageView shareQR = findViewById(R.id.shareQR);
         shareQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create an AlertDialog.Builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
+                builder.setTitle("Choose QR Code Type")
+                        .setItems(new String[]{"Promotional QR code", "Check-in QR code"}, (dialog, which) -> {
+                            String qrCodeType =(which == 0) ? "/sign_up" : "/check_in"; // 0 for promotional, 1 for check-in
 
-                QRGenerator test = new QRGenerator();
-                Bitmap bitmap = test.generate(eventID, "SignUp", 400, 400);
-                Uri bitmapUri = saveBitmapToCache(bitmap);
+                            QRGenerator test = new QRGenerator();
+                            Bitmap bitmap = test.generate(eventID, qrCodeType, 400, 400);//generate with a string that we can parse
+                            Uri bitmapUri = saveBitmapToCache(bitmap);
 
-                Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
-
-                intent.putExtra("eventID", eventID);
-                intent.putExtra("BitmapImage", bitmapUri.toString());
-                startActivity(intent);
+                            Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
+                            intent.putExtra("eventID", eventID);
+                            assert bitmapUri != null;
+                            intent.putExtra("BitmapImage", bitmapUri.toString());
+                            startActivity(intent);
+                        });
+                // Create and show the AlertDialog
+                builder.create().show();
             }
         });
 

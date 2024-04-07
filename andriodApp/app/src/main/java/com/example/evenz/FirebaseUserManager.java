@@ -1,8 +1,11 @@
 package com.example.evenz;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -62,7 +65,7 @@ public class FirebaseUserManager {
 
     // Add a checkin event to a user
     public Task<Void> checkInUser(String userId, String eventId) {
-        return db.collection("users").document(userId).update("checkedInEvent", eventId);
+        return db.collection("users").document(userId).update("checkedInEvent", eventId);//eventID is the event they checked in at
     }
 
     // Create a method that will return the eventID of the checked-in event for a given user
@@ -76,20 +79,37 @@ public class FirebaseUserManager {
     }
 
     // Create a method that will return all of the attendes for a given event it uses the getUser method to get the user object
-    public Task<List<User>> getAttendeesForEvent(String eventId) {
-        return db.collection("users").whereArrayContains("eventsSignedUpFor", eventId).get().continueWithTask(task -> {
-            if (task.isSuccessful()) {
-                List<Task<User>> tasks = new ArrayList<>();
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    String userId = document.getString("userId");
-                    tasks.add(getUser(userId));
+    public Task<List<String>> getEventsSignedUpForUser(String userId) {
+        return db.collection("users").document(userId).get().continueWith(task -> {
+            List<String> eventsSignedUpFor = new ArrayList<>();
+            if (task.isSuccessful() && task.getResult() != null) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists() && document.getData() != null) {
+                    // Attempt to get the eventsSignedUpFor field as a List
+                    Object eventsObject = document.get("eventsSignedUpFor");
+                    if (eventsObject instanceof List<?>) {
+                        List<?> eventsRawList = (List<?>) eventsObject;
+                        for (Object item : eventsRawList) {
+                            if (item instanceof String) {
+                                eventsSignedUpFor.add((String) item);
+                            } else {
+                                Log.e("Firestore", "Invalid item type in eventsSignedUpFor array");
+                            }
+                        }
+                    } else {
+                        Log.e("Firestore", "'eventsSignedUpFor' field is not a List");
+                    }
+                } else {
+                    Log.e("Firestore", "Document does not exist");
                 }
-                return Tasks.whenAllSuccess(tasks);
             } else {
-                return Tasks.forException(task.getException());
+                Log.e("Firestore", "Failed to fetch user document", task.getException());
             }
+            return eventsSignedUpFor;
         });
     }
+
+
 
     // Create user method that will return a user object for a given userId
     public Task<User> getUser(String userId) {
@@ -115,6 +135,87 @@ public class FirebaseUserManager {
             }
             return null;
         });
+    }
+    /**
+     * A firebase task that given the device id of the user returns their userType
+     * @param deviceID The id of the device (userID)
+     * @return the devices usertype being Attendee, Organizer, or Admin
+     */
+    public Task<String> getUserType(String deviceID) {
+        final List<String> userID = new ArrayList<>();
+
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.contains("userType")) {
+                                if (document.getId().equals(deviceID)) {
+                                    userID.add(document.getString("userType"));
+                                    return userID.get(0);
+                                }
+                            }
+                        }
+                        userID.add("N");
+                        return userID.get(0);
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
+    /**
+     * A firebase task that given the device id of the user returns the eventID
+     * they are currently attending or hosting
+     * @param deviceID The id of the device (userID)
+     * @return the eventID they are currently attending or hosting
+     */
+    public Task<String> getEventIDOrg(String deviceID) {
+        final List<String> eventID = new ArrayList<>();
+
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.contains("eventList")) {
+                                if (document.getId().equals(deviceID)) {
+                                    eventID.add(document.getString("eventList"));
+                                    return eventID.get(0);
+                                }
+                            }
+                        }
+                        eventID.add("N");
+                        return eventID.get(0);
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+    public Task<String> getEventIDAttendee(String deviceID) {
+        final List<String> eventID = new ArrayList<>();
+
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.contains("eventList")) {
+                                if (document.getId().equals(deviceID)) {
+                                    eventID.add(document.getString("eventList"));
+                                    return eventID.get(0);
+                                }
+                            }
+                        }
+                        eventID.add("N");
+                        return eventID.get(0);
+                    } else {
+                        throw task.getException();
+                    }
+                });
     }
 
     // Additional methods for user management can be added here...

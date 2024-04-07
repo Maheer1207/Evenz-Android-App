@@ -16,6 +16,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -32,6 +33,7 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -69,6 +71,11 @@ public final class EventUtility {
         return eventMap;
 
     }
+    /**
+     * A firebase task that given the device id of the user returns their userType
+     * @param deviceID The id of the device (userID)
+     * @return the devices usertype being Attendee, Organizer, or Admin
+     */
 
 
     //notice, it seems we have not established a system of event IDs, simply adding them.
@@ -159,10 +166,10 @@ public final class EventUtility {
 
     }
 
+
     /**
      * Translates firebase doc into an Event.
      *
-     * @param doc
      * @return firebase doc translated into Event.
      */
     public static Event parseEvent(QueryDocumentSnapshot doc) {
@@ -182,6 +189,69 @@ public final class EventUtility {
                 placeholderBitmap, 0,
                 new ArrayList<String>(), doc.getDate("eventDate"), new ArrayList<String>(), doc.getString("location"));
     }
+
+    //Fetch specific events from the database, by Hrithick
+    public static void fetchEventsByIds(FirebaseFirestore db, List<String> eventIds, final ArrayList<Event> eventDataList, final EventAdapter eventAdapter) {
+        if (eventIds == null || eventIds.isEmpty()) {
+            Log.d("fetchEventsByIds", "No event IDs provided");
+            return;
+        }
+
+        eventDataList.clear(); // Clear the list to prepare for new data
+
+        // A counter to keep track of completed fetch operations
+        AtomicInteger pendingFetches = new AtomicInteger(eventIds.size());
+
+        for (String eventId : eventIds) {
+            db.collection("events").document(eventId).get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    // Directly use documentSnapshot without casting
+                    Event tempEvent = parseEventTemp(documentSnapshot); // Make sure parseEvent can handle DocumentSnapshot
+                    if (tempEvent != null) {
+                        eventDataList.add(tempEvent);
+                    }
+                }
+                // Check if all fetches are done
+                if (pendingFetches.decrementAndGet() == 0) {
+                    // All fetches complete, update UI here
+                    eventAdapter.notifyDataSetChanged();
+                }
+            }).addOnFailureListener(e -> {
+                Log.e("fetchEventsByIds", "Error getting event " + eventId, e);
+                // Check if all fetches are done
+                if (pendingFetches.decrementAndGet() == 0) {
+                    // All fetches complete, update UI here
+                    eventAdapter.notifyDataSetChanged();
+                }
+            });
+        }
+    }
+
+    public static Event parseEventTemp(DocumentSnapshot doc) {
+        if (!doc.exists()) {
+            return null; // or handle this case as needed
+        }
+
+        // Example of reconstructing a Geolocation object
+        // Assuming you store geolocation as a map with latitude and longitude
+        float xcoord = doc.contains("xcoord") ? ((Number) doc.get("xcoord")).floatValue() : 0;
+        float ycoord = doc.contains("ycoord") ? ((Number) doc.get("ycoord")).floatValue() : 0;
+        String geolocationID = doc.getString("geolocationID"); // Adjust if necessary
+
+        Geolocation geolocation = new Geolocation(geolocationID, xcoord, ycoord);
+
+        // Using placeholders for Bitmaps as you'll load them asynchronously in the adapter/view
+        Bitmap placeholderBitmap = null; // Add actual logic to load images as needed
+
+        return new Event(doc.getId(), doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
+                doc.getString("description"), geolocation, placeholderBitmap,
+                placeholderBitmap, 0,
+                new ArrayList<>(), doc.getDate("eventDate"), new ArrayList<>(), doc.getString("location"));
+    }
+
+
+
+
 
     /**
      * Function adds or removes a specified notification from the Notification array in an event.

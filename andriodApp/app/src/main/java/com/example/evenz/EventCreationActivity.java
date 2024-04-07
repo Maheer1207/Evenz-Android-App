@@ -1,13 +1,9 @@
 package com.example.evenz;
-
-import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.util.Log;
 import androidx.media3.common.util.UnstableApi;
-
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -15,36 +11,21 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.view.View;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
 import java.io.IOException;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Locale;
 import java.util.Map;
-
 import java.text.ParseException;
 import java.util.Objects;
 import java.util.UUID;
@@ -122,7 +103,7 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
             if (filePathPoster != null) {
                 ImageUtility.UploadCallback callback = new ImageUtility.UploadCallback() {
                     @Override
-                    public void onSuccess(String imageID, String imageURL) throws ParseException {
+                    public void onSuccess(String imageID, String imageURL) {
                         // Image successfully uploaded
                         // Proceed with event submission or other actions as needed
                         eventPosterID_temp = imageID; // If needed for further operations
@@ -209,86 +190,77 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         startActivity(intent);
     }
 
-    private void submitEvent() throws ParseException {
 
+    private void submitEvent() {
+        // Collect input data
         String eventName = editTextEventName.getText().toString().trim();
-        String eventPosterID = eventPosterID_temp; // Assuming a default or gathered elsewhere
         String description = editTextEventInfo.getText().toString().trim();
+        String eventPosterID = eventPosterID_temp; // Use the uploaded image ID
         String attendeeLimit = editTextAttendeeLimit.getText().toString().trim();
         String orgName = editTextOrganizerName.getText().toString().trim();
         String eventDatestring = editDate.getText().toString().trim();
-
         String location = editTextEventLoc.getText().toString().trim();
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, Locale.getDefault());
+        Date eventDate;
+        try {
+            eventDate = dateFormat.parse(eventDatestring);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Invalid date format", Toast.LENGTH_LONG).show();
+            return;
+        }
+        // Generate a unique ID for the event
+        String eventID = FirebaseFirestore.getInstance().collection("events").document().getId();
 
-        String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
-
-        // Reference to 'users' collection
-        DocumentReference userDocRef = db.collection("users").document(deviceID);
-        DocumentReference newEventRef = db.collection("events").document();
-
-        eventQrID = "";
         if(qrBitmap != null) {
-            eventQrID = imageUtility.decodeQRCode(qrBitmap);
-            newEventRef = db.collection("events").document(eventQrID);
+            eventID = imageUtility.decodeQRCode(qrBitmap);
         }
 
-        eventID = newEventRef.getId(); // Use this eventID for your operations
-        userDocRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() { //TODO: For MVP we are considering the eventList to be a string and not handling update if the user already exist; make ure you update that
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null && document.exists()) {
-                        // User exists, you can now proceed with event creation or update user data as needed
-                    } else {
-                        // User does not exist, create a new user with UserType set to "organizer"
-                        Map<String, Object> newUser = new HashMap<>();
-                        newUser.put("userType", "organizer");
-                        // Add other user details as needed
-                        newUser.put("userId", deviceID); // Assuming you want to use deviceID as userId
-                        newUser.put("eventList", eventID);
+        // Prepare the event data map
+        Map<String, Object> eventData = new HashMap<>();
+        eventData.put("eventName", eventName);
+        eventData.put("description", description);
+        eventData.put("eventPosterID", eventPosterID);
+        eventData.put("eventAttendLimit", Integer.parseInt(attendeeLimit));
+        eventData.put("organizationName", orgName);
+        eventData.put("eventDate", eventDate);
+        eventData.put("location", location);
+        eventData.put("eventID", eventID);
 
-                        // Save the new user
-                        db.collection("users").document(deviceID).set(newUser);
-                    }
-                }
-            }
-        });
 
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, Locale.getDefault());
-        Date eventDate = null;
+        EventUtility.storeEventwnm(eventData, eventID);
 
-        eventDate = dateFormat.parse(eventDatestring);
+        // Update the user's document with the new event ID (if necessary)
+        createUserDocumentWithEvent(eventID);
 
-        // handle attendee limit error:
-        int eventAttendeeLimit = 0; // Default to 0 or some other appropriate default value
-
-        eventAttendeeLimit = Integer.parseInt(attendeeLimit);
-        Geolocation geolocation = new Geolocation("asd", 0.0f, 0.0f); //TODO: replace with actual values
-        Bitmap qrCodeBrowse = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code
-        Bitmap qrCodeCheckIn = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code for events
-        ArrayList<String> userList = new ArrayList<>(); // TODO: append attendee who check in the event
-        ArrayList<String> notificationList = new ArrayList<String>(); // TODO: append notification to the list
-
-        // Constructing the Event object
-        Event newEvent = new Event(eventID, orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate, notificationList, location);
-
-        // Now, convert  Event object to a Map or directly use the attributes to add to Firestore
-        Map<String, Object> eventMap1 = EventUtility.evtomMap(newEvent);
-
-        // added add() so, event ID will be automatically generated.
-        // TODO: review with TEAM
-
-        EventUtility.storeEventwnm(eventMap1, eventID);
-
-        userDocRef.update("eventList", eventID).addOnFailureListener(new OnFailureListener() {
-            @OptIn(markerClass = UnstableApi.class) @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.w("Firestore", "Error updating document", e);
-            }
-        });
+        // Navigate to the home screen after the event has been successfully stored
+        navigateToHomeScreen(eventID);
     }
+
+    @OptIn(markerClass = UnstableApi.class)
+    private void createUserDocumentWithEvent(String eventID) {
+        String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+
+        // Prepare the user data
+        Map<String, Object> userData = new HashMap<>();
+        userData.put("userId", deviceID); //deviceID is the UserID
+        userData.put("eventList", eventID);
+        userData.put("userType", "organizer"); //TODO: add other ORG fields
+
+        FirebaseFirestore.getInstance().collection("users").document(deviceID)
+                .set(userData)
+                .addOnSuccessListener(aVoid -> Log.d("createUser", "User document created with new event ID"))
+                .addOnFailureListener(e -> Log.w("createUser", "Error creating user document", e));
+    }
+
+    private void navigateToHomeScreen(String eventID) {
+        Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
+        intent.putExtra("role", "organizer");
+        intent.putExtra("eventID", eventID);
+        startActivity(intent);
+    }
+
+
 
 }

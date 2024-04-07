@@ -45,6 +45,7 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 
 	private ImageUtility imageUtility = new ImageUtility(); //user imageUtilty for upload DP
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
