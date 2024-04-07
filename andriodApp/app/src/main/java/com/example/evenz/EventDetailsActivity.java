@@ -100,7 +100,8 @@ public class EventDetailsActivity  extends AppCompatActivity {
                                 Toast.makeText(EventDetailsActivity.this, "Successfully Checked Out of Event!!!", Toast.LENGTH_SHORT).show();
 
                                 // Close the activity and go back
-                                finish();
+                                Intent intent = new Intent(EventDetailsActivity.this, HomeScreenActivity.class);
+                                startActivity(intent);
                             })
                             .setNegativeButton("No", null)
                             .show();

@@ -172,6 +172,11 @@ public class HomeScreenActivity extends AppCompatActivity {
 
                             Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
                             intent.putExtra("eventID", eventID);
+                            if(which == 0) {
+                                intent.putExtra("qrCodeType", "Promotional");
+                            } else {
+                                intent.putExtra("qrCodeType", "Check-in");
+                            }
                             assert bitmapUri != null;
                             intent.putExtra("BitmapImage", bitmapUri.toString());
                             startActivity(intent);
