@@ -130,6 +130,7 @@ public class ScanQRActivity extends AppCompatActivity {
                 firebaseUserManager.checkInUser(deviceId, qrCode)
                         .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
                         .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
+                EventUtility.userCheckIn(deviceId, qrCode);
 
                 startActivity(intent);
             } else if (lastPart.equals("sign_up")) {

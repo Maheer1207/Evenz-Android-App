@@ -180,7 +180,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openEventDetailsIntent(eventID, "organizer");
+                openEventDetailsIntent(eventID, role);
             }
         });
         eventLocation.setOnClickListener(new View.OnClickListener() {
@@ -206,6 +206,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         Bundle b = new Bundle();
         b.putString("role", role);
         b.putString("eventID", eventID);
+        b.putString("source", "homepage");
         intent.putExtras(b);
         startActivity(intent);
     }

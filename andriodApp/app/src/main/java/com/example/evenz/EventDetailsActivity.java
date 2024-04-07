@@ -107,13 +107,14 @@ public class EventDetailsActivity  extends AppCompatActivity {
                 } else if ("browse".equals(source)) {
                     // check the attendee limit for the event
                     FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-                    Task<Boolean> eventFull = EventUtility.eventFull(getIntent().getStringExtra("eventID"));
+                    Task<Boolean> eventFull = EventUtility.eventFull(getIntent().getStringExtra("eventID"), userID);
                     eventFull.addOnSuccessListener(new OnSuccessListener<Boolean>() {
                         @Override
                         public void onSuccess(Boolean isFull) {
                             if (!isFull) {
                                 // Call  addUserToEvent method. This will add the user to the event
-                                EventUtility.addUserToEvent(userID, eventID);
+                                //EventUtility.addUserToEvent(userID, eventID);
+                                EventUtility.userCheckIn(userID, eventID);
 
                                 // Add user to the list of events they've signed up for
                                 firebaseUserManager.addEventToUser(userID, eventID);

@@ -346,12 +346,10 @@ public final class EventUtility {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference eventRef = db.collection("events").document(eventId);
 
-        //getUserInEvent(userId, eventId);
-
         // Use FieldValue.arrayUnion() to add the userID to the UserList field
         Map<String, Object> map = new HashMap<>();
         map.put("userId", userId);
-        map.put("attending", false);
+        map.put("attending", 0); // 0 means signed up
         map.put("count", 0);
         eventRef.update("UserList", FieldValue.arrayUnion(map))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -371,27 +369,7 @@ public final class EventUtility {
     //used for removing a user from the event userlist,By Hrithick
     public static void removeAttendeeFromEvent(String userId, String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference eventRef = db.collection("events").document(eventId);
-
-        // Use FieldValue.arrayRemove() to remove the userID from the UserList field
-        eventRef.update("UserList", FieldValue.arrayRemove(userId))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.d("EventUtility", "User removed from event successfully");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.d("EventUtility", "Error: " + e.getMessage());
-                    }
-                });
-    }
-
-    public static void getUserInEvent(String userID, String eventID) {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        DocumentReference ref = db.collection("events").document(eventID);
+        DocumentReference ref = db.collection("events").document(eventId);
         ref.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
@@ -399,7 +377,43 @@ public final class EventUtility {
                         List<Map<String, Object>> groups = (List<Map<String, Object>>) doc.get("UserList");
                         for (Map<String, Object> group : groups) {
                             String id = group.get("userId").toString();
-                            boolean attending = (boolean)group.get("attending");
+                            Long count = (Long)group.get("count");
+                            if (id.equals(userId)){
+                                Map<String, Object> map = new HashMap<>();
+                                Map<String, Object> newMap = new HashMap<>();
+                                map.put("userId", id);
+                                map.put("attending", -1); // -1 means not signed up
+                                map.put("count", count);
+                                ref.update("UserList", FieldValue.arrayRemove(map));
+                                return;
+                            }
+                        }
+                    }
+                    else{
+                    }
+                });
+    }
+
+    public static void userCheckIn(String userID, String eventID) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("events").document(eventID);
+        ref.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        DocumentSnapshot doc = task.getResult();
+                        List<Map<String, Object>> groups = (List<Map<String, Object>>) doc.get("UserList");
+                        // first attendee in event
+                        if (groups.size() == 0) {
+                            Map<String, Object> map = new HashMap<>();
+                            map.put("userId", userID);
+                            map.put("attending", 1); // 1 means checked in
+                            map.put("count", 1);
+                            ref.update("UserList", FieldValue.arrayUnion(map));
+                            return;
+                        }
+                        for (Map<String, Object> group : groups) {
+                            String id = group.get("userId").toString();
+                            Long attending = (Long)group.get("attending");
                             Long count = (Long)group.get("count");
                             if (id.equals(userID)){
                                 Map<String, Object> map = new HashMap<>();
@@ -407,20 +421,22 @@ public final class EventUtility {
                                 map.put("userId", id);
                                 map.put("attending", attending);
                                 map.put("count", count);
-                                ref.update("UserList", FieldValue.arrayRemove(map)).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void unused) {
-                                        newMap.put("userId", id);
-                                        newMap.put("attending", true);
-                                        newMap.put("count", count+1);
-                                        ref.update("UserList", FieldValue.arrayUnion(newMap));
-                                    }
-                                });
+                                ref.update("UserList", FieldValue.arrayRemove(map));
+                                newMap.put("userId", id);
+                                newMap.put("attending", 1); // 1 means checked in
+                                newMap.put("count", count+1);
+                                ref.update("UserList", FieldValue.arrayUnion(newMap));
+                                return;
                             }
                         }
+                        // attendee not currently in event
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("userId", userID);
+                        map.put("attending", 1); // 1 means checked in
+                        map.put("count", 1);
+                        ref.update("UserList", FieldValue.arrayUnion(map));
                     }
                     else{
-                        int x = 2;
                     }
                 });
     }
@@ -470,7 +486,7 @@ public final class EventUtility {
      * @param eventID The id of the event
      * @return the attendlimit for the event id, returns -1 if no limit
      */
-    public static Task<Boolean> eventFull(String eventID) {
+    public static Task<Boolean> eventFull(String eventID, String userID) {
         return FirebaseFirestore.getInstance()
                 .collection("events")
                 .get()
@@ -482,7 +498,11 @@ public final class EventUtility {
                                     if (document.contains("UserList")) {
                                         Integer attendLimit = document.getLong("AttendLimit").intValue();
                                         List<Map<String, Object>> attendees = (List<Map<String, Object>>) document.get("UserList");
-                                        if (attendees.size() >= attendLimit) {
+                                        int count = 0;
+                                        for (Map<String, Object> attendee : attendees) {
+                                            if ((Long)attendee.get("attending") != -1 && !attendee.get("userId").toString().equals(userID)) { count++;}
+                                        }
+                                        if (count >= attendLimit) {
                                             return Boolean.TRUE;
                                         }
                                         return Boolean.FALSE;
