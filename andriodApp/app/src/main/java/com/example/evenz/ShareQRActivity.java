@@ -87,6 +87,7 @@ public class ShareQRActivity extends AppCompatActivity {
             File file = new File(imageFolder, "shared_image.png");
             FileOutputStream outputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
             outputStream.flush();
             outputStream.close();
             uri = FileProvider.getUriForFile(this, "com.anni.shareimage.fileprovider", file);

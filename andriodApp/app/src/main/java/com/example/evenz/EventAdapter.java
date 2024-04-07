@@ -43,7 +43,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     public static class EventViewHolder extends RecyclerView.ViewHolder {
         TextView textCategories, textDate, textLocation, textDescription;
-        ImageView imageBanner; // Assuming this is for eventPosterID as a URL or drawable resource.
+        ImageView imageBanner; //this is for image poster
 
         public EventViewHolder(View itemView) {
             super(itemView);
@@ -79,7 +79,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
         holder.textDate.setText(dateFormat.format(event.getEventDate()));
-        holder.textLocation.setText(event.getLocation()); // Adjust based on your data
+        holder.textLocation.setText(event.getLocation()); //TODO: change this to location
     }
 
     //change 3

@@ -38,7 +38,6 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
 
     private ImageView imageView, datePickerButton;
 
-
     private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
     private RelativeLayout submitEventButton;
 
@@ -75,7 +74,6 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Please note that use your package name here
                 DatePickerFragment mDatePickerDialogFragment = new DatePickerFragment();
                 mDatePickerDialogFragment.show(getSupportFragmentManager(), "DATE PICK");
             }
@@ -152,7 +150,7 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
     private void initUI() {
         editTextOrganizerName = findViewById(R.id.editTextOrganizerName);
         editTextEventName = findViewById(R.id.editTextEventName);
-        editDate = findViewById(R.id.editDate); // Ensure you have input formatting or parsing for date
+        editDate = findViewById(R.id.editDate); // Date picker
         datePickerButton = findViewById(R.id.event_Date_Picker);
         editTextAttendeeLimit = findViewById(R.id.no_limit);
         editTextEventInfo = findViewById(R.id.editTextEventInfo);
