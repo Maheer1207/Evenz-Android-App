@@ -84,7 +84,8 @@ public class AttendeesActivity extends AppCompatActivity {
             @Override
             public void onSuccess(List<User> attendees) {
                 updateUI(attendees);
-                Toast.makeText(AttendeesActivity.this, "Attendees: " + attendees.size(), Toast.LENGTH_LONG).show();
+                // log the attendees
+//                Log.d(TAG, "onSuccess: Attendees: " + attendees);
             }
         });
         // on failure listener to handle the error

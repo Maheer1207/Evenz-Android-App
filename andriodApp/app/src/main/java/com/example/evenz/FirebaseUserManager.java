@@ -77,38 +77,38 @@ public class FirebaseUserManager {
 
     // Create a method that will return all of the attendes for a given event it uses the getUser method to get the user object
     public Task<List<User>> getAttendeesForEvent(String eventId) {
-        return ref.whereArrayContains("eventsSignedUpFor", eventId).get().continueWithTask(task -> {
-            if (!task.isSuccessful()) {
-                // If the task failed, propagate the exception
-                return Tasks.forException(task.getException());
-            }
-            if (task.getResult() == null) {
-                // If the result is null, propagate an exception or handle accordingly
-                return Tasks.forException(new IllegalStateException("Result is null"));
-            }
+        return ref.whereArrayContains("eventsSignedUpFor", eventId).get()
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        // If the task failed, propagate the exception
+                        return Tasks.forException(task.getException());
+                    }
+                    if (task.getResult() == null) {
+                        // If the result is null, propagate an exception or handle accordingly
+                        return Tasks.forException(new IllegalStateException("Result is null"));
+                    }
 
-            List<Task<User>> tasks = new ArrayList<>();
-            for (QueryDocumentSnapshot document : task.getResult()) {
-                // As the schema shows, the user ID is the document ID, not a field within the document
-                String userId = document.getId(); // Document ID is the userId
-                // Construct the User object using the schema from the image
-                User user = new User(
-                        userId,
-                        document.getString("name"),
-                        document.getString("phone"),
-                        document.getString("email"),
-                        document.getString("profilePicID"),
-                        document.getString("userType"),
-                        document.getBoolean("notificationEnabled"),
-                        document.getBoolean("locationEnabled")
-                );
-                // No need to add a task since we have the User object; we add the User object directly to the list
-                tasks.add(Tasks.forResult(user));
-            }
-            // Wait for all tasks to complete and collect the User objects
-            return Tasks.whenAllSuccess(tasks);
-        });
+                    List<User> users = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        User user = new User(
+                                document.getId(),
+                                document.getString("name"),
+                                document.getString("phone"),
+                                document.getString("email"),
+                                document.getString("profilePicID"),
+                                document.getString("userType"),
+                                document.getBoolean("notificationEnabled"),
+                                document.getBoolean("locationEnabled")
+                        );
+                        users.add(user);
+                        // Log the name of the user
+                        System.out.println(user.getName());
+                    }
+                    // Return the list of User objects directly instead of a list of Tasks
+                    return Tasks.forResult(users);
+                });
     }
+
 
 
 

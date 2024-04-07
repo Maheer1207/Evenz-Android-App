@@ -141,7 +141,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Added Functionality to submit an Organizer to firebase during event creation">
+    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/AttendeesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/AttendeesActivity.java" afterDir="false" />
@@ -469,7 +469,15 @@
       <option name="project" value="LOCAL" />
       <updated>1712368166664</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Implement Attendee List Access for Made AttendeesActivity successfully pull the event ID of the organanizer">
+      <option name="closed" value="true" />
+      <created>1712453008490</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1712453008491</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -505,7 +513,8 @@
     <MESSAGE value="Merged With Hriticks branch" />
     <MESSAGE value="Merged with SAND's branch and verifed that it works" />
     <MESSAGE value="Added Functionality to submit an Organizer to firebase during event creation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Functionality to submit an Organizer to firebase during event creation" />
+    <MESSAGE value="Implement Attendee List Access for Made AttendeesActivity successfully pull the event ID of the organanizer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implement Attendee List Access for Made AttendeesActivity successfully pull the event ID of the organanizer" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
