@@ -105,11 +105,6 @@
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/org_QR_share_option.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/org_event_info.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
@@ -157,15 +152,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/org_qr_share_option.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/copilot/chatSessions/00000000000.xd" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilot/chatSessions/00000000000.xd" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/copilot/chatSessions/xd.lck" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilot/chatSessions/xd.lck" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventCreationActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventCreationActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventDetailsActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/HomeScreenActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/HomeScreenActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/ScanQRActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/ScanQRActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/create_event.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/create_event.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -113,9 +113,13 @@ public class EventDetailsActivity  extends AppCompatActivity {
 
                     // Display toast message
                     Toast.makeText(EventDetailsActivity.this, "Successfully Signed Up for Event!!!", Toast.LENGTH_SHORT).show();
-
-                    // Close the activity and go back
+                    // Go back to the home screen using Intent and send Bundle
+                    Intent intent = new Intent(EventDetailsActivity.this, HomeScreenActivity.class);
+                    intent.putExtra("role", "attendee"); //TODO: Don't share Bundle between activities
+                    intent.putExtra("eventID", eventID);
+                    startActivity(intent);
                     finish();
+
                 }
             }
         });

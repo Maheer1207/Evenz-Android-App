@@ -85,7 +85,7 @@ public class ScanQRActivity extends AppCompatActivity {
 
         // Get the ImageView and set an OnClickListener on it
         ImageView flashlightButton = findViewById(R.id.img_rectangle);
-        flashlightButton.setOnClickListener(v -> toggleFlashlight()); //TODO: check if flashlight is working
+        flashlightButton.setOnClickListener(v ->toggleFlashlight()); //TODO: check if flashlight is working
     }
 
     private void toggleFlashlight() {
@@ -135,7 +135,7 @@ public class ScanQRActivity extends AppCompatActivity {
             } else if (lastPart.equals("sign_up")) {
                 // Navigate to the event details for the attendee to sign up
                 Intent intent = new Intent(ScanQRActivity.this, EventDetailsActivity.class);
-                intent.putExtra("eventID", qrCode);
+                intent.putExtra("eventID", parts[parts.length - 2]); // Pass the event ID for the event details page so attendee can sign up
                 intent.putExtra("source", "browse");
                 intent.putExtra("role", "attendee");
                 startActivity(intent);
