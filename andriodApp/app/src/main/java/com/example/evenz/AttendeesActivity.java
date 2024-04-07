@@ -1,8 +1,14 @@
 package com.example.evenz;
 
+import static android.content.ContentValues.TAG;
+
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -16,68 +22,128 @@ import com.google.android.gms.tasks.Task;
 
 import java.util.List;
 
-/**
- * The AttendeesActivity class is an activity that displays a list of attendees for an event.
- * <p>
- * This class extends the AppCompatActivity class and overrides the onCreate method to set up the RecyclerView and load the attendees from Firebase.
- * <p>
- * The AttendeesActivity class has a RecyclerView for displaying the attendees, an AttendeeAdapter for binding the attendees to the RecyclerView, and a list of Attendee objects that it displays.
- *
- * @version 1.0
- * @see AppCompatActivity
- * @see RecyclerView
- * @see AttendeeAdapter
- * @see Attendee
- */
 public class AttendeesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private List<Attendee> attendeesList;
+    private AttendeeAdapter adapter;
+    private List<User> attendeesList;
+    private TextView limit;
+    private String limitString;
+    private String eventID;
+    private FirebaseUserManager firebaseUserManager;
+    private FirebaseAttendeeManager firebaseAttendeeManager;
 
-    /**
-     * Called when the activity is starting. This is where most initialization should go.
-     *
-     * @param savedInstanceState If the activity is being re-initialized after previously being shut down then this Bundle contains the data it most recently supplied in onSaveInstanceState(Bundle). Note: Otherwise it is null.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.view_attendees_at_event);
 
-        // Initialize the RecyclerView and set its layout manager
+        initializeComponents();
+
+        String deviceID = getDeviceID();
+        //String deviceID = "1";
+        fetchEventID(deviceID);
+    }
+
+    private void initializeComponents() {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        // Initialize the FirebaseAttendeeManager to fetch attendees from Firebase
-        FirebaseAttendeeManager firebaseAttendeeManager = new FirebaseAttendeeManager();
+        limit = findViewById(R.id.header_frame_text);
+        limitString = "Attendees ";
 
-        // Call getEventAttendees with the event ID
-        Task<List<Attendee>> getAttendeesTask = firebaseAttendeeManager.getEventAttendees("Drake Concert");
+        firebaseUserManager = new FirebaseUserManager();
+    }
 
-// Add a listener to handle the result when the task completes
-        getAttendeesTask.addOnSuccessListener(attendees -> {
-            // The attendees list contains all the attendees for the "Drake Concert" event
-            // Here you can update your RecyclerView or UI components
-            // For example:
-            attendeesList = attendees;
-            AttendeeAdapter adapter = new AttendeeAdapter(attendeesList);
-            recyclerView.setAdapter(adapter);
-        }).addOnFailureListener(new OnFailureListener() {
+
+    private void fetchEventID(String deviceID) {
+        Task<String> getEventID = firebaseUserManager.getEventName(deviceID);
+        // add an on success listener print the event id as a toast
+        getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
+            @Override
+            public void onSuccess(String eventID) {
+                fetchAttendees(eventID);
+                // log the event id
+                Log.d(TAG, "onSuccess: Event ID: " + eventID);
+
+            }
+        });
+
+        // add an on failure listener
+        getEventID.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                // Handle the error case
-                Toast.makeText(AttendeesActivity.this, "Error fetching attendees: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(AttendeesActivity.this, "Error fetching event ID: " + e.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    /**
-     * Called when the header icon is clicked. This method starts the MainActivity.
-     *
-     * @param view The view that was clicked.
-     */
+    private void fetchAttendees(String eventID) {
+        this.eventID = eventID;
+        Task<List<User>> getAttendeesTask = firebaseUserManager.getAttendeesForEvent(eventID);
+        // add an on success listener to update the UI and display the attendees in toast
+        getAttendeesTask.addOnSuccessListener(new OnSuccessListener<List<User>>() {
+            @Override
+            public void onSuccess(List<User> attendees) {
+                updateUI(attendees);
+                setHeaderString(eventID);
+                // log the attendees
+//                Log.d(TAG, "onSuccess: Attendees: " + attendees);
+            }
+        });
+        // on failure listener to handle the error
+        getAttendeesTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                handleAttendeesFailure(e);
+            }
+        });
+    }
+
+    private void updateUI(List<User> attendees) {
+        attendeesList = attendees;
+        adapter = new AttendeeAdapter(attendeesList, eventID);
+        recyclerView.setAdapter(adapter);
+    }
+
+    // Please create a method that will set the value of the header string
+    // to the number of attendees at the event. The header string should be
+    // in the format "Attendees: X/Y" where X is the number of attendees. and Y is the limit.
+    private void setHeaderString(String eventID) {
+        int attendees = attendeesList.size();
+        // Get the max attendees for the event from the getattendlimitfromeventname method in the eventutility class
+        EventUtility.getAttendLimitFromEventName(eventID);
+        Task<Integer> getAttendLimit = EventUtility.getAttendLimitFromEventName(eventID);
+        getAttendLimit.addOnSuccessListener(new OnSuccessListener<Integer>() {
+            @Override
+            public void onSuccess(Integer maxAttendees) {
+                // Convert the max attendees to a string
+                limitString = "Attendees: " + attendees + "/" + maxAttendees;
+                limit.setText(limitString);
+            }
+        });
+        // Handle the failure of the getAttendLimit task
+        getAttendLimit.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, "onFailure: Error fetching attendees limit", e);
+            }
+        });
+
+    }
+
+    private void handleAttendeesFailure(@NonNull Exception e) {
+        // print the error message to log
+        Log.e(TAG, "onFailure: Error fetching attendees", e);
+    }
+
     public void onHeaderIconClicked(View view) {
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, HomeScreenActivity.class);
         startActivity(intent);
+    }
+
+    @SuppressLint("HardwareIds")
+    private String getDeviceID() {
+        return Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 }

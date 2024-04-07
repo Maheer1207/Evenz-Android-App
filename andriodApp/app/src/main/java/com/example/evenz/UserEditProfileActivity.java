@@ -181,6 +181,7 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 		boolean notificationEnabled = notificationEnabledInput.isChecked();
 		boolean locationEnabled = locationEnabledInput.isChecked();
 
+
 		// Validate name, phone, and email. Add or modify validation as necessary.
 		if (name.isEmpty()) {
 			showToast("Name cannot be empty.");

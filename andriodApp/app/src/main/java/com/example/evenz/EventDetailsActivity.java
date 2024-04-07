@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -104,19 +105,39 @@ public class EventDetailsActivity  extends AppCompatActivity {
                             .setNegativeButton("No", null)
                             .show();
                 } else if ("browse".equals(source)) {
-                    EventUtility.addUserToEvent(userID, eventID);
-                    // Add user to the list of events they've signed up for
+                    // check the attendee limit for the event
                     FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-                    firebaseUserManager.addEventToUser(userID, eventID);
+                    Task<Boolean> eventFull = EventUtility.eventFull(getIntent().getStringExtra("eventID"), userID);
+                    eventFull.addOnSuccessListener(new OnSuccessListener<Boolean>() {
+                        @Override
+                        public void onSuccess(Boolean isFull) {
+                            if (!isFull) {
+                                // Call  addUserToEvent method. This will add the user to the event
+                                EventUtility.addUserToEvent(userID, eventID);
 
-                    // Display toast message
-                    Toast.makeText(EventDetailsActivity.this, "Successfully Signed Up for Event!!!", Toast.LENGTH_SHORT).show();
-                    // Go back to the home screen using Intent and send Bundle
-                    Intent intent = new Intent(EventDetailsActivity.this, HomeScreenActivity.class);
-                    intent.putExtra("role", "attendee");
-                    intent.putExtra("eventID", eventID);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(intent);
+                                // Add user to the list of events they've signed up for
+                                firebaseUserManager.addEventToUser(userID, eventID);
+
+                                // Display toast message
+                                Toast.makeText(EventDetailsActivity.this, "Successfully Signed Up for Event!!!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(EventDetailsActivity.this, HomeScreenActivity.class);
+                                intent.putExtra("role", "attendee");
+                                intent.putExtra("eventID", eventID);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                            }
+                            else {
+                                Toast.makeText(EventDetailsActivity.this, "Sorry, Event is full", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(EventDetailsActivity.this, HomeScreenActivity.class);
+                                intent.putExtra("role", "attendee");
+                                intent.putExtra("eventID", eventID);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                            }
+
+                        }
+                    });
+                    // Close the activity and go back
                     finish();
 
                 }

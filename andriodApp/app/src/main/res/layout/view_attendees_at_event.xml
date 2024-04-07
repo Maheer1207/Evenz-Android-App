@@ -7,22 +7,22 @@
 
   <!-- Attendees Count Text -->
 
+  <!-- Add additional views here if necessary -->
+
+
   <ImageView
       android:id="@+id/header_icon"
       android:layout_width="24dp"
       android:layout_height="24dp"
       android:layout_alignParentStart="true"
       android:layout_alignParentBottom="true"
-      android:layout_marginStart="35dp"
-      android:layout_marginBottom="691dp"
-      android:contentDescription="BackButton"
-      android:scaleType="centerInside"
-      android:src="@drawable/header_icon"
+      android:layout_marginStart="33dp"
+      android:layout_marginBottom="701dp"
       android:clickable="true"
-      android:onClick="onHeaderIconClicked" />
-
-  <!-- Add additional views here if necessary -->
-
+      android:contentDescription="BackButton"
+      android:onClick="onHeaderIconClicked"
+      android:scaleType="centerInside"
+      android:src="@drawable/header_icon" />
 
   <TextView
       android:id="@+id/header_frame_text"
