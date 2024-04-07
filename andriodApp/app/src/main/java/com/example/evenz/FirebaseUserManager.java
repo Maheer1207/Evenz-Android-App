@@ -3,6 +3,7 @@ package com.example.evenz;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class FirebaseUserManager {
 
@@ -76,18 +78,39 @@ public class FirebaseUserManager {
     // Create a method that will return all of the attendes for a given event it uses the getUser method to get the user object
     public Task<List<User>> getAttendeesForEvent(String eventId) {
         return ref.whereArrayContains("eventsSignedUpFor", eventId).get().continueWithTask(task -> {
-            if (task.isSuccessful()) {
-                List<Task<User>> tasks = new ArrayList<>();
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    String userId = document.getString("userId");
-                    tasks.add(getUser(userId));
-                }
-                return Tasks.whenAllSuccess(tasks);
-            } else {
+            if (!task.isSuccessful()) {
+                // If the task failed, propagate the exception
                 return Tasks.forException(task.getException());
             }
+            if (task.getResult() == null) {
+                // If the result is null, propagate an exception or handle accordingly
+                return Tasks.forException(new IllegalStateException("Result is null"));
+            }
+
+            List<Task<User>> tasks = new ArrayList<>();
+            for (QueryDocumentSnapshot document : task.getResult()) {
+                // As the schema shows, the user ID is the document ID, not a field within the document
+                String userId = document.getId(); // Document ID is the userId
+                // Construct the User object using the schema from the image
+                User user = new User(
+                        userId,
+                        document.getString("name"),
+                        document.getString("phone"),
+                        document.getString("email"),
+                        document.getString("profilePicID"),
+                        document.getString("userType"),
+                        document.getBoolean("notificationEnabled"),
+                        document.getBoolean("locationEnabled")
+                );
+                // No need to add a task since we have the User object; we add the User object directly to the list
+                tasks.add(Tasks.forResult(user));
+            }
+            // Wait for all tasks to complete and collect the User objects
+            return Tasks.whenAllSuccess(tasks);
         });
     }
+
+
 
     // Create user method that will return a user object for a given userId
     public Task<User> getUser(String userId) {
@@ -144,6 +167,25 @@ public class FirebaseUserManager {
                     }
                 });
     }
+
+    public Task<String> getEventName(String userId) {
+        return ref.document(userId).get().continueWith(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                DocumentSnapshot document = task.getResult();
+                List<String> eventsSignedUpFor = (List<String>) document.get("eventsSignedUpFor");
+                if (eventsSignedUpFor != null && !eventsSignedUpFor.isEmpty()) {
+                    return eventsSignedUpFor.get(0);
+                } else {
+                    // Handle the case where eventsSignedUpFor is null or empty.
+                    throw new NoSuchElementException("No events signed up for.");
+                }
+            } else {
+                // Handle the unsuccessful task, e.g., by throwing an exception.
+                throw new Exception("Failed to fetch document: " + task.getException());
+            }
+        });
+    }
+
 
     /**
      * A firebase task that given the device id of the user returns their userType
