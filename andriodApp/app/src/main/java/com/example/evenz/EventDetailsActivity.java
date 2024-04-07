@@ -113,8 +113,7 @@ public class EventDetailsActivity  extends AppCompatActivity {
                         public void onSuccess(Boolean isFull) {
                             if (!isFull) {
                                 // Call  addUserToEvent method. This will add the user to the event
-                                //EventUtility.addUserToEvent(userID, eventID);
-                                EventUtility.userCheckIn(userID, eventID);
+                                EventUtility.addUserToEvent(userID, eventID);
 
                                 // Add user to the list of events they've signed up for
                                 firebaseUserManager.addEventToUser(userID, eventID);
