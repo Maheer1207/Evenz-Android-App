@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ImageView;
@@ -30,6 +31,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class HomeScreenActivity extends AppCompatActivity {
@@ -171,20 +173,28 @@ public class HomeScreenActivity extends AppCompatActivity {
         FloatingActionButton changeEvent = findViewById(R.id.change_event);
         postNotification.setOnClickListener(v -> {
 
-            final Dialog dialog = new Dialog(HomeScreenActivity.this);
-            dialog.setContentView(R.layout.org_event_list);
-            dialog.setTitle("Select an event");
-            ListView events = (ListView) dialog.findViewById(R.id.events);
-            Adapter adapter = new UserEventsAdapter(deviceID);
-            events.setAdapter(adapter);
-            dialog.show();
+            FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
 
-
-            Intent intent = new Intent(HomeScreenActivity.this, OrgSendNotificationActivity.class);
-            Bundle b = new Bundle();
-            b.putString("eventID", eventID);
-            intent.putExtras(b);
-            startActivity(intent);
+            firebaseUserManager.getEventsSignedUpForUser(deviceID).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    ArrayList<String> events = new ArrayList<>(task.getResult());
+                    final Dialog dialog = new Dialog(HomeScreenActivity.this);
+                    dialog.setContentView(R.layout.org_event_list);
+                    dialog.setTitle("Select an event");
+                    ListView eventView = dialog.findViewById(R.id.events);
+                    UserEventsAdapter adapter = new UserEventsAdapter(this, events);
+                    eventView.setAdapter(adapter);
+                    dialog.show();
+/*
+                    Intent intent = new Intent(HomeScreenActivity.this, OrgSendNotificationActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("eventID", eventID);
+                    intent.putExtras(b);
+                    startActivity(intent);*/
+                } else {
+                    Log.e("Firestore", "Error getting events", task.getException());
+                }
+            });
         });
 
         //updated share QR option to have promotional and check-in QR code options

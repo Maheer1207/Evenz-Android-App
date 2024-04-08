@@ -28,8 +28,7 @@ public class UserEventsAdapter extends ArrayAdapter<String> {
             view = convertView;
         }
         String event = super.getItem(position);
-        TextView eventView = view.findViewById(R.id.event);
-
+        TextView eventView = view.findViewById(R.id.event_name);
         eventView.setText(event);
         return view;
     }
