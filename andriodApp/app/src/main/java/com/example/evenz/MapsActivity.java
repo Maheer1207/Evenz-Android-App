@@ -65,10 +65,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     // not granted.
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
     private boolean mLocationPermissionGranted;
-    private static final int M_MAX_ENTRIES = 5, DEFAULT_ZOOM = 15, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final int M_MAX_ENTRIES = 5, DEFAULT_ZOOM = 5, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private String[] mLikelyPlaceNames, mLikelyPlaceAddresses, mLikelyPlaceAttributions;
     private LatLng[] mLikelyPlaceLatLngs;
+    private List<String> locationStrings;
     String role, eventID, addressString, from;
+
+    public interface OnLocationsFetchedCallback {
+        void onLocationsFetched(List<LatLng> locations);
+        void onError(Exception e);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,35 +189,23 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-//        String rutherfordLibrary = "11208 89 Ave NW, Edmonton";
-//        LatLng rutherfordLibraryLatLng = getLocationFromAddress(this,rutherfordLibrary);
-//        mMap.addMarker(new MarkerOptions().position(rutherfordLibraryLatLng).title("Rutherford Library"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rutherfordLibraryLatLng, DEFAULT_ZOOM));
-
-//        String hub9002 = "9002 112 ST NW, Edmonton";
-//        LatLng hub9002LatLng = getLocationFromAddress(this,hub9002);
-//        mMap.addMarker(new MarkerOptions().position(hub9002LatLng).title("9002-HUB"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rutherfordLibraryLatLng, DEFAULT_ZOOM));
-//
         LatLng addressLatLng = getLocationFromAddress(this,addressString);
         mMap.addMarker(new MarkerOptions().position(addressLatLng).title(addressString));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addressLatLng, DEFAULT_ZOOM));
-
-        // Fetch the locations from the event
-        EventUtility.getLocationsFromEvent(eventID).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                List<String> locationStrings = task.getResult();
-                for (String locationString : locationStrings) {
-                    String[] parts = locationString.split(",");
-                    double latitude = Double.parseDouble(parts[0]);
-                    double longitude = Double.parseDouble(parts[1]);
-                    LatLng location = new LatLng(latitude, longitude);
-
-                    // Add a marker for this location
+        fetchEventLocationsAndProceed(eventID, new OnLocationsFetchedCallback() {
+            @Override
+            public void onLocationsFetched(List<LatLng> locations) {
+                for (LatLng location : locations) {
                     mMap.addMarker(new MarkerOptions().position(location));
                 }
-            } else {
-                Log.d("MapsActivity", "Error getting locations: " + task.getException());
+                if (!locations.isEmpty()) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locations.get(0), DEFAULT_ZOOM));
+                }
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Log.d("MapsActivity", "Error getting locations: " + e.getMessage());
             }
         });
 
@@ -219,6 +213,27 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         getLocationPermission();
 
     }
+
+    private void fetchEventLocationsAndProceed(String eventID, OnLocationsFetchedCallback callback) {
+        EventUtility.getLocationsFromEvent(eventID).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<String> locationStrings = task.getResult();
+                List<LatLng> locations = new ArrayList<>();
+                for (String locationString : locationStrings) {
+                    String[] parts = locationString.split(",");
+                    double latitude = Double.parseDouble(parts[0]);
+                    double longitude = Double.parseDouble(parts[1]);
+                    locations.add(new LatLng(latitude, longitude));
+                }
+                // Trigger callback with fetched locations
+                callback.onLocationsFetched(locations);
+            } else {
+                // Trigger callback with error
+                callback.onError(task.getException());
+            }
+        });
+    }
+
 
     public LatLng getLocationFromAddress(Context context, String strAddress) {
         Geocoder coder = new Geocoder(context);
