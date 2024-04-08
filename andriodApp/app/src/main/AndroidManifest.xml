@@ -61,9 +61,6 @@
             android:name=".EventBrowseActivity"
             android:exported="true"/>
         <activity
-            android:name=".AdminBrowseProfilesActivity"
-            android:exported="true"/>
-        <activity
             android:name=".OrgSendNotificationActivity"
             android:exported="true"/>
         <activity
@@ -71,10 +68,6 @@
             android:exported="true"/>
         <activity android:name=".EventSignedUpForAttendeeBrowse"
             android:exported="true" />
-
-        <activity
-            android:name=".InitialPageActivity"
-            android:exported="true"/>
         <activity
             android:name=".ShareQRActivity"
             android:exported="true"/>
@@ -89,9 +82,8 @@
             android:exported="true" />
         <activity android:name=".MapsActivity"
             android:exported="true" />
-
         <activity
-            android:name=".MainActivity"
+            android:name=".InitialPageActivity"
             android:exported="true">
 
             <intent-filter>

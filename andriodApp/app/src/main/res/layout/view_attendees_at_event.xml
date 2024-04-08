@@ -47,6 +47,30 @@
         android:layout_below="@id/header_frame_text"
         android:layout_marginTop="32dp" />
 
+    <RelativeLayout
+        android:id="@+id/event_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="600dp"
+        android:layout_marginStart="310dp"
+        android:layout_marginBottom="16dp">
+      <ImageView
+          android:id="@+id/image_ellipse"
+          android:layout_width="55dp"
+          android:layout_height="55dp"
+          android:background="@drawable/image_ellipse"
+          android:scaleType="centerInside" />
+
+      <ImageView
+          android:id="@+id/image_screenshot"
+          android:layout_width="56dp"
+          android:layout_height="46dp"
+          android:layout_gravity="top|start"
+          android:layout_marginTop="4dp"
+          android:scaleType="centerInside"
+          android:src="@drawable/location_pin" />
+    </RelativeLayout>
+
     <ImageView
         android:id="@+id/bottom_actionbar"
         android:layout_width="395dp"

@@ -101,6 +101,8 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 if (Objects.equals(from, "homeScreen")) {
                     intent = new Intent(MapsActivity.this, HomeScreenActivity.class);
+                } else if (Objects.equals(from, "attendee_list")){
+                    intent = new Intent(MapsActivity.this, AttendeesActivity.class);
                 } else {
                     intent = new Intent(MapsActivity.this, EventDetailsActivity.class);
                 }
