@@ -193,9 +193,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        mMap.addMarker(new MarkerOptions().position(hub9002LatLng).title("9002-HUB"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rutherfordLibraryLatLng, DEFAULT_ZOOM));
 //
-        LatLng addressLatLng = getLocationFromAddress(this,addressString);
-        mMap.addMarker(new MarkerOptions().position(addressLatLng).title(addressString));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addressLatLng, DEFAULT_ZOOM));
 
         // Fetch the locations from the event
         EventUtility.getLocationsFromEvent(eventID).addOnCompleteListener(task -> {
