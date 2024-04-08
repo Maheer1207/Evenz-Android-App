@@ -60,7 +60,7 @@ public class InitialPageActivity extends AppCompatActivity {
                     startActivity(intent);
                 // role is admin so sends to admin browse event
                 } else if (role.equals("admin")){
-                    Intent intent = new Intent(InitialPageActivity.this, AdminBrowseEventActivity.class);
+                    Intent intent = new Intent(InitialPageActivity.this, AdminBrowseProfilesActivity.class);
                     startActivity(intent);
                 }
             }

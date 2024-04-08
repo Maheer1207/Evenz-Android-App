@@ -104,6 +104,27 @@ public class FirebaseUserManager {
                 });
     }
 
+    /**
+     * Gets all of the attendees
+     * @return all attendees
+     */
+    public Task<List<User>> getAttendees() {
+        return ref.whereEqualTo("userType", "attendee").get()
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        // If the task failed, propagate the exception
+                        return Tasks.forException(task.getException());
+                    }
+                    if (task.getResult() == null) {
+                        // If the result is null, propagate an exception or handle accordingly
+                        return Tasks.forException(new IllegalStateException("Result is null"));
+                    }
+
+                    // Call the helper method to process the documents
+                    return Tasks.forResult(processDocuments(task.getResult()));
+                });
+    }
+
     private List<User> processDocuments(Iterable<QueryDocumentSnapshot> documents) {
         List<User> users = new ArrayList<>();
         for (QueryDocumentSnapshot document : documents) {
