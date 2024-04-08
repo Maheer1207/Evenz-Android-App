@@ -252,21 +252,32 @@ import java.util.zip.CRC32C;
         User organizer = new User(deviceID, name, "", "", "", "Organizer", false, false);
 
         FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-
-        firebaseUserManager.submitUser(organizer).addOnCompleteListener(task -> {
+        firebaseUserManager.getUserExist(deviceID).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // Add the event to the organizer's event list
                 firebaseUserManager.addEventToUser(deviceID, eventID).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
                         Log.d("EventCreationActivity", "Organizer added successfully");
                         navigateToHomeScreen();
-                    } else {
-                        Log.e("EventCreationActivity", "Failed to add event to organizer", task1.getException());
-
                     }
                 });
-            } else {
-                Log.e("EventCreationActivity", "Failed to submit organizer", task.getException());
+            }
+            else {
+                firebaseUserManager.submitUser(organizer).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        // Add the event to the organizer's event list
+                        firebaseUserManager.addEventToUser(deviceID, eventID).addOnCompleteListener(task2 -> {
+                            if (task2.isSuccessful()) {
+                                Log.d("EventCreationActivity", "Organizer added successfully");
+                                navigateToHomeScreen();
+                            } else {
+                                Log.e("EventCreationActivity", "Failed to add event to organizer", task2.getException());
+
+                            }
+                        });
+                    } else {
+                        Log.e("EventCreationActivity", "Failed to submit organizer", task1.getException());
+                    }
+                });
             }
         });
     }

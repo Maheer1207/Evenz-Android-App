@@ -2,19 +2,24 @@ package com.example.evenz;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
-import android.util.Log;
+
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.Manifest;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -24,9 +29,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -39,6 +41,7 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 	private ImageView imageView;
 	private EditText nameInput, phoneInput, emailInput;
 	private CheckBox notificationEnabledInput, locationEnabledInput;
+	private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1000; // Request code for location permission
 
 	private String profilePicID = "";
 	private FirebaseFirestore db;
@@ -78,6 +81,8 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 		emailInput = findViewById(R.id.email_input_create_prf);
 		notificationEnabledInput = findViewById(R.id.enable_notification_create_prf);
 		locationEnabledInput = findViewById(R.id.enable_location_create_prf);
+
+		initLocationServiceListener(); //this is for location service
 	}
 	private void initEdit() {
 		imageView = findViewById(R.id.profile_pic);
@@ -86,6 +91,20 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 		emailInput = findViewById(R.id.email_input);
 		notificationEnabledInput = findViewById(R.id.enable_notification);
 		locationEnabledInput = findViewById(R.id.enable_location);
+
+		locationEnabledInput.setOnCheckedChangeListener((buttonView, isChecked) -> {
+			if (!isChecked) {
+				// Code to direct user to location settings
+				Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				startActivity(intent);
+			} else {
+				// Check if permission is already granted
+				if (ContextCompat.checkSelfPermission(UserEditProfileActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+					// Request permission
+					ActivityCompat.requestPermissions(UserEditProfileActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+				}
+			}
+		});
 	}
 
 	private void fillProfile(DocumentSnapshot doc) {
@@ -106,6 +125,36 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 		}
 
 	}
+	//TEST CODe, this is for asking for permission access to the location
+	private void initLocationServiceListener() {
+		locationEnabledInput.setOnCheckedChangeListener((buttonView, isChecked) -> {
+			if (isChecked) {
+				// Check if permission is already granted
+				if (ContextCompat.checkSelfPermission(UserEditProfileActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+					// Request permission
+					ActivityCompat.requestPermissions(UserEditProfileActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+				}
+			}
+		});
+	}
+	//TEST CODE, Todo this is for permission to access the location
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				// Permission was granted.
+				// You can now do something with the location services.
+			} else {
+				// Permission denied.
+				// You might want to disable the location feature or inform the user.
+				locationEnabledInput.setChecked(false);
+				showToast("Location permission is required to use location services.");
+			}
+		}
+	}
+
+
 
 	private void setUpCreateProfile() {
 		setContentView(R.layout.user_create_profile);
@@ -144,7 +193,6 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 
 					buildUserObject();
 				}
-
 				@Override
 				public void onFailure(Exception e) {
 					showToast("Profile Picture Upload Failed");

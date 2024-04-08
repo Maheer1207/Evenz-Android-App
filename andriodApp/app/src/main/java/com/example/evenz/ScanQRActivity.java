@@ -1,7 +1,10 @@
 package com.example.evenz;
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
@@ -22,12 +25,19 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
@@ -121,7 +131,6 @@ public class ScanQRActivity extends AppCompatActivity {
         if (qrCode != null) {
             String[] parts = qrCode.split("/");
             String lastPart = parts[parts.length -1];
-
             if (lastPart.equals("check_in")) {
                 // Check in the user to the event
                 Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class);
@@ -133,6 +142,25 @@ public class ScanQRActivity extends AppCompatActivity {
                 FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
                 String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
+                // Get the user's current location
+                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                Log.d("LocationDebug", "Before checking permission");
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("LocationDebug", "Permission granted");
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    if (location != null) {
+                        Log.d("LocationDebug", "Location obtained");
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
+
+                        // Add the locations to the event
+                        EventUtility.addLocationsToEvent(parts[parts.length -2], latitude,longitude );
+                    } else {
+                        Log.d("LocationDebug", "Location is null");
+                    }
+                } else {
+                    Log.d("LocationDebug", "Permission not granted");
+                }
                 firebaseUserManager.addEventToUser(deviceId, parts[parts.length -2])//this is for adding user to the events signed up for
                         .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
                         .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
@@ -140,11 +168,14 @@ public class ScanQRActivity extends AppCompatActivity {
                 firebaseUserManager.checkInUser(deviceId, parts[parts.length -2]) // this is for putting the event in checked in
                         .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
                         .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
+
+
                 EventUtility.userCheckIn(deviceId, parts[parts.length -2]);
 
                 startActivity(intent);
                 isProcessing = false;
-            } else if (lastPart.equals("sign_up")) {
+            }
+         else if (lastPart.equals("sign_up")) {
                 // Navigate to the event details for the attendee to sign up
                 Intent intent = new Intent(ScanQRActivity.this, EventDetailsActivity.class);
                 intent.putExtra("eventID", parts[parts.length -2]);

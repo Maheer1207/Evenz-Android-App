@@ -56,7 +56,7 @@ class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.ViewHolder> {
         userAttendCount.addOnSuccessListener(new OnSuccessListener<ArrayList<Integer>>() {
             @Override
             public void onSuccess(ArrayList<Integer> integers) {
-                if (!integers.isEmpty()) {
+                if (integers != null && !integers.isEmpty()) {
                     holder.attendCount.setText(integers.get(0).toString()); // Set the count
                     if (integers.get(1) == 1) { // Check the status
                         holder.typeTextview.setText("Checked In");
@@ -66,6 +66,7 @@ class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.ViewHolder> {
                 notifyDataSetChanged(); // Notify the adapter that the data set has changed
             }
         });
+
         this.displayImage(user.getProfilePicID(), holder.profileImageView);
     }
 
