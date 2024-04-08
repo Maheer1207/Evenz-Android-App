@@ -1,5 +1,5 @@
 <resources>
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">
-<!--        Ask Mohaimin for the API key to run the google map api -->
+        <!--        Ask Mohaimin for the API key to run the google map api -->
     </string>
 </resources>

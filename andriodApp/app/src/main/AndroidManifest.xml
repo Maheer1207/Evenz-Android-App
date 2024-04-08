@@ -3,8 +3,11 @@
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-feature android:name="android.hardware.camera.any" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -43,6 +46,12 @@
             android:name=".AdminBrowseEventActivity"
             android:exported="true" />
         <activity
+            android:name=".AdminBrowseProfilesActivity"
+            android:exported="true" />
+        <activity
+            android:name=".AdminDeleteEvent"
+            android:exported="true" />
+        <activity
             android:name=".ImageBrowseActivity"
             android:exported="true" />
         <activity
@@ -52,19 +61,25 @@
             android:name=".EventBrowseActivity"
             android:exported="true"/>
         <activity
+            android:name=".AdminBrowseProfilesActivity"
+            android:exported="true"/>
+        <activity
             android:name=".OrgSendNotificationActivity"
             android:exported="true"/>
         <activity
             android:name=".HomeScreenActivity"
             android:exported="true"/>
-        <activity
-            android:name=".ScanQRActivity"
-            android:exported="true"/>
+        <activity android:name=".EventSignedUpForAttendeeBrowse"
+            android:exported="true" />
+
         <activity
             android:name=".InitialPageActivity"
             android:exported="true"/>
         <activity
             android:name=".ShareQRActivity"
+            android:exported="true"/>
+        <activity
+            android:name=".ScanQRActivity"
             android:exported="true"/>
         <activity
             android:name=".UserEditProfileActivity"
@@ -92,6 +107,15 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/paths" />
+        </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.evenz.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
         </provider>
         <service android:name=".PushNotificationService" android:exported="false">
             <intent-filter>

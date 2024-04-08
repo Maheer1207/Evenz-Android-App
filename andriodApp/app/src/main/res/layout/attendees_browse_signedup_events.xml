@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/container_user_browse_events"
+  android:layout_width="393dp"
+  android:layout_height="807dp"
+  android:background="@drawable/white_background_layout">
+  <TextView
+      android:id="@+id/container_frame13"
+      android:layout_width="wrap_content"
+      android:layout_height="24dp"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="147dp"
+      android:layout_marginTop="16dp"
+      android:gravity="center_horizontal|center_vertical"
+      android:includeFontPadding="false"
+      android:maxLines="1"
+      android:singleLine="true"
+      android:text="My Events"
+      android:textColor="#FF1A1A1A"
+      android:textSize="20dp"
+      android:textStyle="bold" />
+  <RelativeLayout
+      android:id="@+id/light_green_signup_button"
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_marginTop="620dp"
+      android:gravity="center">
+    <View
+        android:id="@+id/light_green_button_rect"
+        android:layout_width="205dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="-1dp"
+        android:layout_marginTop="-1dp"
+        android:background="@drawable/light_green_button_setup" />
+    <TextView
+        android:id="@+id/sign_up_button"
+        android:layout_width="205dp"
+        android:layout_height="wrap_content"
+        android:shadowColor="#000000"
+        android:shadowDx="0"
+        android:shadowDy="4"
+        android:shadowRadius="4"
+        android:text="BROWSE EVENTS"
+        android:textAlignment="center"
+        android:textColor="@color/create_event_color"
+        android:textSize="16.02sp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"/>
+  </RelativeLayout>
+
+  <androidx.recyclerview.widget.RecyclerView
+      android:id="@+id/eventsRecyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_marginTop="60dp"
+      android:layout_marginBottom="188dp"/>
+
+  <ImageView
+      android:id="@+id/back_attendee_browse_events"
+      android:layout_width="wrap_content"
+      android:layout_height="22.86dp"
+      android:layout_marginStart="21.04dp"
+      android:layout_marginTop="17.66dp"
+      android:layout_marginRight="357.76dp"
+      android:layout_marginBottom="766.48dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/back_less" />
+
+  <ImageView
+      android:id="@+id/bottom_actionbar"
+      android:layout_width="395dp"
+      android:layout_height="74dp"
+      android:layout_gravity="top|start"
+      android:layout_marginStart="-2dp"
+      android:layout_marginTop="682dp"
+      android:background="@drawable/bottom_actionbar"
+      android:scaleType="centerInside" />
+
+  <ImageView
+      android:id="@+id/profile_attendee"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="52.38dp"
+      android:layout_marginTop="700dp"
+      android:layout_marginEnd="314.43dp"
+      android:layout_marginBottom="30.81dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/profile"
+      android:contentDescription="Button to view attendee's projile" />
+
+  <ImageView
+      android:id="@+id/home_admin_browse_attendee"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="172dp"
+      android:layout_marginTop="700dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/home"
+      android:contentDescription="Button to scan a QR using the camera" />
+
+<!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
+  <ImageView
+      android:id="@+id/event_list"
+      android:layout_width="38dp"
+      android:layout_height="38dp"
+      android:layout_marginStart="300dp"
+      android:layout_marginTop="700dp"
+      android:layout_marginBottom="0.05dp"
+      android:scaleType="centerInside"
+      android:src="@drawable/event_list_white"
+      android:contentDescription="Button to show a list " />
+</FrameLayout>

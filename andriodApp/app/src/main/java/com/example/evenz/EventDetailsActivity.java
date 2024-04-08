@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -32,7 +33,7 @@ import java.util.Objects;
 
 public class EventDetailsActivity  extends AppCompatActivity {
     private String eventID;
-    private ImageView eventPoster, homeButton;
+    private ImageView eventPoster, homeButton, browseEvent, profileButton;
     private TextView eventLocation, eventDetail, eventWelcomeNote;
 
     @Override
@@ -62,6 +63,20 @@ public class EventDetailsActivity  extends AppCompatActivity {
         eventDetail = findViewById(R.id.info_attendee_eventInfo);
         eventWelcomeNote = findViewById(R.id.attendee_event_detail_welcome);
         homeButton = findViewById(R.id.home_event_details_attendee);
+        browseEvent = findViewById(R.id.event_list);
+        profileButton = findViewById(R.id.attendees_admin_browse_event);
+
+        browseEvent.setOnClickListener (
+                v -> startActivity(new Intent(EventDetailsActivity.this, EventSignedUpForAttendeeBrowse.class))
+        );
+
+        profileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(EventDetailsActivity.this, UserEditProfileActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("role", "attendee");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +106,7 @@ public class EventDetailsActivity  extends AppCompatActivity {
                             .setPositiveButton("Yes", (dialog, which) -> {
                                 // Call method to remove event from user's list of events
                                 FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-                                firebaseUserManager.removeEventFromUser(userID, eventID);
+                                firebaseUserManager.checkOutUser(userID);
 
                                 EventUtility.removeAttendeeFromEvent(userID, eventID);//remove user from event
 
@@ -99,23 +114,47 @@ public class EventDetailsActivity  extends AppCompatActivity {
                                 Toast.makeText(EventDetailsActivity.this, "Successfully Checked Out of Event!!!", Toast.LENGTH_SHORT).show();
 
                                 // Close the activity and go back
-                                finish();
+                                Intent intent = new Intent(EventDetailsActivity.this, HomeScreenActivity.class);
+                                startActivity(intent);
                             })
                             .setNegativeButton("No", null)
                             .show();
                 } else if ("browse".equals(source)) {
-                    // Call  addUserToEvent method. This will add the user to the event
-                    EventUtility.addUserToEvent(userID, eventID);
-
-                    // Add user to the list of events they've signed up for
+                    // check the attendee limit for the event
                     FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-                    firebaseUserManager.addEventToUser(userID, eventID);
+                    Task<Boolean> eventFull = EventUtility.eventFull(getIntent().getStringExtra("eventID"), userID);
+                    eventFull.addOnSuccessListener(new OnSuccessListener<Boolean>() {
+                        @Override
+                        public void onSuccess(Boolean isFull) {
+                            if (!isFull) {
+                                // Call  addUserToEvent method. This will add the user to the event
+                                EventUtility.addUserToEvent(userID, eventID);
 
-                    // Display toast message
-                    Toast.makeText(EventDetailsActivity.this, "Successfully Signed Up for Event!!!", Toast.LENGTH_SHORT).show();
+                                // Add user to the list of events they've signed up for
+                                firebaseUserManager.addEventToUser(userID, eventID);
 
+                                // Display toast message
+                                Toast.makeText(EventDetailsActivity.this, "Successfully Signed Up for Event!!!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(EventDetailsActivity.this, HomeScreenActivity.class);
+                                intent.putExtra("role", "attendee");
+                                intent.putExtra("eventID", eventID);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                            }
+                            else {
+                                Toast.makeText(EventDetailsActivity.this, "Sorry, Event is full", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(EventDetailsActivity.this, HomeScreenActivity.class);
+                                intent.putExtra("role", "attendee");
+                                intent.putExtra("eventID", eventID);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                                startActivity(intent);
+                            }
+
+                        }
+                    });
                     // Close the activity and go back
                     finish();
+
                 }
             }
         });
@@ -126,7 +165,6 @@ public class EventDetailsActivity  extends AppCompatActivity {
             }
         });
     }
-
     private void setupOrganizerView() {
         eventPoster = findViewById(R.id.poster_org_eventInfo);
         eventLocation = findViewById(R.id.loc_org_eventInfo);
@@ -144,15 +182,29 @@ public class EventDetailsActivity  extends AppCompatActivity {
             shareQR.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    QRGenerator test = new QRGenerator();
-                    Bitmap bitmap = test.generate(eventID, "", 400, 400); //TODO: change for the sign up page/check IN
-                    Uri bitmapUri = saveBitmapToCache(bitmap);
+                    // Create an AlertDialog.Builder
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EventDetailsActivity.this);
+                    builder.setTitle("Choose QR Code Type")
+                            .setItems(new String[]{"Promotional QR code", "Check-in QR code"}, (dialog, which) -> {
+                                String qrCodeType =(which == 0) ? "/sign_up" : "/check_in"; // 0 for promotional, 1 for check-in
 
-                Intent intent = new Intent(EventDetailsActivity.this, ShareQRActivity.class);
+                                QRGenerator test = new QRGenerator();
+                                Bitmap bitmap = test.generate(eventID, qrCodeType, 400, 400);//generate with a string that we can parse
+                                Uri bitmapUri = saveBitmapToCache(bitmap);
 
-                intent.putExtra("eventID", eventID);
-                intent.putExtra("BitmapImage", bitmapUri.toString());
-                startActivity(intent);
+                                Intent intent = new Intent(EventDetailsActivity.this, ShareQRActivity.class);
+                                intent.putExtra("eventID", eventID);
+                                if(which == 0) {
+                                    intent.putExtra("qrCodeType", "Promotional");
+                                } else {
+                                    intent.putExtra("qrCodeType", "Check-in");
+                                }
+                                assert bitmapUri != null;
+                                intent.putExtra("BitmapImage", bitmapUri.toString());
+                                startActivity(intent);
+                            });
+                    // Create and show the AlertDialog
+                    builder.create().show();
             }
         });
 
@@ -162,6 +214,13 @@ public class EventDetailsActivity  extends AppCompatActivity {
                 openMapIntent(eventID, "organizer", (String) eventLocation.getText());
             }
         });
+
+        findViewById(R.id.attendees_list_event_details).setOnClickListener(v -> openAttendeeListIntent());
+    }
+
+    private void openAttendeeListIntent(){
+        Intent intent = new Intent(EventDetailsActivity.this, AttendeesActivity.class);
+        startActivity(intent);
     }
 
     private void openMapIntent(String eventID, String role, String addressString) {

@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
 
 public class Event
 {

@@ -5,7 +5,7 @@
   android:id="@+id/container_home_page_attendees"
   android:layout_width="match_parent"
   android:layout_height="807dp"
-  android:background="@drawable/container_home_page_attendees">
+  android:background="@drawable/white_background_layout">
 
   <TextView
         android:id="@+id/text_notifications"
@@ -13,8 +13,8 @@
         android:layout_height="20dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="360dp"
-        android:layout_gravity="top|left"
-        android:gravity="left|center_vertical"
+        android:layout_gravity="top|start"
+        android:gravity="start|center_vertical"
         android:includeFontPadding="false"
         android:maxLines="1"
         android:singleLine="true"
@@ -36,13 +36,13 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/img_career_fairs_web_banner" />
+        android:src="@drawable/image_circle_logo" />
 
     <ImageView
         android:id="@+id/location_pin_attendee_home"
         android:layout_width="17.5dp"
         android:layout_height="25dp"
-        android:layout_gravity="top|left"
+        android:layout_gravity="top|start"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="30dp"
         android:scaleType="centerInside"
@@ -52,10 +52,10 @@
         android:id="@+id/attendee_home_event_location"
         android:layout_width="wrap_content"
         android:layout_height="17dp"
-        android:layout_gravity="top|left"
+        android:layout_gravity="top|start"
         android:layout_marginLeft="41dp"
         android:layout_marginTop="-23dp"
-        android:gravity="left|center_vertical"
+        android:gravity="start|center_vertical"
         android:includeFontPadding="false"
         android:maxLines="1"
         android:singleLine="true"
@@ -69,12 +69,13 @@
         android:layout_height="48dp"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="28dp"
-        android:gravity="left|top"
+        android:gravity="start|top"
         android:includeFontPadding="false"
         android:lineHeight="24dp"
         android:text="👋 Welcome to Career Launchpad 2024! 🚀\n"
         android:textColor="#FF000000"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:inputType="textMultiLine"/>
   </LinearLayout>
 
     <!-- RecyclerView for notifications -->
@@ -136,7 +137,7 @@
         android:id="@+id/image_screenshot"
         android:layout_width="56dp"
         android:layout_height="46dp"
-        android:layout_gravity="top|left"
+        android:layout_gravity="top|start"
         android:layout_marginTop="4dp"
         android:scaleType="centerInside"
         android:src="@drawable/image_screenshot" />
@@ -151,13 +152,13 @@
       android:layout_marginTop="700dp"
       android:layout_marginBottom="0.05dp"
       android:scaleType="centerInside"
-      android:src="@drawable/event_list"
+      android:src="@drawable/event_list_black"
       android:contentDescription="Button to show a list " />
 
   <TextView
       android:layout_width="wrap_content"
       android:layout_height="20dp"
-      android:gravity="left|center_vertical"
+      android:gravity="start|center_vertical"
       android:includeFontPadding="false"
       android:maxLines="1"
       android:singleLine="true"

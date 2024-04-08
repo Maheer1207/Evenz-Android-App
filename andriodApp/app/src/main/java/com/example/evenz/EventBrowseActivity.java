@@ -2,10 +2,11 @@ package com.example.evenz;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
+
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.widget.ImageView;
+
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +20,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+
 
 //call ArrayList<Event> eventDataList
 
@@ -41,7 +42,6 @@ public class EventBrowseActivity extends AppCompatActivity {
         if (extras != null) {
             String eventID = extras.getString("eventID");
             String role = extras.getString("role");
-            // Use eventID and userID here
         }
         // Initialize eventDataList
         eventDataList = new ArrayList<>();
@@ -58,6 +58,19 @@ public class EventBrowseActivity extends AppCompatActivity {
             }
         });
         fetchEvents();
+
+        findViewById(R.id.home_admin_browse_attendee).setOnClickListener (
+                v-> startActivity(new Intent(EventBrowseActivity.this, HomeScreenActivity.class))
+        );
+
+        ImageView profileAttendee = findViewById(R.id.profile_attendee);
+        profileAttendee.setOnClickListener(v -> {
+            Intent intent = new Intent(EventBrowseActivity.this, UserEditProfileActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("role", "attendee");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
 
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
     }

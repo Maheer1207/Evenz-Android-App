@@ -3,11 +3,15 @@ package com.example.evenz;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,11 +24,15 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 
 public class AttendeesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private ImageView shareQR;
     private AttendeeAdapter adapter;
     private List<User> attendeesList;
     private TextView limit;
@@ -41,6 +49,7 @@ public class AttendeesActivity extends AppCompatActivity {
         initializeComponents();
 
         String deviceID = getDeviceID();
+        //String deviceID = "1";
         fetchEventID(deviceID);
     }
 
@@ -52,8 +61,58 @@ public class AttendeesActivity extends AppCompatActivity {
         limitString = "Attendees ";
 
         firebaseUserManager = new FirebaseUserManager();
+
+        findViewById(R.id.home_attendee_limit).setOnClickListener(v-> startActivity(new Intent(AttendeesActivity.this, HomeScreenActivity.class)));
+
+        //updated share QR option to have promotional and check-in QR code options
+        shareQR = findViewById(R.id.shareQR_attendee_limit);
+        shareQR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an AlertDialog.Builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(AttendeesActivity.this);
+                builder.setTitle("Choose QR Code Type")
+                        .setItems(new String[]{"Promotional QR code", "Check-in QR code"}, (dialog, which) -> {
+                            String qrCodeType =(which == 0) ? "/sign_up" : "/check_in"; // 0 for promotional, 1 for check-in
+
+                            QRGenerator test = new QRGenerator();
+                            Bitmap bitmap = test.generate(eventID, qrCodeType, 400, 400);//generate with a string that we can parse
+                            Uri bitmapUri = saveBitmapToCache(bitmap);
+
+                            Intent intent = new Intent(AttendeesActivity.this, ShareQRActivity.class);
+                            intent.putExtra("eventID", eventID);
+                            if(which == 0) {
+                                intent.putExtra("qrCodeType", "Promotional");
+                            } else {
+                                intent.putExtra("qrCodeType", "Check-in");
+                            }
+                            assert bitmapUri != null;
+                            intent.putExtra("BitmapImage", bitmapUri.toString());
+                            startActivity(intent);
+                        });
+                // Create and show the AlertDialog
+                builder.create().show();
+            }
+        });
     }
 
+    // This method saves the bitmap to cache and returns the Uri
+    private Uri saveBitmapToCache(Bitmap bitmap) {
+        try {
+            File cachePath = new File(getCacheDir(), "images");
+            cachePath.mkdirs(); // don't forget to make the directory
+            FileOutputStream stream = new FileOutputStream(cachePath + "/image.png"); // overwrites this image every time
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            stream.close();
+
+            File imagePath = new File(getCacheDir(), "images");
+            File newFile = new File(imagePath, "image.png");
+            return Uri.fromFile(newFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     private void fetchEventID(String deviceID) {
         Task<String> getEventID = firebaseUserManager.getEventName(deviceID);
@@ -101,7 +160,7 @@ public class AttendeesActivity extends AppCompatActivity {
 
     private void updateUI(List<User> attendees) {
         attendeesList = attendees;
-        adapter = new AttendeeAdapter(attendeesList);
+        adapter = new AttendeeAdapter(attendeesList, eventID);
         recyclerView.setAdapter(adapter);
     }
 
@@ -119,6 +178,15 @@ public class AttendeesActivity extends AppCompatActivity {
                 // Convert the max attendees to a string
                 limitString = "Attendees: " + attendees + "/" + maxAttendees;
                 limit.setText(limitString);
+                if (attendees == maxAttendees) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event is HouseFull!!", Toast.LENGTH_LONG).show();
+                } else if ((double) attendees /maxAttendees >= 0.75 && (double) attendees /maxAttendees < 0.8) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event reached its 75% capacity!!", Toast.LENGTH_LONG).show();
+                } else if ((double) attendees /maxAttendees >= 0.5 && (double) attendees /maxAttendees < 0.6) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event reached its 50% capacity!!", Toast.LENGTH_LONG).show();
+                } else if ((double) attendees /maxAttendees >= 0.25 && (double) attendees /maxAttendees < 0.3) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event reached its 25% capacity!!", Toast.LENGTH_LONG).show();
+                }
             }
         });
         // Handle the failure of the getAttendLimit task

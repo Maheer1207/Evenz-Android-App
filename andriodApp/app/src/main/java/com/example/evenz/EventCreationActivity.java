@@ -1,5 +1,7 @@
 package com.example.evenz;
 
+import static java.util.UUID.randomUUID;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,6 +42,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import java.text.ParseException;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.zip.CRC32C;
 
@@ -47,17 +50,18 @@ import java.util.zip.CRC32C;
 
     // Define constants at the top of your class
     private static final int PICK_IMAGE_REQUEST = 22;
-    private static final String DEFAULT_ROLE = "organizer";
+    private Uri filePathPoster, filePathQR;
+    StorageReference storageReference;
+    StorageReference photoRef, qrRef;
 
-    // Declare variables
-    private Uri filePath;
-    private StorageReference storageReference;
-    private StorageReference photoRef;
-    private ImageView imageView, datePickerButton;
-    private EditText editTextOrganizerName, editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
+    private ImageView datePickerButton, uploadPosterImg, uploadQRImg;
+    private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
     private RelativeLayout submitEventButton;
-    private String eventPosterID_temp;
+
+    private String eventPosterID_temp, eventQrID, uploadedImg;
     private String eventID;
+    private Bitmap qrBitmap;
+    // ImageUtility instance
     private ImageUtility imageUtility;
 
     @Override
@@ -73,22 +77,39 @@ import java.util.zip.CRC32C;
 
 
 
-        eventPosterID_temp = UUID.randomUUID().toString();
+        eventPosterID_temp = randomUUID().toString();
         photoRef = storageReference.child("images/" + eventPosterID_temp);
 
         // Initialize UI components
         initUI();
 
-        datePickerButton.setOnClickListener(v -> {
-            DatePickerFragment mDatePickerDialogFragment = new DatePickerFragment();
-            mDatePickerDialogFragment.show(getSupportFragmentManager(), "DATE PICK");
+        datePickerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerFragment mDatePickerDialogFragment = new DatePickerFragment();
+                mDatePickerDialogFragment.show(getSupportFragmentManager(), "DATE PICK");
+            }
         });
 
-        imageView.setOnClickListener(v -> select());
+        uploadPosterImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadedImg = "poster";
+                select();
+            }
+        });
+
+        uploadQRImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadedImg = "qr";
+                select();
+            }
+        });
 
         // Submit event button listener for initiating the upload process
         submitEventButton.setOnClickListener(view -> {
-            if (filePath != null) {
+            if (filePathPoster != null) {
                 ImageUtility.UploadCallback callback = new ImageUtility.UploadCallback() {
                     @Override
                     public void onSuccess(String imageID, String imageURL) {
@@ -111,7 +132,7 @@ import java.util.zip.CRC32C;
                     }
                 };
 
-                imageUtility.upload(filePath, callback);
+                imageUtility.upload(filePathPoster, callback);
             } else {
                 Toast.makeText(EventCreationActivity.this, "Please select an image first", Toast.LENGTH_SHORT).show();
             }
@@ -141,10 +162,19 @@ import java.util.zip.CRC32C;
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
+                Bitmap bitmap;
+                if (Objects.equals(uploadedImg, "poster")) {
+                    filePathPoster = data.getData();
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePathPoster);
+                    uploadPosterImg.setImageBitmap(bitmap);
+                }
+                else {
+                    filePathQR = data.getData();
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePathQR);
+                    qrBitmap = bitmap;
+                    uploadQRImg.setImageBitmap(bitmap);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -154,19 +184,20 @@ import java.util.zip.CRC32C;
     private void initUI() {
         editTextOrganizerName = findViewById(R.id.editTextOrganizerName);
         editTextEventName = findViewById(R.id.editTextEventName);
-        editDate = findViewById(R.id.editDate); // Ensure you have input formatting or parsing for date
+        editDate = findViewById(R.id.editDate); // Date picker
         datePickerButton = findViewById(R.id.event_Date_Picker);
-        imageView = findViewById(R.id.vector_ek2); // Replace 'your_image_view_id' with the actual ID of your ImageView
         editTextAttendeeLimit = findViewById(R.id.no_limit);
         editTextEventInfo = findViewById(R.id.editTextEventInfo);
         editTextEventLoc = findViewById(R.id.editTextLocation);
+        uploadPosterImg = findViewById(R.id.upload_poster_img);
+        uploadQRImg = findViewById(R.id.upload_qr_img);
         submitEventButton = findViewById(R.id.create_event_button); //Create event button
     }
 
     private void navigateToHomeScreen() {
         Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
         Bundle b = new Bundle();
-        b.putString("role", DEFAULT_ROLE);
+        b.putString("role", "organizer");
         b.putString("eventID", eventID);
         intent.putExtras(b);
         startActivity(intent);
@@ -189,43 +220,73 @@ import java.util.zip.CRC32C;
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, Locale.getDefault());
         Date eventDate = dateFormat.parse(eventDatestring);
 
-        int eventAttendeeLimit = Integer.parseInt(attendeeLimit);
-        Geolocation geolocation = new Geolocation("asd", 0.0f, 0.0f); //TODO: replace with actual values
-        Bitmap qrCodeBrowse = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code
-        Bitmap qrCodeCheckIn = Bitmap.createBitmap(4, 4, Bitmap.Config.ARGB_8888); // TODO: get random generated QR code for events
-        ArrayList<String> userList = new ArrayList<>(); // TODO: append attendee who check in the event
-        ArrayList<String> notificationList = new ArrayList<>(); // TODO: append notification to the list
+        if(qrBitmap != null) {
+            eventID = imageUtility.decodeQRCode(qrBitmap);
+        }
 
-        Event newEvent = new Event(eventID, orgName, eventName, eventPosterID, description, geolocation, qrCodeBrowse, qrCodeCheckIn, eventAttendeeLimit, userList, eventDate, notificationList, location);
+        // Prepare the event data map
+        Map<String, Object> eventData = new HashMap<>();
+        eventData.put("eventName", eventName);
+        eventData.put("description", description);
+        eventData.put("eventPosterID", eventPosterID);
+        eventData.put("eventAttendLimit", Integer.parseInt(attendeeLimit));
+        eventData.put("organizationName", orgName);
+        eventData.put("eventDate", eventDate);
+        eventData.put("location", location);
+        eventData.put("eventID", eventID);
 
-        Map<String, Object> eventMap1 = EventUtility.evtomMap(newEvent);
 
-        EventUtility.storeEventwnm(eventMap1, eventID);
+        EventUtility.storeEventwnm(eventData, eventID);
+        // Update the user's document with the new event ID (if necessary)
+        submitOrganizer();
+        // Navigate to the home screen after the event has been successfully stored
+        navigateToHomeScreen(eventID);
     }
 
     private void submitOrganizer() {
         @SuppressLint("HardwareIds") String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         String name = editTextOrganizerName.getText().toString().trim();
-        String eventName = editTextEventName.getText().toString().trim();
         // Create a new user with the feilds and all other set to null
         User organizer = new User(deviceID, name, "", "", "", "Organizer", false, false);
 
         FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-
-        firebaseUserManager.submitUser(organizer).addOnCompleteListener(task -> {
+        firebaseUserManager.getUserExist(deviceID).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                // Add the event to the organizer's event list
-                firebaseUserManager.addEventToUser(deviceID, eventName).addOnCompleteListener(task1 -> {
+                firebaseUserManager.addEventToUser(deviceID, eventID).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
                         Log.d("EventCreationActivity", "Organizer added successfully");
-                    } else {
-                        Log.e("EventCreationActivity", "Failed to add event to organizer", task1.getException());
-
+                        navigateToHomeScreen();
                     }
                 });
-            } else {
-                Log.e("EventCreationActivity", "Failed to submit organizer", task.getException());
+            }
+            else {
+                firebaseUserManager.submitUser(organizer).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        // Add the event to the organizer's event list
+                        firebaseUserManager.addEventToUser(deviceID, eventID).addOnCompleteListener(task2 -> {
+                            if (task2.isSuccessful()) {
+                                Log.d("EventCreationActivity", "Organizer added successfully");
+                                navigateToHomeScreen();
+                            } else {
+                                Log.e("EventCreationActivity", "Failed to add event to organizer", task2.getException());
+
+                            }
+                        });
+                    } else {
+                        Log.e("EventCreationActivity", "Failed to submit organizer", task1.getException());
+                    }
+                });
             }
         });
     }
+
+    private void navigateToHomeScreen(String eventID) {
+        Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
+        intent.putExtra("role", "organizer");
+        intent.putExtra("eventID", eventID);
+        startActivity(intent);
+    }
+
+
+
 }

@@ -1,14 +1,19 @@
 package com.example.evenz;
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.camera.core.Camera;
 import androidx.camera.core.CameraSelector;
 import androidx.camera.core.ExperimentalGetImage;
 import androidx.camera.core.ImageAnalysis;
@@ -19,14 +24,21 @@ import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.example.evenz.R;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.mlkit.vision.barcode.BarcodeScanner;
 import com.google.mlkit.vision.barcode.BarcodeScannerOptions;
 import com.google.mlkit.vision.barcode.BarcodeScanning;
 import com.google.mlkit.vision.barcode.common.Barcode;
 import com.google.mlkit.vision.common.InputImage;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
 public class ScanQRActivity extends AppCompatActivity {
@@ -34,6 +46,10 @@ public class ScanQRActivity extends AppCompatActivity {
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
     private static final int REQUEST_CAMERA_PERMISSION = 100; //TODO: fix later
+    private Camera camera;
+    private boolean isProcessing = false;//so we can have only one
+
+    private boolean isFlashlightOn = false;//For flashlight QR scaning
 
 
     @Override
@@ -58,7 +74,8 @@ public class ScanQRActivity extends AppCompatActivity {
         }, ContextCompat.getMainExecutor(this));
     }
 
-    @OptIn(markerClass = ExperimentalGetImage.class) private void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
+    @OptIn(markerClass = ExperimentalGetImage.class)
+    private void bindPreview(@NonNull ProcessCameraProvider cameraProvider) {
         Preview preview = new Preview.Builder().build();
         CameraSelector cameraSelector = new CameraSelector.Builder()
                 .requireLensFacing(CameraSelector.LENS_FACING_BACK)
@@ -70,14 +87,28 @@ public class ScanQRActivity extends AppCompatActivity {
                 .build();
 
         imageAnalysis.setAnalyzer(ContextCompat.getMainExecutor(this), imageProxy -> {
-            @NonNull InputImage image = InputImage.fromMediaImage(imageProxy.getImage(), imageProxy.getImageInfo().getRotationDegrees());
+            @NonNull InputImage image = InputImage.fromMediaImage(Objects.requireNonNull(imageProxy.getImage()), imageProxy.getImageInfo().getRotationDegrees());
             scanBarcodes(image, imageProxy);
         });
 
         cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
+        camera = cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageAnalysis);
+
+        // Get the ImageView and set an OnClickListener on it
+        ImageView flashlightButton = findViewById(R.id.img_rectangle);
+        flashlightButton.setOnClickListener(v -> toggleFlashlight()); //TODO: check if flashlight is working
+    }
+
+    private void toggleFlashlight() {
+        isFlashlightOn = !isFlashlightOn;
+        camera.getCameraControl().enableTorch(isFlashlightOn);
     }
 
     private void scanBarcodes(InputImage image, ImageProxy imageProxy) {
+        if (isProcessing) {
+            imageProxy.close();
+            return;
+        }
         BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
                 .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
                 .build();
@@ -87,30 +118,71 @@ public class ScanQRActivity extends AppCompatActivity {
                 .addOnSuccessListener(barcodes -> {
                     for (Barcode barcode : barcodes) {
                         String rawValue = barcode.getRawValue();
+                        isProcessing = true;
                         runOnUiThread(() -> handleQRCode(rawValue));
-                        break; // Assuming you want to process only the first QR code found
+                        break; //process first barcode only
                     }
                     imageProxy.close(); // Ensure to close the ImageProxy
                 })
-                .addOnFailureListener(e -> imageProxy.close()); // Ensure to close the ImageProxy on failure as well
+                .addOnFailureListener(e -> imageProxy.close());// Ensure to close the ImageProxy on failure as well
     }
 
     private void handleQRCode(String qrCode) {
         if (qrCode != null) {
-            Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class);
-            Bundle b = new Bundle();
-            b.putString("role", "attendee");
-            b.putString("eventID", qrCode);
-            intent.putExtras(b);
+            String[] parts = qrCode.split("/");
+            String lastPart = parts[parts.length -1];
+            if (lastPart.equals("check_in")) {
+                // Check in the user to the event
+                Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class);
+                Bundle b =new Bundle();
+                b.putString("role", "attendee");
+                b.putString("eventID", parts[parts.length -2]);
+                intent.putExtras(b);
 
-            FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-            String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+                FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+                String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-            firebaseUserManager.checkInUser(deviceId, qrCode)
-                    .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
-                    .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
+                // Get the user's current location
+                LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                Log.d("LocationDebug", "Before checking permission");
+                if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("LocationDebug", "Permission granted");
+                    Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                    if (location != null) {
+                        Log.d("LocationDebug", "Location obtained");
+                        double latitude = location.getLatitude();
+                        double longitude = location.getLongitude();
 
-            startActivity(intent);
+                        // Add the locations to the event
+                        EventUtility.addLocationsToEvent(parts[parts.length -2], latitude,longitude );
+                    } else {
+                        Log.d("LocationDebug", "Location is null");
+                    }
+                } else {
+                    Log.d("LocationDebug", "Permission not granted");
+                }
+                firebaseUserManager.addEventToUser(deviceId, parts[parts.length -2])//this is for adding user to the events signed up for
+                        .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
+                        .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
+
+                firebaseUserManager.checkInUser(deviceId, parts[parts.length -2]) // this is for putting the event in checked in
+                        .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
+                        .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
+
+
+                EventUtility.userCheckIn(deviceId, parts[parts.length -2]);
+
+                startActivity(intent);
+                isProcessing = false;
+            }
+         else if (lastPart.equals("sign_up")) {
+                // Navigate to the event details for the attendee to sign up
+                Intent intent = new Intent(ScanQRActivity.this, EventDetailsActivity.class);
+                intent.putExtra("eventID", parts[parts.length -2]);
+                intent.putExtra("source", "browse");
+                intent.putExtra("role", "attendee");
+                startActivity(intent);
+            }
         }
     }
 }

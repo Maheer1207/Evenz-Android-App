@@ -1,5 +1,7 @@
 package com.example.evenz;
 
+import android.util.Log;
+
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
@@ -22,6 +24,11 @@ public class FirebaseUserManager {
 
     public FirebaseUserManager() {
         this.db = FirebaseFirestore.getInstance();
+        this.ref = db.collection("users");
+    }
+
+    public FirebaseUserManager(FirebaseFirestore db) {
+        this.db = db;
         this.ref = db.collection("users");
     }
 
@@ -59,12 +66,16 @@ public class FirebaseUserManager {
     public Task<Void> removeEventFromUser(String userId, String eventId) {
         return ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(eventId));
     }
-
+    
     // Add a checkin event to a user
     public Task<Void> checkInUser(String userId, String eventId) {
         return ref.document(userId).update("checkedInEvent", eventId);
     }
 
+    // Add a checkout event to a user
+    public Task<Void> checkOutUser(String userId) {
+        return ref.document(userId).update("checkedInEvent", null);
+    }
     // Create a method that will return the eventID of the checked-in event for a given user
     public Task<String> getCheckedInEventForUser(String userId) {
         return ref.document(userId).get().continueWith(task -> {
@@ -116,7 +127,35 @@ public class FirebaseUserManager {
         return users;
     }
 
-
+    public Task<List<String>> getEventsSignedUpForUser(String userId) {
+        return db.collection("users").document(userId).get().continueWith(task -> {
+            List<String> eventsSignedUpFor = new ArrayList<>();
+            if (task.isSuccessful() && task.getResult() != null) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists() && document.getData() != null) {
+                    // Attempt to get the eventsSignedUpFor field as a List
+                    Object eventsObject = document.get("eventsSignedUpFor");
+                    if (eventsObject instanceof List<?>) {
+                        List<?> eventsRawList = (List<?>) eventsObject;
+                        for (Object item : eventsRawList) {
+                            if (item instanceof String) {
+                                eventsSignedUpFor.add((String) item);
+                            } else {
+                                Log.e("Firestore", "Invalid item type in eventsSignedUpFor array");
+                            }
+                        }
+                    } else {
+                        Log.e("Firestore", "'eventsSignedUpFor' field is not a List");
+                    }
+                } else {
+                    Log.e("Firestore", "Document does not exist");
+                }
+            } else {
+                Log.e("Firestore", "Failed to fetch user document", task.getException());
+            }
+            return eventsSignedUpFor;
+        });
+    }
 
     // Create user method that will return a user object for a given userId
     public Task<User> getUser(String userId) {
@@ -148,10 +187,9 @@ public class FirebaseUserManager {
      * A firebase task that given the device id of the user returns the eventID
      * they are currently attending or hosting
      * @param deviceID The id of the device (userID)
-     * @return the eventID they are currently attending or hosting
+     * @return the eventID they are currently org
      */
-    public Task<String> getEventID(String deviceID) {
-        final List<String> eventID = new ArrayList<>();
+    public Task<String> getEventIDOrg(String deviceID) {
 
         return FirebaseFirestore.getInstance()
                 .collection("users")
@@ -159,21 +197,37 @@ public class FirebaseUserManager {
                 .continueWith(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.contains("eventList")) {
-                                if (document.getId().equals(deviceID)) {
-                                    eventID.add(document.getString("eventList"));
-                                    return eventID.get(0);
-                                }
+                            if (document.getId().equals(deviceID)) {
+                                List<String> eventsSignedUpFor = (List<String>) document.get("eventsSignedUpFor");
+                                return eventsSignedUpFor.get(0);
                             }
                         }
-                        eventID.add("N");
-                        return eventID.get(0);
+                        return "N";
                     } else {
                         throw task.getException();
                     }
                 });
     }
-
+    /**
+     * A firebase task that given the device id of the user returns their eventID
+     * @param deviceID The id of the device (userID)
+     * @return the devices usertype being Attendee
+     */
+    public Task<String> getEventIDAttendee(String deviceID) {
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(deviceID)
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        DocumentSnapshot document = task.getResult();
+                        String checkedInEvent = document.getString("checkedInEvent");
+                        return (checkedInEvent != null && !checkedInEvent.isEmpty()) ? checkedInEvent : null;
+                    } else {
+                        return null;
+                    }
+                });
+    }
     public Task<String> getEventName(String userId) {
         return ref.document(userId).get().continueWith(task -> {
             if (task.isSuccessful() && task.getResult() != null) {
@@ -219,6 +273,89 @@ public class FirebaseUserManager {
                     } else {
                         throw task.getException();
                     }
+                });
+    }
+
+    /**
+     * Removes a user from firebase
+     * @param userId Id of user to be deleted
+     * @return Nothing
+     */
+    public Task<Void> deleteUser(String userId) {
+        return ref.document(userId).delete();
+    }
+
+    /**
+     * Gets all of the attendees
+     * @return all attendees
+     */
+    public Task<List<User>> getAttendees() {
+        return ref.whereEqualTo("userType", "attendee").get()
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        // If the task failed, propagate the exception
+                        return Tasks.forException(task.getException());
+                    }
+                    if (task.getResult() == null) {
+                        // If the result is null, propagate an exception or handle accordingly
+                        return Tasks.forException(new IllegalStateException("Result is null"));
+                    }
+
+                    // Call the helper method to process the documents
+                    return Tasks.forResult(processDocuments(task.getResult()));
+                });
+    }
+    /**
+     * Gets if a given user is already in the database
+     * @param deviceID the id of the user
+     * @return true or false if the user exists
+     */
+    public Task<Boolean> getUserExist(String deviceID) {
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.getId().equals(deviceID)) {
+                                return true;
+                            }
+                        }
+                        throw task.getException();
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
+    /**
+     * Sets a selected event an organizer has organized
+     * and assigns it to the first position of the events
+     * they have organized, making that event default
+     * @param userId ID of the organizer
+     * @param eventId ID of the event to be set to the top
+     * @return no value
+     */
+    public Task<Void> setTopOrgEvent(String userId, String eventId) {
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.getId().equals(userId)) {
+                                List<String> events = (List<String>)document.get("eventsSignedUpFor");
+                                events.remove(eventId);
+                                for (String event : events) {
+                                    ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(event));
+                                    ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayUnion(event));
+                                }
+                            }
+                        }
+                    } else {
+                        throw task.getException();
+                    }
+                    return null;
                 });
     }
 

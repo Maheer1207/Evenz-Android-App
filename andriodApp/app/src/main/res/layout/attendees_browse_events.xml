@@ -5,7 +5,7 @@
   android:id="@+id/container_user_browse_events"
   android:layout_width="393dp"
   android:layout_height="807dp"
-  android:background="@drawable/container_user_browse_events">
+  android:background="@drawable/white_background_layout">
   <TextView
       android:id="@+id/container_frame13"
       android:layout_width="wrap_content"
@@ -76,11 +76,10 @@
   <ImageView
       android:id="@+id/event_list"
       android:layout_width="38dp"
-      android:layout_height="wrap_content"
+      android:layout_height="38dp"
       android:layout_marginStart="300dp"
       android:layout_marginTop="700dp"
       android:layout_marginBottom="0.05dp"
-      android:contentDescription="Button to show a list "
       android:scaleType="centerInside"
-      android:src="@drawable/event_list" />
+      android:src="@drawable/event_list_white" />
 </FrameLayout>
