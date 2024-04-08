@@ -1,5 +1,6 @@
 package com.example.evenz;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -154,27 +155,48 @@ public class HomeScreenActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        //updated share QR option to have promotional and check-in QR code options
         ImageView shareQR = findViewById(R.id.shareQR);
         shareQR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Create an AlertDialog.Builder
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
+                builder.setTitle("Choose QR Code Type")
+                        .setItems(new String[]{"Promotional QR code", "Check-in QR code"}, (dialog, which) -> {
+                            String qrCodeType =(which == 0) ? "/sign_up" : "/check_in"; // 0 for promotional, 1 for check-in
 
-                QRGenerator test = new QRGenerator();
-                Bitmap bitmap = test.generate(eventID, "SignUp", 400, 400);
-                Uri bitmapUri = saveBitmapToCache(bitmap);
+                            QRGenerator test = new QRGenerator();
+                            Bitmap bitmap = test.generate(eventID, qrCodeType, 400, 400);//generate with a string that we can parse
+                            Uri bitmapUri = saveBitmapToCache(bitmap);
 
-                Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
-
-                intent.putExtra("eventID", eventID);
-                intent.putExtra("BitmapImage", bitmapUri.toString());
-                startActivity(intent);
+                            Intent intent = new Intent(HomeScreenActivity.this, ShareQRActivity.class);
+                            intent.putExtra("eventID", eventID);
+                            if(which == 0) {
+                                intent.putExtra("qrCodeType", "Promotional");
+                            } else {
+                                intent.putExtra("qrCodeType", "Check-in");
+                            }
+                            assert bitmapUri != null;
+                            intent.putExtra("BitmapImage", bitmapUri.toString());
+                            startActivity(intent);
+                        });
+                // Create and show the AlertDialog
+                builder.create().show();
             }
+        });
+
+
+        ImageView viewAttendees = findViewById(R.id.profile_attendee);
+        viewAttendees.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeScreenActivity.this, AttendeesActivity.class);
+            startActivity(intent);
         });
 
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openEventDetailsIntent(eventID, "organizer");
+                openEventDetailsIntent(eventID, role);
             }
         });
         eventLocation.setOnClickListener(new View.OnClickListener() {
@@ -200,6 +222,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         Bundle b = new Bundle();
         b.putString("role", role);
         b.putString("eventID", eventID);
+        intent.putExtra("source", "homepage");
         intent.putExtras(b);
         startActivity(intent);
     }

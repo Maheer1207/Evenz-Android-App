@@ -36,7 +36,7 @@
       android:layout_height="48dp"
       android:layout_marginStart="20dp"
       android:layout_marginTop="265dp"
-      android:gravity="left|top"
+      android:gravity="start|top"
       android:includeFontPadding="false"
       android:lineHeight="24dp"
       android:text="👋 Welcome to Career Launchpad 2024! 🚀\n"
@@ -105,7 +105,7 @@
     <View
         android:id="@+id/light_green_button_rect"
         android:layout_width="205dp"
-        android:layout_height="27dp"
+        android:layout_height="40dp"
         android:layout_marginStart="-1dp"
         android:layout_marginTop="-1dp"
         android:background="@drawable/light_green_button_setup" />
@@ -117,11 +117,12 @@
         android:shadowDx="0"
         android:shadowDy="4"
         android:shadowRadius="4"
-        android:text="CHECK OUT"
+        android:text="SIGN UP"
         android:textAlignment="center"
         android:textColor="@color/create_event_color"
         android:textSize="16.02sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"/>
   </RelativeLayout>
   <ImageView
       android:id="@+id/bottom_actionbar"
@@ -161,6 +162,6 @@
       android:layout_marginTop="700dp"
       android:layout_marginBottom="0.05dp"
       android:scaleType="centerInside"
-      android:src="@drawable/event_list" />
+      android:src="@drawable/event_list_black" />
 
 </FrameLayout>

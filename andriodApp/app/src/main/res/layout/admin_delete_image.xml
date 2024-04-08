@@ -71,7 +71,7 @@
                 android:layout_marginTop="100dp"
                 android:layout_gravity="center">
                 <View
-                    android:id="@+id/light_green_button_rect"
+                    android:id="@+id/light_red_button_rect"
                     android:layout_width="205dp"
                     android:layout_height="48dp"
                     android:layout_marginStart="-1dp"

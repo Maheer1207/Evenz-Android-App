@@ -12,7 +12,6 @@ public class User
     private String userType;
 
     private Boolean notificationsEnabled;
-
     private Boolean locationEnabled;
 
     // Should be empty initally
@@ -20,12 +19,9 @@ public class User
 
     private String checkedInEvent = null;
 
-
-    // Default constructor required for calls to DataSnapshot.getValue(User.class)
-    public User() {
-    }
-
-
+    // Defullt constructor
+    public User() {}
+    // ATTENDEE CONSTRUCTOR
     public User(String userId, String name, String phone, String email, String profilePicID, String userType, Boolean notificationsEnabled, Boolean locationEnabled)
     {
         this.name = name;

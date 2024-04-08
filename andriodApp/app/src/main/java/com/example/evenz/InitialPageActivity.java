@@ -55,7 +55,7 @@ public class InitialPageActivity extends AppCompatActivity {
             public void onSuccess(String type) {
                 role = type;
                 // role is attendee/organizer so sends to event page
-                if (role.equals("attendee") || role.equals("organizer")) {
+                if (role.equals("attendee") || role.equals("Organizer")) {
                     Intent intent = new Intent(InitialPageActivity.this, HomeScreenActivity.class);
                     startActivity(intent);
                 // role is admin so sends to admin browse event

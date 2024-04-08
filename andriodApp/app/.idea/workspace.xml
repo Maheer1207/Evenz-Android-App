@@ -5,64 +5,112 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a2b742cf-4dce-411d-863b-639f15ee1894" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../.idea/navEditor.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/AdminBrowseEventActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/AttendeeEventInfoActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/AttendeeEventInfoSignUpActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventAdapter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventBrowseActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventCreationActivity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-nodpi/light_green_button_setup.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/back_less.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/bottom_actionbar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/camera_scan.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/clock_image.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_cards.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_cards1.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_event_information_page.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_home_page_attendees.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_user_browse_events.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/demo_poster2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/demo_poster_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/drawable_shape.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/event_list.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/home_white.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/image_banner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/image_career_fairs_web_banner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/image_vector.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/img_career_fairs_web_banner.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/img_img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/img_img1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/location_pin.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/poster_frame_outline.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/poster_outline.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/profile.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/attendees_black.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/back_less.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/boundary_style.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/event_list_white.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/folder_plus_upload.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/home.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/photos.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/admin_browse_users.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/attendee_event_info.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/attendee_event_info_sign_up.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/attendees_browse_events.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/attendees_home_page.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/content_main.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/create_event.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/layout/item_event.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/menu/menu_main.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/res/values/styles.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/AdminDeleteEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventSignedUpForAttendeeBrowse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/ImageGenerator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/ImageOptionsFragment.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/profile_blue.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/attendees_black.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/ellipse_1.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/event_list_black.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/event_list_white.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/folder_plus_upload.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/mini_camera_icon.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/photos.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/photos_white.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/plus_white.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/share.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/layout/admin_delete_event.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/layout/attendees_browse_signedup_events.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/layout/image_options_fragment.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/layout/user_create_profile.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/xml/file_paths.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gradle/config.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../.gradle/config.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/copilot/chatSessions/00000000000.xd" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/copilot/chatSessions/00000000000.xd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/copilot/chatSessions/xd.lck" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/copilot/chatSessions/xd.lck" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/Geolocation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/Geolocation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/AdminBrowseEventActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/AdminBrowseEventActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/Attendee.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/Attendee.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/AttendeeAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/AttendeeAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/AttendeesActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/AttendeesActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventBrowseActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventBrowseActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventCreationActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventCreationActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventDetailsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventHomeDetailsAdapter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/EventUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/FirebaseAttendeeManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/FirebaseAttendeeManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/FirebaseUserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/FirebaseUserManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/HomeScreenActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/HomeScreenActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/ImageAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/ImageAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/ImageUtility.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/ImageUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/InitialPageActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/InitialPageActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/MapsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/MapsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/OrgSendNotificationActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/OrgSendNotificationActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/ScanQRActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/ScanQRActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/ShareQRActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/ShareQRActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/evenz/UserEditProfileActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/evenz/UserEditProfileActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-nodpi/rectangle_24_ek1_shape.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-nodpi/rectangle_24_ek2_shape.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-nodpi/rectangle_24_shape.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-nodpi/rectangle_25_shape.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/bottom_actionbar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/bottom_actionbar.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_cards1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_document.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_group2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_group3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_home_page_attendees.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/white_background_layout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_initial_page.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_qr_code_generated_organizer.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/container_user_browse_events.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/event_list.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/header_icon2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/icon_house.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/home.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/image_icon_export.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/share_not_filled.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/image_rectangle.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/image_rectangle2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/image_rectangle3.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable-xxhdpi/image_vector.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/attendees_black.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/ellipse_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/event_list_white.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/folder_plus_upload.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/home.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/photos.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/photos_white.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/plus_white.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/share.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/vector.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/vector_ek1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/drawable/vector_ek2.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/admin_browse_images.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/admin_browse_images.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/admin_browse_users.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/admin_browse_users.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/admin_delete_image.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/admin_delete_image.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/admin_view_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/admin_view_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/attendee_event_info_sign_up.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/attendee_event_info_sign_up.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/attendees_browse_events.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/attendees_browse_events.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/attendees_home_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/attendees_home_page.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/container_initial_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/container_initial_page.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/container_qr_code_generated_organizer.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/container_qr_code_generated_organizer.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/create_event.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/create_event.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/item_attendee.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/item_attendee.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/item_profiles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/item_profiles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/org_event_info.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/org_event_info.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/org_home_page.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/org_home_page.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/qr_code_scan.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/qr_code_scan.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/user_edit_profile.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/user_edit_profile.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/view_attendees_at_event.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/view_attendees_at_event.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/evenz/AttendeeAdapterTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/evenz/AttendeeAdapterTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/evenz/UserTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/evenz/UserTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/evenz/eventTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/evenz/eventTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,17 +128,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "android.gradle.sync.needed": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "Merging sand"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Merging sand&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
