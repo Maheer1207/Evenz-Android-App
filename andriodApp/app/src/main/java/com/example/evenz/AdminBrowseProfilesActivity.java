@@ -3,6 +3,7 @@ package com.example.evenz;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -72,7 +73,24 @@ public class AdminBrowseProfilesActivity extends AppCompatActivity {
 		adapter.setOnClickListener(new AdminAttendeeAdapter.OnClickListener() {
 			@Override
 			public void onClick(int position, User user) {
-
+				new AlertDialog.Builder(AdminBrowseProfilesActivity.this)
+						.setTitle("Delete Confirmation")
+						.setMessage("Are you sure you want to delete " + user.getName())
+						.setPositiveButton("Yes", (dialog, which) -> {
+							Task<Void> deleteUser = firebaseUserManager.deleteUser(user.getUserId());
+							// add an on success listener to update the UI and display the attendees in toast
+							deleteUser.addOnSuccessListener(new OnSuccessListener<Void>() {
+								@Override
+								public void onSuccess(Void x) {
+									// Display toast message
+									attendeesList.remove(user);
+									adapter.notifyDataSetChanged();
+									Toast.makeText(AdminBrowseProfilesActivity.this, "Successfully Deleted!!!", Toast.LENGTH_SHORT).show();
+								}
+							});
+						})
+						.setNegativeButton("No", null)
+						.show();
 			}
 		});
 	}

@@ -67,6 +67,15 @@ public class FirebaseUserManager {
         return ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(eventId));
     }
 
+    /**
+     * Removes a user from firebase
+     * @param userId Id of user to be deleted
+     * @return Nothing
+     */
+    public Task<Void> deleteUser(String userId) {
+        return ref.document(userId).delete();
+    }
+
     // Add a checkin event to a user
     public Task<Void> checkInUser(String userId, String eventId) {
         return ref.document(userId).update("checkedInEvent", eventId);
