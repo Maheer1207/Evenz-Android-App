@@ -52,15 +52,18 @@ class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.ViewHolder> {
         holder.nameTextView.setText(user.getName());
         holder.contactInfoTextView.setText(String.format("%s\n%s", user.getPhone(), user.getEmail()));
         Task<ArrayList<Integer>> userAttendCount = EventUtility.userAttendCount(eventID, user.getUserId());
+
         userAttendCount.addOnSuccessListener(new OnSuccessListener<ArrayList<Integer>>() {
             @Override
-            public void onSuccess(ArrayList<Integer> attendingList) {
-                if (!attendingList.isEmpty() && attendingList.get(0) == 1) {
-                    holder.typeTextview.setText("Checked In");
-                    holder.rootLayout.setBackgroundResource(R.drawable.light_green_button_setup);
-
+            public void onSuccess(ArrayList<Integer> integers) {
+                if (!integers.isEmpty()) {
+                    holder.attendCount.setText(integers.get(0).toString()); // Set the count
+                    if (integers.get(1) == 1) { // Check the status
+                        holder.typeTextview.setText("Checked In");
+                        holder.rootLayout.setBackgroundResource(R.drawable.light_green_button_setup);
+                    }
                 }
-                holder.attendCount.setText(attendingList.get(0).toString());
+                notifyDataSetChanged(); // Notify the adapter that the data set has changed
             }
         });
         this.displayImage(user.getProfilePicID(), holder.profileImageView);

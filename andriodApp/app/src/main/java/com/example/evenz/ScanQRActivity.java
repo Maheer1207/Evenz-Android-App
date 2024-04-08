@@ -133,7 +133,11 @@ public class ScanQRActivity extends AppCompatActivity {
                 FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
                 String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-                firebaseUserManager.checkInUser(deviceId, parts[parts.length -2])
+                firebaseUserManager.addEventToUser(deviceId, parts[parts.length -2])//this is for adding user to the events signed up for
+                        .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
+                        .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
+
+                firebaseUserManager.checkInUser(deviceId, parts[parts.length -2]) // this is for putting the event in checked in 
                         .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
                         .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
                 EventUtility.userCheckIn(deviceId, parts[parts.length -2]);
