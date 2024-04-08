@@ -96,12 +96,6 @@ public class HomeScreenActivity extends AppCompatActivity {
 
                         imageUtility = new ImageUtility();
                     }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        setContentView(R.layout.attendees_home_page);
-                        setupAttendeeView();
-                    }
                 });
             }
         });

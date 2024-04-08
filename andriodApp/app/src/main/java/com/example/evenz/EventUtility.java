@@ -391,7 +391,7 @@ public final class EventUtility {
                     }
                 });
     }
-    
+
 
     public static void userCheckIn(String userID, String eventID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
