@@ -133,7 +133,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
 
         ImageView browseEvent = findViewById(R.id.event_list);
-        browseEvent.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, EventBrowseActivity.class)));
+        browseEvent.setOnClickListener(v -> startActivity(new Intent(HomeScreenActivity.this, EventSignedUpForAttendeeBrowse.class)));
 
         eventPoster.setOnClickListener(new View.OnClickListener() {
             @Override
