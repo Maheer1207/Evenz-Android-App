@@ -1,6 +1,7 @@
 package com.example.evenz;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -30,6 +33,7 @@ public class UserEventsAdapter extends ArrayAdapter<String> {
         String event = super.getItem(position);
         TextView eventView = view.findViewById(R.id.event_name);
         eventView.setText(event);
+
         return view;
     }
 }

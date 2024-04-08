@@ -15,7 +15,7 @@
         android:textStyle="bold"
         android:textSize="12sp"
         android:background="@color/colorPrimary"
-        android:text="Create New Event" />
+        android:text="Select an Event" />
 
     <ListView
         android:layout_width="match_parent"
