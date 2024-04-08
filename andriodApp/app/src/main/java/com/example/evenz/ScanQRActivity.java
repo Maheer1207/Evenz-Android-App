@@ -137,7 +137,7 @@ public class ScanQRActivity extends AppCompatActivity {
                         .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
                         .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
 
-                firebaseUserManager.checkInUser(deviceId, parts[parts.length -2]) // this is for putting the event in checked in 
+                firebaseUserManager.checkInUser(deviceId, parts[parts.length -2]) // this is for putting the event in checked in
                         .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
                         .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
                 EventUtility.userCheckIn(deviceId, parts[parts.length -2]);
