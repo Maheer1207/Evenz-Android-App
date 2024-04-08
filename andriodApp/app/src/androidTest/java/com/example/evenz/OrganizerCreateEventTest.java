@@ -57,7 +57,7 @@ public class OrganizerCreateEventTest {
                     .perform(ViewActions.click());
 
             // Please press the upload button to upload the image
-            Espresso.onView(ViewMatchers.withId(R.id.vector_ek2))
+            Espresso.onView(ViewMatchers.withId(R.id.upload_poster_img))
                     .perform(ViewActions.click());
 
 

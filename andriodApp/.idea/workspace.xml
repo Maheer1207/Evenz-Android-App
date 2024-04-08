@@ -25,11 +25,6 @@
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/admin_browse_users.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/admin_delete_image.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
@@ -141,13 +136,8 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Implimented AttendeeViewEventsTest">
-      <change afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/example/evenz/OrganizerCreateEventTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/androidTestResultsUserPreferences.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/androidTestResultsUserPreferences.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/deploymentTargetDropDown.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventCreationActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventCreationActivity.java" afterDir="false" />
+    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/app/src/androidTest/java/com/example/evenz/OrganizerCreateEventTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/androidTest/java/com/example/evenz/OrganizerCreateEventTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -242,7 +232,7 @@
       <recent name="com.example.evenz" />
     </key>
   </component>
-  <component name="RunManager" selected="Android Instrumented Tests.OrganizerCreateEventTest">
+  <component name="RunManager" selected="Android Instrumented Tests.AttendeeViewEventsTest">
     <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="Evenz.app.main" />
       <option name="DEPLOY" value="true" />
@@ -630,8 +620,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Android Instrumented Tests.OrganizerCreateEventTest" />
         <item itemvalue="Android Instrumented Tests.AttendeeViewEventsTest" />
+        <item itemvalue="Android Instrumented Tests.OrganizerCreateEventTest" />
         <item itemvalue="Android Instrumented Tests.AttendeeSignUpTest" />
         <item itemvalue="Android Instrumented Tests.UserEditProfileActivityTest" />
         <item itemvalue="Android Instrumented Tests.testAllUserInputActions()" />
@@ -801,7 +791,7 @@
     <MESSAGE value="Refactored Attendeelist and FirebaseUserManager.java to have more modular funcitons" />
     <MESSAGE value="Fixed Back Button in AttendeesActivity.java as it was going back to the inital page instead of the home page" />
     <MESSAGE value="Implimented AttendeeViewEventsTest" />
-    <option name="LAST_COMMIT_MESSAGE" value="Implimented AttendeeViewEventsTest" />
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
