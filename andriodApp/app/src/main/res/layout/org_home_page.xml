@@ -36,7 +36,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/img_career_fairs_web_banner" />
+        android:src="@drawable/image_circle_logo" />
 
     <ImageView
         android:id="@+id/location_pin_org_home"

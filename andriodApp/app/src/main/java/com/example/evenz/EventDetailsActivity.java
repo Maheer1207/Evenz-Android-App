@@ -33,7 +33,7 @@ import java.util.Objects;
 
 public class EventDetailsActivity  extends AppCompatActivity {
     private String eventID;
-    private ImageView eventPoster, homeButton;
+    private ImageView eventPoster, homeButton, browseEvent, profileButton;
     private TextView eventLocation, eventDetail, eventWelcomeNote;
 
     @Override
@@ -63,6 +63,20 @@ public class EventDetailsActivity  extends AppCompatActivity {
         eventDetail = findViewById(R.id.info_attendee_eventInfo);
         eventWelcomeNote = findViewById(R.id.attendee_event_detail_welcome);
         homeButton = findViewById(R.id.home_event_details_attendee);
+        browseEvent = findViewById(R.id.event_list);
+        profileButton = findViewById(R.id.attendees_admin_browse_event);
+
+        browseEvent.setOnClickListener (
+                v -> startActivity(new Intent(EventDetailsActivity.this, EventBrowseActivity.class))
+        );
+
+        profileButton.setOnClickListener(v -> {
+            Intent intent = new Intent(EventDetailsActivity.this, UserEditProfileActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("role", "attendee");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -42,7 +43,6 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 	private String profilePicID = "";
 	private FirebaseFirestore db;
 	private CollectionReference usersRef;
-
 	private ImageUtility imageUtility = new ImageUtility(); //user imageUtilty for upload DP
 
 
@@ -94,13 +94,15 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 		emailInput.setText(doc.getString("email"));
 		notificationEnabledInput.setChecked(Boolean.TRUE.equals(doc.getBoolean("notificationEnabled")));
 		locationEnabledInput.setChecked(Boolean.TRUE.equals(doc.getBoolean("locationEnabled")));
-		if (Objects.equals(doc.getString("profilePicID"), "")) {
+		profilePicID = doc.getString("profilePicID");
+
+		if (Objects.equals(profilePicID, "")) {
 			String name = nameInput.getText().toString().trim();
 			Bitmap profileImage = ImageGenerator.generateProfileImage(name, 500, 500); // Adjust the size as needed
 
 			imageView.setImageBitmap(profileImage);
 		} else {
-			ImageUtility.displayImage(doc.getString("profilePicID"), imageView);
+			ImageUtility.displayImage(profilePicID, imageView);
 		}
 
 	}
@@ -123,7 +125,6 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 		setContentView(R.layout.user_edit_profile);
 		initEdit();
 
-
 		imageView.setOnClickListener(v -> {
 			ImageOptionsFragment optionsFragment = new ImageOptionsFragment();
 			optionsFragment.show(getSupportFragmentManager(), "imageOptionsDialog");
@@ -141,13 +142,7 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 				public void onSuccess(String imageID, String imageURL) {
 					profilePicID = imageID; // Update profilePicID with the uploaded image ID
 
-					User user = buildUserObject();
-					if (user == null) {
-						return; // Exit if validation fails
-					}
-
-					// Now submit the user to the database with the updated profilePicID
-					submitUserToDatabase(user);
+					buildUserObject();
 				}
 
 				@Override
@@ -157,10 +152,7 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 			});
 		} else {
 			// Proceed without a profile picture
-			User user = buildUserObject();
-			if (user != null) {
-				submitUserToDatabase(user);
-			}
+			buildUserObject();
 		}
 	}
 
@@ -209,22 +201,19 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 			return null;
 		}
 
-		return new User(deviceID, name, phone, email, profilePicID, userType, notificationEnabled, locationEnabled);
+		FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+		firebaseUserManager.getEventIDAttendee(deviceID).addOnSuccessListener(new OnSuccessListener<String>() {
+			@Override
+			public void onSuccess(String eventID) {
+				User user = new User(deviceID, name, phone, email, profilePicID, userType, notificationEnabled, locationEnabled);
+				user.setCheckedInEvent(eventID);
+				submitUserToDatabase(user);
+			}
+		});
+
+		return null;
 	}
 
-//	private Uri saveBitmapAndGetUri(Bitmap bitmap, String fileName) {
-//		// Save the bitmap to a file in the app's internal storage
-//		File file = new File(getFilesDir(), fileName + ".png");
-//		try (FileOutputStream out = new FileOutputStream(file)) {
-//			bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//
-//		// Get a content Uri for the file using FileProvider
-//		Uri uri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", file);
-//		return uri;
-//	}
 	@Override
 	public void onSelectImage() {
 		selectImage();
@@ -232,10 +221,9 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 
 	@Override
 	public void onDeleteImage() {
+		profilePicID="";
 		String name = nameInput.getText().toString().trim();
 		Bitmap profileImage = ImageGenerator.generateProfileImage(name, 500, 500); // Adjust the size as needed
-
-//		filePath = saveBitmapAndGetUri(profileImage, name);
 
 		imageView.setImageBitmap(profileImage);
 	}

@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.util.UnstableApi;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -78,7 +80,7 @@ public class InitialPageActivity extends AppCompatActivity {
         });
 
         organizerLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
+            @OptIn(markerClass = UnstableApi.class) @Override
             public void onClick(View v) {
                 Intent intent = new Intent(InitialPageActivity.this, EventCreationActivity.class);
                 Bundle b = new Bundle();

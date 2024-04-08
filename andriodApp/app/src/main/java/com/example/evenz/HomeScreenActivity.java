@@ -10,10 +10,12 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -55,21 +57,26 @@ public class HomeScreenActivity extends AppCompatActivity {
                 role = type;
 
                 // getting the signed in event or organized event id
-                Task<String> getEventID = firebaseUserManager.getEventID(deviceID);
+                Task<String> getEventID;
+                if (role.equals("attendee")) {
+                    getEventID = firebaseUserManager.getEventIDAttendee(deviceID);
+                } else {
+                    getEventID = firebaseUserManager.getEventIDOrg(deviceID);
+                }
                 getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
                     @Override
                     public void onSuccess(String ID) {
                         eventID = ID;
                         // If the user has no event in the event
-                        if (eventID.equals("N")) {
-
-                        }
-
-                        // Checking if the role is "attendee" and setting the appropriate layout
-                        if (role.equals("attendee")) {
+                        if (eventID == null || eventID.equals("N")) {
                             setContentView(R.layout.attendees_home_page);
-                            setupAttendeeView();
-                            // User is organizer, setting the appropriate layout
+                            populateEmptyAttendeeFields();
+                        }
+                        // Checking if the role is "attendee" and setting the layout
+                        else if (role.equals("attendee")) {
+                            setContentView(R.layout.attendees_home_page);
+                            populateAttendeeFields();
+                            // User is organizer setting appropriate layout
                         } else {
                             setContentView(R.layout.org_home_page);
                             setupOrganizerView();
@@ -82,8 +89,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
-    // This method sets up the view for the attendee
-    private void setupAttendeeView() {
+    private void populateAttendeeFields() {
         notificationsRecyclerView = findViewById(R.id.notificationsRecyclerView);
         notificationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -95,6 +101,33 @@ public class HomeScreenActivity extends AppCompatActivity {
         if (eventID != null && !Objects.equals(eventID, " ")) {
             fetchEventDetailsAndNotifications(eventID);
         }
+
+        setupAttendeeView();
+    }
+
+    private void populateEmptyAttendeeFields() {
+        notificationsRecyclerView = findViewById(R.id.notificationsRecyclerView);
+        notificationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        eventPoster = findViewById(R.id.attendee_home_event_poster);
+        eventLocation = findViewById(R.id.attendee_home_event_location);
+        eventDetail = findViewById(R.id.attendee_home_event_detail);
+
+        eventPoster.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        eventDetail.setText("\uD83D\uDC4B Welcome to Evenz! \uD83D\uDE80");
+
+        eventLocation.setVisibility(View.INVISIBLE);
+        notificationsRecyclerView.setVisibility(View.INVISIBLE);
+
+        findViewById(R.id.text_notifications).setVisibility(View.INVISIBLE);
+        findViewById(R.id.location_pin_attendee_home).setVisibility(View.INVISIBLE);
+
+        setupAttendeeView();
+    }
+
+    // This method sets up the view for the attendee
+    private void setupAttendeeView() {
+
         ImageView imageEllipse = findViewById(R.id.image_ellipse);
         imageEllipse.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +158,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         profileAttendee.setOnClickListener(v -> {
             Intent intent = new Intent(HomeScreenActivity.this, UserEditProfileActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("eventID", eventID);
+//            bundle.putString("eventID", eventID);
             bundle.putString("role", "attendee");
             intent.putExtras(bundle);
             startActivity(intent);

@@ -57,9 +57,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
-                            android:layout_marginLeft="85dp"
+                            android:layout_marginLeft="55dp"
                             android:layout_toEndOf="@+id/back_button"
-                            android:text="Edit Profile"
+                            android:text="View/Edit Profile"
                             android:textColor="@color/black"
                             android:textSize="24sp"
                             android:textStyle="bold" />
@@ -111,7 +111,7 @@
                             android:id="@+id/name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="0dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="0dp"
                             android:text="Name"
                             android:textColor="@color/_bg__profile_ek1_color"
@@ -128,7 +128,7 @@
                             android:background="@drawable/boundary_style"
                             android:padding="10dp"
                             android:textColor="@color/black"
-                            android:hint="John Smith"
+                            android:hint="Enter Your Name"
                             android:inputType="text"
                             android:visibility="visible"
                             android:importantForAutofill="no" />
@@ -147,7 +147,7 @@
                             android:id="@+id/phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="0dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="0dp"
                             android:text="Phone Number"
                             android:textColor="@color/_bg__profile_ek1_color"
@@ -164,7 +164,7 @@
                             android:background="@drawable/boundary_style"
                             android:padding="10dp"
                             android:textColor="@color/black"
-                            android:hint="#777-777-7777"
+                            android:hint="Enter Your Phone Number"
                             android:inputType="phone"
                             android:importantForAutofill="no" />
 
@@ -183,7 +183,7 @@
                             android:id="@+id/email__optional_"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="0dp"
+                            android:layout_marginStart="10dp"
                             android:layout_marginTop="0dp"
                             android:text="Email (optional)"
                             android:textColor="@color/_bg__profile_ek1_color"
@@ -200,7 +200,7 @@
                             android:background="@drawable/boundary_style"
                             android:padding="10dp"
                             android:textColor="@color/black"
-                            android:hint="name@email.com"
+                            android:hint="Enter Your Email Address"
                             android:inputType="text|textEmailAddress"
                             android:importantForAutofill="no"/>
 

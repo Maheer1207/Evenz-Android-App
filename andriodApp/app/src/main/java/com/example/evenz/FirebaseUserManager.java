@@ -189,7 +189,7 @@ public class FirebaseUserManager {
      * @param deviceID The id of the device (userID)
      * @return the eventID they are currently attending or hosting
      */
-    public Task<String> getEventID(String deviceID) {
+    public Task<String> getEventIDOrg(String deviceID) {
 
         return FirebaseFirestore.getInstance()
                 .collection("users")
@@ -208,6 +208,23 @@ public class FirebaseUserManager {
                     }
                 });
     }
+
+    public Task<String> getEventIDAttendee(String deviceID) {
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(deviceID)
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        DocumentSnapshot document = task.getResult();
+                        String checkedInEvent = document.getString("checkedInEvent");
+                        return (checkedInEvent != null && !checkedInEvent.isEmpty()) ? checkedInEvent : null;
+                    } else {
+                        return null;
+                    }
+                });
+    }
+
 
     public Task<String> getEventName(String userId) {
         return ref.document(userId).get().continueWith(task -> {
