@@ -18,9 +18,18 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.zxing.BinaryBitmap;
+import com.google.zxing.DecodeHintType;
+import com.google.zxing.RGBLuminanceSource;
+import com.google.zxing.Reader;
+import com.google.zxing.Result;
+import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.qrcode.QRCodeReader;
 
 import java.util.ArrayList;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public final class ImageUtility {
@@ -139,7 +148,32 @@ public final class ImageUtility {
                 Log.d("Delete Image", "Image deletion failed", exception);
             }
         });
+    }
 
+    public String decodeQRCode(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+        int[] pixels = new int[width * height];
+        bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+
+        RGBLuminanceSource source = new RGBLuminanceSource(width, height, pixels);
+        BinaryBitmap binaryBitmap = new BinaryBitmap(new HybridBinarizer(source));
+
+        Map<DecodeHintType, Object> hints = new HashMap<>();
+        hints.put(DecodeHintType.PURE_BARCODE, Boolean.TRUE);
+
+        Reader reader = new QRCodeReader();
+        try {
+            Result result = reader.decode(binaryBitmap, hints);
+
+            String qr = result.getText();
+            String[] qrParts = qr.split("/");
+
+            return qrParts[0];
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null; // Return null on failure
+        }
     }
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/drawable_shape_8"
@@ -25,12 +26,22 @@
 
         <!-- Event title -->
         <TextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="Signed Up"
+            android:textColor="#FF000000"
+            android:textSize="20dp" />
+
+
+        <TextView
             android:id="@+id/text_categories"
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:layout_marginTop="-2.5dp"
             android:layout_marginBottom="-2.5dp"
-            android:gravity="left|center_vertical"
+            android:gravity="start|center_vertical"
             android:includeFontPadding="false"
             android:maxLines="1"
             android:singleLine="true"
@@ -38,6 +49,13 @@
             android:textColor="#FF000000"
             android:textSize="20dp" />
 
+        <TextView
+            android:id="@+id/attendCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textAlignment="gravity"
+            android:text="" />
 
         <!--Phone number and email           -->
             <TextView
@@ -45,7 +63,7 @@
                 android:layout_width="264dp"
                 android:layout_height="48dp"
                 android:layout_marginTop="4dp"
-                android:gravity="left|top"
+                android:gravity="start|top"
                 android:includeFontPadding="false"
                 android:lineHeight="24dp"
                 android:text="   (780) 143 - 8312\n   saradean12@gmail.com"

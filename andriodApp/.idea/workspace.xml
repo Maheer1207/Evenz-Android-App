@@ -10,7 +10,7 @@
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_map.xml">
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/admin_attendee_list.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
         </config>
@@ -50,17 +50,7 @@
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/attendees_browse_signedup_events.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/attendees_home_page.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/container_initial_page.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
         </config>
@@ -80,17 +70,22 @@
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/event_string.xml">
+        <config>
+          <theme>@style/Theme.Evenz</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_attendee.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_event.xml">
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_attendee_admin.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_notification.xml">
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_event.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
         </config>
@@ -110,22 +105,17 @@
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
+      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/org_event_list.xml">
+        <config>
+          <theme>@style/Theme.Evenz</theme>
+        </config>
+      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/org_home_page.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/org_qr_share_option.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/org_send_event_notification.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/qr_code_scan.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
         </config>
@@ -151,9 +141,25 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventDetailsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventDetailsActivity.java" afterDir="false" />
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot/chatSessions/00000000000.xd" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilot/chatSessions/00000000000.xd" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/copilot/chatSessions/xd.lck" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilot/chatSessions/xd.lck" afterDir="false" />
+>>>>>>> origin/mohaimin_2
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/InitialPageActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/InitialPageActivity.java" afterDir="false" />
+>>>>>>> sand
     </list>
+=======
+    <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice" />
+>>>>>>> origin/sand2
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -162,7 +168,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[/Users/hrithickchakraborty/.android/avd/Pixel_3a_API_34_extension_level_7_arm64-v8a.avd]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[C:\Users\brade\.android\avd\Pixel_3a_API_UpsideDownCakePrivacySandbox.avd]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -174,24 +180,34 @@
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
-        <projects_view />
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="Evenz" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
       </state>
     </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="layoutResourceFile" />
         <option value="valueResourceFile" />
         <option value="resourceFile" />
         <option value="Class" />
+        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$/.." value="Bengao2" />
+        <entry key="$PROJECT_DIR$/.." value="frontend" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -227,18 +243,20 @@
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
+<<<<<<< HEAD
     &quot;git-widget-placeholder&quot;: &quot;hrithick&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/hrithickchakraborty/Desktop/301_final/BooleanBabes/andriodApp/app/src/main/res/layout&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/omarf/Documents/GitHub/BooleanBabes/andriodApp&quot;,
+=======
+    &quot;git-widget-placeholder&quot;: &quot;sand2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/brade/Documents/GitHub/BooleanBabes/andriodApp&quot;,
+>>>>>>> origin/sand2
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;
   }
 }</component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/res/layout" />
-    </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.evenz" />
     </key>
@@ -383,19 +401,43 @@
       <ForceTestExec>false</ForceTestExec>
       <method v="2" />
     </configuration>
+    <configuration name="eventUtilityTest.testGetEventID" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":app:testDebugUnitTest" />
+            <option value="--tests" />
+            <option value="&quot;com.example.evenz.eventUtilityTest.testGetEventID&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <ForceTestExec>true</ForceTestExec>
+      <method v="2" />
+    </configuration>
     <list>
       <item itemvalue="Android App.app" />
+      <item itemvalue="Gradle.eventUtilityTest.testGetEventID" />
       <item itemvalue="Gradle.AttendeeAdapterTest" />
       <item itemvalue="Gradle.GeolocationTest" />
       <item itemvalue="Gradle.eventTest" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.eventUtilityTest.testGetEventID" />
+        <item itemvalue="Gradle.AttendeeAdapterTest" />
+        <item itemvalue="Gradle.GeolocationTest" />
         <item itemvalue="Gradle.eventTest" />
-        <item itemvalue="Gradle.GeolocationTest" />
-        <item itemvalue="Gradle.AttendeeAdapterTest" />
-        <item itemvalue="Gradle.AttendeeAdapterTest" />
-        <item itemvalue="Gradle.GeolocationTest" />
       </list>
     </recent_temporary>
   </component>
@@ -476,37 +518,74 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/InitialPageActivity.java</url>
-          <line>69</line>
+          <line>64</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/InitialPageActivity.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/InitialPageActivity.java</url>
+          <line>88</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/InitialPageActivity.java</url>
-          <line>80</line>
+          <line>99</line>
           <option name="timeStamp" value="11" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/OrgSendNotificationActivity.java</url>
+          <line>49</line>
+          <option name="timeStamp" value="22" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/OrgSendNotificationActivity.java</url>
+          <line>82</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/OrgSendNotificationActivity.java</url>
+          <line>86</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java</url>
-          <line>407</line>
+<<<<<<< HEAD
+          <line>294</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/HomeScreenActivity.java</url>
-          <line>102</line>
-          <option name="timeStamp" value="47" />
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventUtility.java</url>
+          <line>243</line>
+          <option name="timeStamp" value="42" />
+=======
+          <line>206</line>
+          <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventBrowseActivity.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="48" />
+<<<<<<< HEAD
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/HomeScreenActivity.java</url>
+          <line>109</line>
+          <option name="timeStamp" value="36" />
+=======
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/AdminBrowseProfilesActivity.java</url>
+          <line>84</line>
+          <option name="timeStamp" value="66" />
+>>>>>>> sand
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/PushNotificationService.java</url>
-          <line>72</line>
-          <properties class="com.example.evenz.PushNotificationService" method="onNewToken">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="43" />
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventDetailsActivity.java</url>
+          <line>102</line>
+          <option name="timeStamp" value="40" />
+>>>>>>> origin/sand2
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/MainActivity.java</url>
+          <line>150</line>
+          <option name="timeStamp" value="78" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -515,5 +594,8 @@
         <PinnedItemInfo parentTag="com.google.firebase.firestore.core.Query" memberName="limitType" />
       </pinned-members>
     </pin-to-top-manager>
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Evenz$eventUtilityTest_testGetEventID.ic" NAME="eventUtilityTest.testGetEventID Coverage Results" MODIFIED="1712260051276" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

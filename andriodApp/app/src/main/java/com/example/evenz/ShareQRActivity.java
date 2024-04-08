@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,14 @@ public class ShareQRActivity extends AppCompatActivity {
 
         Uri bitmapUri = Uri.parse(getIntent().getStringExtra("BitmapImage"));
         String eventID = getIntent().getStringExtra("eventID");
+
+        String qrCodeType = getIntent().getStringExtra("qrCodeType");
+        TextView qrText = findViewById(R.id.profile_qr_text);
+
+
+        if ("Check-in".equals(qrCodeType)) {
+            qrText.setText("QR Code for Check-In!"); //change the text to Check-in if generated for check-in
+        }
 
         try {
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), bitmapUri);
@@ -86,6 +95,7 @@ public class ShareQRActivity extends AppCompatActivity {
             imageFolder.mkdirs(); //TODO: check if this is necessary
             File file = new File(imageFolder, "shared_image.png");
             FileOutputStream outputStream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
             bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);
             outputStream.flush();
             outputStream.close();

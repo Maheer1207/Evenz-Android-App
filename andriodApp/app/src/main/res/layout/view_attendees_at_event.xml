@@ -1,84 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-  <!-- Back Icon -->
-
-  <!-- Attendees Count Text -->
-
-  <ImageView
-      android:id="@+id/header_icon"
-      android:layout_width="24dp"
-      android:layout_height="24dp"
-      android:layout_alignParentStart="true"
-      android:layout_alignParentBottom="true"
-      android:layout_marginStart="35dp"
-      android:layout_marginBottom="691dp"
-      android:contentDescription="BackButton"
-      android:scaleType="centerInside"
-      android:src="@drawable/header_icon"
-      android:clickable="true"
-      android:onClick="onHeaderIconClicked" />
-
-  <!-- Add additional views here if necessary -->
-
-
-  <TextView
-      android:id="@+id/header_frame_text"
-      android:layout_width="155dp"
-      android:layout_height="wrap_content"
-      android:layout_alignParentStart="true"
-      android:layout_alignParentEnd="true"
-      android:layout_marginStart="124dp"
-      android:layout_marginEnd="132dp"
-      android:text="Attendees 15/24"
-      android:textColor="#FF1A1A1A"
-        android:textStyle="bold"
-      android:textSize="20dp" />
-
-  <androidx.recyclerview.widget.RecyclerView
-      android:id="@+id/recycler_view"
-      android:layout_width="match_parent"
-      android:layout_height="558dp"
-      android:layout_below="@id/header_frame_text"
-      android:layout_marginTop="32dp" />
-
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container_user_browse_events"
+    android:layout_width="393dp"
+    android:layout_height="807dp"
+    android:background="@drawable/white_background_layout">
   <RelativeLayout
-      android:id="@+id/bottom_bar"
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-      android:padding="16dp"
-      android:background="#FFFFFF">
+      android:layout_height="match_parent"
+      tools:ignore="UselessParent">
 
-    <!-- Icon 1 -->
-
-    <!-- Icon 2 -->
     <ImageView
-        android:id="@+id/icon1"
-        android:layout_width="wrap_content"
+        android:id="@+id/header_icon"
+        android:layout_width="39dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="24dp"
+        android:clickable="true"
+        android:contentDescription="BackButton"
+        android:foregroundGravity="left|bottom"
+        android:onClick="onHeaderIconClicked"
+        android:scaleType="centerInside"
+        android:src="@drawable/back_less"
+        android:focusable="true" />
+
+    <TextView
+        android:id="@+id/header_frame_text"
+        android:layout_width="155dp"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="38dp"
-        android:src="@drawable/profile" />
-
-    <ImageView
-        android:id="@+id/icon2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@drawable/home"/>
-
-    <!-- Icon 3 -->
-    <ImageView
-        android:id="@+id/icon3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="42dp"
-        android:src="@drawable/camera_scan" />
+        android:layout_marginStart="124dp"
+        android:layout_marginEnd="132dp"
+        android:text="Attendees 15/24"
+        android:textColor="#FF1A1A1A"
+        android:textStyle="bold"
+        android:textSize="20dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:layout_below="@id/header_frame_text"
+        android:layout_marginTop="32dp" />
+
+    <ImageView
+        android:id="@+id/bottom_actionbar"
+        android:layout_width="395dp"
+        android:layout_height="74dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="-2dp"
+        android:layout_marginTop="682dp"
+        android:background="@drawable/bottom_actionbar"
+        android:scaleType="centerInside" />
+    <RelativeLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="683dp"
+        android:padding="16dp"
+        android:background="#FFFFFF">
+
+      <ImageView
+          android:id="@+id/icon1"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentStart="true"
+          android:layout_marginStart="38dp"
+          android:src="@drawable/attendees_white" />
+
+      <ImageView
+          android:id="@+id/home_attendee_limit"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerInParent="true"
+          android:layout_marginTop="6dp"
+          android:src="@drawable/home" />
+
+      <!-- Icon 3 -->
+      <ImageView
+          android:id="@+id/shareQR_attendee_limit"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_alignParentEnd="true"
+          android:layout_marginEnd="38dp"
+          android:src="@drawable/share" />
+
+    </RelativeLayout>
 
   </RelativeLayout>
-
-</RelativeLayout>
+</FrameLayout>

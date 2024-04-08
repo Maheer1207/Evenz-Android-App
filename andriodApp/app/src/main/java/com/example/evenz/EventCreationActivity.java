@@ -1,8 +1,14 @@
 package com.example.evenz;
+
+import static java.util.UUID.randomUUID;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.media3.common.util.Log;
 import androidx.media3.common.util.UnstableApi;
+
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,34 +22,45 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
 import java.io.IOException;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+
 import java.text.ParseException;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.zip.CRC32C;
 
-public class EventCreationActivity extends AppCompatActivity  implements DatePickerDialog.OnDateSetListener {
+@UnstableApi public class EventCreationActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
+    // Define constants at the top of your class
     private static final int PICK_IMAGE_REQUEST = 22;
-    private Uri filePath;
+    private Uri filePathPoster, filePathQR;
+    StorageReference storageReference;
+    StorageReference photoRef, qrRef;
 
-    StorageReference photoRef;
-
-    private ImageView imageView, datePickerButton;
-
-
+    private ImageView datePickerButton, uploadPosterImg, uploadQRImg;
     private EditText editTextOrganizerName,editTextEventName, editDate, editTextAttendeeLimit, editTextEventInfo, editTextEventLoc;
     private RelativeLayout submitEventButton;
 
-    private String eventPosterID_temp;
+    private String eventPosterID_temp, eventQrID, uploadedImg;
     private String eventID;
+    private Bitmap qrBitmap;
     // ImageUtility instance
     private ImageUtility imageUtility;
 
@@ -52,8 +69,8 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_event);
 
-        // Initialize Firebase Storage reference
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        // Initialize Firebase Storage reference only once
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         // Initialize ImageUtility
         imageUtility = new ImageUtility();
@@ -61,13 +78,9 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         // Get extras from intent
         Bundle b = getIntent().getExtras();
         assert b != null;
-        String role = b.getString("role");
 
-        eventPosterID_temp = UUID.randomUUID().toString();
-        storageReference = FirebaseStorage.getInstance().getReference();
-
+        eventPosterID_temp = randomUUID().toString();
         photoRef = storageReference.child("images/" + eventPosterID_temp);
-
 
         // Initialize UI components
         initUI();
@@ -75,30 +88,42 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         datePickerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Please note that use your package name here
                 DatePickerFragment mDatePickerDialogFragment = new DatePickerFragment();
                 mDatePickerDialogFragment.show(getSupportFragmentManager(), "DATE PICK");
             }
         });
 
-        imageView = findViewById(R.id.vector_ek2);
-        imageView.setOnClickListener(new View.OnClickListener() {
+        uploadPosterImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                uploadedImg = "poster";
+                select();
+            }
+        });
+
+        uploadQRImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadedImg = "qr";
                 select();
             }
         });
 
         // Submit event button listener for initiating the upload process
         submitEventButton.setOnClickListener(view -> {
-            if (filePath != null) {
+            if (filePathPoster != null) {
                 ImageUtility.UploadCallback callback = new ImageUtility.UploadCallback() {
                     @Override
                     public void onSuccess(String imageID, String imageURL) {
                         // Image successfully uploaded
                         // Proceed with event submission or other actions as needed
                         eventPosterID_temp = imageID; // If needed for further operations
-                        submitEvent();
+                        try {
+                            submitEvent();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        submitOrganizer();
                         navigateToHomeScreen();
                     }
 
@@ -109,7 +134,7 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
                     }
                 };
 
-                imageUtility.upload(filePath, callback);
+                imageUtility.upload(filePathPoster, callback);
             } else {
                 Toast.makeText(EventCreationActivity.this, "Please select an image first", Toast.LENGTH_SHORT).show();
             }
@@ -139,10 +164,19 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            filePath = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
-                imageView.setImageBitmap(bitmap);
+                Bitmap bitmap;
+                if (Objects.equals(uploadedImg, "poster")) {
+                    filePathPoster = data.getData();
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePathPoster);
+                    uploadPosterImg.setImageBitmap(bitmap);
+                }
+                else {
+                    filePathQR = data.getData();
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePathQR);
+                    qrBitmap = bitmap;
+                    uploadQRImg.setImageBitmap(bitmap);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -152,14 +186,15 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
     private void initUI() {
         editTextOrganizerName = findViewById(R.id.editTextOrganizerName);
         editTextEventName = findViewById(R.id.editTextEventName);
-        editDate = findViewById(R.id.editDate); // Ensure you have input formatting or parsing for date
+        editDate = findViewById(R.id.editDate); // Date picker
         datePickerButton = findViewById(R.id.event_Date_Picker);
         editTextAttendeeLimit = findViewById(R.id.no_limit);
         editTextEventInfo = findViewById(R.id.editTextEventInfo);
         editTextEventLoc = findViewById(R.id.editTextLocation);
+        uploadPosterImg = findViewById(R.id.upload_poster_img);
+        uploadQRImg = findViewById(R.id.upload_qr_img);
         submitEventButton = findViewById(R.id.create_event_button); //Create event button
     }
-
 
     private void navigateToHomeScreen() {
         Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
@@ -170,28 +205,26 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         startActivity(intent);
     }
 
-
-    private void submitEvent() {
-        // Collect input data
+    private void submitEvent() throws ParseException {
         String eventName = editTextEventName.getText().toString().trim();
+        String eventPosterID = eventPosterID_temp; // Assuming a default or gathered elsewhere
         String description = editTextEventInfo.getText().toString().trim();
-        String eventPosterID = eventPosterID_temp; // Use the uploaded image ID
         String attendeeLimit = editTextAttendeeLimit.getText().toString().trim();
         String orgName = editTextOrganizerName.getText().toString().trim();
         String eventDatestring = editDate.getText().toString().trim();
         String location = editTextEventLoc.getText().toString().trim();
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference newEventRef = db.collection("events").document();
+
+        eventID = newEventRef.getId(); // Use this eventID for your operations
+
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, Locale.getDefault());
-        Date eventDate;
-        try {
-            eventDate = dateFormat.parse(eventDatestring);
-        } catch (ParseException e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Invalid date format", Toast.LENGTH_LONG).show();
-            return;
+        Date eventDate = dateFormat.parse(eventDatestring);
+
+        if(qrBitmap != null) {
+            eventID = imageUtility.decodeQRCode(qrBitmap);
         }
-        // Generate a unique ID for the event
-        String eventID = FirebaseFirestore.getInstance().collection("events").document().getId();
 
         // Prepare the event data map
         Map<String, Object> eventData = new HashMap<>();
@@ -206,28 +239,47 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
 
 
         EventUtility.storeEventwnm(eventData, eventID);
-
         // Update the user's document with the new event ID (if necessary)
-        createUserDocumentWithEvent(eventID);
-
+        submitOrganizer();
         // Navigate to the home screen after the event has been successfully stored
         navigateToHomeScreen(eventID);
     }
 
-    @OptIn(markerClass = UnstableApi.class)
-    private void createUserDocumentWithEvent(String eventID) {
-        String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+    private void submitOrganizer() {
+        @SuppressLint("HardwareIds") String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
+        String name = editTextOrganizerName.getText().toString().trim();
+        // Create a new user with the feilds and all other set to null
+        User organizer = new User(deviceID, name, "", "", "", "Organizer", false, false);
 
-        // Prepare the user data
-        Map<String, Object> userData = new HashMap<>();
-        userData.put("userId", deviceID); //deviceID is the UserID
-        userData.put("eventList", eventID);
-        userData.put("userType", "organizer"); //TODO: add other ORG fields
+        FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+        firebaseUserManager.getUserExist(deviceID).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                firebaseUserManager.addEventToUser(deviceID, eventID).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        Log.d("EventCreationActivity", "Organizer added successfully");
+                        navigateToHomeScreen();
+                    }
+                });
+            }
+            else {
+                firebaseUserManager.submitUser(organizer).addOnCompleteListener(task1 -> {
+                    if (task1.isSuccessful()) {
+                        // Add the event to the organizer's event list
+                        firebaseUserManager.addEventToUser(deviceID, eventID).addOnCompleteListener(task2 -> {
+                            if (task2.isSuccessful()) {
+                                Log.d("EventCreationActivity", "Organizer added successfully");
+                                navigateToHomeScreen();
+                            } else {
+                                Log.e("EventCreationActivity", "Failed to add event to organizer", task2.getException());
 
-        FirebaseFirestore.getInstance().collection("users").document(deviceID)
-                .set(userData)
-                .addOnSuccessListener(aVoid -> Log.d("createUser", "User document created with new event ID"))
-                .addOnFailureListener(e -> Log.w("createUser", "Error creating user document", e));
+                            }
+                        });
+                    } else {
+                        Log.e("EventCreationActivity", "Failed to submit organizer", task1.getException());
+                    }
+                });
+            }
+        });
     }
 
     private void navigateToHomeScreen(String eventID) {
@@ -236,6 +288,7 @@ public class EventCreationActivity extends AppCompatActivity  implements DatePic
         intent.putExtra("eventID", eventID);
         startActivity(intent);
     }
+
 
 
 }

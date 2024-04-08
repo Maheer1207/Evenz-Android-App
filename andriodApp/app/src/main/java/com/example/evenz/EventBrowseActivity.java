@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 
 
 import androidx.annotation.Nullable;
@@ -57,6 +58,19 @@ public class EventBrowseActivity extends AppCompatActivity {
             }
         });
         fetchEvents();
+
+        findViewById(R.id.home_admin_browse_attendee).setOnClickListener (
+                v-> startActivity(new Intent(EventBrowseActivity.this, HomeScreenActivity.class))
+        );
+
+        ImageView profileAttendee = findViewById(R.id.profile_attendee);
+        profileAttendee.setOnClickListener(v -> {
+            Intent intent = new Intent(EventBrowseActivity.this, UserEditProfileActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("role", "attendee");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
 
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
     }

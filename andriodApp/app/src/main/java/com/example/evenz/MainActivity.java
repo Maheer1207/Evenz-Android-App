@@ -126,6 +126,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        final Button event_browse_signup = findViewById(R.id.button_attendee_event_info_signup);
+        event_browse_signup.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EventBrowseActivity.class);
+                intent.putExtra("eventID", "vJa98Jgy6P5B8PIqrI64");
+                intent.putExtra("source", "browse");
+                intent.putExtra("role", "attendee");
+                startActivity(intent);
+            }
+        });
+
         //  TODO: Demo Button, Need to be deleted
 //        final Button sendNotification = findViewById(R.id.send_notification);
 //        sendNotification.setOnClickListener(new View.OnClickListener() {
@@ -210,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     /**
      * This function adds a user to the database

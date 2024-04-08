@@ -5,7 +5,7 @@
     android:id="@+id/container_user_browse_events"
     android:layout_width="393dp"
     android:layout_height="807dp"
-    android:background="@drawable/container_user_browse_events">
+    android:background="@drawable/white_background_layout">
     <TextView
         android:id="@+id/container_frame13"
         android:layout_width="wrap_content"

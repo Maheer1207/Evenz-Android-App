@@ -39,8 +39,12 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -61,10 +65,16 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     // not granted.
     private final LatLng mDefaultLocation = new LatLng(-33.8523341, 151.2106085);
     private boolean mLocationPermissionGranted;
-    private static final int M_MAX_ENTRIES = 5, DEFAULT_ZOOM = 15, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private static final int M_MAX_ENTRIES = 5, DEFAULT_ZOOM = 5, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
     private String[] mLikelyPlaceNames, mLikelyPlaceAddresses, mLikelyPlaceAttributions;
     private LatLng[] mLikelyPlaceLatLngs;
+    private List<String> locationStrings;
     String role, eventID, addressString, from;
+
+    public interface OnLocationsFetchedCallback {
+        void onLocationsFetched(List<LatLng> locations);
+        void onError(Exception e);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +106,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
 
                 intent.putExtra("eventID", eventID);
-                intent.putExtra("role", "organizer");
+                intent.putExtra("role", role);
                 startActivity(intent);
             }
         });
@@ -114,6 +124,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Places.initialize(getApplicationContext(), apiKey);
         mPlacesClient = Places.createClient(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+    }
+///test code TODO: MAP HRITHICK
+    private ArrayList<LatLng> getGeolocationsFromIntent() {
+        String jsonLocations = getIntent().getStringExtra("geolocations"); // Adjust key as necessary
+        Type type = new TypeToken<ArrayList<LatLng>>(){}.getType();
+        return new Gson().fromJson(jsonLocations, type);
+    }
+    //test code TODO: MAP HRITHICK
+    private void placeMarkers(ArrayList<LatLng> geolocations) {
+        for (LatLng location : geolocations) {
+            mMap.addMarker(new MarkerOptions().position(location));
+        }
     }
 
     /**
@@ -167,27 +189,51 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        String rutherfordLibrary = "11208 89 Ave NW, Edmonton";
-        LatLng rutherfordLibraryLatLng = getLocationFromAddress(this,rutherfordLibrary);
-        mMap.addMarker(new MarkerOptions().position(rutherfordLibraryLatLng).title("Rutherford Library"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rutherfordLibraryLatLng, DEFAULT_ZOOM));
+        LatLng addressLatLng = getLocationFromAddress(this,addressString);
+        mMap.addMarker(new MarkerOptions().position(addressLatLng).title(addressString));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addressLatLng, DEFAULT_ZOOM));
+        fetchEventLocationsAndProceed(eventID, new OnLocationsFetchedCallback() {
+            @Override
+            public void onLocationsFetched(List<LatLng> locations) {
+                for (LatLng location : locations) {
+                    mMap.addMarker(new MarkerOptions().position(location));
+                }
+                if (!locations.isEmpty()) {
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(locations.get(0), DEFAULT_ZOOM));
+                }
+            }
 
-//        String hub9002 = "9002 112 ST NW, Edmonton";
-//        LatLng hub9002LatLng = getLocationFromAddress(this,hub9002);
-//        mMap.addMarker(new MarkerOptions().position(hub9002LatLng).title("9002-HUB"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rutherfordLibraryLatLng, DEFAULT_ZOOM));
-//
-//        LatLng addressLatLng = getLocationFromAddress(this,addressString);
-//        mMap.addMarker(new MarkerOptions().position(hub9002LatLng).title(addressString));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addressLatLng, DEFAULT_ZOOM));
-
-        // Enable the zoom controls for the map
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+            @Override
+            public void onError(Exception e) {
+                Log.d("MapsActivity", "Error getting locations: " + e.getMessage());
+            }
+        });
 
         // Prompt the user for permission.
         getLocationPermission();
 
     }
+
+    private void fetchEventLocationsAndProceed(String eventID, OnLocationsFetchedCallback callback) {
+        EventUtility.getLocationsFromEvent(eventID).addOnCompleteListener(task -> {
+            if (task.isSuccessful() && task.getResult() != null) {
+                List<String> locationStrings = task.getResult();
+                List<LatLng> locations = new ArrayList<>();
+                for (String locationString : locationStrings) {
+                    String[] parts = locationString.split(",");
+                    double latitude = Double.parseDouble(parts[0]);
+                    double longitude = Double.parseDouble(parts[1]);
+                    locations.add(new LatLng(latitude, longitude));
+                }
+                // Trigger callback with fetched locations
+                callback.onLocationsFetched(locations);
+            } else {
+                // Trigger callback with error
+                callback.onError(task.getException());
+            }
+        });
+    }
+
 
     public LatLng getLocationFromAddress(Context context, String strAddress) {
         Geocoder coder = new Geocoder(context);

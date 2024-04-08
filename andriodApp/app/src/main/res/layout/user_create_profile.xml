@@ -1,0 +1,275 @@
+<HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:alpha="100">
+    <FrameLayout
+        android:id="@+id/edit_profile"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@drawable/container_event_information_page" >
+
+        <RelativeLayout
+            android:id="@+id/content_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+            <RelativeLayout
+                android:id="@+id/page_edit_profile_ek1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp">
+
+                <View
+                    android:id="@+id/_bg__edit_profile_ek2"
+                    android:layout_width="393dp"
+                    android:layout_height="807dp"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="0dp"
+                    android:background="@drawable/_bg__edit_profile_ek2_shape" />
+
+
+                <RelativeLayout
+                    android:id="@+id/profile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:id="@+id/edit_profile_header"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        tools:ignore="RtlHardcoded">
+
+                        <ImageView
+                            android:id="@+id/back_button_create_prf"
+                            android:layout_width="39dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="22dp"
+                            android:layout_marginTop="24dp"
+                            android:contentDescription="@string/back_button_implemented_with_less_then"
+                            android:foregroundGravity="left|bottom"
+                            android:src="@drawable/back_less" />
+
+                        <TextView
+                            android:id="@+id/create_profile_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginLeft="75dp"
+                            android:layout_toEndOf="@+id/back_button_create_prf"
+                            android:text="Create Profile"
+                            android:textColor="@color/black"
+                            android:textSize="24sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/pfp_circle"
+                        android:layout_width="165dp"
+                        android:layout_height="165dp"
+                        android:layout_marginStart="125dp"
+                        android:layout_marginTop="50dp"
+                        android:contentDescription="pfp_outer_circle"
+                        android:src="@drawable/ellipse_1" />
+
+                    <ImageButton
+                        android:id="@+id/pfp_upload_button"
+                        android:layout_width="35dp"
+                        android:layout_height="30dp"
+                        android:layout_marginStart="260dp"
+                        android:layout_marginTop="175dp"
+                        android:contentDescription="camera_button"
+                        android:src="@drawable/mini_camera_icon" />
+
+                    <ImageView
+                        android:id="@+id/create_profile_pic"
+                        android:layout_width="105dp"
+                        android:layout_height="105dp"
+                        android:layout_marginStart="155dp"
+                        android:layout_marginTop="80dp"
+                        android:contentDescription="pfp_default"
+                        android:src="@drawable/profile_blue" />
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/place_holders"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="215dp">
+
+                    <RelativeLayout
+                        android:id="@+id/edit_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="0dp">
+
+                        <TextView
+                            android:id="@+id/name_create_prf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="0dp"
+                            android:text="Name"
+                            android:textColor="@color/_bg__profile_ek1_color"
+                            android:textSize="16.02sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/name_input_create_prf"
+                            android:layout_width="335.37dp"
+                            android:layout_height="48.05dp"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="29dp"
+                            android:alpha="1000"
+                            android:background="@drawable/boundary_style"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:hint="John Smith"
+                            android:inputType="text"
+                            android:visibility="visible"
+                            android:importantForAutofill="no" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/edit_phone_number_create_prf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="97.11dp">
+
+                        <TextView
+                            android:id="@+id/phone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="0dp"
+                            android:text="Phone Number"
+                            android:textColor="@color/_bg__profile_ek1_color"
+                            android:textSize="16.02sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/phone_input_create_prf"
+                            android:layout_width="335.37dp"
+                            android:layout_height="48.05dp"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="29dp"
+                            android:alpha="100"
+                            android:background="@drawable/boundary_style"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:hint="#777-777-7777"
+                            android:inputType="phone"
+                            android:importantForAutofill="no" />
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:id="@+id/email_place_holder"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="0dp"
+                        android:layout_marginTop="194.21dp">
+
+
+                        <TextView
+                            android:id="@+id/email__optional_create_prf"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="0dp"
+                            android:text="Email (optional)"
+                            android:textColor="@color/_bg__profile_ek1_color"
+                            android:textSize="16.02sp"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/email_input_create_prf"
+                            android:layout_width="335.37dp"
+                            android:layout_height="48.05dp"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="29dp"
+                            android:alpha="100"
+                            android:background="@drawable/boundary_style"
+                            android:padding="10dp"
+                            android:textColor="@color/black"
+                            android:hint="name@email.com"
+                            android:inputType="text|textEmailAddress"
+                            android:importantForAutofill="no"/>
+
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/create_prf_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="86dp"
+                    android:layout_marginTop="650dp"
+                    android:gravity="center">
+                    <View
+                        android:id="@+id/light_green_button_rect"
+                        android:layout_width="205dp"
+                        android:layout_height="48dp"
+                        android:layout_marginStart="-1dp"
+                        android:layout_marginTop="-1dp"
+                        android:background="@drawable/light_green_button_setup" />
+                    <TextView
+                        android:id="@+id/create_button_text"
+                        android:layout_width="205dp"
+                        android:layout_height="wrap_content"
+                        android:shadowColor="#000000"
+                        android:shadowDx="0"
+                        android:shadowDy="4"
+                        android:shadowRadius="4"
+                        android:text="Create"
+                        android:textAlignment="center"
+                        android:textColor="@color/create_event_color"
+                        android:textSize="16.02sp"
+                        android:textStyle="bold"
+                        android:layout_marginTop="10dp"/>
+                </RelativeLayout>
+
+
+                <CheckBox
+                    android:id="@+id/enable_notification_create_prf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginTop="500dp"
+                    android:layout_marginEnd="13dp"
+                    android:layout_marginBottom="13dp"
+                    android:text="Enable Notifications"
+                    android:textColor="@color/_bg__profile_ek1_color"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <CheckBox
+                android:id="@+id/enable_location_create_prf"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="550dp"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="13dp"
+                android:text="Enable Location"
+                android:textColor="@color/_bg__profile_ek1_color"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+
+    </FrameLayout>
+
+</HorizontalScrollView>
