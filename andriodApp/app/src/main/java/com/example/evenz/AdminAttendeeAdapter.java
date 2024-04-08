@@ -27,15 +27,13 @@ public class AdminAttendeeAdapter extends RecyclerView.Adapter<AdminAttendeeAdap
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textCategories, textDate, textLocation, textDescription;
+        TextView name, contact;
         ImageView imageBanner; //this is for image poster
 
         public ViewHolder(View itemView) {
             super(itemView);
-            textCategories = itemView.findViewById(R.id.text_categories);
-            textDate = itemView.findViewById(R.id.text_date);
-            textLocation = itemView.findViewById(R.id.text_location);
-            textDescription = itemView.findViewById(R.id.text_lorem_ipsum);
+            name = itemView.findViewById(R.id.text_categories);
+            contact = itemView.findViewById(R.id.text_contact_info);
             imageBanner = itemView.findViewById(R.id.image_banner);
         }
     }
@@ -50,8 +48,8 @@ public class AdminAttendeeAdapter extends RecyclerView.Adapter<AdminAttendeeAdap
     public void onBindViewHolder(@NonNull AdminAttendeeAdapter.ViewHolder holder, int position) {
         User user = userList.get(position);
 
-        holder.textCategories.setText(user.getName());
-        holder.textDescription.setText(user.getPhone()+"\n"+user.getEmail());
+        holder.name.setText(user.getName());
+        holder.contact.setText(user.getPhone()+"\n"+user.getEmail());
 
         // Set click listener to notify the interface implementer
         holder.itemView.setOnClickListener(v -> {
