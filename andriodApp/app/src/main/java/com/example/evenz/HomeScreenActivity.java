@@ -1,13 +1,16 @@
 package com.example.evenz;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +39,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     private NotificationsAdapter notificationsAdapter;
     private String eventID;
     private String role;
+    private String deviceID;
     private FirebaseFirestore db;
     private CollectionReference usersRef;
     private DocumentReference doc;
@@ -46,7 +50,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // getting the devices id to get the user
-        String deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
 
         // getting the user type
@@ -156,6 +160,26 @@ public class HomeScreenActivity extends AppCompatActivity {
 
         FloatingActionButton postNotification = findViewById(R.id.add_fab);
         postNotification.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeScreenActivity.this, OrgSendNotificationActivity.class);
+            Bundle b = new Bundle();
+            b.putString("eventID", eventID);
+            intent.putExtras(b);
+            startActivity(intent);
+        });
+
+        // allows an organizer to create a new event or switch events
+        FloatingActionButton changeEvent = findViewById(R.id.change_event);
+        postNotification.setOnClickListener(v -> {
+
+            final Dialog dialog = new Dialog(HomeScreenActivity.this);
+            dialog.setContentView(R.layout.org_event_list);
+            dialog.setTitle("Select an event");
+            ListView events = (ListView) dialog.findViewById(R.id.events);
+            Adapter adapter = new UserEventsAdapter(deviceID);
+            events.setAdapter(adapter);
+            dialog.show();
+
+
             Intent intent = new Intent(HomeScreenActivity.this, OrgSendNotificationActivity.class);
             Bundle b = new Bundle();
             b.putString("eventID", eventID);
