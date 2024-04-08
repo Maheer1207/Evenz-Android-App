@@ -178,6 +178,15 @@ public class AttendeesActivity extends AppCompatActivity {
                 // Convert the max attendees to a string
                 limitString = "Attendees: " + attendees + "/" + maxAttendees;
                 limit.setText(limitString);
+                if (attendees == maxAttendees) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event is HouseFull!!", Toast.LENGTH_LONG).show();
+                } else if ((double) attendees /maxAttendees >= 0.75 && (double) attendees /maxAttendees < 0.8) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event reached its 75% capacity!!", Toast.LENGTH_LONG).show();
+                } else if ((double) attendees /maxAttendees >= 0.5 && (double) attendees /maxAttendees < 0.6) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event reached its 50% capacity!!", Toast.LENGTH_LONG).show();
+                } else if ((double) attendees /maxAttendees >= 0.25 && (double) attendees /maxAttendees < 0.3) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event reached its 25% capacity!!", Toast.LENGTH_LONG).show();
+                }
             }
         });
         // Handle the failure of the getAttendLimit task
