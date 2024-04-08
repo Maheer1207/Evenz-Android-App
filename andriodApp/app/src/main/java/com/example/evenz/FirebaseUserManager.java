@@ -276,5 +276,33 @@ public class FirebaseUserManager {
                 });
     }
 
-    // Additional methods for user management can be added here...
+    /**
+     * Removes a user from firebase
+     * @param userId Id of user to be deleted
+     * @return Nothing
+     */
+    public Task<Void> deleteUser(String userId) {
+        return ref.document(userId).delete();
+    }
+
+    /**
+     * Gets all of the attendees
+     * @return all attendees
+     */
+    public Task<List<User>> getAttendees() {
+        return ref.whereEqualTo("userType", "attendee").get()
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        // If the task failed, propagate the exception
+                        return Tasks.forException(task.getException());
+                    }
+                    if (task.getResult() == null) {
+                        // If the result is null, propagate an exception or handle accordingly
+                        return Tasks.forException(new IllegalStateException("Result is null"));
+                    }
+
+                    // Call the helper method to process the documents
+                    return Tasks.forResult(processDocuments(task.getResult()));
+                });
+    }
 }

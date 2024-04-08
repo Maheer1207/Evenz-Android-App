@@ -2,10 +2,8 @@ package com.example.evenz;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,10 +15,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import android.content.Context;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
 //call ArrayList<Event> eventDataList
 
@@ -32,7 +28,7 @@ public class AdminBrowseEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_browse_users);
+        setContentView(R.layout.admin_browse_event);
 
         eventsRecyclerView = findViewById(R.id.eventsRecyclerView22);
 
@@ -68,7 +64,8 @@ public class AdminBrowseEventActivity extends AppCompatActivity {
             }
         });
         fetchEvents();
-
+        findViewById(R.id.photo_browse).setOnClickListener(v -> startActivity(new Intent(AdminBrowseEventActivity.this, ImageBrowseActivity.class)));
+        findViewById(R.id.profile_browse).setOnClickListener(v -> startActivity(new Intent(AdminBrowseEventActivity.this, AdminBrowseProfilesActivity.class)));
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
     }
 

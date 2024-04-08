@@ -45,6 +45,9 @@
             android:name=".AdminBrowseEventActivity"
             android:exported="true" />
         <activity
+            android:name=".AdminBrowseProfilesActivity"
+            android:exported="true" />
+        <activity
             android:name=".AdminDeleteEvent"
             android:exported="true" />
         <activity

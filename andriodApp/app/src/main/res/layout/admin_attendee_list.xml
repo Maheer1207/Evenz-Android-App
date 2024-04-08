@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white_background_layout"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:id="@+id/browse_attendee_header"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="left"
+        tools:ignore="RtlHardcoded">
+
+        <ImageView
+            android:id="@+id/header_icon"
+            android:layout_width="39dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/back_button_implemented_with_less_then"
+            android:foregroundGravity="left|bottom"
+            android:src="@drawable/back_less" />
+
+        <TextView
+            android:id="@+id/header_frame_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="75dp"
+            android:layout_toEndOf="@+id/header_icon"
+            android:text="Attendees"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="632dp"
+        android:layout_below="@id/browse_attendee_header"
+        />
+
+    <ImageView
+        android:id="@+id/bottom_actionbar"
+        android:layout_width="395dp"
+        android:layout_height="74dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="-2dp"
+        android:layout_marginTop="684dp"
+        android:background="@drawable/bottom_actionbar"
+        android:scaleType="centerInside" />
+
+
+    <ImageView
+        android:id="@+id/icon1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="700dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/attendees_white" />
+
+    <ImageView
+            android:id="@+id/icon2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="172dp"
+            android:layout_marginTop="700dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/event_list_black" />
+
+        <ImageView
+            android:id="@+id/icon3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="700dp"
+            android:layout_marginBottom="0.05dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="42dp"
+            android:src="@drawable/photos" />
+
+
+</RelativeLayout>

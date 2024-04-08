@@ -25,7 +25,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/imgsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="620dp"
+        android:layout_height="622dp"
         android:layout_marginTop="60dp"/>
 
     <ImageView
@@ -61,13 +61,13 @@
         android:contentDescription="Button to view attendee's projile" />
 
     <ImageView
-        android:id="@+id/camera_scan_attendee"
+        android:id="@+id/admin_event_list"
         android:layout_width="38dp"
         android:layout_height="38dp"
         android:layout_marginStart="172dp"
         android:layout_marginTop="700dp"
         android:scaleType="centerInside"
-        android:src="@drawable/home"
+        android:src="@drawable/event_list_black"
         android:contentDescription="Button to scan a QR using the camera" />
 
     <!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
