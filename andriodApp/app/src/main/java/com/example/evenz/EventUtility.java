@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -21,10 +22,12 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import com.google.firebase.firestore.SetOptions;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -364,29 +367,31 @@ public final class EventUtility {
                     if (task.isSuccessful() && task.getResult() != null) {
                         DocumentSnapshot doc = task.getResult();
                         List<Map<String, Object>> groups = (List<Map<String, Object>>) doc.get("UserList");
+                        if (groups == null) {
+                            groups = new ArrayList<>(); // Initialize if null
+                        }
+                        // Flag to check if the attendee was found and modified
+                        boolean attendeeModified = false;
                         for (Map<String, Object> group : groups) {
                             String id = group.get("userId").toString();
-                            Long count = (Long)group.get("count");
-                            boolean attending = (boolean)group.get("attending");
-                            if (id.equals(userId)){
-                                Map<String, Object> map = new HashMap<>();
-                                Map<String, Object> newMap = new HashMap<>();
-                                map.put("userId", id);
-                                map.put("attending", attending); // -1 means not signed up
-                                map.put("count", count);
-                                ref.update("UserList", FieldValue.arrayRemove(map));
-                                newMap.put("userId", id);
-                                newMap.put("attending", 0); // 0 means signed up
-                                newMap.put("count", count);
-                                ref.update("UserList", FieldValue.arrayUnion(newMap));
-                                return;
+                            if (id.equals(userId)) {
+                                // Modify the attendee's data directly
+                                group.put("attending", 0); // 0 means not attending
+                                // Optionally, adjust 'count' or other fields as needed
+                                attendeeModified = true;
+                                break; // Break if the intended attendee is found and modified
                             }
                         }
-                    }
-                    else{
+                        if (attendeeModified) {
+                            // Update the document with the modified list
+                            ref.update("UserList", groups);
+                        }
+                    } else {
+                        // Handle failure
                     }
                 });
     }
+
 
     public static void userCheckIn(String userID, String eventID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -395,30 +400,41 @@ public final class EventUtility {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful() && task.getResult() != null) {
                         DocumentSnapshot doc = task.getResult();
-                        List<Map<String, Object>> groups = (List<Map<String, Object>>) doc.get("UserList");
-                        // first attendee in event
-                        if (groups.size() == 0) {
+                        Object rawGroups = doc.get("UserList");
+                        List<Map<String, Object>> groups;
+                        if (rawGroups != null) {
+                            groups = (List<Map<String, Object>>) rawGroups;
+                        } else {
+                            groups = new ArrayList<>();
+                        }
+                        // Check if the user list is empty or the field doesn't exist
+                        if (groups.isEmpty()) {
                             Map<String, Object> map = new HashMap<>();
                             map.put("userId", userID);
                             map.put("attending", 1); // 1 means checked in
                             map.put("count", 1);
-                            ref.update("UserList", FieldValue.arrayUnion(map));
+                            // Use set with merge option to create the field if it doesn't exist
+                            Map<String, Object> update = new HashMap<>();
+                            update.put("UserList", Arrays.asList(map));
+                            ref.set(update, SetOptions.merge());
                             return;
                         }
                         for (Map<String, Object> group : groups) {
                             String id = group.get("userId").toString();
-                            Long attending = (Long)group.get("attending");
-                            Long count = (Long)group.get("count");
-                            if (id.equals(userID)){
+                            Long attending = (Long) group.get("attending");
+                            Long count = (Long) group.get("count");
+                            if (id.equals(userID)) {
                                 Map<String, Object> map = new HashMap<>();
                                 Map<String, Object> newMap = new HashMap<>();
                                 map.put("userId", id);
                                 map.put("attending", attending);
                                 map.put("count", count);
+                                // Remove the old attendee information
                                 ref.update("UserList", FieldValue.arrayRemove(map));
+                                // Add the new attendee information
                                 newMap.put("userId", id);
                                 newMap.put("attending", 1); // 1 means checked in
-                                newMap.put("count", count+1);
+                                newMap.put("count", count + 1);
                                 ref.update("UserList", FieldValue.arrayUnion(newMap));
                                 return;
                             }
@@ -429,11 +445,13 @@ public final class EventUtility {
                         map.put("attending", 1); // 1 means checked in
                         map.put("count", 1);
                         ref.update("UserList", FieldValue.arrayUnion(map));
-                    }
-                    else{
+                    } else {
+                        // Handle failure
+                        Log.e("userCheckIn", "Error getting document", task.getException());
                     }
                 });
     }
+
 
     //TODO: unused for now
     private static void sendNotificationToDeviceTokens(List<String> deviceTokens, String title, String body) {
@@ -539,32 +557,52 @@ public final class EventUtility {
                     return null;
                 });
     }
-    public static Task<Integer> userAttendStatus(String eventID, String userID) {
-        return FirebaseFirestore.getInstance()
-                .collection("events")
-                .get()
-                .continueWith(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.contains("UserList")) {
-                                if (document.getId().equals(eventID)) {
-                                    List<Map<String, Object>> attendees = (List<Map<String, Object>>) document.get("UserList");
-                                    for (Map<String, Object> attendee : attendees) {
-                                        if (attendee.get("userId").toString().equals(userID)) {
-                                            return ((Long)attendee.get("attending")).intValue();
-                                        }
-                                    }
-                                    return 0;
-                                }
-                            }
-                        }
-                        return 0;
-                    } else {
-                        throw task.getException();
+
+    public static void addLocationsToEvent(String eventId, double latitude, double longitude) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference eventRef = db.collection("events").document(eventId);
+
+        // Convert the location to a string
+        String locationString = latitude + "," + longitude;
+
+        // Use FieldValue.arrayUnion() to add the location string to the checkInLocations field
+        eventRef.update("checkInLocations", FieldValue.arrayUnion(locationString))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("EventUtility", "Location added to event successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("EventUtility", "Error: " + e.getMessage());
                     }
                 });
     }
 
+    //give a specific event, return the locations
+    public static Task<List<String>> getLocationsFromEvent(String eventId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference eventRef = db.collection("events").document(eventId);
+
+        return eventRef.get().continueWith(new Continuation<DocumentSnapshot, List<String>>() {
+            @Override
+            public List<String> then(@NonNull Task<DocumentSnapshot> task) throws Exception {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        List<String> locationStrings = (List<String>) document.get("checkInLocations");
+                        return locationStrings;
+                    } else {
+                        throw new Exception("No such document");
+                    }
+                } else {
+                    throw task.getException();
+                }
+            }
+        });
+    }
     // Create a method that will return the attendlimit for the event from the event name
     public static Task<Integer> getAttendLimitFromEventName(String eventName) {
         final List<Integer> attendLimit = new ArrayList<>();
@@ -591,4 +629,3 @@ public final class EventUtility {
     }
 
 }
-

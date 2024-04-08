@@ -6,6 +6,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
@@ -71,6 +72,18 @@ public class EventSignedUpForAttendeeBrowse extends AppCompatActivity {
             }
         });
 
+        ImageView profileAttendee = findViewById(R.id.profile_attendee);
+        profileAttendee.setOnClickListener(v -> {
+            Intent intent = new Intent(EventSignedUpForAttendeeBrowse.this, UserEditProfileActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("role", "attendee");
+            intent.putExtras(bundle);
+            startActivity(intent);
+        });
+
+        findViewById(R.id.home_admin_browse_attendee).setOnClickListener (
+                v-> startActivity(new Intent(EventSignedUpForAttendeeBrowse.this, HomeScreenActivity.class))
+        );
 
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
 

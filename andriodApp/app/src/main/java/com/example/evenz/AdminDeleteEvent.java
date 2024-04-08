@@ -80,7 +80,7 @@ public class AdminDeleteEvent extends AppCompatActivity{
 
               }
         });
-        
+
         findViewById(R.id.deletebutton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
