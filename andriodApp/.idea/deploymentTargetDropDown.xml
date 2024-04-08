@@ -8,6 +8,9 @@
       <entry key="AttendeeViewEventsTest">
         <State />
       </entry>
+      <entry key="OrganizerCreateEventTest">
+        <State />
+      </entry>
       <entry key="UserEditProfileActivityTest">
         <State />
       </entry>

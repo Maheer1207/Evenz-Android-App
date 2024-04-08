@@ -71,9 +71,7 @@ import java.util.zip.CRC32C;
         // Initialize ImageUtility
         imageUtility = new ImageUtility();
 
-        // Get extras from intent
-        Bundle b = getIntent().getExtras();
-        assert b != null;
+
 
         eventPosterID_temp = UUID.randomUUID().toString();
         photoRef = storageReference.child("images/" + eventPosterID_temp);
