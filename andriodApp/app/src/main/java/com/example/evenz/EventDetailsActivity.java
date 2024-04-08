@@ -168,15 +168,29 @@ public class EventDetailsActivity  extends AppCompatActivity {
             shareQR.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    QRGenerator test = new QRGenerator();
-                    Bitmap bitmap = test.generate(eventID, "", 400, 400); //TODO: change for the sign up page/check IN
-                    Uri bitmapUri = saveBitmapToCache(bitmap);
+                    // Create an AlertDialog.Builder
+                    AlertDialog.Builder builder = new AlertDialog.Builder(EventDetailsActivity.this);
+                    builder.setTitle("Choose QR Code Type")
+                            .setItems(new String[]{"Promotional QR code", "Check-in QR code"}, (dialog, which) -> {
+                                String qrCodeType =(which == 0) ? "/sign_up" : "/check_in"; // 0 for promotional, 1 for check-in
 
-                Intent intent = new Intent(EventDetailsActivity.this, ShareQRActivity.class);
+                                QRGenerator test = new QRGenerator();
+                                Bitmap bitmap = test.generate(eventID, qrCodeType, 400, 400);//generate with a string that we can parse
+                                Uri bitmapUri = saveBitmapToCache(bitmap);
 
-                intent.putExtra("eventID", eventID);
-                intent.putExtra("BitmapImage", bitmapUri.toString());
-                startActivity(intent);
+                                Intent intent = new Intent(EventDetailsActivity.this, ShareQRActivity.class);
+                                intent.putExtra("eventID", eventID);
+                                if(which == 0) {
+                                    intent.putExtra("qrCodeType", "Promotional");
+                                } else {
+                                    intent.putExtra("qrCodeType", "Check-in");
+                                }
+                                assert bitmapUri != null;
+                                intent.putExtra("BitmapImage", bitmapUri.toString());
+                                startActivity(intent);
+                            });
+                    // Create and show the AlertDialog
+                    builder.create().show();
             }
         });
 
@@ -186,6 +200,13 @@ public class EventDetailsActivity  extends AppCompatActivity {
                 openMapIntent(eventID, "organizer", (String) eventLocation.getText());
             }
         });
+
+        findViewById(R.id.attendees_list_event_details).setOnClickListener(v -> openAttendeeListIntent());
+    }
+
+    private void openAttendeeListIntent(){
+        Intent intent = new Intent(EventDetailsActivity.this, AttendeesActivity.class);
+        startActivity(intent);
     }
 
     private void openMapIntent(String eventID, String role, String addressString) {
