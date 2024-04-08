@@ -37,6 +37,7 @@ public class ScanQRActivity extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA_PERMISSION = 100; //TODO: fix later
     private Camera camera;
+    private boolean isProcessing = false;//so we can have only one
 
     private boolean isFlashlightOn = false;//For flashlight QR scaning
 
@@ -44,12 +45,13 @@ public class ScanQRActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.qr_code_scan);
+        setContentView(R.layout.qr_code_scan); // Ensure this layout has a PreviewView with the ID `viewFinder`
 
         // Request camera permission
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION);
         }
+
         cameraProviderFuture = ProcessCameraProvider.getInstance(this);
         cameraProviderFuture.addListener(() -> {
             try {
@@ -84,7 +86,7 @@ public class ScanQRActivity extends AppCompatActivity {
 
         // Get the ImageView and set an OnClickListener on it
         ImageView flashlightButton = findViewById(R.id.img_rectangle);
-        flashlightButton.setOnClickListener(v ->toggleFlashlight()); //TODO: check if flashlight is working
+        flashlightButton.setOnClickListener(v -> toggleFlashlight()); //TODO: check if flashlight is working
     }
 
     private void toggleFlashlight() {
@@ -93,6 +95,10 @@ public class ScanQRActivity extends AppCompatActivity {
     }
 
     private void scanBarcodes(InputImage image, ImageProxy imageProxy) {
+        if (isProcessing) {
+            imageProxy.close();
+            return;
+        }
         BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
                 .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
                 .build();
@@ -102,6 +108,7 @@ public class ScanQRActivity extends AppCompatActivity {
                 .addOnSuccessListener(barcodes -> {
                     for (Barcode barcode : barcodes) {
                         String rawValue = barcode.getRawValue();
+                        isProcessing = true;
                         runOnUiThread(() -> handleQRCode(rawValue));
                         break; //process first barcode only
                     }
@@ -120,22 +127,27 @@ public class ScanQRActivity extends AppCompatActivity {
                 Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class);
                 Bundle b =new Bundle();
                 b.putString("role", "attendee");
-                b.putString("eventID", parts[parts.length - 2]);
+                b.putString("eventID", parts[parts.length -2]);
                 intent.putExtras(b);
 
                 FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
                 String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-                firebaseUserManager.checkInUser(deviceId, parts[parts.length - 2])
+                firebaseUserManager.addEventToUser(deviceId, parts[parts.length -2])//this is for adding user to the events signed up for
                         .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
                         .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
-                EventUtility.userCheckIn(deviceId, parts[parts.length - 2]);
+
+                firebaseUserManager.checkInUser(deviceId, parts[parts.length -2]) // this is for putting the event in checked in
+                        .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
+                        .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
+                EventUtility.userCheckIn(deviceId, parts[parts.length -2]);
 
                 startActivity(intent);
+                isProcessing = false;
             } else if (lastPart.equals("sign_up")) {
                 // Navigate to the event details for the attendee to sign up
                 Intent intent = new Intent(ScanQRActivity.this, EventDetailsActivity.class);
-                intent.putExtra("eventID", parts[parts.length - 2]); // Pass the event ID for the event details page so attendee can sign up
+                intent.putExtra("eventID", parts[parts.length -2]);
                 intent.putExtra("source", "browse");
                 intent.putExtra("role", "attendee");
                 startActivity(intent);

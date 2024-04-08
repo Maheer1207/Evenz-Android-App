@@ -167,19 +167,19 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        String rutherfordLibrary = "11208 89 Ave NW, Edmonton";
-        LatLng rutherfordLibraryLatLng = getLocationFromAddress(this,rutherfordLibrary);
-        mMap.addMarker(new MarkerOptions().position(rutherfordLibraryLatLng).title("Rutherford Library"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rutherfordLibraryLatLng, DEFAULT_ZOOM));
+//        String rutherfordLibrary = "11208 89 Ave NW, Edmonton";
+//        LatLng rutherfordLibraryLatLng = getLocationFromAddress(this,rutherfordLibrary);
+//        mMap.addMarker(new MarkerOptions().position(rutherfordLibraryLatLng).title("Rutherford Library"));
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rutherfordLibraryLatLng, DEFAULT_ZOOM));
 
 //        String hub9002 = "9002 112 ST NW, Edmonton";
 //        LatLng hub9002LatLng = getLocationFromAddress(this,hub9002);
 //        mMap.addMarker(new MarkerOptions().position(hub9002LatLng).title("9002-HUB"));
 //        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(rutherfordLibraryLatLng, DEFAULT_ZOOM));
 //
-//        LatLng addressLatLng = getLocationFromAddress(this,addressString);
-//        mMap.addMarker(new MarkerOptions().position(hub9002LatLng).title(addressString));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addressLatLng, DEFAULT_ZOOM));
+        LatLng addressLatLng = getLocationFromAddress(this,addressString);
+        mMap.addMarker(new MarkerOptions().position(addressLatLng).title(addressString));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addressLatLng, DEFAULT_ZOOM));
 
         // Enable the zoom controls for the map
         mMap.getUiSettings().setZoomControlsEnabled(true);

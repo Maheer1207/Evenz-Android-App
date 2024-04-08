@@ -36,10 +36,6 @@ public class HomeScreenActivity extends AppCompatActivity {
     private NotificationsAdapter notificationsAdapter;
     private String eventID;
     private String role;
-    private FirebaseFirestore db;
-    private CollectionReference usersRef;
-    private DocumentReference doc;
-
     private ImageUtility imageUtility;
 
     @Override
@@ -48,7 +44,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         // getting the devices id to get the user
         String deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-
         // getting the user type
         Task<String> getUserType = firebaseUserManager.getUserType(deviceID);
         getUserType.addOnSuccessListener(new OnSuccessListener<String>() {
@@ -158,7 +153,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         profileAttendee.setOnClickListener(v -> {
             Intent intent = new Intent(HomeScreenActivity.this, UserEditProfileActivity.class);
             Bundle bundle = new Bundle();
-//            bundle.putString("eventID", eventID);
             bundle.putString("role", "attendee");
             intent.putExtras(bundle);
             startActivity(intent);

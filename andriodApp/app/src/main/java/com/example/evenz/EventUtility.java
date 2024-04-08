@@ -512,7 +512,8 @@ public final class EventUtility {
                 });
     }
 
-    public static Task<Integer> userAttendCount(String eventID, String userID) {
+    public static Task<ArrayList<Integer>> userAttendCount(String eventID, String userID) {
+        ArrayList<Integer> numbers = new ArrayList<>();
         return FirebaseFirestore.getInstance()
                 .collection("events")
                 .get()
@@ -524,7 +525,33 @@ public final class EventUtility {
                                     List<Map<String, Object>> attendees = (List<Map<String, Object>>) document.get("UserList");
                                     for (Map<String, Object> attendee : attendees) {
                                         if (attendee.get("userId").toString().equals(userID)) {
-                                            return ((Long)attendee.get("count")).intValue();
+                                            numbers.add(((Long)attendee.get("count")).intValue());
+                                            numbers.add(((Long)attendee.get("attending")).intValue());
+                                            return numbers;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        throw task.getException();
+                    }
+                    return null;
+                });
+    }
+    public static Task<Integer> userAttendStatus(String eventID, String userID) {
+        return FirebaseFirestore.getInstance()
+                .collection("events")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.contains("UserList")) {
+                                if (document.getId().equals(eventID)) {
+                                    List<Map<String, Object>> attendees = (List<Map<String, Object>>) document.get("UserList");
+                                    for (Map<String, Object> attendee : attendees) {
+                                        if (attendee.get("userId").toString().equals(userID)) {
+                                            return ((Long)attendee.get("attending")).intValue();
                                         }
                                     }
                                     return 0;
