@@ -127,23 +127,23 @@ public class ScanQRActivity extends AppCompatActivity {
                 Intent intent = new Intent(ScanQRActivity.this, HomeScreenActivity.class);
                 Bundle b =new Bundle();
                 b.putString("role", "attendee");
-                b.putString("eventID", qrCode);
+                b.putString("eventID", parts[parts.length -2]);
                 intent.putExtras(b);
 
                 FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
                 String deviceId = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-                firebaseUserManager.checkInUser(deviceId, qrCode)
+                firebaseUserManager.checkInUser(deviceId, parts[parts.length -2])
                         .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))
                         .addOnFailureListener(e -> Log.w("checkInUser", "Error checking user in", e));
-                EventUtility.userCheckIn(deviceId, qrCode);
+                EventUtility.userCheckIn(deviceId, parts[parts.length -2]);
 
                 startActivity(intent);
                 isProcessing = false;
             } else if (lastPart.equals("sign_up")) {
                 // Navigate to the event details for the attendee to sign up
                 Intent intent = new Intent(ScanQRActivity.this, EventDetailsActivity.class);
-                intent.putExtra("eventID", qrCode);
+                intent.putExtra("eventID", parts[parts.length -2]);
                 intent.putExtra("source", "browse");
                 intent.putExtra("role", "attendee");
                 startActivity(intent);
