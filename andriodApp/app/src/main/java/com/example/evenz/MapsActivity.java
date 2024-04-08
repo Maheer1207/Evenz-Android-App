@@ -47,7 +47,6 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -198,24 +197,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions().position(addressLatLng).title(addressString));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addressLatLng, DEFAULT_ZOOM));
 
+        // Fetch the locations from the event
+        EventUtility.getLocationsFromEvent(eventID).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<String> locationStrings = task.getResult();
+                for (String locationString : locationStrings) {
+                    String[] parts = locationString.split(",");
+                    double latitude = Double.parseDouble(parts[0]);
+                    double longitude = Double.parseDouble(parts[1]);
+                    LatLng location = new LatLng(latitude, longitude);
 
-        // Get the locations for the event
-        EventUtility.getLocationsFromEvent(eventID).addOnCompleteListener(new OnCompleteListener<List<Map<String, Object>>>() {
-            @Override
-            public void onComplete(@NonNull Task<List<Map<String, Object>>> task) {
-                if (task.isSuccessful()) {
-                    List<Map<String, Object>> locations = task.getResult();
-
-                    // Place a marker for each location
-                    for (Map<String, Object> location : locations) {
-                        double latitude = (double) location.get("latitude");
-                        double longitude = (double) location.get("longitude");
-                        LatLng latLng = new LatLng(latitude, longitude);
-                        mMap.addMarker(new MarkerOptions().position(latLng));
-                    }
-                } else {
-                    Log.e("MapsActivity", "Error getting locations from event", task.getException());
+                    // Add a marker for this location
+                    mMap.addMarker(new MarkerOptions().position(location));
                 }
+            } else {
+                Log.d("MapsActivity", "Error getting locations: " + task.getException());
             }
         });
 

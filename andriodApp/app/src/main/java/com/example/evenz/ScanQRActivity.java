@@ -141,24 +141,22 @@ public class ScanQRActivity extends AppCompatActivity {
 
                 // Get the user's current location
                 LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+                Log.d("LocationDebug", "Before checking permission");
                 if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    Log.d("LocationDebug", "Permission granted");
                     Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     if (location != null) {
+                        Log.d("LocationDebug", "Location obtained");
                         double latitude = location.getLatitude();
                         double longitude = location.getLongitude();
 
-                        // Create a map for the location
-                        Map<String, Object> userLocation = new HashMap<>();
-                        userLocation.put("latitude", latitude);
-                        userLocation.put("longitude", longitude);
-
-                        // Create a list of locations and add the user's location to it
-                        List<Map<String, Object>> locations = new ArrayList<>();
-                        locations.add(userLocation);
-
                         // Add the locations to the event
-                        EventUtility.addLocationsToEvent(parts[parts.length -2], locations);
+                        EventUtility.addLocationsToEvent(parts[parts.length -2], latitude,longitude );
+                    } else {
+                        Log.d("LocationDebug", "Location is null");
                     }
+                } else {
+                    Log.d("LocationDebug", "Permission not granted");
                 }
                 firebaseUserManager.addEventToUser(deviceId, parts[parts.length -2])//this is for adding user to the events signed up for
                         .addOnSuccessListener(aVoid -> Log.d("checkInUser", "User successfully checked in!"))

@@ -541,16 +541,19 @@ public final class EventUtility {
                 });
     }
 
-    public static void addLocationsToEvent(String eventId, List<Map<String, Object>> locations) {
+    public static void addLocationsToEvent(String eventId, double latitude, double longitude) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference eventRef = db.collection("events").document(eventId);
 
-        // Use FieldValue.arrayUnion() to add the locations to the Locations field
-        eventRef.update("checkInLocations", FieldValue.arrayUnion(locations))
+        // Convert the location to a string
+        String locationString = latitude + "," + longitude;
+
+        // Use FieldValue.arrayUnion() to add the location string to the checkInLocations field
+        eventRef.update("checkInLocations", FieldValue.arrayUnion(locationString))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.d("EventUtility", "Locations added to event successfully");
+                        Log.d("EventUtility", "Location added to event successfully");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -562,18 +565,18 @@ public final class EventUtility {
     }
 
     //give a specific event, return the locations
-    public static Task<List<Map<String, Object>>> getLocationsFromEvent(String eventId) {
+    public static Task<List<String>> getLocationsFromEvent(String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference eventRef = db.collection("events").document(eventId);
 
-        return eventRef.get().continueWith(new Continuation<DocumentSnapshot, List<Map<String, Object>>>() {
+        return eventRef.get().continueWith(new Continuation<DocumentSnapshot, List<String>>() {
             @Override
-            public List<Map<String, Object>> then(@NonNull Task<DocumentSnapshot> task) throws Exception {
+            public List<String> then(@NonNull Task<DocumentSnapshot> task) throws Exception {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        List<Map<String, Object>> locations = (List<Map<String, Object>>) document.get("checkInLocations");
-                        return locations;
+                        List<String> locationStrings = (List<String>) document.get("checkInLocations");
+                        return locationStrings;
                     } else {
                         throw new Exception("No such document");
                     }
@@ -583,7 +586,6 @@ public final class EventUtility {
             }
         });
     }
-
     // Create a method that will return the attendlimit for the event from the event name
     public static Task<Integer> getAttendLimitFromEventName(String eventName) {
         final List<Integer> attendLimit = new ArrayList<>();
