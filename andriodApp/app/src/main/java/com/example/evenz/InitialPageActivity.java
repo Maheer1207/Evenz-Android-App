@@ -22,6 +22,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+/**
+ * activity for the first page selecting whether you are an organizer, attendee, or event.
+ */
 public class InitialPageActivity extends AppCompatActivity {
 
     private DocumentReference doc;

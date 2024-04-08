@@ -32,11 +32,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Utility class for Image-related helper functions.
+ * constructor initalizes firebase to default
+ */
 public final class ImageUtility {
 
     FirebaseStorage storage;
     StorageReference storageReference;
 
+    /**
+     * constructor
+     */
     public ImageUtility(){
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
@@ -53,6 +60,11 @@ public final class ImageUtility {
      * @return returns generated id for image uploaded
      */
 
+    /**
+     * Helper function to upload image
+     * @param filePath file path of the image.
+     * @param callback callback.
+     */
     public void upload(Uri filePath, UploadCallback callback) {
         if (filePath != null) {
             String id = UUID.randomUUID().toString();
@@ -110,6 +122,11 @@ public final class ImageUtility {
         });
     }
 
+    /**
+     * fetches all images in the database.
+     * @param listener
+     */
+
     public static void fetchAllImg(ImageFetchListener listener) {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         StorageReference imagesRef = storageReference.child("images/");
@@ -130,6 +147,10 @@ public final class ImageUtility {
                 });
     }
 
+    /**
+     * deletes sepcified image.
+     * @param imageID
+     */
     public static void deleteImage(String imageID)
     {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();

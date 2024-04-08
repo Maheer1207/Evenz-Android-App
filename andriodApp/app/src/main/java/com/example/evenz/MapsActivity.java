@@ -45,6 +45,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * activity for maps.
+ */
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;

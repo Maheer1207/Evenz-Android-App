@@ -36,6 +36,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * utility class providing helper functions related to Event activites.
+ */
 public final class EventUtility {
 
 
@@ -223,6 +226,11 @@ public final class EventUtility {
         }
     }
 
+    /**
+     * parses document snapshot into event object
+     * @param doc document snapshot of event
+     * @return event object.
+     */
     public static Event parseEventTemp(DocumentSnapshot doc) {
         if (!doc.exists()) {
             return null; // or handle this case as needed
@@ -303,6 +311,13 @@ public final class EventUtility {
         }
 
     }
+
+    /**
+     * Unifinished attempt to implement FCM messaging for pushing notifications to event Attendees.
+     * @param eventId
+     * @param notificationTitle
+     * @param notificationBody
+     */
     public static void sendPushNotificationToEventAttendees(String eventId, String notificationTitle, String notificationBody) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -355,6 +370,11 @@ public final class EventUtility {
                 });
     }
 
+    /**
+     * removes attendee from specified Event
+     * @param userId attendee to be remvoed
+     * @param eventId even from which it is to be removed.
+     */
     //used for removing a user from the event userlist,By Hrithick
     public static void removeAttendeeFromEvent(String userId, String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -388,6 +408,11 @@ public final class EventUtility {
                 });
     }
 
+    /**
+     *
+     * @param userID
+     * @param eventID
+     */
     public static void userCheckIn(String userID, String eventID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference ref = db.collection("events").document(eventID);
@@ -435,6 +460,12 @@ public final class EventUtility {
                 });
     }
 
+    /**
+     * unused fucntion a part of trying to implement FCM messaging for organizer-to-attendee notification connection.
+     * @param deviceTokens
+     * @param title
+     * @param body
+     */
     //TODO: unused for now
     private static void sendNotificationToDeviceTokens(List<String> deviceTokens, String title, String body) {
         try {

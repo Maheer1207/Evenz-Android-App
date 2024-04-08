@@ -5,6 +5,20 @@ import android.graphics.Bitmap;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Class defining Event objects, instances define specific events, with fields:
+ * eventID-identification key of the event object when stored in firebase.
+ * organizationname specifies name organization that initated the event
+ * eventName specified event Name
+ * eventPosterID stores the firebase ID of the image of the poster associated with the event
+ * description is the description of the event.
+ * geolocation store a Geolocation object, specifying the locale of the event
+ * qrCodeCheckin stores the QR code used to gain entry in the event asa Bitmap
+ * atendee limit is maximum number of attendees.
+ * eventDate stores date of Event.
+ * UserList stores arraylist of Users attending the event as strings
+ *notifications stores array of notification strings organizer has created for the event.
+ */
 public class Event
 {
     private String eventID;
@@ -57,6 +71,13 @@ public class Event
 
     }
 
+    /**
+     * all getters and setters for the fields.
+     */
+    /**
+     *  fetches eventID
+     * @return
+     */
     public String getEventID() {
         return eventID;
     }

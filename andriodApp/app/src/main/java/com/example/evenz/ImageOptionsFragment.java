@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.appcompat.app.AlertDialog;
 
+/**
+ * code for image options fragment activity. Interface for uploading or deleting images.
+ */
 public class ImageOptionsFragment extends DialogFragment {
 
     private ImageOptionsListener listener;

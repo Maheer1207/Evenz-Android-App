@@ -38,28 +38,32 @@ import java.util.Hashtable;
  * has no constructors nor methods as it is an activity class, aside from oncreate().
  * Associated with XML file "admin_delete_event.xml" to provide the UI.
  */
-public class   AdminDeleteEvent extends AppCompatActivity{
+public class  AdminDeleteUser extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("Ben8888", "JOYJOYLALAALAWORLD");
-        setContentView(R.layout.admin_delete_event);
+        setContentView(R.layout.admin_delete_user);
 
 
         Bundle rb = getIntent().getExtras();
-        String etitle = rb.getString("eventName");
-        String edesc = rb.getString("eventDesc");
+        String uname = rb.getString("x1");
+        String uid = rb.getString("x6");
+        String pfp = rb.getString("x4");
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference dev = db.collection("events");
-
+        CollectionReference dev = db.collection("users");
         TextView eventname = findViewById(R.id.event_Name2);
+        eventname.setText(uname);
+        /*
+
         TextView location = findViewById(R.id.location234);
         TextView date = findViewById(R.id.delete_event_admin_date);
         TextView orgname = findViewById(R.id.orgdata);
         TextView desc = findViewById(R.id.continer_event_summary_date_icon1);
         ImageView imgV = findViewById(R.id.image_career_fairs_web_banner);
         TextView attendeeCnt = findViewById(R.id.attendeecntdata);
+
 
         eventname.setText(etitle);
         location.setText(rb.getString("location"));
@@ -68,29 +72,12 @@ public class   AdminDeleteEvent extends AppCompatActivity{
         desc.setText(edesc);
         attendeeCnt.setText(rb.getString("AttendLimit"));
 
+
         ImageUtility x = new ImageUtility();
         x.displayImage(rb.getString("imgID"), imgV);
 
+   */
 
-
-        final String[] docID = new String[1];
-        dev.whereEqualTo("eventName", etitle).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-              @Override
-              public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                  if (task.isSuccessful()) {
-                      for (QueryDocumentSnapshot document : task.getResult()) {
-                          Log.d("Ben8888", "Retrieved copy");
-                          Log.d("Ben8888", document.getId());
-
-                          docID[0] = document.getId();
-                      }
-                  }
-                  else {
-                      Log.d("Ben8888", "Failure");
-                  }
-
-              }
-        });
 
 
         findViewById(R.id.deletebutton).setOnClickListener(new View.OnClickListener() {
@@ -98,9 +85,8 @@ public class   AdminDeleteEvent extends AppCompatActivity{
             public void onClick(View v) {
 
 
-                Log.d("Ben8888", "trying to delete: " + etitle);
-                Log.d("Ben8888", docID[0]);
-                dev.document(docID[0]).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                Log.d("Ben8888", "trying to delete: " + uname);
+                dev.document(uid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
                         Log.d("Ben8888", "successful delete");
@@ -114,9 +100,9 @@ public class   AdminDeleteEvent extends AppCompatActivity{
                         Log.d("Ben8888",  e.toString());
                     }
                 });
-                startActivity(new Intent(AdminDeleteEvent.this, AdminBrowseEventActivity.class));
+                startActivity(new Intent(AdminDeleteUser.this, AdminBrowseProfilesActivity.class));
             }
         });
-        findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
+
     }
 }

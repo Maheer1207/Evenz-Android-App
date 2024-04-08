@@ -9,10 +9,16 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Java class assocaited with XML file admin_delete_image, a UI arrived at by selecting a image from
+ * browse_images, displaying detailed image information, and option to delete it.
+ */
 public class ImageDeleteActivity extends AppCompatActivity {
 
     @SuppressLint("MissingInflatedId")
     @Override
+
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_delete_image);

@@ -22,6 +22,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * Notification adapter for being able to display notifications within a recylerview.
+ */
 public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.ViewHolder> {
 
     private final Context context;

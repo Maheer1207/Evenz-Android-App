@@ -17,21 +17,40 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+/**
+ * Class used to store helper functions associated with firebase user data storage,
+ * two main fields being the firebase reference, and the nested collection reference to the users collection
+ * two constructors, either manually specifying the firebase firestore, or not
+ */
 public class FirebaseUserManager {
 
     private final FirebaseFirestore db;
     private final CollectionReference ref;
 
+    /**
+     * auto constructor
+     */
     public FirebaseUserManager() {
         this.db = FirebaseFirestore.getInstance();
         this.ref = db.collection("users");
     }
+
+    /**
+     * allows user to specify firebase data
+     * @param db firestore
+     */
 
     public FirebaseUserManager(FirebaseFirestore db) {
         this.db = db;
         this.ref = db.collection("users");
     }
 
+    /**
+     * submit User helper function, that takes a User Object, and stores it into firestore, converting it into a hashmap, and
+     * returns the document ID where it was stored
+     * @param user user object to be stored
+     * @return document ID of the stored user.
+     */
     public Task<Void> submitUser(User user) {
         if (user == null) {
             return Tasks.forException(new IllegalArgumentException("User cannot be null"));
@@ -86,7 +105,12 @@ public class FirebaseUserManager {
         });
     }
 
-    // Create a method that will return all of the attendes for a given event it uses the getUser method to get the user object
+    /**
+     * method that will return all of the attendees for a given event it uses the getUser method to get the user
+     * @param eventId event ID for firestore
+     * @return
+     */
+    // Create a r object
     public Task<List<User>> getAttendeesForEvent(String eventId) {
         return ref.whereArrayContains("eventsSignedUpFor", eventId).get()
                 .continueWithTask(task -> {
@@ -104,6 +128,12 @@ public class FirebaseUserManager {
                 });
     }
 
+    /**
+     * consumes an iterable documentSnapshot of users, and returns an arraylist of the firebase
+     * stored users as user objects
+     * @param documents documentsnapshot
+     * @return arraylist of user objects.
+     */
     private List<User> processDocuments(Iterable<QueryDocumentSnapshot> documents) {
         List<User> users = new ArrayList<>();
         for (QueryDocumentSnapshot document : documents) {
@@ -127,6 +157,12 @@ public class FirebaseUserManager {
         return users;
     }
 
+
+    /**
+     * returns a list of Strings of the event names the specified User is signed up for
+     * @param userId firebase key ID for identifying a user.
+     * @return list of event numbers
+     */
     public Task<List<String>> getEventsSignedUpForUser(String userId) {
         return db.collection("users").document(userId).get().continueWith(task -> {
             List<String> eventsSignedUpFor = new ArrayList<>();
@@ -157,6 +193,11 @@ public class FirebaseUserManager {
         });
     }
 
+    /**
+     * returns user object for a given User ID from firebase
+     * @param userId userID
+     * @return
+     */
     // Create user method that will return a user object for a given userId
     public Task<User> getUser(String userId) {
         return ref.document(userId).get().continueWith(task -> {

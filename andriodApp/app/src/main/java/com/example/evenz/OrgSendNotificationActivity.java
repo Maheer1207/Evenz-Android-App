@@ -19,6 +19,9 @@ import java.util.ArrayList;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+/**
+ * allows organizer to send notification
+ */
 public class OrgSendNotificationActivity extends AppCompatActivity {
     RelativeLayout post;
     ImageView back;
@@ -91,6 +94,9 @@ public class OrgSendNotificationActivity extends AppCompatActivity {
         editTextNotificationInfo = findViewById(R.id.editTextNotificationInfo);
     }
 
+    /**
+     * posts notification
+     */
     private void postNotification () {
         String notificationType = spinnerNotificationType.getSelectedItem().toString();
         if (notificationType.equals("Select:")) {
@@ -103,6 +109,12 @@ public class OrgSendNotificationActivity extends AppCompatActivity {
         fetchEventDetailsAndNotifications(eventID, notificationType, notificationInfo);
     }
 
+    /**
+     * utilizes notificationOps.
+     * @param eventID
+     * @param notificationType
+     * @param notificationInfo
+     */
     private void fetchEventDetailsAndNotifications(String eventID, String notificationType, String notificationInfo) {
         EventUtility.notificationOps(notificationType, notificationInfo, eventID, 1);
     }

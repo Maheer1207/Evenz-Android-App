@@ -19,6 +19,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+/**
+ * activity to share a QR code.
+ */
 public class ShareQRActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +70,11 @@ public class ShareQRActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * physical sharing of specified bitmap
+     * @param bitmap
+     */
+
     private void shareImageandText(Bitmap bitmap) {
         Uri uri = getImageToShare(bitmap);
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -87,6 +95,11 @@ public class ShareQRActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(intent, "Share Via"));
     }
 
+    /**
+     * Retrieves the URI from a provided bitmap of QR code
+     * @param bitmap takes bitmap
+     * @return URI
+     */
     // Retrieving the url to share
     private Uri getImageToShare(Bitmap bitmap) {
         File imageFolder = new File(getCacheDir(), "images");

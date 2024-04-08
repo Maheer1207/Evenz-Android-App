@@ -11,6 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
+/**
+ * Adapter class that allows an array of Image paths to be mapped into an displayed in an ImageView
+ * all at once.
+ */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
     private ArrayList<String> imgPathList; // List of image paths

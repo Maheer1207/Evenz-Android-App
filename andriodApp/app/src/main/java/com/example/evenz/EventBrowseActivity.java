@@ -23,11 +23,23 @@ import java.util.ArrayList;
 
 //call ArrayList<Event> eventDataList
 
+/**
+ * Activity Class for attendees to browse the list of current Events, and select events for more detailed information
+ * contains fields of the eventsRecyclerView, eventAdapter, and eventDataList.
+ * the UI view the events are displayed in, the adapter, and the arrayList of event objects to be displayed.
+ */
 public class EventBrowseActivity extends AppCompatActivity {
     private RecyclerView eventsRecyclerView;
     private EventAdapter eventAdapter;
     private ArrayList<Event> eventDataList;
 
+    /**
+     * code run on the creation of the activity, and performs all action associated with the activity.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +73,10 @@ public class EventBrowseActivity extends AppCompatActivity {
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
     }
 
+    /**
+     * Fetches all events in the events collection from Firebase, converts them into objects, and stores them
+     * in an implicitly provided arraylist
+     */
     private void fetchEvents() {
         // Code to fetch events from Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();

@@ -31,6 +31,9 @@ import com.google.mlkit.vision.common.InputImage;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * activity for scanning QR code.
+ */
 public class ScanQRActivity extends AppCompatActivity {
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
@@ -110,6 +113,10 @@ public class ScanQRActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> imageProxy.close());// Ensure to close the ImageProxy on failure as well
     }
 
+    /**
+     * Takes the QR code string, and checks in the user, and send him to the next activity.
+     * @param qrCode
+     */
     private void handleQRCode(String qrCode) {
         if (qrCode != null) {
             String[] parts = qrCode.split("/");

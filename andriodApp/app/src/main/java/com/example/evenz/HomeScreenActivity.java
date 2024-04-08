@@ -27,6 +27,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
+/**
+ * the class for the activity of the Homescreen for both attendees and organizers, depending on how
+ * stores a set of fields regarding an event, not initalized in a constructor, but progressively utilized
+ * through the classes function.
+ *
+ */
 public class HomeScreenActivity extends AppCompatActivity {
     private ImageView eventPoster;
     private TextView eventLocation, eventDetail;
@@ -40,6 +46,15 @@ public class HomeScreenActivity extends AppCompatActivity {
 
     private ImageUtility imageUtility;
 
+    /**
+     * Oncreate has all the code for the activity, the key feature is that depending on the device ID,
+     * which the system can determine is a user or organizer, will produce different UIs.
+     *
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +97,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * method sets up UI for anteendee.
+     */
     // This method sets up the view for the attendee
     private void setupAttendeeView() {
         notificationsRecyclerView = findViewById(R.id.notificationsRecyclerView);
@@ -132,7 +150,10 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
-    // This method sets up the view for the organizer
+    /**
+     * This method sets up the view for the organizer
+     */
+
     private void setupOrganizerView() {
         notificationsRecyclerView = findViewById(R.id.notificationsRecyclerView);
         notificationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));

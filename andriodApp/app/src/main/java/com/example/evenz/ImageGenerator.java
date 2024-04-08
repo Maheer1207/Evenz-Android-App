@@ -6,8 +6,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
+/**
+ * class holds methods for generating images for user profile picture
+ */
 public class ImageGenerator {
 
+    /**
+     * Generates image based on profile name,
+     * @param profileName user name
+     * @param width width
+     * @param height height
+     * @return image Canvas object
+     */
     public static Bitmap generateProfileImage(String profileName, int width, int height) {
         Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(image);

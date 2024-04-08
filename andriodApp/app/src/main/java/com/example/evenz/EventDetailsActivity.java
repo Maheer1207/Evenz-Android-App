@@ -31,6 +31,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ *
+ */
 public class EventDetailsActivity  extends AppCompatActivity {
     private String eventID;
     private ImageView eventPoster, homeButton;

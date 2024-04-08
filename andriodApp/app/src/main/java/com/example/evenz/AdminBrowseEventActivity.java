@@ -24,10 +24,20 @@ import java.util.Hashtable;
 
 //call ArrayList<Event> eventDataList
 
+/**
+ * AdminBrowseEventActivity is a Java class responsible for the activity allowing for the Administrator
+ * to view and browse the list of Events, and select items for more detailed views, or deletion,
+ * which sends UI to AdminDeleteEvent.
+ * no constructors or methods due to being an activity class, utilizing only onCreate() to define activity behavior.
+ * Utilizes EventRecyclerView to display the list, evenAdapter to load data into it.
+ * utilizes onclicklistener implemented in the EventAdapter for
+ */
 public class AdminBrowseEventActivity extends AppCompatActivity {
     private RecyclerView eventsRecyclerView;
     private EventAdapter eventAdapter;
     private ArrayList<Event> eventDataList;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +82,12 @@ public class AdminBrowseEventActivity extends AppCompatActivity {
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
     }
 
+    /**
+     * fetchEvents is a function that fetches all documents in the "events" collection
+     * from firebase, converts each document into an event-object.
+     * it in an array of Event Objects
+     * . Here function is defined statically and takes and returns the array implicitly.
+     */
     private void fetchEvents() {
         // Code to fetch events from Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();

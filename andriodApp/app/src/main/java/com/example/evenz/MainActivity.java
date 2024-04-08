@@ -23,6 +23,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Hashtable;
 
+/**
+ * main activity, the starting point of the entire application
+ */
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;

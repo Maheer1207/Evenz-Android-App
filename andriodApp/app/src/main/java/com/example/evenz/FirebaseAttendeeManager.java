@@ -23,6 +23,8 @@ import java.util.Objects;
  * @see CollectionReference
  * @see Attendee
  */
+
+
 public class FirebaseAttendeeManager {
 
     // Firestore instance

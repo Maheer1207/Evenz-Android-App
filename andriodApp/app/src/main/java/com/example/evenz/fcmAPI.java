@@ -9,6 +9,9 @@ import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
+/**
+ * interface allowing activity to recieve asychronous FCM messages sent from firebase cloud messaging console.
+ */
 public interface fcmAPI {
     @Headers({
             "Content-Type:application/json",

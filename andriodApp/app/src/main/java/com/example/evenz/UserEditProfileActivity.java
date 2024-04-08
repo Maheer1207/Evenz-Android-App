@@ -29,6 +29,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * activity for editing user profile, allows 
+ */
 public class UserEditProfileActivity extends AppCompatActivity implements ImageOptionsFragment.ImageOptionsListener {
 
 	private static final int PICK_IMAGE_REQUEST = 22;
