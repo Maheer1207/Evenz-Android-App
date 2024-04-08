@@ -6,8 +6,18 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 
+/**
+ * automatically generates an image given a name
+ */
 public class ImageGenerator {
 
+    /**
+     * deterministically generates an image
+     * @param profileName name to generate image from
+     * @param width width of image
+     * @param height hight of image
+     * @return image bitmap
+     */
     public static Bitmap generateProfileImage(String profileName, int width, int height) {
         Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(image);

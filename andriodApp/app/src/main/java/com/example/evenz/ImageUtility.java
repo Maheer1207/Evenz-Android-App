@@ -32,6 +32,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Utility class for Image-related helper functions.
+ * constructor initalizes firebase to default
+ */
 public final class ImageUtility {
 
     FirebaseStorage storage;
@@ -53,6 +57,12 @@ public final class ImageUtility {
      * @return returns generated id for image uploaded
      */
 
+
+    /**
+     * Helper function to upload image
+     * @param filePath file path of the image.
+     * @param callback callback.
+     */
     public void upload(Uri filePath, UploadCallback callback) {
         if (filePath != null) {
             String id = UUID.randomUUID().toString();

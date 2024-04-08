@@ -41,6 +41,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * The homescreen showing a the current set event for user and organizer
+ * For user it shows checked in event
+ * For organizer shows currently selected event
+ */
 public class HomeScreenActivity extends AppCompatActivity {
     private ImageView eventPoster;
     private TextView eventLocation, eventDetail;
@@ -101,6 +106,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * populates the events attendees
+     */
     private void populateAttendeeFields() {
         notificationsRecyclerView = findViewById(R.id.notificationsRecyclerView);
         notificationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -117,6 +125,9 @@ public class HomeScreenActivity extends AppCompatActivity {
         setupAttendeeView();
     }
 
+    /**
+     * populates the events attendees if there are no attendees with a blank view
+     */
     private void populateEmptyAttendeeFields() {
         notificationsRecyclerView = findViewById(R.id.notificationsRecyclerView);
         notificationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -138,6 +149,10 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     // This method sets up the view for the attendee
+
+    /**
+     * sets up how attendees view the event
+     */
     private void setupAttendeeView() {
 
         ImageView imageEllipse = findViewById(R.id.image_ellipse);
@@ -177,6 +192,10 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     // This method sets up the view for the organizer
+
+    /**
+     * sets up how the organizer views the event
+     */
     private void setupOrganizerView() {
         notificationsRecyclerView = findViewById(R.id.notificationsRecyclerView);
         notificationsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -316,6 +335,12 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * opens the map screen for the organizer to see attendee locations
+     * @param eventID id of event
+     * @param role role of organizer
+     * @param addressString location of event
+     */
     private void openMapIntent(String eventID, String role, String addressString) {
         Intent intent = new Intent(HomeScreenActivity.this, MapsActivity.class);
 
@@ -326,6 +351,11 @@ public class HomeScreenActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * opens the intent to show event details
+     * @param eventID id of event
+     * @param role role of user viewing details
+     */
     private void openEventDetailsIntent(String eventID, String role) {
         Intent intent = new Intent(HomeScreenActivity.this, EventDetailsActivity.class);
         Bundle b = new Bundle();
@@ -354,6 +384,10 @@ public class HomeScreenActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * gets the details of an event aswell as notifications it has sent
+     * @param eventId id of event
+     */
     // This method fetches event details and notifications from Firestore
     private void fetchEventDetailsAndNotifications(String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();

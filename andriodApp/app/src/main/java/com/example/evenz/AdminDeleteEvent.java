@@ -31,6 +31,13 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+
+/**
+ * AdminDelete Event, extends AppcompactActivity produces the activity allowing the administrator
+ * to view in-detail, and delete a previously selected Event from the Firestore Database.
+ * has no constructors nor methods as it is an activity class, aside from oncreate().
+ * Associated with XML file "admin_delete_event.xml" to provide the UI.
+ */
 public class AdminDeleteEvent extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -39,6 +39,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
+/**
+ * a utility class for every thing to do with events and events in firebase
+ */
 public final class EventUtility {
 
 
@@ -190,6 +193,14 @@ public final class EventUtility {
     }
 
     //Fetch specific events from the database, by Hrithick
+
+    /**
+     * gets a list of events and updates them into an addapter via their ids
+     * @param db database being accessed
+     * @param eventIds list of events
+     * @param eventDataList data list to add to
+     * @param eventAdapter adapter to update
+     */
     public static void fetchEventsByIds(FirebaseFirestore db, List<String> eventIds, final ArrayList<Event> eventDataList, final EventAdapter eventAdapter) {
         if (eventIds == null || eventIds.isEmpty()) {
             Log.d("fetchEventsByIds", "No event IDs provided");
@@ -226,6 +237,11 @@ public final class EventUtility {
         }
     }
 
+    /**
+     * Translates firebase doc into an Event.
+     *
+     * @return firebase doc translated into Event.
+     */
     public static Event parseEventTemp(DocumentSnapshot doc) {
         if (!doc.exists()) {
             return null; // or handle this case as needed
@@ -334,6 +350,12 @@ public final class EventUtility {
                 });
     }
     //used for adding an Ever to the event userlist
+
+    /**
+     * adds a user to the events userList
+     * @param userId id to add
+     * @param eventId event to add to
+     */
     public static void addUserToEvent(String userId, String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference eventRef = db.collection("events").document(eventId);
@@ -359,6 +381,12 @@ public final class EventUtility {
     }
 
     //used for removing a user from the event userlist,By Hrithick
+
+    /**
+     * removes a user from an event
+     * @param userId user to remove
+     * @param eventId event to remove from
+     */
     public static void removeAttendeeFromEvent(String userId, String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference ref = db.collection("events").document(eventId);
@@ -392,7 +420,12 @@ public final class EventUtility {
                 });
     }
 
-
+    /**
+     * check in a user to an event and updates that
+     * the user is checked in in the event list
+     * @param userID id of user to check in
+     * @param eventID event checking into
+     */
     public static void userCheckIn(String userID, String eventID) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference ref = db.collection("events").document(eventID);
@@ -530,6 +563,12 @@ public final class EventUtility {
                 });
     }
 
+    /**
+     * A firebase task to get how many times a user has attended an event
+     * @param eventID id of event
+     * @param userID id of user
+     * @return
+     */
     public static Task<ArrayList<Integer>> userAttendCount(String eventID, String userID) {
         ArrayList<Integer> numbers = new ArrayList<>();
         return FirebaseFirestore.getInstance()
@@ -558,6 +597,12 @@ public final class EventUtility {
                 });
     }
 
+    /**
+     * adds a location to the event in coordinates
+     * @param eventId id of event
+     * @param latitude coord info
+     * @param longitude coord info
+     */
     public static void addLocationsToEvent(String eventId, double latitude, double longitude) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference eventRef = db.collection("events").document(eventId);
@@ -582,6 +627,12 @@ public final class EventUtility {
     }
 
     //give a specific event, return the locations
+
+    /**
+     * gets the location of the event given an id
+     * @param eventId id of event
+     * @return location of event
+     */
     public static Task<List<String>> getLocationsFromEvent(String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference eventRef = db.collection("events").document(eventId);
@@ -604,6 +655,12 @@ public final class EventUtility {
         });
     }
     // Create a method that will return the attendlimit for the event from the event name
+
+    /**
+     * gets the attendeelimit of an event
+     * @param eventName id of event
+     * @return
+     */
     public static Task<Integer> getAttendLimitFromEventName(String eventName) {
         final List<Integer> attendLimit = new ArrayList<>();
 

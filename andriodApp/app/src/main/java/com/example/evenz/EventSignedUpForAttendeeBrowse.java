@@ -24,6 +24,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A list of events the user browses and
+ * from here they can select to view details of
+ * and sign up to
+ */
 public class EventSignedUpForAttendeeBrowse extends AppCompatActivity {
     private RecyclerView eventsRecyclerView;
     private EventAdapter eventAdapter;

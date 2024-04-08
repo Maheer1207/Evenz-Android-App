@@ -155,6 +155,11 @@ public class FirebaseAttendeeManager {
         });
     }
 
+    /**
+     * given a user returns the id of their event
+     * @param deviceID id of user
+     * @return id of event
+     */
     public Task<String> getEventID(String deviceID) {
         final List<String> eventID = new ArrayList<>();
 
@@ -177,6 +182,11 @@ public class FirebaseAttendeeManager {
                 });
     }
 
+    /**
+     * gets the events attendee limit
+     * @param eventID id of event
+     * @return
+     */
     public Task<Integer> getEventAttendeeLimit(String eventID) {
         final List<Long> limit = new ArrayList<>();
 

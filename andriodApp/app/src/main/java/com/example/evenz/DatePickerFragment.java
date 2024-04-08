@@ -8,6 +8,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import java.util.Calendar;
 
+/**
+ * java class used to implement fragment responsible for date fetching.
+ * it brings up a calender and allows the user to select a date
+ */
 public class DatePickerFragment extends DialogFragment {
     @NonNull
     @Override

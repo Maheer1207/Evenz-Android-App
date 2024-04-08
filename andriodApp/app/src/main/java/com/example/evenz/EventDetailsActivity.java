@@ -31,6 +31,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * View the details of the event and given a role allows
+ * the user to interact with the event:
+ * attendee + signup: allows user to sign up to event
+ * attendee + checkout: allows the user to check out of the event
+ * organizer: allows organizer to view their event
+ */
 public class EventDetailsActivity  extends AppCompatActivity {
     private String eventID;
     private ImageView eventPoster, homeButton, browseEvent, profileButton;
@@ -57,6 +64,12 @@ public class EventDetailsActivity  extends AppCompatActivity {
         }
     }
 
+    /**
+     * sets up the view that the attendee will have when viewing an event
+     * depending on their status they have different actions
+     * signup: allows user to sign up to event
+     * checkout: allows the user to check out of the event
+     */
     private void setupAttendeeView() {
         eventPoster = findViewById(R.id.poster_attendee_eventInfo);
         eventLocation = findViewById(R.id.loc_attendee_eventInfo);
@@ -165,6 +178,11 @@ public class EventDetailsActivity  extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * sets up the organizer to view their own event
+     * including all details as the user would see
+     */
     private void setupOrganizerView() {
         eventPoster = findViewById(R.id.poster_org_eventInfo);
         eventLocation = findViewById(R.id.loc_org_eventInfo);
@@ -218,11 +236,20 @@ public class EventDetailsActivity  extends AppCompatActivity {
         findViewById(R.id.attendees_list_event_details).setOnClickListener(v -> openAttendeeListIntent());
     }
 
+    /**
+     * opens the intent for the organizer to see attendee list
+     */
     private void openAttendeeListIntent(){
         Intent intent = new Intent(EventDetailsActivity.this, AttendeesActivity.class);
         startActivity(intent);
     }
 
+    /**
+     * opens the intent for the organizer to see the map of user locations
+     * @param eventID id of event
+     * @param role organizers role
+     * @param addressString location of event
+     */
     private void openMapIntent(String eventID, String role, String addressString) {
         Intent intent = new Intent(EventDetailsActivity.this, MapsActivity.class);
 
@@ -233,6 +260,11 @@ public class EventDetailsActivity  extends AppCompatActivity {
         startActivity(intent);
     }
 
+    /**
+     * goes back to main homepage of event
+     * @param role role of user
+     * @param eventID id of current event
+     */
     private void openHomePageIntent(String role, String eventID) {
         Intent intent = new Intent(new Intent(EventDetailsActivity.this, HomeScreenActivity.class));
         Bundle b = new Bundle();
@@ -259,6 +291,11 @@ public class EventDetailsActivity  extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * gets the notifcations and details of the event
+     * and sets them in the view
+     * @param eventId id of event to set
+     */
     private void fetchEventDetailsAndNotifications(String eventId) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("events").document(eventId).get().addOnSuccessListener(documentSnapshot -> {
@@ -282,6 +319,11 @@ public class EventDetailsActivity  extends AppCompatActivity {
         });
     }
 
+    /**
+     * given an image id display an image from firebase
+     * @param imageID id of image
+     * @param imgView imageview to place image on
+     */
     private void displayImage(String imageID, ImageView imgView)
     {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();

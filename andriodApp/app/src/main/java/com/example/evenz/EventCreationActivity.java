@@ -46,6 +46,11 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.zip.CRC32C;
 
+/**
+ * Java Class behind the EventCreation activity, providing the organizer with a UI
+ * to create events, and save it to Firebase. Extends AppCompactACtivity and DatePickerDialog.
+ * contains fields storing data associated with the Event, initalized through the process.
+ */
 @UnstableApi public class EventCreationActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     // Define constants at the top of your class
@@ -64,6 +69,18 @@ import java.util.zip.CRC32C;
     // ImageUtility instance
     private ImageUtility imageUtility;
 
+    /**
+     * initalizes firebase storage reference, information, and calls other initalizer functions like initUI(),
+     * and connects to create_event.xml UI file.
+     * and provides the code for UI element interaction, setting the code for
+     * sepecifying a date,
+     * uploading poster image,
+     *QR image, and the submit button,
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,7 +158,9 @@ import java.util.zip.CRC32C;
         });
     }
 
-    // Method to initiate the image selection
+    /**
+     * initates te image selection
+     */
     private void select() {
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -149,6 +168,15 @@ import java.util.zip.CRC32C;
         startActivityForResult(Intent.createChooser(intent, "Select Image from here..."), PICK_IMAGE_REQUEST);
     }
 
+    /**
+     *sets the selected date.
+     * @param view the picker associated with the dialog
+     * @param year the selected year
+     * @param month the selected month (0-11 for compatibility with
+     *              {@link Calendar#MONTH})
+     * @param dayOfMonth the selected day of the month (1-31, depending on
+     *                   month)
+     */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         Calendar mCalendar = Calendar.getInstance();
@@ -159,6 +187,18 @@ import java.util.zip.CRC32C;
         editDate.setText(selectedDate);
     }
 
+
+    /**
+     * Function that stores the image and QR code bitmaps
+     * @param requestCode The integer request code originally supplied to
+     *                    startActivityForResult(), allowing you to identify who this
+     *                    result came from.
+     * @param resultCode The integer result code returned by the child activity
+     *                   through its setResult().
+     * @param data An Intent, which can return result data to the caller
+     *               (various data can be attached to Intent "extras").
+     *
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -183,6 +223,9 @@ import java.util.zip.CRC32C;
         }
     }
 
+    /**
+     * initalizes all the Views in the EventCreationActivity.
+     */
     private void initUI() {
         editTextOrganizerName = findViewById(R.id.editTextOrganizerName);
         editTextEventName = findViewById(R.id.editTextEventName);
@@ -196,6 +239,9 @@ import java.util.zip.CRC32C;
         submitEventButton = findViewById(R.id.create_event_button); //Create event button
     }
 
+    /**
+     * returns to homescreen via startactivity(intent)
+     */
     private void navigateToHomeScreen() {
         Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
         Bundle b = new Bundle();
@@ -205,6 +251,12 @@ import java.util.zip.CRC32C;
         startActivity(intent);
     }
 
+    /**
+     * Function called upon pressing submit button
+     * saves the data currently entered in editText Views, initalized firebase instance, stores data into a hashmap,
+     * and uploads it.
+     * @throws ParseException
+     */
     private void submitEvent() throws ParseException {
         String eventName = editTextEventName.getText().toString().trim();
         String eventPosterID = eventPosterID_temp; // Assuming a default or gathered elsewhere
@@ -245,17 +297,25 @@ import java.util.zip.CRC32C;
         navigateToHomeScreen(eventID);
     }
 
+
+    /**
+     * submits organizer to the User collection.
+     * adds to the organizer the event that they
+     * just created to the list of events
+     */
     private void submitOrganizer() {
         @SuppressLint("HardwareIds") String deviceID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
         String name = editTextOrganizerName.getText().toString().trim();
         // Create a new user with the feilds and all other set to null
         User organizer = new User(deviceID, name, "", "", "", "Organizer", false, false);
 
+        // check if this is organizers first event
         FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
         firebaseUserManager.getUserExist(deviceID).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 firebaseUserManager.addEventToUser(deviceID, eventID).addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
+                        // event added just navigate to home
                         Log.d("EventCreationActivity", "Organizer added successfully");
                         navigateToHomeScreen();
                     }
@@ -282,6 +342,10 @@ import java.util.zip.CRC32C;
         });
     }
 
+    /**
+     * navigates to the homescreen of the event given
+     * @param eventID event id of event to navigate to
+     */
     private void navigateToHomeScreen(String eventID) {
         Intent intent = new Intent(EventCreationActivity.this, HomeScreenActivity.class);
         intent.putExtra("role", "organizer");

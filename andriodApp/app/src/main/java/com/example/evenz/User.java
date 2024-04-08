@@ -2,6 +2,10 @@ package com.example.evenz;
 
 import java.util.ArrayList;
 
+/**
+ * Defines the User object, with name, PfPID, phone, email, userID (for firbease) and usertype.
+ * default constructor requires injection of all fields.
+ */
 public class User
 {
     private String name;
