@@ -49,6 +49,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Activity for the organizer to see locations of users signed up for event
+ */
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -128,11 +131,21 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
     }
 ///test code TODO: MAP HRITHICK
+
+    /**
+     * gets a list of geolocations for map
+     * @return list of locations
+     */
     private ArrayList<LatLng> getGeolocationsFromIntent() {
         String jsonLocations = getIntent().getStringExtra("geolocations"); // Adjust key as necessary
         Type type = new TypeToken<ArrayList<LatLng>>(){}.getType();
         return new Gson().fromJson(jsonLocations, type);
     }
+
+    /**
+     * places markers at those location
+     * @param geolocations locations to place marks
+     */
     //test code TODO: MAP HRITHICK
     private void placeMarkers(ArrayList<LatLng> geolocations) {
         for (LatLng location : geolocations) {

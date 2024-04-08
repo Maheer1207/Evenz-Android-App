@@ -57,55 +57,114 @@ public class Event
 
     }
 
+    /**
+     * gets the eventID
+     * @return the eventID
+     */
     public String getEventID() {
         return eventID;
     }
 
+    /**
+     * sets the eventID
+     * @param eventID the eventID
+     */
     public void setEventID(String eventID) {
         this.eventID = eventID;
     }
+
+    /**
+     * gets the org name
+     * @return the org name
+     */
     public String getOrganizationName() {
         return this.organizationName;
     }
 
+    /**
+     * sets the org name
+     * @param organizationName the org name
+     */
     public void setOrganizationName(String organizationName) {
         this.organizationName = organizationName;
     }
+
+    /**
+     * gets the events date
+     * @return the date of the event
+     */
     public Date getEventDate() {
         return this.eventDate;
     }
 
+    /**
+     * sets teh events date
+     * @param eventDate the date of the event
+     */
     public void setEventDate(Date eventDate) {
         this.eventDate = eventDate;
     }
 
+    /**
+     * gets the events name
+     * @return the name of the event
+     */
     public String getEventName() {
         return this.eventName;
     }
 
+    /**
+     * sets the events name
+     * @param eventName the name of the event
+     */
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
 
+    /**
+     * gets the events poster image id
+     * @return the events poster image id
+     */
     public String getEventPosterID() {
         return eventPosterID;
     }
 
+    /**
+     * sets the events poster image id
+     * @param eventPosterID the events poster image id
+     */
     public void setEventPosterID(String eventPosterID) {
         this.eventPosterID = eventPosterID;
     }
 
+    /**
+     * gets the location of the event
+     * @return the location of the event
+     */
     public String getLocation() {
         return this.location;
     }
 
+    /**
+     * sets the location of the event
+     * @param location the location of the event
+     */
     public void setLocation(String location) {
         this.location = location;
     }
+
+    /**
+     * gets the description of the event
+     * @return the description of the event
+     */
     public String getDescription() {
         return this.description;
     }
 
+    /**
+     * sets the description of the event
+     * @param description the description of the event
+     */
     public void setDescription(String description) {
         this.description = description;
     }

@@ -32,6 +32,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * an acitity to allow the user to edit theur profile
+ */
 public class UserEditProfileActivity extends AppCompatActivity implements ImageOptionsFragment.ImageOptionsListener {
 
 	private static final int PICK_IMAGE_REQUEST = 22;

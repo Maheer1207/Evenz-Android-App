@@ -19,6 +19,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+
+/**
+ * activity to share a QR code.
+ */
 public class ShareQRActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

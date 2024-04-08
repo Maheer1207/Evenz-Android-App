@@ -17,15 +17,20 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
+/**
+ * The adapter for the admin to view attendees
+ * Allows for the recycle view to be properly populated
+ * with attendees so the admin can click on and delete
+ */
 public class AdminAttendeeAdapter extends RecyclerView.Adapter<AdminAttendeeAdapter.ViewHolder> {
 
     private List<User> userList;
     private OnClickListener onClickListener;
-
     public AdminAttendeeAdapter(List<User> userList) {
         this.userList = userList;
     }
 
+    // creates a view for the recyclerView
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView name, contact;
         ImageView imageBanner; //this is for image poster
@@ -45,6 +50,7 @@ public class AdminAttendeeAdapter extends RecyclerView.Adapter<AdminAttendeeAdap
         return new AdminAttendeeAdapter.ViewHolder(itemView);
     }
 
+    // binds view holder
     public void onBindViewHolder(@NonNull AdminAttendeeAdapter.ViewHolder holder, int position) {
         User user = userList.get(position);
 

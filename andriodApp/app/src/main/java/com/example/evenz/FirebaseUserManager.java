@@ -17,6 +17,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+/**
+ * a utility class to do with users and their interactions with firebase
+ */
 public class FirebaseUserManager {
 
     private final FirebaseFirestore db;
@@ -32,6 +35,11 @@ public class FirebaseUserManager {
         this.ref = db.collection("users");
     }
 
+    /**
+     * submits a new user into firebase
+     * @param user user to submit
+     * @return
+     */
     public Task<Void> submitUser(User user) {
         if (user == null) {
             return Tasks.forException(new IllegalArgumentException("User cannot be null"));
@@ -58,25 +66,54 @@ public class FirebaseUserManager {
 
 
     // Create a method to update a user document in the database to add an event to the eventsSignedUpFor list
+
+    /**
+     * adds an event to users list of events
+     * @param userId id of user
+     * @param eventId id of event
+     * @return nothing
+     */
     public Task<Void> addEventToUser(String userId, String eventId) {
         return ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayUnion(eventId));
     }
 
     // Remove user from event
+    /**
+     * removes an event to users list of events
+     * @param userId id of user
+     * @param eventId id of event
+     * @return nothing
+     */
     public Task<Void> removeEventFromUser(String userId, String eventId) {
         return ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(eventId));
     }
-    
+
+    /**
+     * checks in a user into an event
+     * @param userId id of user
+     * @param eventId id of event
+     * @return nothing
+     */
     // Add a checkin event to a user
     public Task<Void> checkInUser(String userId, String eventId) {
         return ref.document(userId).update("checkedInEvent", eventId);
     }
 
+    /**
+     * checks out a user of their current checked in event
+     * @param userId id of user
+     * @return nothing
+     */
     // Add a checkout event to a user
     public Task<Void> checkOutUser(String userId) {
         return ref.document(userId).update("checkedInEvent", null);
     }
     // Create a method that will return the eventID of the checked-in event for a given user
+    /**
+     * gets the event the user is checked into
+     * @param userId id of user
+     * @return events id
+     */
     public Task<String> getCheckedInEventForUser(String userId) {
         return ref.document(userId).get().continueWith(task -> {
             if (task.isSuccessful()) {
@@ -86,6 +123,11 @@ public class FirebaseUserManager {
         });
     }
 
+    /**
+     * gets a list of users that are signed up or checked into an event
+     * @param eventId events id
+     * @return a list of users that have the event in their eventLIst
+     */
     // Create a method that will return all of the attendes for a given event it uses the getUser method to get the user object
     public Task<List<User>> getAttendeesForEvent(String eventId) {
         return ref.whereArrayContains("eventsSignedUpFor", eventId).get()
@@ -104,6 +146,11 @@ public class FirebaseUserManager {
                 });
     }
 
+    /**
+     * given a document creates a user from it and adds it to a list
+     * @param documents document containing user data
+     * @return list of users from documents
+     */
     private List<User> processDocuments(Iterable<QueryDocumentSnapshot> documents) {
         List<User> users = new ArrayList<>();
         for (QueryDocumentSnapshot document : documents) {
@@ -127,6 +174,11 @@ public class FirebaseUserManager {
         return users;
     }
 
+    /**
+     * gets the events that the user has signed up for
+     * @param userId id of user
+     * @return list of event ids
+     */
     public Task<List<String>> getEventsSignedUpForUser(String userId) {
         return db.collection("users").document(userId).get().continueWith(task -> {
             List<String> eventsSignedUpFor = new ArrayList<>();
@@ -228,6 +280,12 @@ public class FirebaseUserManager {
                     }
                 });
     }
+
+    /**
+     * gets the event name of event user is currently signed up for
+     * @param userId id of user
+     * @return id of event
+     */
     public Task<String> getEventName(String userId) {
         return ref.document(userId).get().continueWith(task -> {
             if (task.isSuccessful() && task.getResult() != null) {

@@ -8,7 +8,20 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 
+/**
+ * Class with code for Generating a random QR code.
+ */
 public class QRGenerator {
+
+    /**
+     * Generates a bitmap with given parameters, returns as a bitmap. basestring is constructed
+     * from event ID and user.
+     * @param eventID
+     * @param additionalInfo
+     * @param width
+     * @param height
+     * @return bitmap of QR code
+     */
     public Bitmap generate(String eventID, String additionalInfo, int width, int height) {
         String basestring = eventID + additionalInfo;
 

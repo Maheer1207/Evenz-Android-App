@@ -11,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
+/**
+ * activity for the admin to browse and delete images
+ */
 public class ImageBrowseActivity extends AppCompatActivity {
 
     private RecyclerView imgRecyclerView;

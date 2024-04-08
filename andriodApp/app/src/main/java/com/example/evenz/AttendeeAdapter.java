@@ -17,6 +17,14 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Adapter class utilized to adapt arraylists of Attendee-objects to be displayed in
+ * recyclerView in the android UI.
+ * extends RecyclerView.Adapter.
+ * contains field storing array of Attendee-objects
+ * Has constructors that can either initalize it with the to-be-adapted List of User-objects,
+ * or the list, and an EventID.
+ */
 class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.ViewHolder> {
 
     private final List<User> userList;

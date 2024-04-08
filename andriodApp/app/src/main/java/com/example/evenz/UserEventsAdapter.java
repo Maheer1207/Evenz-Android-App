@@ -15,6 +15,9 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
+/**
+ * an adapter to show the events a user has signed up to
+ */
 public class UserEventsAdapter extends ArrayAdapter<String> {
 
     public UserEventsAdapter(Context context, ArrayList<String> events) {

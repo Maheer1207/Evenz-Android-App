@@ -188,8 +188,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-//TODO: make sure Event ID is set up correctly, when storing new events
 
+/**
+ * Adapter class used to integrate arrayList of Event objects with RecyclerView to display it
+ * as well as provide interaction fucntionality with the UI such as onclick
+ * has field EvenDataList, stores arrayList of Event Objects
+ * has OnclickListener, used to implement OnclickListener on the RecylerView.
+ */
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
     private ArrayList<Event> eventDataList;
@@ -198,11 +203,21 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     private OnClickListener onClickListener;
     private Context context;
 
+
+    /**
+     * Constructor for EventAdapter, initalized with EventList and context
+     * @param context context
+     * @param eventDataList List of Event Objects.
+     */
     public EventAdapter(Context context, ArrayList<Event> eventDataList) {
         this.context = context;
         this.eventDataList = eventDataList;
     }
 
+    /**
+     * Class initalizes and links TextView and Image View of the individual cells of RecyclerView to hold
+     * Event data,
+     */
     public static class EventViewHolder extends RecyclerView.ViewHolder {
         TextView textCategories, textDate, textLocation, textDescription;
         ImageView imageBanner; //this is for image poster
@@ -224,6 +239,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return new EventViewHolder(itemView);
     }
 
+    /**
+     * Passes Event-object data into the Views of the RecyclerView
+     * @param holder The ViewHolder which should be updated to represent the contents of the
+     *        item at the given position in the data set.
+     * @param position The position of the item within the adapter's data set.
+     */
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event event = eventDataList.get(position);
 
@@ -244,13 +265,18 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.textLocation.setText(event.getLocation()); //TODO: change this to location
     }
 
-    //change 3
+
+    /**
+     * initalizes the OnclickerLsitener
+     * @param onClickListener
+     */
     public void setOnClickListener(OnClickListener onClickListener) {
         this.onClickListener = onClickListener;
     }
 
-    //change 4
-
+    /**
+     * provides interface for establishing the OnclickListener.
+     */
     public interface OnClickListener {
         void onClick(int position, Event model);
     }
@@ -260,6 +286,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         return eventDataList.size();
     }
 
+
+    /**
+     * Fetches image from firebase and displays it in an ImageView
+     * @param imageID firebase image ID for fetching
+     * @param imgView Inma
+     */
     private void displayImage(String imageID, ImageView imgView)
     {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference();

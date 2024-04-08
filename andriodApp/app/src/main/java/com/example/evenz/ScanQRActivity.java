@@ -41,6 +41,10 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ExecutionException;
 
+
+/**
+ * activity for scanning QR code.
+ */
 public class ScanQRActivity extends AppCompatActivity {
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
@@ -127,6 +131,12 @@ public class ScanQRActivity extends AppCompatActivity {
                 .addOnFailureListener(e -> imageProxy.close());// Ensure to close the ImageProxy on failure as well
     }
 
+    /**
+     * Takes the QR code string, determines if the qr code is
+     * to check in or to view the poster of an event
+     * does actions accordingly
+     * @param qrCode qrcode gotten
+     */
     private void handleQRCode(String qrCode) {
         if (qrCode != null) {
             String[] parts = qrCode.split("/");

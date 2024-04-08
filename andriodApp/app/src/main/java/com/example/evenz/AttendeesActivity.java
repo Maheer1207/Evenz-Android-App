@@ -30,6 +30,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+
+/**
+ * Class for the Activity allowing organizers to view a list of Attendees at a specified event.
+ * contains fields storing the recyclerView it will display the list of Events in, the AttendeeAdapter,
+ * list of Attendee objects to be displayed, the eventID whose attendees is being displayed with, and
+ * the firebaseManageer.
+ * contains methods
+ * onCreate links to the XML UI file
+ * InitalizeComponents is called, which initalizes the recyclerView.
+ * fetchEventID, calls fetchAttendees, fetches the list of attendees from firebase.
+ * updateUI() adds the data into the RecyclerView
+ * Fields are not initalized in a unified constructor, instead initalization is distributed across function calls
+ */
 public class AttendeesActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -43,6 +56,13 @@ public class AttendeesActivity extends AppCompatActivity {
     private RelativeLayout event_loc;
     private FirebaseAttendeeManager firebaseAttendeeManager;
 
+    /**
+     * initalizing function linking the code to view_attendees_at_event.xml.
+     * @param savedInstanceState If the activity is being re-initialized after
+     *     previously being shut down then this Bundle contains the data it most
+     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
+     *
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +75,9 @@ public class AttendeesActivity extends AppCompatActivity {
         fetchEventID(deviceID);
     }
 
+    /**
+     * initalizes recyclerView to display attendees, alongside the header view, and firebase manager
+     */
     private void initializeComponents() {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -136,6 +159,10 @@ public class AttendeesActivity extends AppCompatActivity {
         return null;
     }
 
+    /**
+     * fetches all attendees of specified event, and updates the UI with the fetched attendees.
+     * @param deviceID ID of the user.
+     */
     private void fetchEventID(String deviceID) {
         Task<String> getEventID = firebaseUserManager.getEventName(deviceID);
         // add an on success listener print the event id as a toast
@@ -158,6 +185,10 @@ public class AttendeesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * gets all of the attendees attending an event given an eventid
+     * @param eventID event id attendees are attending
+     */
     private void fetchAttendees(String eventID) {
         this.eventID = eventID;
         Task<List<User>> getAttendeesTask = firebaseUserManager.getAttendeesForEvent(eventID);
@@ -180,6 +211,10 @@ public class AttendeesActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * passes list of attendee objects into recyclerview to be displayed in the UI,
+     * @param attendees List of Attendee Objects
+     */
     private void updateUI(List<User> attendees) {
         attendeesList = attendees;
         adapter = new AttendeeAdapter(attendeesList, eventID);
@@ -189,6 +224,12 @@ public class AttendeesActivity extends AppCompatActivity {
     // Please create a method that will set the value of the header string
     // to the number of attendees at the event. The header string should be
     // in the format "Attendees: X/Y" where X is the number of attendees. and Y is the limit.
+
+    /**
+     * sets the header string of the UI in the format
+     * "Attendees: X/Y" where X is the number of attendees. and Y is the limit.
+     * @param eventID the event being displayed.
+     */
     private void setHeaderString(String eventID) {
         int attendees = attendeesList.size();
         // Get the max attendees for the event from the getattendlimitfromeventname method in the eventutility class

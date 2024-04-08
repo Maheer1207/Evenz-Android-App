@@ -9,6 +9,9 @@ import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * an activity that allows a admin to delete an image
+ */
 public class ImageDeleteActivity extends AppCompatActivity {
 
     @SuppressLint("MissingInflatedId")

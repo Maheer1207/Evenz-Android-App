@@ -25,6 +25,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import org.w3c.dom.Document;
 
+
+/**
+ * activity for the first page selecting whether you are an organizer, attendee, or guest.
+ * if you already have a usertype it automatically sends you to your respective homescreen
+ */
 public class InitialPageActivity extends AppCompatActivity {
 
     private DocumentReference doc;

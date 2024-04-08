@@ -11,6 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
+/**
+ * an adapter to allow a gallery of images to be displayed for admin to browse images
+ */
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
     private ArrayList<String> imgPathList; // List of image paths

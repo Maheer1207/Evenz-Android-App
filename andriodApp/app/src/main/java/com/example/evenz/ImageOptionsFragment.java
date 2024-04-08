@@ -11,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import androidx.appcompat.app.AlertDialog;
 
+/**
+ * a fragment that allows a user to select or delete their
+ * profile picture
+ */
 public class ImageOptionsFragment extends DialogFragment {
 
     private ImageOptionsListener listener;
