@@ -12,6 +12,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,6 +40,7 @@ public class AttendeesActivity extends AppCompatActivity {
     private String limitString;
     private String eventID;
     private FirebaseUserManager firebaseUserManager;
+    private RelativeLayout event_loc;
     private FirebaseAttendeeManager firebaseAttendeeManager;
 
     @Override
@@ -63,6 +65,26 @@ public class AttendeesActivity extends AppCompatActivity {
         firebaseUserManager = new FirebaseUserManager();
 
         findViewById(R.id.home_attendee_limit).setOnClickListener(v-> startActivity(new Intent(AttendeesActivity.this, HomeScreenActivity.class)));
+
+        event_loc = findViewById(R.id.event_location);
+        event_loc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Task<String> getEventLocation = EventUtility.getEventLocation(eventID);
+                getEventLocation.addOnSuccessListener(new OnSuccessListener<String>() {
+                    @Override
+                    public void onSuccess(String addr) {
+                        Intent intent = new Intent(AttendeesActivity.this, MapsActivity.class);
+
+                        intent.putExtra("eventID", eventID);
+                        intent.putExtra("role", "organizer");
+                        intent.putExtra("addressString", addr);
+                        intent.putExtra("from", "attendee_list");
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
 
         //updated share QR option to have promotional and check-in QR code options
         shareQR = findViewById(R.id.shareQR_attendee_limit);
@@ -178,6 +200,15 @@ public class AttendeesActivity extends AppCompatActivity {
                 // Convert the max attendees to a string
                 limitString = "Attendees: " + attendees + "/" + maxAttendees;
                 limit.setText(limitString);
+                if (attendees == maxAttendees) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event is HouseFull!!", Toast.LENGTH_LONG).show();
+                } else if ((double) attendees /maxAttendees >= 0.75 && (double) attendees /maxAttendees < 0.8) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event reached its 75% capacity!!", Toast.LENGTH_LONG).show();
+                } else if ((double) attendees /maxAttendees >= 0.5 && (double) attendees /maxAttendees < 0.6) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event reached its 50% capacity!!", Toast.LENGTH_LONG).show();
+                } else if ((double) attendees /maxAttendees >= 0.25 && (double) attendees /maxAttendees < 0.3) {
+                    Toast.makeText(AttendeesActivity.this, "MileStones: Event reached its 25% capacity!!", Toast.LENGTH_LONG).show();
+                }
             }
         });
         // Handle the failure of the getAttendLimit task

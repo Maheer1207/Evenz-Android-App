@@ -31,12 +31,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginStart="124dp"
-        android:layout_marginEnd="132dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginEnd="90dp"
         android:text="Attendees 15/24"
         android:textColor="#FF1A1A1A"
         android:textStyle="bold"
-        android:textSize="20dp" />
+        android:textSize="24sp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
@@ -44,6 +46,30 @@
         android:layout_height="550dp"
         android:layout_below="@id/header_frame_text"
         android:layout_marginTop="32dp" />
+
+    <RelativeLayout
+        android:id="@+id/event_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="600dp"
+        android:layout_marginStart="310dp"
+        android:layout_marginBottom="16dp">
+      <ImageView
+          android:id="@+id/image_ellipse"
+          android:layout_width="55dp"
+          android:layout_height="55dp"
+          android:background="@drawable/image_ellipse"
+          android:scaleType="centerInside" />
+
+      <ImageView
+          android:id="@+id/image_screenshot"
+          android:layout_width="56dp"
+          android:layout_height="46dp"
+          android:layout_gravity="top|start"
+          android:layout_marginTop="4dp"
+          android:scaleType="centerInside"
+          android:src="@drawable/location_pin" />
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/bottom_actionbar"

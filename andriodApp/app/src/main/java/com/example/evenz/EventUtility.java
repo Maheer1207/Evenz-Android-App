@@ -628,5 +628,28 @@ public final class EventUtility {
                 });
     }
 
-}
+    /**
+     * Given the event Id returns the location field
+     * @param eventId id of event
+     * @return returns location string
+     */
+    public static Task<String> getEventLocation(String eventId) {
 
+        return FirebaseFirestore.getInstance()
+                .collection("events")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.getString("eventID").equals(eventId)) {
+                                return document.getString("location");
+                            }
+                        }
+                        return "";
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
+}

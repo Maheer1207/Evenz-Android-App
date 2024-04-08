@@ -1,33 +1,17 @@
 package com.example.evenz;
 
-import static android.content.ContentValues.TAG;
-
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AdminBrowseProfilesActivity extends AppCompatActivity {
@@ -47,9 +31,9 @@ public class AdminBrowseProfilesActivity extends AppCompatActivity {
 
 		fetchUsers();
 
-
-
-		//findViewById(R.id.header_icon).setOnClickListener(v -> finish());
+		findViewById(R.id.icon2).setOnClickListener( v -> startActivity(new Intent(AdminBrowseProfilesActivity.this, AdminBrowseEventActivity.class)));
+		findViewById(R.id.icon3).setOnClickListener( v -> startActivity(new Intent(AdminBrowseProfilesActivity.this, ImageBrowseActivity.class)));
+		findViewById(R.id.header_icon).setOnClickListener(v -> finish());
 	}
 
 	private void fetchUsers() {

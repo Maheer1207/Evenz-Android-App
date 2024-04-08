@@ -10,11 +10,6 @@
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/admin_attendee_list.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/admin_browse_images.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
@@ -70,17 +65,7 @@
           <theme>@style/Theme.Evenz</theme>
         </config>
       </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/event_string.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_attendee.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/item_attendee_admin.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
         </config>
@@ -101,11 +86,6 @@
         </config>
       </layout>
       <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/org_event_info.xml">
-        <config>
-          <theme>@style/Theme.Evenz</theme>
-        </config>
-      </layout>
-      <layout url="file://$PROJECT_DIR$/app/src/main/res/layout/org_event_list.xml">
         <config>
           <theme>@style/Theme.Evenz</theme>
         </config>
@@ -144,7 +124,6 @@
 <<<<<<< HEAD
     <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice">
 <<<<<<< HEAD
-<<<<<<< HEAD
 =======
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
@@ -152,10 +131,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/copilot/chatSessions/xd.lck" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/copilot/chatSessions/xd.lck" afterDir="false" />
 >>>>>>> origin/mohaimin_2
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-=======
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/InitialPageActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/evenz/InitialPageActivity.java" afterDir="false" />
->>>>>>> sand
     </list>
 =======
     <list default="true" id="34c2967d-f7b8-4a2d-8e3c-b0a7d40a26e6" name="Changes" comment="Refactored UserEditProfileActivity.java: Added profile picture support and user update functionality, extracted user update logic into a separate method for code cleanliness and better coding practice" />
@@ -197,10 +172,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="layoutResourceFile" />
         <option value="valueResourceFile" />
         <option value="resourceFile" />
         <option value="Class" />
-        <option value="layoutResourceFile" />
       </list>
     </option>
   </component>
@@ -566,15 +541,9 @@
           <option name="timeStamp" value="32" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-<<<<<<< HEAD
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/HomeScreenActivity.java</url>
           <line>109</line>
           <option name="timeStamp" value="36" />
-=======
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/AdminBrowseProfilesActivity.java</url>
-          <line>84</line>
-          <option name="timeStamp" value="66" />
->>>>>>> sand
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/example/evenz/EventDetailsActivity.java</url>

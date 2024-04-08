@@ -67,7 +67,7 @@ public class EventDetailsActivity  extends AppCompatActivity {
         profileButton = findViewById(R.id.attendees_admin_browse_event);
 
         browseEvent.setOnClickListener (
-                v -> startActivity(new Intent(EventDetailsActivity.this, EventBrowseActivity.class))
+                v -> startActivity(new Intent(EventDetailsActivity.this, EventSignedUpForAttendeeBrowse.class))
         );
 
         profileButton.setOnClickListener(v -> {

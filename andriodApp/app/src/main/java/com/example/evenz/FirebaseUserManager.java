@@ -66,16 +66,7 @@ public class FirebaseUserManager {
     public Task<Void> removeEventFromUser(String userId, String eventId) {
         return ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(eventId));
     }
-
-    /**
-     * Removes a user from firebase
-     * @param userId Id of user to be deleted
-     * @return Nothing
-     */
-    public Task<Void> deleteUser(String userId) {
-        return ref.document(userId).delete();
-    }
-
+    
     // Add a checkin event to a user
     public Task<Void> checkInUser(String userId, String eventId) {
         return ref.document(userId).update("checkedInEvent", eventId);
@@ -98,27 +89,6 @@ public class FirebaseUserManager {
     // Create a method that will return all of the attendes for a given event it uses the getUser method to get the user object
     public Task<List<User>> getAttendeesForEvent(String eventId) {
         return ref.whereArrayContains("eventsSignedUpFor", eventId).get()
-                .continueWithTask(task -> {
-                    if (!task.isSuccessful()) {
-                        // If the task failed, propagate the exception
-                        return Tasks.forException(task.getException());
-                    }
-                    if (task.getResult() == null) {
-                        // If the result is null, propagate an exception or handle accordingly
-                        return Tasks.forException(new IllegalStateException("Result is null"));
-                    }
-
-                    // Call the helper method to process the documents
-                    return Tasks.forResult(processDocuments(task.getResult()));
-                });
-    }
-
-    /**
-     * Gets all of the attendees
-     * @return all attendees
-     */
-    public Task<List<User>> getAttendees() {
-        return ref.whereEqualTo("userType", "attendee").get()
                 .continueWithTask(task -> {
                     if (!task.isSuccessful()) {
                         // If the task failed, propagate the exception
@@ -306,6 +276,35 @@ public class FirebaseUserManager {
                 });
     }
 
+    /**
+     * Removes a user from firebase
+     * @param userId Id of user to be deleted
+     * @return Nothing
+     */
+    public Task<Void> deleteUser(String userId) {
+        return ref.document(userId).delete();
+    }
+
+    /**
+     * Gets all of the attendees
+     * @return all attendees
+     */
+    public Task<List<User>> getAttendees() {
+        return ref.whereEqualTo("userType", "attendee").get()
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        // If the task failed, propagate the exception
+                        return Tasks.forException(task.getException());
+                    }
+                    if (task.getResult() == null) {
+                        // If the result is null, propagate an exception or handle accordingly
+                        return Tasks.forException(new IllegalStateException("Result is null"));
+                    }
+
+                    // Call the helper method to process the documents
+                    return Tasks.forResult(processDocuments(task.getResult()));
+                });
+    }
     /**
      * Gets if a given user is already in the database
      * @param deviceID the id of the user

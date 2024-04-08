@@ -1,84 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/white_background_layout"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Back Icon -->
+    <RelativeLayout
+        android:id="@+id/browse_attendee_header"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:gravity="left"
+        tools:ignore="RtlHardcoded">
 
-    <!-- Attendees Count Text -->
+        <ImageView
+            android:id="@+id/header_icon"
+            android:layout_width="39dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="@string/back_button_implemented_with_less_then"
+            android:foregroundGravity="left|bottom"
+            android:src="@drawable/back_less" />
 
-    <!-- Add additional views here if necessary -->
-
-
-    <ImageView
-        android:id="@+id/header_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="33dp"
-        android:layout_marginBottom="701dp"
-        android:clickable="true"
-        android:contentDescription="BackButton"
-        android:onClick="onHeaderIconClicked"
-        android:scaleType="centerInside"
-        android:src="@drawable/header_icon" />
-
-    <TextView
-        android:id="@+id/header_frame_text"
-        android:layout_width="155dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="124dp"
-        android:layout_marginEnd="132dp"
-        android:text="Attendees"
-        android:textColor="#FF1A1A1A"
-        android:textStyle="bold"
-        android:textSize="20dp" />
+        <TextView
+            android:id="@+id/header_frame_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="75dp"
+            android:layout_toEndOf="@+id/header_icon"
+            android:text="Attendees"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="558dp"
-        android:layout_below="@id/header_frame_text"
-        android:layout_marginTop="32dp" />
+        android:layout_height="632dp"
+        android:layout_below="@id/browse_attendee_header"
+        />
 
-    <RelativeLayout
-        android:id="@+id/bottom_bar"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/bottom_actionbar"
+        android:layout_width="395dp"
+        android:layout_height="74dp"
+        android:layout_gravity="top|start"
+        android:layout_marginStart="-2dp"
+        android:layout_marginTop="684dp"
+        android:background="@drawable/bottom_actionbar"
+        android:scaleType="centerInside" />
+
+
+    <ImageView
+        android:id="@+id/icon1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:padding="16dp"
-        android:background="#FFFFFF">
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="42dp"
+        android:layout_marginTop="700dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/attendees_white" />
 
-        <!-- Icon 1 -->
-
-        <!-- Icon 2 -->
-        <ImageView
-            android:id="@+id/icon1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="38dp"
-            android:src="@drawable/profile" />
-
-        <ImageView
+    <ImageView
             android:id="@+id/icon2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/home"/>
+            android:layout_marginStart="172dp"
+            android:layout_marginTop="700dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/event_list_black" />
 
-        <!-- Icon 3 -->
         <ImageView
             android:id="@+id/icon3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="700dp"
+            android:layout_marginBottom="0.05dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="42dp"
-            android:src="@drawable/camera_scan" />
+            android:src="@drawable/photos" />
 
-    </RelativeLayout>
 
 </RelativeLayout>

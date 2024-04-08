@@ -35,7 +35,6 @@ public class AdminDeleteEvent extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Ben8888", "JOYJOYLALAALAWORLD");
         setContentView(R.layout.admin_delete_event);
 
 
@@ -52,17 +51,14 @@ public class AdminDeleteEvent extends AppCompatActivity{
         TextView orgname = findViewById(R.id.orgdata);
         TextView desc = findViewById(R.id.continer_event_summary_date_icon1);
         ImageView imgV = findViewById(R.id.image_career_fairs_web_banner);
-        TextView attendeeCnt = findViewById(R.id.attendeecntdata);
 
         eventname.setText(etitle);
         location.setText(rb.getString("location"));
         date.setText(rb.getString("eventDate"));
         orgname.setText(rb.getString("organizationame"));
         desc.setText(edesc);
-        attendeeCnt.setText(rb.getString("AttendLimit"));
 
-        ImageUtility x = new ImageUtility();
-        x.displayImage(rb.getString("imgID"), imgV);
+        ImageUtility.displayImage(rb.getString("imgID"), imgV);
 
 
 
@@ -85,31 +81,25 @@ public class AdminDeleteEvent extends AppCompatActivity{
               }
         });
 
-
         findViewById(R.id.deletebutton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                Log.d("Ben8888", "trying to delete: " + etitle);
-                Log.d("Ben8888", docID[0]);
                 dev.document(docID[0]).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Log.d("Ben8888", "successful delete");
                         finish();
                     }
 
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.d("Ben8888", "delete failed?");
-                        Log.d("Ben8888",  e.toString());
                     }
                 });
                 startActivity(new Intent(AdminDeleteEvent.this, AdminBrowseEventActivity.class));
             }
         });
+        findViewById(R.id.photo_browse).setOnClickListener(v -> startActivity(new Intent(AdminDeleteEvent.this, ImageBrowseActivity.class)));
+        findViewById(R.id.attendees_admin_browse_event).setOnClickListener(v -> startActivity(new Intent(AdminDeleteEvent.this, AdminBrowseProfilesActivity.class)));
         findViewById(R.id.back_attendee_browse_events).setOnClickListener(v -> finish());
     }
 }

@@ -109,6 +109,6 @@
       android:layout_marginTop="700dp"
       android:layout_marginBottom="0.05dp"
       android:scaleType="centerInside"
-      android:src="@drawable/event_list_black"
+      android:src="@drawable/event_list_white"
       android:contentDescription="Button to show a list " />
 </FrameLayout>

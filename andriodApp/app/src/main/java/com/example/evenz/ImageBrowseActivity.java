@@ -2,6 +2,7 @@ package com.example.evenz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,8 @@ public class ImageBrowseActivity extends AppCompatActivity {
         imgRecyclerView = findViewById(R.id.imgsRecyclerView);
         imgRecyclerView.setLayoutManager(new GridLayoutManager(this, 3)); // Assuming 3 columns in the grid
         setupRecyclerView();
+        findViewById(R.id.admin_event_list).setOnClickListener( v -> startActivity(new Intent(ImageBrowseActivity.this, AdminBrowseEventActivity.class)));
+        findViewById(R.id.profile_attendee).setOnClickListener( v -> startActivity(new Intent(ImageBrowseActivity.this, AdminBrowseProfilesActivity.class)));
         findViewById(R.id.back_admin_browse_images).setOnClickListener(v -> finish());
     }
 
