@@ -6,6 +6,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,7 +61,7 @@ public class InitialPageActivity extends AppCompatActivity {
                     startActivity(intent);
                 // role is admin so sends to admin browse event
                 } else if (role.equals("admin")){
-                    Intent intent = new Intent(InitialPageActivity.this, AdminBrowseProfilesActivity.class);
+                    Intent intent = new Intent(InitialPageActivity.this, AdminBrowseEventActivity.class);
                     startActivity(intent);
                 }
             }
@@ -91,7 +92,19 @@ public class InitialPageActivity extends AppCompatActivity {
         guestLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: make GUEST LOGIN, VERIFY with TA
+                User user = new User(deviceID, "Guest", "", "", "", "attendee", false, false);
+                Task<Void> submitUser = firebaseUserManager.submitUser(user);
+                // add an on success listener to update the UI and display the attendees in toast
+                submitUser.addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void x) {
+                        Intent intent = new Intent(InitialPageActivity.this, HomeScreenActivity.class);
+                        Bundle b = new Bundle();
+                        b.putString("role", "attendee");
+                        intent.putExtras(b);
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }
