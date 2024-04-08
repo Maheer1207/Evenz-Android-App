@@ -22,8 +22,6 @@ import android.content.Context;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-//call ArrayList<Event> eventDataList
-
 public class AdminBrowseEventActivity extends AppCompatActivity {
     private RecyclerView eventsRecyclerView;
     private EventAdapter eventAdapter;
@@ -86,7 +84,6 @@ public class AdminBrowseEventActivity extends AppCompatActivity {
                 if (querySnapshots != null) {
                     eventDataList.clear();
                     for (QueryDocumentSnapshot doc : querySnapshots) {
-                        String eventID = doc.getId();
                         // Parse the event data and add it to your list, then notify the adapter
                         Event tempEvent = EventUtility.parseEvent(doc);
 

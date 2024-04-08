@@ -1,17 +1,24 @@
 package com.example.evenz;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.util.UnstableApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,12 +28,17 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class HomeScreenActivity extends AppCompatActivity {
@@ -36,13 +48,18 @@ public class HomeScreenActivity extends AppCompatActivity {
     private NotificationsAdapter notificationsAdapter;
     private String eventID;
     private String role;
+    private String deviceID;
+    private FirebaseFirestore db;
+    private CollectionReference usersRef;
+    private DocumentReference doc;
+
     private ImageUtility imageUtility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // getting the devices id to get the user
-        String deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+        deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
         // getting the user type
         Task<String> getUserType = firebaseUserManager.getUserType(deviceID);
@@ -78,6 +95,12 @@ public class HomeScreenActivity extends AppCompatActivity {
                         }
 
                         imageUtility = new ImageUtility();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        setContentView(R.layout.attendees_home_page);
+                        setupAttendeeView();
                     }
                 });
             }
@@ -180,6 +203,71 @@ public class HomeScreenActivity extends AppCompatActivity {
             b.putString("eventID", eventID);
             intent.putExtras(b);
             startActivity(intent);
+        });
+
+        // allows an organizer to create a new event or switch events
+        FloatingActionButton changeEvent = findViewById(R.id.change_event);
+        changeEvent.setOnClickListener(v -> {
+            FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
+
+            // get events the user has created
+            firebaseUserManager.getEventsSignedUpForUser(deviceID).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    // create a list of the events
+                    db = FirebaseFirestore.getInstance();
+                    CollectionReference eventRef = db.collection("events");
+                    ArrayList<String> eventIds = new ArrayList<>(task.getResult());
+                    int size = eventIds.size();
+                    ArrayList<String> eventNames = new ArrayList<>();
+                    // for each event get the name
+                    for (String eventId : eventIds) {
+                        eventRef.document(eventId).get().addOnCompleteListener(task2 -> {
+                            if (task2.isSuccessful() && task2.getResult() != null) {
+                                DocumentSnapshot doc = task2.getResult();
+                                eventNames.add(doc.get("eventName").toString());
+                                // if all names gotten then create dialog listing events
+                                if (eventNames.size() == size){
+                                    eventNames.add("CREATE NEW EVENT");
+                                    final Dialog dialog = new Dialog(HomeScreenActivity.this);
+                                    dialog.setContentView(R.layout.org_event_list);
+                                    dialog.setTitle("Select an event");
+                                    ListView eventView = dialog.findViewById(R.id.events);
+                                    UserEventsAdapter adapter = new UserEventsAdapter(this, eventNames);
+                                    eventView.setAdapter(adapter);
+                                    dialog.show();
+                                    // set event list to select the event
+                                    eventView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @OptIn(markerClass = UnstableApi.class) @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            // selected creating a new event
+                                            int pos = position;
+                                            if (pos == size) {
+                                                Intent intent = new Intent(HomeScreenActivity.this, EventCreationActivity.class);
+                                                Bundle b = new Bundle();
+                                                b.putString("role", "organizer");
+                                                intent.putExtras(b);
+                                                startActivity(intent);
+                                            }
+                                            // selected an event
+                                            else {
+                                                eventID = eventIds.get(pos);
+                                                firebaseUserManager.setTopOrgEvent(deviceID, eventID).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        setupOrganizerView();
+                                                    }
+                                                });
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    Log.e("Firestore", "Error getting events", task.getException());
+                }
+            });
         });
 
         //updated share QR option to have promotional and check-in QR code options

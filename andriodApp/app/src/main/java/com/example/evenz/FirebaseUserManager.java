@@ -67,6 +67,15 @@ public class FirebaseUserManager {
         return ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(eventId));
     }
 
+    /**
+     * Removes a user from firebase
+     * @param userId Id of user to be deleted
+     * @return Nothing
+     */
+    public Task<Void> deleteUser(String userId) {
+        return ref.document(userId).delete();
+    }
+
     // Add a checkin event to a user
     public Task<Void> checkInUser(String userId, String eventId) {
         return ref.document(userId).update("checkedInEvent", eventId);
@@ -89,6 +98,27 @@ public class FirebaseUserManager {
     // Create a method that will return all of the attendes for a given event it uses the getUser method to get the user object
     public Task<List<User>> getAttendeesForEvent(String eventId) {
         return ref.whereArrayContains("eventsSignedUpFor", eventId).get()
+                .continueWithTask(task -> {
+                    if (!task.isSuccessful()) {
+                        // If the task failed, propagate the exception
+                        return Tasks.forException(task.getException());
+                    }
+                    if (task.getResult() == null) {
+                        // If the result is null, propagate an exception or handle accordingly
+                        return Tasks.forException(new IllegalStateException("Result is null"));
+                    }
+
+                    // Call the helper method to process the documents
+                    return Tasks.forResult(processDocuments(task.getResult()));
+                });
+    }
+
+    /**
+     * Gets all of the attendees
+     * @return all attendees
+     */
+    public Task<List<User>> getAttendees() {
+        return ref.whereEqualTo("userType", "attendee").get()
                 .continueWithTask(task -> {
                     if (!task.isSuccessful()) {
                         // If the task failed, propagate the exception
@@ -273,6 +303,60 @@ public class FirebaseUserManager {
                     } else {
                         throw task.getException();
                     }
+                });
+    }
+
+    /**
+     * Gets if a given user is already in the database
+     * @param deviceID the id of the user
+     * @return true or false if the user exists
+     */
+    public Task<Boolean> getUserExist(String deviceID) {
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.getId().equals(deviceID)) {
+                                return true;
+                            }
+                        }
+                        throw task.getException();
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
+    /**
+     * Sets a selected event an organizer has organized
+     * and assigns it to the first position of the events
+     * they have organized, making that event default
+     * @param userId ID of the organizer
+     * @param eventId ID of the event to be set to the top
+     * @return no value
+     */
+    public Task<Void> setTopOrgEvent(String userId, String eventId) {
+        return FirebaseFirestore.getInstance()
+                .collection("users")
+                .get()
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            if (document.getId().equals(userId)) {
+                                List<String> events = (List<String>)document.get("eventsSignedUpFor");
+                                events.remove(eventId);
+                                for (String event : events) {
+                                    ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayRemove(event));
+                                    ref.document(userId).update("eventsSignedUpFor", FieldValue.arrayUnion(event));
+                                }
+                            }
+                        }
+                    } else {
+                        throw task.getException();
+                    }
+                    return null;
                 });
     }
 
