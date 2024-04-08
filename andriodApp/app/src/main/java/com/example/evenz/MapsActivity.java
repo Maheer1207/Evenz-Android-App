@@ -39,10 +39,15 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -115,6 +120,18 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mPlacesClient = Places.createClient(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
     }
+///test code TODO: MAP HRITHICK
+    private ArrayList<LatLng> getGeolocationsFromIntent() {
+        String jsonLocations = getIntent().getStringExtra("geolocations"); // Adjust key as necessary
+        Type type = new TypeToken<ArrayList<LatLng>>(){}.getType();
+        return new Gson().fromJson(jsonLocations, type);
+    }
+    //test code TODO: MAP HRITHICK
+    private void placeMarkers(ArrayList<LatLng> geolocations) {
+        for (LatLng location : geolocations) {
+            mMap.addMarker(new MarkerOptions().position(location));
+        }
+    }
 
     /**
      * Prompts the user for permission to use the device location.
@@ -181,8 +198,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mMap.addMarker(new MarkerOptions().position(addressLatLng).title(addressString));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(addressLatLng, DEFAULT_ZOOM));
 
-        // Enable the zoom controls for the map
-        mMap.getUiSettings().setZoomControlsEnabled(true);
+
+        // Get the locations for the event
+        EventUtility.getLocationsFromEvent(eventID).addOnCompleteListener(new OnCompleteListener<List<Map<String, Object>>>() {
+            @Override
+            public void onComplete(@NonNull Task<List<Map<String, Object>>> task) {
+                if (task.isSuccessful()) {
+                    List<Map<String, Object>> locations = task.getResult();
+
+                    // Place a marker for each location
+                    for (Map<String, Object> location : locations) {
+                        double latitude = (double) location.get("latitude");
+                        double longitude = (double) location.get("longitude");
+                        LatLng latLng = new LatLng(latitude, longitude);
+                        mMap.addMarker(new MarkerOptions().position(latLng));
+                    }
+                } else {
+                    Log.e("MapsActivity", "Error getting locations from event", task.getException());
+                }
+            }
+        });
 
         // Prompt the user for permission.
         getLocationPermission();

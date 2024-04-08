@@ -8,6 +8,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -539,30 +540,48 @@ public final class EventUtility {
                     return null;
                 });
     }
-    public static Task<Integer> userAttendStatus(String eventID, String userID) {
-        return FirebaseFirestore.getInstance()
-                .collection("events")
-                .get()
-                .continueWith(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            if (document.contains("UserList")) {
-                                if (document.getId().equals(eventID)) {
-                                    List<Map<String, Object>> attendees = (List<Map<String, Object>>) document.get("UserList");
-                                    for (Map<String, Object> attendee : attendees) {
-                                        if (attendee.get("userId").toString().equals(userID)) {
-                                            return ((Long)attendee.get("attending")).intValue();
-                                        }
-                                    }
-                                    return 0;
-                                }
-                            }
-                        }
-                        return 0;
-                    } else {
-                        throw task.getException();
+
+    public static void addLocationsToEvent(String eventId, List<Map<String, Object>> locations) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference eventRef = db.collection("events").document(eventId);
+
+        // Use FieldValue.arrayUnion() to add the locations to the Locations field
+        eventRef.update("checkInLocations", FieldValue.arrayUnion(locations))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.d("EventUtility", "Locations added to event successfully");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("EventUtility", "Error: " + e.getMessage());
                     }
                 });
+    }
+
+    //give a specific event, return the locations
+    public static Task<List<Map<String, Object>>> getLocationsFromEvent(String eventId) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference eventRef = db.collection("events").document(eventId);
+
+        return eventRef.get().continueWith(new Continuation<DocumentSnapshot, List<Map<String, Object>>>() {
+            @Override
+            public List<Map<String, Object>> then(@NonNull Task<DocumentSnapshot> task) throws Exception {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        List<Map<String, Object>> locations = (List<Map<String, Object>>) document.get("checkInLocations");
+                        return locations;
+                    } else {
+                        throw new Exception("No such document");
+                    }
+                } else {
+                    throw task.getException();
+                }
+            }
+        });
     }
 
     // Create a method that will return the attendlimit for the event from the event name
