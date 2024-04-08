@@ -37,6 +37,7 @@ public class ScanQRActivity extends AppCompatActivity {
 
     private static final int REQUEST_CAMERA_PERMISSION = 100; //TODO: fix later
     private Camera camera;
+    private boolean isProcessing = false;//so we can have only one
 
     private boolean isFlashlightOn = false;//For flashlight QR scaning
 
@@ -94,6 +95,10 @@ public class ScanQRActivity extends AppCompatActivity {
     }
 
     private void scanBarcodes(InputImage image, ImageProxy imageProxy) {
+        if (isProcessing) {
+            imageProxy.close();
+            return;
+        }
         BarcodeScannerOptions options = new BarcodeScannerOptions.Builder()
                 .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
                 .build();
@@ -103,6 +108,7 @@ public class ScanQRActivity extends AppCompatActivity {
                 .addOnSuccessListener(barcodes -> {
                     for (Barcode barcode : barcodes) {
                         String rawValue = barcode.getRawValue();
+                        isProcessing = true;
                         runOnUiThread(() -> handleQRCode(rawValue));
                         break; //process first barcode only
                     }
@@ -133,6 +139,7 @@ public class ScanQRActivity extends AppCompatActivity {
                 EventUtility.userCheckIn(deviceId, qrCode);
 
                 startActivity(intent);
+                isProcessing = false;
             } else if (lastPart.equals("sign_up")) {
                 // Navigate to the event details for the attendee to sign up
                 Intent intent = new Intent(ScanQRActivity.this, EventDetailsActivity.class);

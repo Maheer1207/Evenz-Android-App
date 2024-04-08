@@ -190,7 +190,6 @@ public class FirebaseUserManager {
      * @return the eventID they are currently org
      */
     public Task<String> getEventIDOrg(String deviceID) {
-
         return FirebaseFirestore.getInstance()
                 .collection("users")
                 .get()
@@ -208,13 +207,11 @@ public class FirebaseUserManager {
                     }
                 });
     }
-
     /**
      * A firebase task that given the device id of the user returns their eventID
      * @param deviceID The id of the device (userID)
      * @return the devices usertype being Attendee
      */
-
     public Task<String> getEventIDAttendee(String deviceID) {
         return FirebaseFirestore.getInstance()
                 .collection("users")

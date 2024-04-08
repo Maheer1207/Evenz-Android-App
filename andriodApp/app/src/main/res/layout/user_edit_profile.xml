@@ -128,7 +128,7 @@
                             android:background="@drawable/boundary_style"
                             android:padding="10dp"
                             android:textColor="@color/black"
-                            android:hint="John Smith"
+                            android:hint="Enter Name"
                             android:inputType="text"
                             android:visibility="visible"
                             android:importantForAutofill="no" />
@@ -164,7 +164,7 @@
                             android:background="@drawable/boundary_style"
                             android:padding="10dp"
                             android:textColor="@color/black"
-                            android:hint="#777-777-7777"
+                            android:hint="Enter Phone Number"
                             android:inputType="phone"
                             android:importantForAutofill="no" />
 
@@ -200,7 +200,7 @@
                             android:background="@drawable/boundary_style"
                             android:padding="10dp"
                             android:textColor="@color/black"
-                            android:hint="name@email.com"
+                            android:hint="Enter Email Address"
                             android:inputType="text|textEmailAddress"
                             android:importantForAutofill="no"/>
 

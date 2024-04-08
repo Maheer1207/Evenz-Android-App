@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/drawable_shape_8"
@@ -25,12 +26,14 @@
 
         <!-- Event title -->
         <TextView
-            android:id="@+id/attendCount"
+            android:id="@+id/text_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="right"
-            android:textAlignment="gravity"
-            android:text="" />
+            android:gravity="start"
+            android:text="Signed Up"
+            android:textColor="#FF000000"
+            android:textSize="20dp" />
+
 
         <TextView
             android:id="@+id/text_categories"
@@ -46,6 +49,13 @@
             android:textColor="#FF000000"
             android:textSize="20dp" />
 
+        <TextView
+            android:id="@+id/attendCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:textAlignment="gravity"
+            android:text="" />
 
         <!--Phone number and email           -->
             <TextView

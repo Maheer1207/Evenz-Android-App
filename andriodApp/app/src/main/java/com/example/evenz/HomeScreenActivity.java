@@ -48,7 +48,6 @@ public class HomeScreenActivity extends AppCompatActivity {
         // getting the devices id to get the user
         String deviceID = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
         FirebaseUserManager firebaseUserManager = new FirebaseUserManager();
-
         // getting the user type
         Task<String> getUserType = firebaseUserManager.getUserType(deviceID);
         getUserType.addOnSuccessListener(new OnSuccessListener<String>() {
@@ -63,7 +62,6 @@ public class HomeScreenActivity extends AppCompatActivity {
                 } else {
                     getEventID = firebaseUserManager.getEventIDOrg(deviceID);
                 }
-
                 getEventID.addOnSuccessListener(new OnSuccessListener<String>() {
                     @Override
                     public void onSuccess(String ID) {

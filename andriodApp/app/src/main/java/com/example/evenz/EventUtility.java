@@ -512,11 +512,12 @@ public final class EventUtility {
                 });
     }
 
-    public static Task<Integer> userAttendCount(String eventID, String userID) {
+    public static Task<ArrayList<Integer>> userAttendCount(String eventID, String userID) {
         return FirebaseFirestore.getInstance()
                 .collection("events")
                 .get()
                 .continueWith(task -> {
+                    ArrayList<Integer> attendingList = new ArrayList<>();
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
                             if (document.contains("UserList")) {
@@ -524,17 +525,16 @@ public final class EventUtility {
                                     List<Map<String, Object>> attendees = (List<Map<String, Object>>) document.get("UserList");
                                     for (Map<String, Object> attendee : attendees) {
                                         if (attendee.get("userId").toString().equals(userID)) {
-                                            return ((Long)attendee.get("count")).intValue();
+                                            attendingList.add(((Long)attendee.get("attending")).intValue());
                                         }
                                     }
-                                    return 0;
                                 }
                             }
                         }
-                        return 0;
                     } else {
                         throw task.getException();
                     }
+                    return attendingList;
                 });
     }
 

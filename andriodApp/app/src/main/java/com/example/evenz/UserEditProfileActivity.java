@@ -191,7 +191,7 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 			showToast("Phone cannot be empty.");
 			return null;
 		}
-		if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+		if (!email.isEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
 			showToast("Invalid email address.");
 			return null;
 		}
