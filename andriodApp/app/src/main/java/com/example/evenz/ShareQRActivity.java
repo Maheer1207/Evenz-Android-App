@@ -96,7 +96,7 @@ public class ShareQRActivity extends AppCompatActivity {
         File imageFolder = new File(getCacheDir(), "images");
         Uri uri = null;
         try {
-            imageFolder.mkdirs(); //TODO: check if this is necessary
+            imageFolder.mkdirs();
             File file = new File(imageFolder, "shared_image.png");
             FileOutputStream outputStream = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 90, outputStream);

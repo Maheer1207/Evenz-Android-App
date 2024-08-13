@@ -177,14 +177,14 @@ public final class EventUtility {
     public static Event parseEvent(QueryDocumentSnapshot doc) {
         // Example of reconstructing a Geolocation object
         // Assuming you store geolocation as a map with latitude and longitude
-        float xcoord = doc.contains("xcoord") ? ((Number) doc.get("xcoord")).floatValue() : 0; //TODO: add geolocation stuff, figure it out
+        float xcoord = doc.contains("xcoord") ? ((Number) doc.get("xcoord")).floatValue() : 0;
         float ycoord = doc.contains("ycoord") ? ((Number) doc.get("ycoord")).floatValue() : 0;
         String geolocationID = doc.getString("geolocationID"); // Assuming there's an ID field; adjust if necessary
 
         Geolocation geolocation = new Geolocation(geolocationID, xcoord, ycoord);
 
         // Using placeholders for Bitmaps as you'll load them asynchronously in the adapter/view
-        Bitmap placeholderBitmap = null; // TODO: add actual QR for attendee checkIN and Browse
+        Bitmap placeholderBitmap = null;
 
         return new Event(doc.getString("eventID"), doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                 doc.getString("description"), geolocation, placeholderBitmap,
@@ -486,7 +486,6 @@ public final class EventUtility {
     }
 
 
-    //TODO: unused for now
     private static void sendNotificationToDeviceTokens(List<String> deviceTokens, String title, String body) {
         try {
             OkHttpClient client = new OkHttpClient();

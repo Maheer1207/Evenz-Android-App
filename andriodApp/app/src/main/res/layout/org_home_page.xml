@@ -119,7 +119,6 @@
       android:src="@drawable/home_white"
       android:contentDescription="Button to view attendee's home page" />
 
-  <!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
   <ImageView
       android:id="@+id/shareQR"
       android:layout_width="38dp"

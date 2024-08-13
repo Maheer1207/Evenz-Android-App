@@ -100,7 +100,6 @@
       android:src="@drawable/home"
       android:contentDescription="Button to scan a QR using the camera" />
 
-<!--  TODO: Figure out a way to replace show list icon, with the white one to show current tab -->
   <ImageView
       android:id="@+id/event_list"
       android:layout_width="38dp"

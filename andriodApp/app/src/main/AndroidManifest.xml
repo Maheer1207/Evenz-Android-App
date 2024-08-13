@@ -34,7 +34,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value=""/>
-        <!--        Ask Mohaimin for the API key to run the google map api -->
+        <!--        Add API key to run the google map api -->
 
         <activity
             android:name=".EventCreationActivity"

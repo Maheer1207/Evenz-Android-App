@@ -1,7 +1,9 @@
 package com.example.evenz;
 
 import androidx.annotation.Nullable;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.media3.common.util.UnstableApi;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -35,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         eventDataList = new ArrayList<>();
         userDataList = new ArrayList<>();
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 if (querySnapshots != null) {
                     eventDataList.clear();
                     for (QueryDocumentSnapshot doc: querySnapshots) {
-                        String eventID = doc.getId(); //TODO: convert qrcode browse getLong to getInt
+                        String eventID = doc.getId();
 
                         Object attendLimitObj = doc.get("AttendLimit");
                         long eventAttendLimit = attendLimitObj != null ? (Long) attendLimitObj : 0; // 0 is a default value
@@ -74,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         Event tempEvent = new Event(doc.getString("eventID"), doc.getString("organizationName"), doc.getString("eventName"), doc.getString("eventPosterID"),
                                 doc.getString("description"), (Geolocation)doc.get("geolocation"), (Bitmap)doc.get("qrCodeBrowse"),
                                 (Bitmap)doc.get("qrCodeIn"), (int)eventAttendLimit,
-                                new ArrayList<>(), eventDate, new ArrayList<String>(), doc.getString("location")); //TODO: review if this is correct implementation
+                                new ArrayList<>(), eventDate, new ArrayList<String>(), doc.getString("location"));
 
                         Log.d("Firestore", String.format("Event(%s, %s) fetched", eventID, tempEvent.getEventName()));
                         eventDataList.add(tempEvent);
@@ -83,123 +84,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //  TODO: Demo Button, Need to be deleted
-        final Button createEvent = findViewById(R.id.button_create_new_event);
-        createEvent.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EventCreationActivity.class);
-                startActivity(intent);
-            }
-        });
-        //  TODO: Demo Button, Need to be deleted
-        final Button intialPage = findViewById(R.id.initial_who_Screen);
-        intialPage.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, InitialPageActivity.class);
-                startActivity(intent);
-            }
-        });
-        //  TODO: Demo Button, Need to be deleted
-        final Button admin_event_browse = findViewById(R.id.button_admin_event_browse);
-        admin_event_browse.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AdminBrowseEventActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //  TODO: Demo Button, Need to be deleted
-        final Button admin_img_browse = findViewById(R.id.button_admin_img_browse);
-        admin_img_browse.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ImageBrowseActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        //  TODO: Demo Button, Need to be deleted
-        final Button event_browse = findViewById(R.id.button_event_browse);
-        event_browse.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EventBrowseActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        final Button event_browse_signup = findViewById(R.id.button_attendee_event_info_signup);
-        event_browse_signup.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EventBrowseActivity.class);
-                intent.putExtra("eventID", "vJa98Jgy6P5B8PIqrI64");
-                intent.putExtra("source", "browse");
-                intent.putExtra("role", "attendee");
-                startActivity(intent);
-            }
-        });
-
-        //  TODO: Demo Button, Need to be deleted
-//        final Button sendNotification = findViewById(R.id.send_notification);
-//        sendNotification.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, OrgSendNotificationActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-
-        //  TODO: Demo Button, Need to be deleted
-        final Button attendee_list = findViewById(R.id.button_attendee);
-        attendee_list.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, AttendeesActivity.class);
-                startActivity(intent);
-            }
-        });
-        //  TODO: Demo Button, Need to be deleted
-        final Button create_new_user = findViewById(R.id.button_create_new_user);
-        create_new_user.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, UserEditProfileActivity.class);
-                Bundle b = new Bundle();
-                b.putString("role", "attendee");
-                intent.putExtras(b);
-                startActivity(intent);
-            }
-        });
-
-
-        //  TODO: Demo Button, Need to be deleted
-        final Button attendee_home = findViewById(R.id.attendee_home);
-        attendee_home.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
-                Bundle b = new Bundle();
-                b.putString("role", "attendee");
-                intent.putExtras(b);
-                startActivity(intent);
-            }
-        });
-
-        //  TODO: Demo Button, Need to be deleted
-        final Button org_home = findViewById(R.id.Org_home);
-        org_home.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, HomeScreenActivity.class);
-                Bundle b = new Bundle();
-                b.putString("role", "org");
-                intent.putExtras(b);
-                startActivity(intent);
-            }
-        });
-
-
-        //  TODO: Demo Button, Need to be deleted
-        final Button qrScanScreen = findViewById(R.id.QR_Screen);
-        qrScanScreen.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ScanQRActivity.class);
-                startActivity(intent);
-            }
-        });
 
         usersRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

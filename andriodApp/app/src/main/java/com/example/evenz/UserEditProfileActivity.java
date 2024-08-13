@@ -140,7 +140,7 @@ public class UserEditProfileActivity extends AppCompatActivity implements ImageO
 			}
 		});
 	}
-	//TEST CODE, Todo this is for permission to access the location
+	//TEST CODE, this is for permission to access the location
 	@Override
 	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);

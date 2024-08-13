@@ -49,7 +49,7 @@ public class ScanQRActivity extends AppCompatActivity {
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
 
-    private static final int REQUEST_CAMERA_PERMISSION = 100; //TODO: fix later
+    private static final int REQUEST_CAMERA_PERMISSION = 100;
     private Camera camera;
     private boolean isProcessing = false;//so we can have only one
 
@@ -100,7 +100,7 @@ public class ScanQRActivity extends AppCompatActivity {
 
         // Get the ImageView and set an OnClickListener on it
         ImageView flashlightButton = findViewById(R.id.img_rectangle);
-        flashlightButton.setOnClickListener(v -> toggleFlashlight()); //TODO: check if flashlight is working
+        flashlightButton.setOnClickListener(v -> toggleFlashlight());
     }
 
     private void toggleFlashlight() {

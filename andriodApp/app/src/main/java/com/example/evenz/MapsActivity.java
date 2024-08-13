@@ -130,7 +130,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mPlacesClient = Places.createClient(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
     }
-///test code TODO: MAP HRITHICK
 
     /**
      * gets a list of geolocations for map
@@ -146,7 +145,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * places markers at those location
      * @param geolocations locations to place marks
      */
-    //test code TODO: MAP HRITHICK
     private void placeMarkers(ArrayList<LatLng> geolocations) {
         for (LatLng location : geolocations) {
             mMap.addMarker(new MarkerOptions().position(location));
