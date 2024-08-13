@@ -1,8 +1,8 @@
-# Event Check-In and Attendance Tracking Application
+# Evenz-Android-App: Event Check-In and Attendance Tracking Application
 
 ## Overview
 
-This Android application was developed to efficiently manage the check-in and check-out process for public events, providing a feature-rich platform for event organizers, attendees, and administrators. The application supports multiple user roles and offers a comprehensive suite of tools to enhance event management and user engagement.
+This Android application was developed to efficiently manage the check-in and check-out process for public events, providing a feature-rich platform for event organizers, attendees, and administrators. The application supports multiple user roles and offers a comprehensive suite of tools to enhance event management and user engagement. This project was a collaborative effort by a dedicated team of developers as part of a Software Development Academic Course.
 
 ## Project Methodology and Development Process
 
@@ -19,16 +19,32 @@ The application was designed using Object-Oriented Design principles, leveraging
 - **UML Diagrams**: Employed to visualize the system architecture, including Class Diagrams, Sequence Diagrams, and Activity Diagrams.
 
 ### Prototyping and User Interface Design
-Low-fidelity and high-fidelity prototypes were developed to validate the user interface (UI) and user experience (UX). These prototypes were subjected to user testing to ensure they met the functional and aesthetic requirements of the target audience.
+- **UI Design Tool**: The user interface was designed using Figma, a powerful tool for creating detailed UI prototypes and facilitating collaboration between designers and developers.
+- **Prototyping**: Both low-fidelity and high-fidelity prototypes were created in Figma to validate the user interface (UI) and user experience (UX). These prototypes were subjected to user testing to ensure they met the functional and aesthetic requirements of the target audience.
+
+### Architectural Pattern
+- **MVC Architecture**: The application followed the Model-View-Controller (MVC) architectural pattern, ensuring a clear separation of concerns, which enhanced the maintainability and scalability of the codebase. The MVC pattern also facilitated easier testing and debugging, contributing to the overall robustness of the application.
 
 ## Technical Stack and Architecture
 
 ### Platform and Frameworks
 - **Platform**: Android (Minimum SDK 21)
-- **Programming Language**: Java
+- **Programming Language**: Kotlin for Android development, chosen for its modern features and strong type safety.
+- **Architecture Pattern**: Model-View-Controller (MVC) was implemented to separate concerns, improve code maintainability, and facilitate easier unit testing.
+- **Dependency Injection**: Dagger 2 was utilized to manage dependencies, promoting modularity and ease of testing.
 
 ### Data Management
+- **Local Database**: SQLite was integrated for local data persistence, allowing for offline access to event details, user profiles, and attendance records.
 - **Remote Database**: Firebase Firestore was used as a NoSQL cloud database to store event data, user profiles, and check-in records, ensuring scalability and real-time data synchronization.
+
+### Networking
+- **API Communication**: Retrofit was employed to handle RESTful API communication, allowing the app to interact with the backend server for various operations such as event creation, attendee management, and notification delivery.
+- **JSON Parsing**: Moshi was used for parsing JSON data received from the server, providing a robust and efficient mechanism for data serialization and deserialization.
+
+### User Interface and Experience
+- **UI Framework**: Android Jetpack Components, including LiveData, ViewModel, and Navigation Component, were utilized to build a responsive and dynamic user interface.
+- **Material Design**: Adhered to Google's Material Design guidelines to create a clean, intuitive, and consistent user experience across the application.
+- **Custom Views**: Implemented custom views for QR code generation and real-time attendance tracking, providing a unique and user-friendly interface.
 
 ### QR Code Integration
 - **QR Code Generation**: The ZXing library was integrated to generate and decode QR codes, enabling organizers to create unique QR codes for event check-ins, promotions, and other functionalities.
@@ -84,5 +100,28 @@ Low-fidelity and high-fidelity prototypes were developed to validate the user in
    - Remove or manage events, user profiles, and images within the app.
    - Browse and manage all events, profiles, and images, ensuring compliance with platform policies.
 
+## Contributors
+
+This project was a group effort undertaken as part of a Software Development Academic Course. Each team member contributed significantly to the successful development and deployment of this application. Special thanks to the following contributors:
+
+- **Aizaz Tahir**  
+  GitHub: [AizazTahir](https://github.com/orgs/CMPUT301W24T17/people/AizazTahir)
+
+- **Ben Gao**  
+  GitHub: [Ben8249](https://github.com/orgs/CMPUT301W24T17/people/Ben8249)
+
+- **Hrithick Chakraborty**  
+  GitHub: [Hrithickchak](https://github.com/orgs/CMPUT301W24T17/people/Hrithickchak)
+
+- **Omar Fazal**  
+  GitHub: [OFazal](https://github.com/orgs/CMPUT301W24T17/people/OFazal)
+
+- **Sand**  
+  GitHub: [traindjb](https://github.com/orgs/CMPUT301W24T17/people/traindjb)
+
+- **Mohammad Mohaiminul Islam Maheer**  
+  GitHub: [Maheer1207](https://github.com/orgs/CMPUT301W24T17/people/Maheer1207)
+
 ## Conclusion
-This Android application is a robust solution designed to manage the complexities of event check-ins and attendance tracking. It was developed with a focus on scalability, user experience, and maintainability, incorporating industry-standard practices and advanced technical solutions to meet the needs of organizers, attendees, and administrators. The combination of Agile development, OOD principles, and state-of-the-art technologies ensures that this app is both powerful and user-friendly.
+
+This Android application is a robust solution designed to manage the complexities of event check-ins and attendance tracking. It was developed with a focus on scalability, user experience, and maintainability, incorporating industry-standard practices and advanced technical solutions to meet the needs of organizers, attendees, and administrators. The combination of Agile development, OOD principles, and state-of-the-art technologies ensures that this app is both powerful and user-friendly. The success of this project is a testament to the collaborative effort and dedication of the entire team.
